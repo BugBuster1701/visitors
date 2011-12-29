@@ -1,0 +1,86 @@
+<useragentswitcher>
+	<useragent description="[Bot] Googlebot 2.1" useragent="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+	
+	<folder description="Browser">
+		<useragent description="[Browser] Internet Explorer 8 (Windows Vista)" useragent="Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Internet Explorer 8 (Windows XP)" useragent="Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1)" appname="" appversion="" platform="" vendor="" vendorsub=""/>  
+		<useragent description="[Browser] Internet Explorer 7 (Windows Vista)" useragent="Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Internet Explorer 7 (Windows XP)" useragent="Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Internet Explorer 7 (Windows Storage Server)" useragent="Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Internet Explorer 6 (Windows XP)" useragent="Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)" appname="" appversion="4.0 (Compatible; MSIE 6.0; Windows NT 5.1)" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Internet Explorer 5.5 (Windows 2000)" useragent="Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0 )" appname="" appversion="4.0 (compatible; MSIE 5.5; Windows NT 5.0)" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Internet Explorer 5.0 (Windows 95)" useragent="Mozilla/4.0 (compatible; MSIE 5.0; Windows 95)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Internet Explorer 4.0 (Windows NT)" useragent="Mozilla/4.0 (compatible; MSIE 4.0; Windows NT)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		
+		<separator/>
+		
+		<useragent description="[Browser] Opera 9.1 (Windows XP)" useragent="Opera/9.10 (Windows NT 5.1; U; en)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Opera 9.25 (Windows Vista)" useragent="Opera/9.25 (Windows NT 6.0; U; en)" appcodename="" appname="Opera" appversion="9.25 (Windows NT 6.0; U; en)" platform="Win32" vendor="" vendorsub=""/>
+		
+		<separator/>
+		
+		<useragent description="[Browser] Chrome 3.0 (Windows XP)" useragent="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/532.0 (KHTML, like Gecko) Chrome/3.0.195.1 Safari/532.0" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Chrome 3.0 (Windows Vista)" useragent="Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/532.0 (KHTML, like Gecko) Chrome/3.0.195.1 Safari/532.0" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Chrome 3.0 (Windows 7)" useragent="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.0 (KHTML, like Gecko) Chrome/3.0.195.1 Safari/532.0" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Chrome 3.0 (Linux)" useragent="Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/532.0 (KHTML, like Gecko) Chrome/3.0.195.1 Safari/532.0" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Chrome 3.0 (Mac OS X)" useragent="Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_7; en-US) AppleWebKit/531.3 (KHTML, like Gecko) Chrome/3.0.192 Safari/531.3" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		
+		<separator/>
+		
+		<useragent description="[Browser] Netscape 8.1 (Windows XP)" useragent="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.5) Gecko/20060127 Netscape/8.1" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] Netscape 2.02 (Windows 95)" useragent="Mozilla/2.02E (Win95; U)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		
+		<separator/>
+		
+		<useragent description="[Browser] Safari 3.0 v521 (Mac OSX)" useragent="Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/521.25 (KHTML, like Gecko) Safari/521.24" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		
+		<separator/>
+				
+		<useragent description="[Browser] Firefox 0.8 (Linux)" useragent="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.6) Gecko/20040614 Firefox/0.8" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] FireFox 1.5.0.6 (Fedora Core 5/Linux)" useragent="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.6) Gecko/20060808" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] FireFox 1.5.0.4 (Debian Linux)" useragent="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.4) Gecko/20060508" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Browser] FireFox 1.5.0.3 (Mac OSX)" useragent="Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.8.0.3) Gecko/20060426 Firefox/1.5.0.3" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+	</folder>
+
+	<folder description="Spiders/Bots">
+		<useragent description="[Bot] Googlebot 2.1 (New version)" useragent="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Bot] Googlebot 2.1 (Older Version)" useragent="Googlebot/2.1 (+http://www.googlebot.com/bot.html)" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Bot] Msnbot 1.0" useragent="msnbot/1.0 (+http://search.msn.com/msnbot.htm)" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Bot] Yahoo Slurp" useragent="Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Bot] Ask Jeeves/Teoma" useragent="Mozilla/2.0 (compatible; Ask Jeeves/Teoma)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+	</folder>
+	
+	<folder description="RSS Readers">
+		<useragent description="NewsGator 2.5 (Win XP)" useragent="NewsGator/2.5 (http://www.newsgator.com; Microsoft Windows NT 5.1.2600.0; .NET &#xD;&#xA;CLR 1.1.4322.2032)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="Feed Demon 1.6 (Win XP)" useragent="FeedDemon/1.6 (http://www.bradsoft.com/; Microsoft Windows XP)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="Bloglines 2.1" useragent="Bloglines/2.1 (http://www.bloglines.com; xx subscribers)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="SharpReader 0.9.6.0 (Win XP)" useragent="SharpReader/0.9.6.0 (.NET CLR 1.1.4322.573; WinNT 5.1.2600.0)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+	</folder>
+	
+	<folder description="Misc.">
+		<useragent description="Google Toolbar 4.0 (Windows XP, Internet Explorer 6)" useragent="Mozilla/4.0 (compatible; GoogleToolbar 4.0.1019.5266-big; Windows XP 5.1; MSIE 6.0.2900.2180)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="iTunes 4.2 (OS X 10.2)" useragent="iTunes/4.2 (Macintosh; U; PPC Mac OS X 10.2)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="Zune 2.0" useragent="Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; winfx; .NET CLR 1.1.4322; .NET CLR 2.0.50727; Zune 2.0) " appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="Facebook" useragent="facebookscraper/1.0(+http://www.facebook.com/sharescraper_help.php)" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+	</folder>
+	
+	<folder description="Mobile/WAP Devices">
+		<useragent description="[Mobile] Opera Mini 4.2" useragent="Opera/9.60 (J2ME/MIDP; Opera Mini/4.2.13337/558; U; en) Presto/2.2.0" appcodename="" appname="Opera Mini" appversion="4.2" platform="J2ME" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] SonyEricsson K750i" useragent="SonyEricssonK750i/R1CA Browser/SEMC-Browser/4.2 Profile/MIDP-2.0 Configuration/CLDC-1.1" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] SonyEricsson K310iv" useragent="SonyEricssonK310iv/R4DA Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1 UP.Link/6.3.1.13.0" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] Nokia N86" useragent="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2" appcodename="" appname="" appversion="" platform="Symbian 60v3" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] Nokia N95" useragent="Mozilla/5.0 (SymbianOS/9.2; U; Series60/3.1 NokiaN95/12.0.013; Profile/MIDP-2.0 Configuration/CLDC-1.1 ) AppleWebKit/413 (KHTML, like Gecko) Safari/413" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] Nokia N73" useragent="NokiaN73-1/3.0638.0.0.2 Series60/3.0 Profile/MIDP-2.0 Configuration/CLDC-1.1" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] Nokia N-GAGE" useragent="NokiaN-Gage/1.0 SymbianOS/6.1 Series60/1.2 Profile/MIDP-1.0 Configuration/CLDC-1.0" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] Nokia 6600" useragent="Nokia6600/1.0 (5.27.0) SymbianOS/7.0s Series60/2.0 Profile/MIDP-2.0 Configuration/CLDC-1" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] BlackBerry 8703" useragent="BlackBerry8703e/4.1.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 VendorID/189 " appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] iPhone (3.0)" useragent="Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420 (KHTML, like Gecko) Version/3.0 Mobile/1A543a Safari/419.3" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] HTC Touch" useragent="Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 7.6) Alltel HTC Touch" appcodename="" appname="" appversion="" platform="" vendor="Alltel" vendorsub=""/>
+		<useragent description="[Mobile] Android 1.5 (HTC Magic Build/CRB17)" useragent="Mozilla/5.0 (Linux; U; Android 1.5; es-es; HTC Magic Build/CRB17) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1" appcodename="" appname="" appversion="" platform="" vendor="Alltel" vendorsub=""/>
+		<useragent description="[Mobile] Motorola L7" useragent="MOT-L7v/08.B7.5DR MIB/2.2.1 Profile/MIDP-2.0 Configuration/CLDC-1.1 UP.Link/6.3.0.0.0" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] Motorola RIZR" useragent="MOTORIZR-Z8/46.00.00 Mozilla/4.0 (compatible; MSIE 6.0; Symbian OS; 356) Opera 8.65 [it] UP.Link/6.3.0.0.0" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] Samsung X820" useragent="SEC-SGHX820/1.0 NetFront/3.2 Profile/MIDP-2.0 Configuration/CLDC-1.1" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+		<useragent description="[Mobile] Samsung SGH X210 (WML only phone)" useragent="SEC-SGHX210/1.0 UP.Link/6.3.1.13.0" appcodename="" appname="" appversion="" platform="" vendor="" vendorsub=""/>
+	</folder>
+	
+</useragentswitcher>
