@@ -21,6 +21,7 @@
  * @copyright  Glen Langer 2009..2011
  * @author     Glen Langer
  * @package    GLVisitors
+ * @todo       Must be completely rewritten.
  */
 class ModuleVisitorStat extends BackendModule
 {

@@ -213,6 +213,7 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_GALAXY_S_II = 'Galaxy S II';
 	const BROWSER_GALAXY_ACE = 'Galaxy Ace';
 	const BROWSER_GALAXY_TAB = 'Galaxy Tab';
+	const BROWSER_SAMSUNG_NEXUS_S = 'Nexus S';                // Google Phone, add BugBuster
 	const BROWSER_HTC_Desire_HD = 'HTC Desire HD';
 	const BROWSER_HTC_Desire_Z  = 'HTC Desire Z';
 	const BROWSER_HTC_Desire    = 'HTC Desire';
@@ -478,7 +479,8 @@ class ModuleVisitorBrowser3 {
 			$this->checkBrowserAndroidHTCMagic() ||       //add BugBuster
 			$this->checkBrowserAndroidHTCSensation() ||   //add BugBuster
 			$this->checkBrowserAndroidHTCNexusOne() ||    //add BugBuster
-			$this->checkBrowserAcerA501() ||              //add BugBuster
+			$this->checkBrowserAndroidAcerA501() ||       //add BugBuster
+			$this->checkBrowserAndroidSamsungNexusS() ||  //add BugBuster
 			//at last Android only!
 			$this->checkBrowserAndroid() ||
 
@@ -1267,6 +1269,25 @@ class ModuleVisitorBrowser3 {
     }
     
     /**
+     * Determine if the browser is Android and Samsung Nexus S (4Google) or not, add by BugBuster
+     * @return boolean True if the browser is Samsung Nexus S otherwise false
+     */
+    protected function checkBrowserAndroidSamsungNexusS()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'Nexus S Build') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_SAMSUNG_NEXUS_S);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Determine if the browser is Android and HTC Sensation or not, add by BugBuster
      * @return boolean True if the browser is HTC Sensation otherwise false
      */
@@ -1335,7 +1356,7 @@ class ModuleVisitorBrowser3 {
      * Determine if the browser is an Acer A501 Tablet or not, add by BugBuster
      * @return boolean True if the browser is an Acer A501 Tablet otherwise false
      */
-    protected function checkBrowserAcerA501()
+    protected function checkBrowserAndroidAcerA501()
     {
         if( stripos($this->_agent,'Android') !== false )
         {
