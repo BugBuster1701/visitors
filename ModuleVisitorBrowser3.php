@@ -135,6 +135,12 @@
 /**
  * @author     Glen Langer (BugBuster); modified for Contao Module Visitors
  *
+ * 2011-12-26:
+ * + checkBrowserAndroidSamsungGalaxy, add Galaxy Ace
+ * + checkBrowserAndroidHTCDesire
+ * + checkBrowserAndroidHTCMagic
+ * + checkBrowserAndroidHTCSensation
+ * 
  * 2011-10-05:
  * - MSN Browser, for detect Bing Toolbar as MSIE
  * 
@@ -199,7 +205,16 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_GALAXY_S = 'Galaxy S';
 	const BROWSER_GALAXY_S_PLUS = 'Galaxy S Plus';
 	const BROWSER_GALAXY_S_II = 'Galaxy S II';
+	const BROWSER_GALAXY_ACE = 'Galaxy Ace';
 	const BROWSER_GALAXY_TAB = 'Galaxy Tab';
+	const BROWSER_HTC_Desire_HD = 'HTC Desire HD';
+	const BROWSER_HTC_Desire_Z  = 'HTC Desire Z';
+	const BROWSER_HTC_Desire    = 'HTC Desire';
+	const BROWSER_HTC_MAGIC     = 'HTC Magic';
+	const BROWSER_HTC_NEXUS_ONE = 'HTC Nexus One'; 			  // Google Phone, add BugBuster
+	const BROWSER_HTC_SENSATION = 'HTC Sensation';
+	const BROWSER_HTC_SENSATION_XE = 'HTC Sensation XE';
+	const BROWSER_HTC_SENSATION_Z710 = 'HTC Sensation Z710';
 	const BROWSER_GOOGLEBOT = 'GoogleBot';                    // http://en.wikipedia.org/wiki/Googlebot
 	const BROWSER_SLURP = 'Yahoo! Slurp';                     // http://en.wikipedia.org/wiki/Yahoo!_Slurp
 	const BROWSER_W3CVALIDATOR = 'W3C Validator';             // http://validator.w3.org/
@@ -441,7 +456,6 @@ class ModuleVisitorBrowser3 {
 			//     before FireFox are necessary
 			$this->checkBrowserWebTv() ||
 			$this->checkBrowserInternetExplorer() ||
-			$this->checkBrowserOpera() ||
 			$this->checkBrowserGaleon() ||
 			$this->checkBrowserNetscapeNavigator9Plus() ||
 			$this->checkBrowserFirefox()    ||
@@ -452,7 +466,11 @@ class ModuleVisitorBrowser3 {
 			$this->checkBrowserOmniWeb() ||
 
 			// common mobile
-			$this->checkBrowserAndroidSamsungGalaxy() ||
+			$this->checkBrowserAndroidSamsungGalaxy() ||  //add BugBuster
+			$this->checkBrowserAndroidHTCDesire() ||      //add BugBuster
+			$this->checkBrowserAndroidHTCMagic() ||       //add BugBuster
+			$this->checkBrowserAndroidHTCSensation() ||   //add BugBuster
+			$this->checkBrowserAndroidHTCNexusOne() ||    //add BugBuster
 			$this->checkBrowserAndroid() ||
 			$this->checkBrowseriPad() ||
 			$this->checkBrowseriPod() ||
@@ -467,7 +485,9 @@ class ModuleVisitorBrowser3 {
 
 			// WebKit base check (post mobile and others)
 			$this->checkBrowserSafari() ||
-			
+			// Opera Mini must check post mobile
+			$this->checkBrowserOpera() ||
+				
 			// everyone else
 			$this->checkBrowserTOnline() ||
 			$this->checkBrowserNetPositive() ||
@@ -1142,6 +1162,12 @@ class ModuleVisitorBrowser3 {
 			    $this->setBrowser(self::BROWSER_GALAXY_S_II);
 			    return true;
 	    	}
+	    	if( stripos($this->_agent,'GT-S5830') !== false ) {
+	    		$this->setVersion(self::VERSION_UNKNOWN);
+			    $this->setMobile(true);
+			    $this->setBrowser(self::BROWSER_GALAXY_ACE);
+			    return true;
+	    	}
 	    	
 	    	if( stripos($this->_agent,'GT-P1000') !== false ||
 	    		stripos($this->_agent,'GT-P1010') !== false ||
@@ -1156,6 +1182,113 @@ class ModuleVisitorBrowser3 {
 	    	}
 	    }
 	    return false;
+    }
+    
+    /**
+     * Determine if the browser is Android and HTC Desire or not, add by BugBuster
+     * @return boolean True if the browser is HTC Desire otherwise false
+     */
+    protected function checkBrowserAndroidHTCDesire()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'HTC_DesireHD') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_HTC_Desire_HD);
+                return true;
+            }
+            if( stripos($this->_agent,'HTC Desire Z') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_HTC_Desire_Z);
+                return true;
+            }
+            if( stripos($this->_agent,'HTC_Desire') !== false ||
+                stripos($this->_agent,'HTC Desire') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_HTC_Desire);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Determine if the browser is Android and HTC Magic or not, add by BugBuster
+     * @return boolean True if the browser is HTC Magic otherwise false
+     */
+    protected function checkBrowserAndroidHTCMagic()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'HTC Magic') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_HTC_MAGIC);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Determine if the browser is Android and HTC Nexus One (4Google) or not, add by BugBuster
+     * @return boolean True if the browser is HTC Nexus One otherwise false
+     */
+    protected function checkBrowserAndroidHTCNexusOne()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'Nexus One') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_HTC_NEXUS_ONE);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Determine if the browser is Android and HTC Sensation or not, add by BugBuster
+     * @return boolean True if the browser is HTC Sensation otherwise false
+     */
+    protected function checkBrowserAndroidHTCSensation()
+    {
+        if( stripos($this->_agent,'Android') !== false ||
+        	stripos($this->_agent,'Macintosh') !== false )
+        {
+        	if( stripos($this->_agent,'HTC_SensationXE') !== false )
+        	{
+        	    $this->setVersion(self::VERSION_UNKNOWN);
+        	    $this->setMobile(true);
+        	    $this->setBrowser(self::BROWSER_HTC_SENSATION_XE);
+        	    return true;
+        	}
+        	if( stripos($this->_agent,'HTC_Sensation_Z710') !== false )
+        	{
+        	    $this->setVersion(self::VERSION_UNKNOWN);
+        	    $this->setMobile(true);
+        	    $this->setBrowser(self::BROWSER_HTC_SENSATION_Z710);
+        	    return true;
+        	}
+        	if( stripos($this->_agent,'HTC Sensation') !== false ||
+        		stripos($this->_agent,'HTC_Sensation') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_HTC_SENSATION);
+                return true;
+            }
+        }
+        return false;
     }
     
     /**
@@ -1191,11 +1324,9 @@ class ModuleVisitorBrowser3 {
     /**
      * Determine the user's platform (last updated 1.7)
      */
-    protected function checkPlatform() {
-	    if( stripos($this->_agent, 'windows') !== false ) {
-		    $this->_platform = self::PLATFORM_WINDOWS;
-	    }
-	    elseif( stripos($this->_agent, 'iPad') !== false ) {
+    protected function checkPlatform() 
+    {
+    	if( stripos($this->_agent, 'iPad') !== false ) {
 		    $this->_platform = self::PLATFORM_IPAD;
 	    }
 	    elseif( stripos($this->_agent, 'iPod') !== false ) {
@@ -1204,11 +1335,11 @@ class ModuleVisitorBrowser3 {
 	    elseif( stripos($this->_agent, 'iPhone') !== false ) {
 		    $this->_platform = self::PLATFORM_IPHONE;
 	    }
-	    elseif( stripos($this->_agent, 'mac') !== false ) {
-		    $this->_platform = self::PLATFORM_APPLE;
-	    }
 	    elseif( stripos($this->_agent, 'android') !== false ) {
 		    $this->_platform = self::PLATFORM_ANDROID;
+	    }
+	    elseif( stripos($this->_agent, 'mac') !== false ) {
+	        $this->_platform = self::PLATFORM_APPLE;
 	    }
 	    elseif( stripos($this->_agent, 'linux') !== false ) {
 		    $this->_platform = self::PLATFORM_LINUX;
@@ -1218,6 +1349,9 @@ class ModuleVisitorBrowser3 {
 	    }
 	    elseif( stripos($this->_agent, 'BlackBerry') !== false ) {
 		    $this->_platform = self::PLATFORM_BLACKBERRY;
+	    }
+	    elseif( stripos($this->_agent, 'windows') !== false ) {
+	        $this->_platform = self::PLATFORM_WINDOWS;
 	    }
 	    elseif( stripos($this->_agent,'FreeBSD') !== false ) {
 		    $this->_platform = self::PLATFORM_FREEBSD;
@@ -1268,37 +1402,40 @@ class ModuleVisitorBrowser3 {
      */
     protected function checkPlatformVersion() {
         // based on browscap.ini
-        /*if( stripos($this->_agent, 'windows NT 7.1') !== false ) {
-		    $this->_platform = self::PLATFORM_WINDOWS_7;
-	    }
-        else*/if( stripos($this->_agent, 'windows NT 7.0') !== false ) {
-		    $this->_platformVersion = self::PLATFORM_WINDOWS_7;
-	    }
-	    elseif( stripos($this->_agent, 'windows NT 6.1') !== false ) {
-		    $this->_platformVersion = self::PLATFORM_WINDOWS_7;
-	    }
-	    elseif( stripos($this->_agent, 'windows NT 6.0') !== false ) {
-		    $this->_platformVersion = self::PLATFORM_WINDOWS_VISTA;
-	    }
-	    elseif( stripos($this->_agent, 'windows NT 5.2') !== false ) {
-		    $this->_platformVersion = self::PLATFORM_WINDOWS_2003;
-	    }
-	    elseif( stripos($this->_agent, 'windows NT 5.1') !== false ) {
-		    $this->_platformVersion = self::PLATFORM_WINDOWS_XP;
-	    }
-	    elseif( stripos($this->_agent, 'windows NT 5.0') !== false ) {
-		    $this->_platformVersion = self::PLATFORM_WINDOWS_2000;
-	    }
-	    elseif( stripos($this->_agent, 'windows NT 4.0') !== false ) {
-		    $this->_platformVersion = self::PLATFORM_WINDOWS_NT;
-	    }
-	    elseif( stripos($this->_agent, 'windows Me') !== false ) {
-		    $this->_platformVersion = self::PLATFORM_WINDOWS_ME;
-	    }
-	    elseif( stripos($this->_agent, 'windows 98') !== false ) {
-		    $this->_platformVersion = self::PLATFORM_WINDOWS_98;
-	    }
-	    elseif( stripos($this->_agent, 'Mac OS X') !== false ) {
+        if ($this->_platform == self::PLATFORM_WINDOWS) 
+        {
+	        /*if( stripos($this->_agent, 'windows NT 7.1') !== false ) {
+			    $this->_platform = self::PLATFORM_WINDOWS_7;
+		    }
+	        else*/if( stripos($this->_agent, 'windows NT 7.0') !== false ) {
+			    $this->_platformVersion = self::PLATFORM_WINDOWS_7;
+		    }
+		    elseif( stripos($this->_agent, 'windows NT 6.1') !== false ) {
+			    $this->_platformVersion = self::PLATFORM_WINDOWS_7;
+		    }
+		    elseif( stripos($this->_agent, 'windows NT 6.0') !== false ) {
+			    $this->_platformVersion = self::PLATFORM_WINDOWS_VISTA;
+		    }
+		    elseif( stripos($this->_agent, 'windows NT 5.2') !== false ) {
+			    $this->_platformVersion = self::PLATFORM_WINDOWS_2003;
+		    }
+		    elseif( stripos($this->_agent, 'windows NT 5.1') !== false ) {
+			    $this->_platformVersion = self::PLATFORM_WINDOWS_XP;
+		    }
+		    elseif( stripos($this->_agent, 'windows NT 5.0') !== false ) {
+			    $this->_platformVersion = self::PLATFORM_WINDOWS_2000;
+		    }
+		    elseif( stripos($this->_agent, 'windows NT 4.0') !== false ) {
+			    $this->_platformVersion = self::PLATFORM_WINDOWS_NT;
+		    }
+		    elseif( stripos($this->_agent, 'windows Me') !== false ) {
+			    $this->_platformVersion = self::PLATFORM_WINDOWS_ME;
+		    }
+		    elseif( stripos($this->_agent, 'windows 98') !== false ) {
+			    $this->_platformVersion = self::PLATFORM_WINDOWS_98;
+		    }
+        }
+	    if( stripos($this->_agent, 'Mac OS X') !== false ) {
 		    $this->_platformVersion = self::PLATFORM_MACOSX;
 	    }
 	    elseif( stripos($this->_agent, 'Warp 4') !== false ) {
