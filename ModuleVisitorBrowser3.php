@@ -226,6 +226,8 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_HTC_SENSATION_XE = 'HTC Sensation XE';
 	const BROWSER_HTC_SENSATION_Z710 = 'HTC Sensation Z710';
 	const BROWSER_ACER_A501  = 'Acer A501';					  // (Android 3.x Tab), add BugBuster
+	const BROWSER_LENOVO_THINKPAD_TABLET = 'ThinkPad Tablet'; // (Android 3.x Tab), add BugBuster
+	
 	const BROWSER_GOOGLEBOT = 'GoogleBot';                    // http://en.wikipedia.org/wiki/Googlebot
 	const BROWSER_SLURP = 'Yahoo! Slurp';                     // http://en.wikipedia.org/wiki/Yahoo!_Slurp
 	const BROWSER_W3CVALIDATOR = 'W3C Validator';             // http://validator.w3.org/
@@ -1381,6 +1383,25 @@ class ModuleVisitorBrowser3 {
         return false;
     }
 
+    /**
+     * Determine if the browser is a Lenovo ThinkPad Tablet or not, add by BugBuster
+     * @return boolean True if the browser is a Lenovo ThinkPad Tablet otherwise false
+     */
+    protected function checkBrowserAndroidThinkPadTablet()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'ThinkPad Tablet') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_LENOVO_THINKPAD_TABLET);
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /**
      * Determine the user's platform (last updated 1.7)
      */
