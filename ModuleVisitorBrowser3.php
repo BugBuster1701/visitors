@@ -135,6 +135,12 @@
 /**
  * @author     Glen Langer (BugBuster); modified for Contao Module Visitors
  *
+ * 2012-01-22:
+ * + checkBrowserAndroidHTCNexusOne
+ * + checkBrowserAcerA501
+ * + optimized checkPlatform
+ * + optimized checkPlatformVersion
+ * 
  * 2011-12-26:
  * + checkBrowserAndroidSamsungGalaxy, add Galaxy Ace
  * + checkBrowserAndroidHTCDesire
@@ -215,6 +221,7 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_HTC_SENSATION = 'HTC Sensation';
 	const BROWSER_HTC_SENSATION_XE = 'HTC Sensation XE';
 	const BROWSER_HTC_SENSATION_Z710 = 'HTC Sensation Z710';
+	const BROWSER_ACER_A501  = 'Acer A501';					  // (Android 3.x Tab), add BugBuster
 	const BROWSER_GOOGLEBOT = 'GoogleBot';                    // http://en.wikipedia.org/wiki/Googlebot
 	const BROWSER_SLURP = 'Yahoo! Slurp';                     // http://en.wikipedia.org/wiki/Yahoo!_Slurp
 	const BROWSER_W3CVALIDATOR = 'W3C Validator';             // http://validator.w3.org/
@@ -471,7 +478,10 @@ class ModuleVisitorBrowser3 {
 			$this->checkBrowserAndroidHTCMagic() ||       //add BugBuster
 			$this->checkBrowserAndroidHTCSensation() ||   //add BugBuster
 			$this->checkBrowserAndroidHTCNexusOne() ||    //add BugBuster
+			$this->checkBrowserAcerA501() ||              //add BugBuster
+			//at last Android only!
 			$this->checkBrowserAndroid() ||
+
 			$this->checkBrowseriPad() ||
 			$this->checkBrowseriPod() ||
 			$this->checkBrowseriPhone() ||
@@ -1319,6 +1329,25 @@ class ModuleVisitorBrowser3 {
 		    return true;
 	    }
 	    return false;
+    }
+    
+    /**
+     * Determine if the browser is an Acer A501 Tablet or not, add by BugBuster
+     * @return boolean True if the browser is an Acer A501 Tablet otherwise false
+     */
+    protected function checkBrowserAcerA501()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'A501 Build') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_ACER_A501);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
