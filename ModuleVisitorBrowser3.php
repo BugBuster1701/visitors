@@ -1185,8 +1185,10 @@ class ModuleVisitorBrowser3 {
 	    		stripos($this->_agent,'GT-P1010') !== false ||
 	    		stripos($this->_agent,'GT-P7100') !== false ||
 	    		stripos($this->_agent,'GT-P7300') !== false ||
-	    		stripos($this->_agent,'GT-P7510') !== false
-	    													) {
+	    		stripos($this->_agent,'GT-P7510') !== false ||
+	    		stripos($this->_agent,'GT-P6200') !== false ||
+	    		stripos($this->_agent,'GT-P6210') !== false )
+	    	{
 	    		$this->setVersion(self::VERSION_UNKNOWN);
 			    $this->setMobile(true);
 			    $this->setBrowser(self::BROWSER_GALAXY_TAB);
