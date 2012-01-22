@@ -140,6 +140,8 @@
  * + checkBrowserAcerA501
  * + optimized checkPlatform
  * + optimized checkPlatformVersion
+ * + Galaxy Tab (new version)
+ * + Galaxy Nexus
  * 
  * 2011-12-26:
  * + checkBrowserAndroidSamsungGalaxy, add Galaxy Ace
@@ -213,6 +215,7 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_GALAXY_S_II = 'Galaxy S II';
 	const BROWSER_GALAXY_ACE = 'Galaxy Ace';
 	const BROWSER_GALAXY_TAB = 'Galaxy Tab';
+	const BROWSER_SAMSUNG_GALAXY_NEXUS = 'Galaxy Nexus';      // Google Phone Android 4, add BugBuster
 	const BROWSER_SAMSUNG_NEXUS_S = 'Nexus S';                // Google Phone, add BugBuster
 	const BROWSER_HTC_Desire_HD = 'HTC Desire HD';
 	const BROWSER_HTC_Desire_Z  = 'HTC Desire Z';
@@ -1180,7 +1183,12 @@ class ModuleVisitorBrowser3 {
 			    $this->setBrowser(self::BROWSER_GALAXY_ACE);
 			    return true;
 	    	}
-	    	
+	    	if( stripos($this->_agent,'GT-I9250') !== false ) {
+	    	    $this->setVersion(self::VERSION_UNKNOWN);
+	    	    $this->setMobile(true);
+	    	    $this->setBrowser(self::BROWSER_SAMSUNG_GALAXY_NEXUS);
+	    	    return true;
+	    	}
 	    	if( stripos($this->_agent,'GT-P1000') !== false ||
 	    		stripos($this->_agent,'GT-P1010') !== false ||
 	    		stripos($this->_agent,'GT-P7100') !== false ||
