@@ -208,7 +208,7 @@ class ModuleVisitorCharts {
         // Stellen - also Balkenzuordnung - ausgeben
         foreach($this->x as $stelle){
              //$output .= "  <td colspan=\"2\" style=\"vertical-align:middle; border:solid 1px #E9E9E9; border-width:1px 1px 0px 1px; height:20px; background-color:#F6F6F6;\">";
-             $output .= "  <td colspan=\"2\" style=\"vertical-align:middle;\" class=\"tl_file_list\">";
+             $output .= "  <td colspan=\"2\" style=\"vertical-align:middle; text-align: center;\" class=\"tl_file_list\">";
              $output .= $stelle;
              $output .= "  </td>\n";
         }
