@@ -209,6 +209,7 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_IPOD = 'iPod';                              // http://apple.com
 	const BROWSER_IPAD = 'iPad';                              // http://apple.com
 	const BROWSER_CHROME = 'Chrome';                          // http://www.google.com/chrome
+	
 	const BROWSER_ANDROID = 'Android';                        // http://www.android.com/
 	const BROWSER_GALAXY_S = 'Galaxy S';
 	const BROWSER_GALAXY_S_PLUS = 'Galaxy S Plus';
@@ -225,8 +226,11 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_HTC_SENSATION = 'HTC Sensation';
 	const BROWSER_HTC_SENSATION_XE = 'HTC Sensation XE';
 	const BROWSER_HTC_SENSATION_Z710 = 'HTC Sensation Z710';
-	const BROWSER_ACER_A501  = 'Acer A501';					  // (Android 3.x Tab), add BugBuster
-	const BROWSER_LENOVO_THINKPAD_TABLET = 'ThinkPad Tablet'; // (Android 3.x Tab), add BugBuster
+	const BROWSER_HTC_WILDFIRES_A510e = 'HTC WildfireS A510e';
+	const BROWSER_ACER_A501  = 'Acer A501 Tab';				  // (Android 3.x Tab), add BugBuster
+	const BROWSER_ACER_A500  = 'Acer A500 Tab';				  // (Android 3.x Tab), add BugBuster
+	const BROWSER_LENOVO_THINKPAD_TABLET = 'ThinkPad Tab'; 	  // (Android 3.x Tab), add BugBuster
+	const BROWSER_MOTOROLA_XOOM_TABLET   = 'Motorola Xoom Tab';	// (Android 3/4 Tab), add BugBuster
 	
 	const BROWSER_GOOGLEBOT = 'GoogleBot';                    // http://en.wikipedia.org/wiki/Googlebot
 	const BROWSER_SLURP = 'Yahoo! Slurp';                     // http://en.wikipedia.org/wiki/Yahoo!_Slurp
@@ -484,8 +488,12 @@ class ModuleVisitorBrowser3 {
 			$this->checkBrowserAndroidHTCMagic() ||       //add BugBuster
 			$this->checkBrowserAndroidHTCSensation() ||   //add BugBuster
 			$this->checkBrowserAndroidHTCNexusOne() ||    //add BugBuster
+			$this->checkBrowserAndroidHTCWildfire() ||    //add BugBuster
+			$this->checkBrowserAndroidAcerA500() ||       //add BugBuster
 			$this->checkBrowserAndroidAcerA501() ||       //add BugBuster
-			$this->checkBrowserAndroidSamsungNexusS() ||  //add BugBuster
+			$this->checkBrowserAndroidSamsungNexusS()  || //add BugBuster
+			$this->checkBrowserAndroidThinkPadTablet() || //add BugBuster
+			$this->checkBrowserAndroidXoomTablet()     || //add BugBuster
 			//at last Android only!
 			$this->checkBrowserAndroid() ||
 
@@ -1230,8 +1238,9 @@ class ModuleVisitorBrowser3 {
                 $this->setBrowser(self::BROWSER_HTC_Desire_Z);
                 return true;
             }
-            if( stripos($this->_agent,'HTC_Desire') !== false ||
-                stripos($this->_agent,'HTC Desire') !== false )
+            if( stripos($this->_agent,'HTC_Desire')   !== false ||
+                stripos($this->_agent,'HTC Desire')   !== false ||
+            	stripos($this->_agent,'Desire_A8181') !== false )
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
@@ -1300,6 +1309,25 @@ class ModuleVisitorBrowser3 {
     }
     
     /**
+     * Determine if the browser is Android and HTC WildfireS A510e or not, add by BugBuster
+     * @return boolean True if the browser is HTC WildfireS A510e otherwise false
+     */
+    protected function checkBrowserAndroidHTCWildfire()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'HTC_WildfireS_A510e') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_HTC_WILDFIRES_A510e);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Determine if the browser is Android and HTC Sensation or not, add by BugBuster
      * @return boolean True if the browser is HTC Sensation otherwise false
      */
@@ -1308,7 +1336,8 @@ class ModuleVisitorBrowser3 {
         if( stripos($this->_agent,'Android') !== false ||
         	stripos($this->_agent,'Macintosh') !== false )
         {
-        	if( stripos($this->_agent,'HTC_SensationXE') !== false )
+        	if( stripos($this->_agent,'HTC_SensationXE')  !== false ||
+        		stripos($this->_agent,'HTC Sensation XE') !== false )
         	{
         	    $this->setVersion(self::VERSION_UNKNOWN);
         	    $this->setMobile(true);
@@ -1365,6 +1394,25 @@ class ModuleVisitorBrowser3 {
     }
     
     /**
+     * Determine if the browser is an Acer Iconia A500 Tablet or not, add by BugBuster
+     * @return boolean True if the browser is an Acer Iconia A500 Tablet otherwise false
+     */
+    protected function checkBrowserAndroidAcerA500()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'A500 Build') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_ACER_A500);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Determine if the browser is an Acer A501 Tablet or not, add by BugBuster
      * @return boolean True if the browser is an Acer A501 Tablet otherwise false
      */
@@ -1396,6 +1444,25 @@ class ModuleVisitorBrowser3 {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
                 $this->setBrowser(self::BROWSER_LENOVO_THINKPAD_TABLET);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Determine if the browser is a Motorola Xoom Tablet or not, add by BugBuster
+     * @return boolean True if the browser is a Motorola Xoom Tablet otherwise false
+     */
+    protected function checkBrowserAndroidXoomTablet()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'Xoom Build') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_MOTOROLA_XOOM_TABLET);
                 return true;
             }
         }
