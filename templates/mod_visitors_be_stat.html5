@@ -365,7 +365,7 @@ window.onload = function(){ // Better use use a modern onDomReady-Event instead
 				<tbody>
 				<tr>
 				    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: left;"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['currently online']; ?>:</td>
-				    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: right;"><?php echo $this->visitorsstatOnline[$vcid][0]; ?>&nbsp;</td>
+				    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: right;"><?php echo $this->visitorsstatOnline[$vcid]; ?>&nbsp;</td>
 				</tr>
 				</tbody>
 			</table>
