@@ -135,6 +135,11 @@
 /**
  * @author     Glen Langer (BugBuster); modified for Contao Module Visitors
  *
+ * 2012-04-05: 
+ * + checkBrowserCoolNovo
+ * + optimized checkPlatformVersion (iPad,iPod,iPhone)
+ * + PLATFORM_PLAYSTATION
+ *
  * 2012-01-22:
  * + checkBrowserAndroidHTCNexusOne
  * + checkBrowserAcerA501
@@ -213,19 +218,19 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_ANDROID = 'Android';                        // http://www.android.com/
 	const BROWSER_GALAXY_S = 'Galaxy S';
 	const BROWSER_GALAXY_S_PLUS = 'Galaxy S Plus';
-	const BROWSER_GALAXY_S_II = 'Galaxy S II';
-	const BROWSER_GALAXY_ACE = 'Galaxy Ace';
-	const BROWSER_GALAXY_TAB = 'Galaxy Tab';
+	const BROWSER_GALAXY_S_II   = 'Galaxy S II';
+	const BROWSER_GALAXY_ACE    = 'Galaxy Ace';
+	const BROWSER_GALAXY_TAB    = 'Galaxy Tab';
 	const BROWSER_SAMSUNG_GALAXY_NEXUS = 'Galaxy Nexus';      // Google Phone Android 4, add BugBuster
 	const BROWSER_SAMSUNG_NEXUS_S = 'Nexus S';                // Google Phone, add BugBuster
-	const BROWSER_HTC_Desire_HD = 'HTC Desire HD';
-	const BROWSER_HTC_Desire_Z  = 'HTC Desire Z';
-	const BROWSER_HTC_Desire    = 'HTC Desire';
-	const BROWSER_HTC_MAGIC     = 'HTC Magic';
-	const BROWSER_HTC_NEXUS_ONE = 'HTC Nexus One'; 			  // Google Phone, add BugBuster
-	const BROWSER_HTC_SENSATION = 'HTC Sensation';
-	const BROWSER_HTC_SENSATION_XE = 'HTC Sensation XE';
-	const BROWSER_HTC_SENSATION_Z710 = 'HTC Sensation Z710';
+	const BROWSER_HTC_Desire_HD   = 'HTC Desire HD';
+	const BROWSER_HTC_Desire_Z    = 'HTC Desire Z';
+	const BROWSER_HTC_Desire      = 'HTC Desire';
+	const BROWSER_HTC_MAGIC       = 'HTC Magic';
+	const BROWSER_HTC_NEXUS_ONE   = 'HTC Nexus One'; 			  // Google Phone, add BugBuster
+	const BROWSER_HTC_SENSATION       = 'HTC Sensation';
+	const BROWSER_HTC_SENSATION_XE    = 'HTC Sensation XE';
+	const BROWSER_HTC_SENSATION_Z710  = 'HTC Sensation Z710';
 	const BROWSER_HTC_WILDFIRES_A510e = 'HTC WildfireS A510e';
 	const BROWSER_ACER_A501  = 'Acer A501 Tab';				  // (Android 3.x Tab), add BugBuster
 	const BROWSER_ACER_A500  = 'Acer A500 Tab';				  // (Android 3.x Tab), add BugBuster
@@ -242,8 +247,9 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_MSN = 'MSN Browser';                        // http://explorer.msn.com/
 	const BROWSER_MSNBOT = 'MSN Bot';                         // http://search.msn.com/msnbot.htm
 	                                                          // http://en.wikipedia.org/wiki/Msnbot  (used for Bing as well)
-	const BROWSER_CHROME_PLUS = 'ChromePlus'; //add BugBuster // http://www.chromeplus.org/ (based on Chromium)
+	const BROWSER_CHROME_PLUS   = 'ChromePlus';    //add BugBuster // http://www.chromeplus.org/ (based on Chromium)
 	const BROWSER_HTTP_REQUEST2 = 'HTTP_Request2'; //add BugBuster // http://pear.php.net/package/http_request2
+	const BROWSER_COOL_NOVO     = 'CoolNovo';      //add BugBuster // http://http://www.coolnovo.com/ (previous ChromePlus)
 	
 	const BROWSER_NETSCAPE_NAVIGATOR = 'Netscape Navigator';  // http://browser.netscape.com/ (DEPRECATED)
 	const BROWSER_GALEON = 'Galeon';                          // http://galeon.sourceforge.net/ (DEPRECATED)
@@ -269,6 +275,7 @@ class ModuleVisitorBrowser3 {
 	const PLATFORM_SUNOS = 'SunOS';
 	const PLATFORM_OPENSOLARIS = 'OpenSolaris';
 	const PLATFORM_ANDROID = 'Android';
+	const PLATFORM_PLAYSTATION = 'PlayStation';
 	
 	const PLATFORM_PHP = 'PHP';	//add BugBuster
 	
@@ -277,6 +284,7 @@ class ModuleVisitorBrowser3 {
 	/**
 	 * Special Platform Add-On, BugBuster (Glen Langer)
 	 */
+	const PLATFORM_WINDOWS_95    = 'Win95';
 	const PLATFORM_WINDOWS_98    = 'Win98';
 	const PLATFORM_WINDOWS_ME    = 'WinME';
 	const PLATFORM_WINDOWS_NT    = 'WinNT';
@@ -285,7 +293,9 @@ class ModuleVisitorBrowser3 {
 	const PLATFORM_WINDOWS_XP    = 'WinXP';
 	const PLATFORM_WINDOWS_VISTA = 'WinVista';
 	const PLATFORM_WINDOWS_7     = 'Win7';
+	const PLATFORM_WINDOWS_8     = 'Win8';
 	const PLATFORM_MACOSX        = 'MacOSX';
+	const PLATFORM_IOSX          = 'iOS';
 	const PLATFORM_WARP4         = 'OS/2 Warp 4';
 
 	public function initBrowser($useragent="",$accept_language="") { //modified for compatibility
@@ -479,6 +489,7 @@ class ModuleVisitorBrowser3 {
 			$this->checkBrowserSongbird()   ||	//add BugBuster
 			$this->checkBrowserSeaMonkey()  ||	//add BugBuster
 			$this->checkBrowserChromePlus() ||	//add BugBuster
+		    $this->checkBrowserCoolNovo()   ||	//add BugBuster
 			$this->checkBrowserChrome() ||
 			$this->checkBrowserOmniWeb() ||
 
@@ -1167,33 +1178,40 @@ class ModuleVisitorBrowser3 {
      * Determine if the browser is Android and Samsung Galaxy or not, add by BugBuster
      * @return boolean True if the browser is Samsung Galaxy otherwise false
      */
-    protected function checkBrowserAndroidSamsungGalaxy() {
-	    if( stripos($this->_agent,'Android') !== false ) {
-	    	if( stripos($this->_agent,'GT-I9000') !== false ) {
+    protected function checkBrowserAndroidSamsungGalaxy() 
+    {
+	    if( stripos($this->_agent,'Android') !== false ) 
+	    {
+	    	if( stripos($this->_agent,'GT-I9000') !== false ) 
+	    	{
 	    		$this->setVersion(self::VERSION_UNKNOWN);
 			    $this->setMobile(true);
 			    $this->setBrowser(self::BROWSER_GALAXY_S);
 			    return true;
 	    	}
-	    	if( stripos($this->_agent,'GT-I9001') !== false ) {
+	    	if( stripos($this->_agent,'GT-I9001') !== false ) 
+	    	{
 	    		$this->setVersion(self::VERSION_UNKNOWN);
 			    $this->setMobile(true);
 			    $this->setBrowser(self::BROWSER_GALAXY_S_PLUS);
 			    return true;
 	    	}
-	    	if( stripos($this->_agent,'GT-I9100') !== false ) {
+	    	if( stripos($this->_agent,'GT-I9100') !== false ) 
+	    	{
 	    		$this->setVersion(self::VERSION_UNKNOWN);
 			    $this->setMobile(true);
 			    $this->setBrowser(self::BROWSER_GALAXY_S_II);
 			    return true;
 	    	}
-	    	if( stripos($this->_agent,'GT-S5830') !== false ) {
+	    	if( stripos($this->_agent,'GT-S5830') !== false ) 
+	    	{
 	    		$this->setVersion(self::VERSION_UNKNOWN);
 			    $this->setMobile(true);
 			    $this->setBrowser(self::BROWSER_GALAXY_ACE);
 			    return true;
 	    	}
-	    	if( stripos($this->_agent,'GT-I9250') !== false ) {
+	    	if( stripos($this->_agent,'GT-I9250') !== false ) 
+	    	{
 	    	    $this->setVersion(self::VERSION_UNKNOWN);
 	    	    $this->setMobile(true);
 	    	    $this->setBrowser(self::BROWSER_SAMSUNG_GALAXY_NEXUS);
@@ -1379,6 +1397,21 @@ class ModuleVisitorBrowser3 {
     }
     
     /**
+     * Determine if the browser is CoolNovo (previous ChromePlus) or not, add by BugBuster
+     * @return boolean True if the browser is CoolNovo otherwise false
+     */
+    protected function checkBrowserCoolNovo() {
+        if( stripos($this->_agent,'CoolNovo') !== false ) {
+            $aresult = explode('/',stristr($this->_agent,'CoolNovo'));
+            $aversion = explode(' ',$aresult[1]);
+            $this->setVersion($aversion[0]);
+            $this->setBrowser(self::BROWSER_COOL_NOVO);
+            return true;
+        }
+        return false;
+    }
+    
+    /**
      * Determine if the browser is Pear HTTP_Request2 or not, add by BugBuster
      * @return boolean True if the browser is Pear HTTP_Request2 otherwise false
      */
@@ -1474,14 +1507,17 @@ class ModuleVisitorBrowser3 {
      */
     protected function checkPlatform() 
     {
-    	if( stripos($this->_agent, 'iPad') !== false ) {
-		    $this->_platform = self::PLATFORM_IPAD;
+        if( stripos($this->_agent, 'iPad') !== false ) 
+        {
+		    $this->_platform = self::PLATFORM_APPLE; // iOS folgt spaeter
 	    }
-	    elseif( stripos($this->_agent, 'iPod') !== false ) {
-		    $this->_platform = self::PLATFORM_IPOD;
+	    elseif( stripos($this->_agent, 'iPod') !== false ) 
+	    {
+		    $this->_platform = self::PLATFORM_APPLE; // iOS folgt spaeter
 	    }
-	    elseif( stripos($this->_agent, 'iPhone') !== false ) {
-		    $this->_platform = self::PLATFORM_IPHONE;
+	    elseif( stripos($this->_agent, 'iPhone') !== false ) 
+	    {
+		    $this->_platform = self::PLATFORM_APPLE; // iOS folgt spaeter
 	    }
 	    elseif( stripos($this->_agent, 'android') !== false ) {
 		    $this->_platform = self::PLATFORM_ANDROID;
@@ -1529,6 +1565,10 @@ class ModuleVisitorBrowser3 {
 	    elseif( stripos($this->_agent, 'PHP') !== false ) {
 		    $this->_platform = self::PLATFORM_PHP;
 	    }
+	    // add BugBuster
+	    elseif( stripos($this->_agent, 'PLAYSTATION') !== false ) {
+	        $this->_platform = self::PLATFORM_PLAYSTATION;
+	    }
 
     }
     
@@ -1555,8 +1595,8 @@ class ModuleVisitorBrowser3 {
 	        /*if( stripos($this->_agent, 'windows NT 7.1') !== false ) {
 			    $this->_platform = self::PLATFORM_WINDOWS_7;
 		    }
-	        else*/if( stripos($this->_agent, 'windows NT 7.0') !== false ) {
-			    $this->_platformVersion = self::PLATFORM_WINDOWS_7;
+	        else*/if( stripos($this->_agent, 'windows NT 6.2') !== false ) {
+			    $this->_platformVersion = self::PLATFORM_WINDOWS_8;
 		    }
 		    elseif( stripos($this->_agent, 'windows NT 6.1') !== false ) {
 			    $this->_platformVersion = self::PLATFORM_WINDOWS_7;
@@ -1570,6 +1610,9 @@ class ModuleVisitorBrowser3 {
 		    elseif( stripos($this->_agent, 'windows NT 5.1') !== false ) {
 			    $this->_platformVersion = self::PLATFORM_WINDOWS_XP;
 		    }
+		    elseif( stripos($this->_agent, 'windows XP') !== false ) {
+		        $this->_platformVersion = self::PLATFORM_WINDOWS_XP;
+		    }
 		    elseif( stripos($this->_agent, 'windows NT 5.0') !== false ) {
 			    $this->_platformVersion = self::PLATFORM_WINDOWS_2000;
 		    }
@@ -1582,10 +1625,23 @@ class ModuleVisitorBrowser3 {
 		    elseif( stripos($this->_agent, 'windows 98') !== false ) {
 			    $this->_platformVersion = self::PLATFORM_WINDOWS_98;
 		    }
+		    elseif( stripos($this->_agent, 'windows 95') !== false ) {
+		        $this->_platformVersion = self::PLATFORM_WINDOWS_95;
+		    }
         }
-	    if( stripos($this->_agent, 'Mac OS X') !== false ) {
-		    $this->_platformVersion = self::PLATFORM_MACOSX;
-	    }
+        if ($this->_platform == self::PLATFORM_APPLE)
+        {
+            if ( stripos($this->_agent, 'Mac OS X') !== false ) 
+            {
+                $this->_platformVersion = self::PLATFORM_MACOSX;
+            }
+            if ( stripos($this->_agent, 'iPad') !== false 
+              || stripos($this->_agent, 'iPod') !== false
+              || stripos($this->_agent, 'iPhone') !== false) 
+            {
+                $this->_platformVersion = self::PLATFORM_IOSX;
+            }
+        }
 	    elseif( stripos($this->_agent, 'Warp 4') !== false ) {
 		    $this->_platformVersion = self::PLATFORM_WARP4;
 	    }
