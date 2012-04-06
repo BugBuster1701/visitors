@@ -282,13 +282,16 @@ class ModuleVisitorsTag extends Frontend
 	protected function VisitorCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
 		$this->import('ModuleVisitorChecks');
-		if (!isset($GLOBALS['TL_CONFIG']['mod_visitors_bot_check']) || $GLOBALS['TL_CONFIG']['mod_visitors_bot_check'] !== false) {
-			if ($this->ModuleVisitorChecks->CheckBot() == true) {
+		if (!isset($GLOBALS['TL_CONFIG']['mod_visitors_bot_check']) || $GLOBALS['TL_CONFIG']['mod_visitors_bot_check'] !== false) 
+		{
+			if ($this->ModuleVisitorChecks->CheckBot() == true) 
+			{
 				$this->_BOT = true;
 		    	return; //Bot / IP gefunden, wird nicht gezaehlt
 		    }
 		}
-	    if ($this->ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) {
+	    if ($this->ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
+	    {
 	    	$this->_PF = true; // Bad but functionally
 	    	return ; //User Agent Filterung
 	    }
@@ -306,26 +309,37 @@ class ModuleVisitorsTag extends Frontend
 	                           ." WHERE CURRENT_TIMESTAMP - INTERVAL ? SECOND > visitors_tstamp"
 	                           ." AND vid=? AND visitors_type=?")
 	                   ->executeUncached(3, $vid, 'h'); // 3 Sekunden Blockierung zw. Zählung per Tag und Zählung per Browser
-	    if ($this->ModuleVisitorChecks->CheckBE() == true) {
+	    if ($this->ModuleVisitorChecks->CheckBE() == true) 
+	    {
 	    	$this->_PF = true; // Bad but functionally
 			return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
 		}
 		
+		//Test ob Hits gesetzt werden muessen (IE8 Bullshit and Browser Counting)
+		$objHitIP = $this->Database->prepare("SELECT id, visitors_ip"
+                            		        ." FROM tl_visitors_blocker"
+                            		        ." WHERE visitors_ip=?"
+                            		        ." AND vid=? AND visitors_type=?")
+                    		       ->executeUncached($ClientIP, $vid, 'h');
+				
 	    //Hits und Visits lesen
 	    $objHitCounter = $this->Database->prepare("SELECT id, visitors_hit, visitors_visit"
 	                                            ." FROM tl_visitors_counter"
 	                                            ." WHERE visitors_date=?"
 	                                            ." AND vid=?")
 	                                    ->executeUncached($CURDATE, $vid);
-	    //Test ob Hits gesetzt werden muessen (IE8 Bullshit and Browser Counting)
-	    $objHitIP = $this->Database->prepare("SELECT id, visitors_ip"
-                                     ." FROM tl_visitors_blocker"
-                                     ." WHERE visitors_ip=?"
-                                     ." AND vid=? AND visitors_type=?")
-                             	   ->executeUncached($ClientIP, $vid, 'h');
         //Hits setzen
-	    if ($objHitCounter->numRows < 1) {
-	    	if ($objHitIP->numRows < 1) {
+	    if ($objHitCounter->numRows < 1) 
+	    {
+	    	if ($objHitIP->numRows < 1) 
+	    	{
+	    	    //at first: block
+	    	    $this->Database->prepare("INSERT INTO tl_visitors_blocker"
+	    	                           ." SET vid=?"
+	    	                           .", visitors_tstamp=CURRENT_TIMESTAMP"
+	    	                           .", visitors_ip=?"
+	    	                           .", visitors_type=?")
+	    	                   ->execute($vid, $ClientIP, 'h');
 		        // Insert
 		        $arrSet = array
 	            (
@@ -335,27 +349,34 @@ class ModuleVisitorsTag extends Frontend
 	                'visitors_hit'      => 1
 	            );
 			    $this->Database->prepare("INSERT INTO tl_visitors_counter %s")->set($arrSet)->executeUncached();
-    	        $this->Database->prepare("INSERT INTO tl_visitors_blocker"
-				                       ." SET vid=?, visitors_tstamp=CURRENT_TIMESTAMP, visitors_ip=?, visitors_type=?")
-				               ->executeUncached($vid, $ClientIP, 'h');
-	    	} else {
-	    		$this->_PF = true;
+	    	} 
+	    	else 
+	    	{
+	    		$this->_PF = true; // Prefetch found
 	    	}
 		    $visitors_hits=1;
 		    $visitors_visit=1;
-	    } else {
+	    } 
+	    else 
+	    {
 	        $objHitCounter->next();
 	        $visitors_hits = $objHitCounter->visitors_hit +1;
-	        $visitors_visit= $objHitCounter->visitors_visit +1; // wird nur gesetzt wenn auch neuer Besuch
-			if ($objHitIP->numRows < 1) {
+	        $visitors_visit= $objHitCounter->visitors_visit +1; 
+			if ($objHitIP->numRows < 1) 
+			{
 		        // Update
+		    	$this->Database->prepare("INSERT INTO tl_visitors_blocker"
+				                       ." SET vid=?"
+		    	                       .", visitors_tstamp=CURRENT_TIMESTAMP"
+		    	                       .", visitors_ip=?"
+		    	                       .", visitors_type=?")
+				               ->execute($vid, $ClientIP, 'h');
 		    	$this->Database->prepare("UPDATE tl_visitors_counter SET visitors_hit=? WHERE id=?")
 		    	               ->executeUncached($visitors_hits, $objHitCounter->id);
-		    	$this->Database->prepare("INSERT INTO tl_visitors_blocker"
-				                       ." SET vid=?, visitors_tstamp=CURRENT_TIMESTAMP, visitors_ip=?, visitors_type=?")
-				               ->executeUncached($vid, $ClientIP, 'h');
-			} else {
-	    		$this->_PF = true;
+			} 
+			else 
+			{
+	    		$this->_PF = true; // Prefetch found
 	    	}
 	    }
 	    
@@ -365,17 +386,24 @@ class ModuleVisitorsTag extends Frontend
 	                                         ." WHERE visitors_ip=?"
 	                                         ." AND vid=? AND visitors_type=?")
 	                                 ->executeUncached($ClientIP, $vid, 'v');
-	    if ($objVisitIP->numRows < 1) {
-	        // Insert IP + Update Visits
+	    if ($objVisitIP->numRows < 1) 
+	    {
+	        // not blocked: Insert IP + Update Visits
 	        $this->Database->prepare("INSERT INTO tl_visitors_blocker"
-	                               ." SET vid=?, visitors_tstamp=CURRENT_TIMESTAMP, visitors_ip=?, visitors_type=?")
-	                       ->executeUncached($vid, $ClientIP, 'v');
+	                               ." SET vid=?"
+	                               .", visitors_tstamp=CURRENT_TIMESTAMP"
+	                               .", visitors_ip=?"
+	                               .", visitors_type=?")
+	                       ->execute($vid, $ClientIP, 'v');
+	        
 	        $this->Database->prepare("UPDATE tl_visitors_counter SET visitors_visit=?"
 	                               ." WHERE visitors_date=?"
 	                               ." AND vid=?")
 	    	               ->executeUncached($visitors_visit, $CURDATE, $vid);
-	    } else {
-	    	// Update tstamp
+	    } 
+	    else 
+	    {
+	    	// blocked: Update tstamp
 	    	$this->Database->prepare("UPDATE tl_visitors_blocker"
 	    	                       ." SET visitors_tstamp=CURRENT_TIMESTAMP"
 	    	                       ." WHERE visitors_ip=?"
@@ -383,9 +411,11 @@ class ModuleVisitorsTag extends Frontend
 	    	               ->executeUncached($ClientIP, $vid, 'v');
 	    	$this->_VB = true;
 	    }
-	    if ($objVisitIP->numRows < 1) { //Browser Check wenn nicht geblockt
+	    if ($objVisitIP->numRows < 1) 
+	    { //Browser Check wenn nicht geblockt
 		    //Only counting if User Agent is set.
-		    if ( strlen($this->Environment->httpUserAgent)>0 ) {
+		    if ( strlen($this->Environment->httpUserAgent)>0 ) 
+		    {
 			    /* Variante 2 */
 			    /*
 			    $this->import('ModuleVisitorBrowser2');
@@ -398,24 +428,32 @@ class ModuleVisitorsTag extends Frontend
 			    /* Variante 3 */
 				$this->import('ModuleVisitorBrowser3');
 				$this->ModuleVisitorBrowser3->initBrowser($this->Environment->httpUserAgent,implode(",", $this->Environment->httpAcceptLanguage));
-				if ($this->ModuleVisitorBrowser3->getLang() === null) {
+				if ($this->ModuleVisitorBrowser3->getLang() === null) 
+				{
 					log_message("ModuleVisitorBrowser3 Systemerror","error.log");
 			    	$this->log("ModuleVisitorBrowser3 Systemerror",'ModulVisitors', TL_ERROR);
-				} else {
+				} 
+				else 
+				{
 					$arrBrowser['Browser']  = $this->ModuleVisitorBrowser3->getBrowser();
 					$arrBrowser['Version']  = $this->ModuleVisitorBrowser3->getVersion();
 					$arrBrowser['Platform'] = $this->ModuleVisitorBrowser3->getPlatformVersion();
 					$arrBrowser['lang']     = $this->ModuleVisitorBrowser3->getLang();
 				    //Anpassen an Version 1 zur Weiterverarbeitung
-				    if ($arrBrowser['Browser'] == 'unknown') {
+				    if ($arrBrowser['Browser'] == 'unknown') 
+				    {
 				    	$arrBrowser['Browser'] = 'Unknown';
 				    }
-				    if ($arrBrowser['Version'] == 'unknown') {
+				    if ($arrBrowser['Version'] == 'unknown') 
+				    {
 				    	$arrBrowser['brversion'] = $arrBrowser['Browser'];
-				    } else {
+				    } 
+				    else 
+				    {
 				    	$arrBrowser['brversion'] = $arrBrowser['Browser'] . ' ' . $arrBrowser['Version'];
 				    }
-				    if ($arrBrowser['Platform'] == 'unknown') {
+				    if ($arrBrowser['Platform'] == 'unknown') 
+				    {
 				    	$arrBrowser['Platform'] = 'Unknown';
 				    }
 				    //if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == 'unknown' ) {
@@ -430,7 +468,8 @@ class ModuleVisitorsTag extends Frontend
 					                                            )
 				                                    	->executeUncached($vid, $arrBrowser['brversion'], $arrBrowser['Platform'], $arrBrowser['lang']);
 				    //setzen
-				    if ($objBrowserCounter->numRows < 1) {
+				    if ($objBrowserCounter->numRows < 1) 
+				    {
 				        // Insert
 				        $arrSet = array
 			            (
@@ -440,8 +479,10 @@ class ModuleVisitorsTag extends Frontend
 			                'visitors_lang'		=> $arrBrowser['lang'],
 			                'visitors_counter'  => 1
 			            );
-					    $this->Database->prepare("INSERT INTO tl_visitors_browser %s")->set($arrSet)->executeUncached();
-				    } else {
+					    $this->Database->prepare("INSERT INTO tl_visitors_browser %s")->set($arrSet)->execute();
+				    } 
+				    else 
+				    {
 				    	//Update
 				        $objBrowserCounter->next();
 				        $visitors_counter = $objBrowserCounter->visitors_counter +1;
