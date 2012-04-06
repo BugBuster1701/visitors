@@ -87,7 +87,7 @@ class VisitorsRunonceJob extends Controller
 									$this->Database->prepare("UPDATE tl_module SET visitors_template=? WHERE id=?")->execute($objTemplatesOld->visitors_template, $objVisitorsTemplatesNew->id);
 									//Protokoll
 									$strText = 'Visitors-Module "'.$objVisitorsTemplatesNew->name.'" has been migrated';
-									$this->Database->prepare("INSERT INTO tl_log (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'BE', 'CONFIGURATION', '', specialchars($strText), 'Visitors Modul Template Migration', '127.0.0.1', 'NoBrowser');
+									$this->Database->prepare("INSERT INTO `tl_log` (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'BE', 'CONFIGURATION', '', specialchars($strText), 'Visitors Modul Template Migration', '127.0.0.1', 'NoBrowser');
 								}
 							}
 							elseif (count($arrKat) > 1) 
@@ -96,7 +96,7 @@ class VisitorsRunonceJob extends Controller
 								while ($objTemplatesOld->next())
 								{
 									$strText = 'Visitors-Module "'.$objVisitorsTemplatesNew->name.'" could not be migrated';
-									$this->Database->prepare("INSERT INTO tl_log (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'BE', 'CONFIGURATION', '', specialchars($strText), 'Visitors Modul Template Migration', '127.0.0.1', 'NoBrowser');
+									$this->Database->prepare("INSERT INTO `tl_log` (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'BE', 'CONFIGURATION', '', specialchars($strText), 'Visitors Modul Template Migration', '127.0.0.1', 'NoBrowser');
 								}
 							}
 						}
@@ -113,9 +113,20 @@ class VisitorsRunonceJob extends Controller
 		} // if >2.8
 		else 
 		{
-			$this->Database->prepare("INSERT INTO tl_log (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'FE', 'ERROR', ($GLOBALS['TL_USERNAME'] ? $GLOBALS['TL_USERNAME'] : ''), 'ERROR: Visitors-Module requires at least Contao 2.9', 'ModulVisitors Runonce', '127.0.0.1', 'NoBrowser');
+			$this->Database->prepare("INSERT INTO `tl_log` (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'FE', 'ERROR', ($GLOBALS['TL_USERNAME'] ? $GLOBALS['TL_USERNAME'] : ''), 'ERROR: Visitors-Module requires at least Contao 2.9', 'ModulVisitors Runonce', '127.0.0.1', 'NoBrowser');
+		}
+		
+		if ($this->Database->tableExists('tl_visitors_browser'))
+		{
+    		// MacOSX-2-iOS
+		    $this->Database->execute("UPDATE `tl_visitors_browser` SET `visitors_os`='iOS' WHERE `visitors_os`='MacOSX' AND `visitors_browser` LIKE 'iPhone%' OR `visitors_browser` LIKE 'iPad%' OR `visitors_browser` LIKE 'iPod%'");
+		    // Windows-2-Win8, leider nicht eindeutig.
+		    //$this->Database->execute("UPDATE `tl_visitors_browser` SET `visitors_os`='Win8' WHERE `visitors_os`='Windows' AND `visitors_browser` IN ('IE 9.0','IE 10.0')");
 		}
 	} //function run
 } // class
+
+$objVisitorsRunonceJob = new VisitorsRunonceJob();
+$objVisitorsRunonceJob->run();
 
 ?>
