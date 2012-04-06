@@ -1,14 +1,14 @@
 <?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Copyright (C) 2005-2012 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  * 
  * Modul Visitors Stat - Backend
  * 
  * PHP version 5
- * @copyright  Glen Langer 2009..2011
+ * @copyright  Glen Langer 2009..2012
  * @author     Glen Langer
  * @package    GLVisitors
  * @license    LGPL
@@ -18,7 +18,7 @@
 /**
  * Class ModuleVisitorStat
  *
- * @copyright  Glen Langer 2009..2011
+ * @copyright  Glen Langer 2009..2012
  * @author     Glen Langer
  * @package    GLVisitors
  * @todo       Must be completely rewritten.
@@ -420,7 +420,8 @@ class ModuleVisitorStat extends BackendModule
     	$VisitorsAverageHits60   = 0;
     	$tmpTotalDays            = 0;
     	
-		if ($VisitorsID) {
+		if ($VisitorsID) 
+		{
 			$today     = date('Y-m-d');
 			$yesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-1, date("Y")));
     	    //Durchschnittswerte bis heute 00:00 Uhr, also bis einschließlich gestern
@@ -429,20 +430,23 @@ class ModuleVisitorStat extends BackendModule
                                                               ." FROM tl_visitors_counter"
                                                               ." WHERE vid=? AND visitors_date<?")
                                             ->execute($VisitorsID,$today);
-            if ($objVisitorsAverageCount->numRows > 0) {
+            if ($objVisitorsAverageCount->numRows > 0) 
+            {
                 $objVisitorsAverageCount->next();
-                $tmpTotalDays = floor( (strtotime($yesterday) - strtotime($objVisitorsAverageCount->MINDAY))/60/60/24 );
+                $tmpTotalDays = floor(1+(strtotime($yesterday) - strtotime($objVisitorsAverageCount->MINDAY))/60/60/24 );
 
                 $VisitorsAverageVisitCount = ($objVisitorsAverageCount->SUMV === null) ? 0 : $objVisitorsAverageCount->SUMV;
                 $VisitorsAverageHitCount   = ($objVisitorsAverageCount->SUMH === null) ? 0 : $objVisitorsAverageCount->SUMH;
-                if ($tmpTotalDays >0) {
+                if ($tmpTotalDays >0) 
+                {
 	                //$VisitorsAverageVisits = strtr( round($VisitorsAverageVisitCount / $tmpTotalDays , 2),'.',',');
 	                //$VisitorsAverageHits   = strtr( round($VisitorsAverageHitCount   / $tmpTotalDays , 2),'.',',');
 	                $VisitorsAverageVisits = $this->getFormattedNumber($VisitorsAverageVisitCount / $tmpTotalDays , 2);
 	                $VisitorsAverageHits   = $this->getFormattedNumber($VisitorsAverageHitCount   / $tmpTotalDays , 2);
                 }
             }
-            if ($tmpTotalDays > 30) {
+            if ($tmpTotalDays > 30) 
+            {
 	            //Durchschnittswerte der letzten 30 Tage
 	            $day30     = date('Y-m-d',mktime(0, 0, 0, date("m")-1 , date("d")-1 ,date("Y")));            
 			
@@ -450,7 +454,8 @@ class ModuleVisitorStat extends BackendModule
 	                                                              ." FROM tl_visitors_counter"
 	                                                              ." WHERE vid=? AND visitors_date BETWEEN ? AND ?")
 	                                            ->execute($VisitorsID,$day30,$yesterday);
-	            if ($objVisitorsAverageCount->numRows > 0) {
+	            if ($objVisitorsAverageCount->numRows > 0) 
+	            {
 	                $objVisitorsAverageCount->next();
 	                $VisitorsAverageVisitCount = ($objVisitorsAverageCount->SUMV === null) ? 0 : $objVisitorsAverageCount->SUMV;
 	                $VisitorsAverageHitCount   = ($objVisitorsAverageCount->SUMH === null) ? 0 : $objVisitorsAverageCount->SUMH;
@@ -460,7 +465,8 @@ class ModuleVisitorStat extends BackendModule
 	                $VisitorsAverageHits30   = $this->getFormattedNumber($VisitorsAverageHitCount   / 30 , 2);
 	            }
             }
-            if ($tmpTotalDays > 60) {
+            if ($tmpTotalDays > 60) 
+            {
 	            //Durchschnittswerte der letzten 60 Tage
 	            $day60     = date('Y-m-d',mktime(0, 0, 0, date("m")-2 , date("d")-1 ,date("Y")));
 	
@@ -468,7 +474,8 @@ class ModuleVisitorStat extends BackendModule
 	                                                              ." FROM tl_visitors_counter"
 	                                                              ." WHERE vid=? AND visitors_date BETWEEN ? AND ?")
 	                                            ->execute($VisitorsID,$day60,$yesterday);
-	            if ($objVisitorsAverageCount->numRows > 0) {
+	            if ($objVisitorsAverageCount->numRows > 0) 
+	            {
 	                $objVisitorsAverageCount->next();
 	                $VisitorsAverageVisitCount = ($objVisitorsAverageCount->SUMV === null) ? 0 : $objVisitorsAverageCount->SUMV;
 	                $VisitorsAverageHitCount   = ($objVisitorsAverageCount->SUMH === null) ? 0 : $objVisitorsAverageCount->SUMH;
