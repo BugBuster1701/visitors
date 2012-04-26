@@ -291,7 +291,7 @@ class ModuleVisitorsCount extends Frontend
 		        );
 			    $this->Database->prepare("INSERT INTO tl_visitors_searchengines %s")->set($arrSet)->executeUncached();
 			    // Delete old entries
-			    $CleanTime = mktime(0, 0, 0, date("m")-3, date("d"), date("Y")); // Einträge >= 90 Tage werden gelöscht
+			    $CleanTime = mktime(0, 0, 0, date("m")-3, date("d"), date("Y")); // EintrÃ¤ge >= 90 Tage werden gelÃ¶scht
 			    $this->Database->prepare("DELETE FROM tl_visitors_searchengines WHERE tstamp<? AND vid=?")
 		                       ->execute($CleanTime,$vid);
 			} //keywords
@@ -323,7 +323,7 @@ class ModuleVisitorsCount extends Frontend
 			        //Referrer setzen
 			        $this->Database->prepare("INSERT INTO tl_visitors_referrer %s")->set($arrSet)->executeUncached();
 				    // Delete old entries
-				    $CleanTime = mktime(0, 0, 0, date("m")-4, date("d"), date("Y")); // Einträge >= 120 Tage werden gelöscht
+				    $CleanTime = mktime(0, 0, 0, date("m")-4, date("d"), date("Y")); // EintrÃ¤ge >= 120 Tage werden gelÃ¶scht
 				    $this->Database->prepare("DELETE FROM tl_visitors_referrer WHERE tstamp<? AND vid=?")
 			                       ->execute($CleanTime,$vid);
 				}
