@@ -154,6 +154,7 @@ class ModuleVisitorStat extends BackendModule
 		$this->Template->visitors_base    = $this->Environment->base;
 		$this->Template->visitors_footer  = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['footer'];
 		$this->Template->theme            = $this->getTheme();
+		$this->Template->theme0           = 'default'; // for down0.gif
 
 		
 		$this->Template->visitorsanzcounter   	= $intAnzCounter;
@@ -932,16 +933,19 @@ class ModuleVisitorStat extends BackendModule
 	{
 		$objVisitorsBadday = $this->Database->prepare("SELECT visitors_date, visitors_visit, visitors_hit"
 		                                             ." FROM tl_visitors_counter"
-		                                             ." WHERE vid=?"
+		                                             ." WHERE vid=? AND visitors_date < ?" 
 		                                             ." ORDER BY visitors_visit ASC,visitors_hit ASC")
 		                                     ->limit(1)
-		                                     ->execute($VisitorsID);
-		if ($objVisitorsBadday->numRows > 0) {
+		                                     ->execute($VisitorsID, date('Y-m-d'));
+		if ($objVisitorsBadday->numRows > 0) 
+		{
         	$objVisitorsBadday->next();
         	$visitors_date = $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'],strtotime($objVisitorsBadday->visitors_date));
         	$visitors_visits = $this->getFormattedNumber($objVisitorsBadday->visitors_visit,0);
         	$visitors_hits = $this->getFormattedNumber($objVisitorsBadday->visitors_hit,0);
-		} else {
+		} 
+		else 
+		{
 			$visitors_date   = '';
 			$visitors_visits = 0;
 			$visitors_hits   = 0;
