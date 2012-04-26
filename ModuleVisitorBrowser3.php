@@ -135,6 +135,9 @@
 /**
  * @author     Glen Langer (BugBuster); modified for Contao Module Visitors
  *
+ * 2012-04-22:
+ * + checkBrowserMaxthon
+ * 
  * 2012-04-05: 
  * + checkBrowserCoolNovo
  * + optimized checkPlatformVersion (iPad,iPod,iPhone)
@@ -250,6 +253,7 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_CHROME_PLUS   = 'ChromePlus';    //add BugBuster // http://www.chromeplus.org/ (based on Chromium)
 	const BROWSER_HTTP_REQUEST2 = 'HTTP_Request2'; //add BugBuster // http://pear.php.net/package/http_request2
 	const BROWSER_COOL_NOVO     = 'CoolNovo';      //add BugBuster // http://http://www.coolnovo.com/ (previous ChromePlus)
+	const BROWSER_COOL_MAXTHON  = 'Maxthon';       //add BugBuster // http://de.maxthon.com/
 	
 	const BROWSER_NETSCAPE_NAVIGATOR = 'Netscape Navigator';  // http://browser.netscape.com/ (DEPRECATED)
 	const BROWSER_GALEON = 'Galeon';                          // http://galeon.sourceforge.net/ (DEPRECATED)
@@ -482,6 +486,7 @@ class ModuleVisitorBrowser3 {
 			// (5) Netscape 9+ is based on Firefox so Netscape checks
 			//     before FireFox are necessary
 			$this->checkBrowserWebTv() ||
+		    $this->checkBrowserMaxthon()    ||  //add BugBuster, must be before IE, (Dual Engine: Webkit and Trident)
 			$this->checkBrowserInternetExplorer() ||
 			$this->checkBrowserGaleon() ||
 			$this->checkBrowserNetscapeNavigator9Plus() ||
@@ -1406,6 +1411,21 @@ class ModuleVisitorBrowser3 {
             $aversion = explode(' ',$aresult[1]);
             $this->setVersion($aversion[0]);
             $this->setBrowser(self::BROWSER_COOL_NOVO);
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Determine if the browser is Maxthon or not, add by BugBuster
+     * @return boolean True if the browser is Maxthon otherwise false
+     */
+    protected function checkBrowserMaxthon() {
+        if( stripos($this->_agent,'Maxthon') !== false ) {
+            $aresult = explode('/',stristr($this->_agent,'Maxthon'));
+            $aversion = explode(' ',$aresult[1]);
+            $this->setVersion($aversion[0]);
+            $this->setBrowser(self::BROWSER_COOL_MAXTHON);
             return true;
         }
         return false;
