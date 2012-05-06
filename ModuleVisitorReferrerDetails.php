@@ -1,7 +1,7 @@
 <?php
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Copyright (C) 2005-2012 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  * 
@@ -9,7 +9,7 @@
  *
  * 
  * PHP version 5
- * @copyright  Glen Langer 2007..2011
+ * @copyright  Glen Langer 2007..2012
  * @author     Glen Langer
  * @package    GLVisitors
  * @license    LGPL
@@ -25,7 +25,7 @@ require('../../initialize.php');
 /**
  * Class ModuleVisitorReferrerDetails
  *
- * @copyright  Glen Langer 2007..2011
+ * @copyright  Glen Langer 2007..2012
  * @author     Glen Langer
  * @package    GLVisitors
  */
@@ -60,7 +60,7 @@ class ModuleVisitorReferrerDetails extends Backend // Backend bringt DB mit
 <!--
 
 	This website is powered by Contao Open Source CMS :: Licensed under GNU/LGPL
-	Copyright ©2005-2011 by Leo Feyer :: Extensions are copyright of their respective owners
+	Copyright ©2005-2012 by Leo Feyer :: Extensions are copyright of their respective owners
 	Visit the project website at http://www.contao.org for more information
 
 //-->
@@ -69,8 +69,13 @@ class ModuleVisitorReferrerDetails extends Backend // Backend bringt DB mit
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="system/themes/'.$this->getTheme().'/basic.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="system/themes/'.$this->getTheme().'/main.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="system/themes/'.$this->getTheme().'/be27.css" media="screen" />
-<!--[if lte IE 7]><link type="text/css" rel="stylesheet" href="system/themes/'.$this->getTheme().'/iefixes.css" media="screen" /><![endif]-->
+';
+	    if (version_compare(VERSION, '2.11', '<'))
+	    {
+	        echo '<link rel="stylesheet" type="text/css" href="system/themes/'.$this->getTheme().'/be27.css" media="screen" />
+';
+	    }
+echo '<!--[if lte IE 7]><link type="text/css" rel="stylesheet" href="system/themes/'.$this->getTheme().'/iefixes.css" media="screen" /><![endif]-->
 ';
 		if (version_compare(VERSION, '2.10', '<'))
 		{
@@ -138,7 +143,7 @@ echo '
 /**
  * Instantiate
  */
-$objBannerStatExport = new ModuleVisitorReferrerDetails();
-$objBannerStatExport->run();
+$objModuleVisitorReferrerDetails = new ModuleVisitorReferrerDetails();
+$objModuleVisitorReferrerDetails->run();
 
 ?>
