@@ -623,7 +623,11 @@ window.onload = function(){ // Better use use a modern onDomReady-Event instead
 			<tr>
 			    <td style="padding-left: 2px; text-align: left;" class="tl_file_list"><?php echo (isset($Referrer[0]) ? $Referrer[0] : ''); ?></td>
 			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($Referrer[1]) ? $Referrer[1] : ''); ?></td>
-			    <td style="text-align: center;" class="tl_file_list"><?php if ($Referrer[2]) : ?><a rel="lightbox[details 770 600]" title="Details" href="<?php echo $this->visitors_base; ?>system/modules/visitors/ModuleVisitorReferrerDetails.php?tl_referrer=<?php echo $Referrer[0]; ?>&amp;tl_vid=<?php echo $Referrer[2]; ?>"><img width="16" height="16" alt="Details" src="system/themes/<?php echo $this->theme; ?>/images/show.gif"></a><?php endif; ?></td>
+			    <?php if (version_compare(VERSION, '2.11', '<')) : ?>
+	    			    <td style="text-align: center;" class="tl_file_list"><?php if ($Referrer[2]) : ?><a rel="lightbox[details 770 600]" title="Details" href="<?php echo $this->visitors_base; ?>system/modules/visitors/ModuleVisitorReferrerDetails.php?tl_referrer=<?php echo $Referrer[0]; ?>&amp;tl_vid=<?php echo $Referrer[2]; ?>"><img width="16" height="16" alt="Details" src="system/themes/<?php echo $this->theme; ?>/images/show.gif"></a><?php endif; ?></td>
+	    		<?php else : ?>
+	    			    <td style="text-align: center;" class="tl_file_list"><?php if ($Referrer[2]) : ?><a data-lightbox="details 770 600" title="Details" href="<?php echo $this->visitors_base; ?>system/modules/visitors/ModuleVisitorReferrerDetails.php?tl_referrer=<?php echo $Referrer[0]; ?>&amp;tl_vid=<?php echo $Referrer[2]; ?>"><img width="16" height="16" alt="Details" src="system/themes/<?php echo $this->theme; ?>/images/show.gif"></a><?php endif; ?></td>
+	    		<?php endif; ?>	    
 			</tr>
 	<?php endforeach; ?>
 			<tr>
