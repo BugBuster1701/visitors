@@ -67,6 +67,7 @@ class ModuleVisitorSearchEngine// extends Frontend
     const SEARCH_ENGINE_METACRAWLER   = 'Metacrawler';
     const SEARCH_ENGINE_KENNENSIEMICH = 'Kennensiemich.ch';
     const SEARCH_ENGINE_WERBUNGPUBLICRELATIONS1824 = 'WerbungPublicRelations1824';
+    const SEARCH_ENGINE_DUCKDUCKGO = 'DuckDuckGo';
 
     
     /**
@@ -140,6 +141,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 			$this->checkEngineSearchICQ()  ||
 			$this->checkEngineIncredimail() ||
 			$this->checkEngineGoogleBased() ||
+	        $this->checkEngineDuckduckgo()  ||
 			$this->checkEngineGeneric()     ||
 			false
 	    );
@@ -147,7 +149,6 @@ class ModuleVisitorSearchEngine// extends Frontend
     
 	protected function checkEngineGoogle()
 	{
-	    //if (preg_match('/http:\/\/.*\.google\..*\/(url|search|cse|imgres)/', $this->_http_referer ))
 	    if (preg_match('/http:\/\/plus\.google\..*\/url/', $this->_http_referer ))
 	    {
 	    	//no search engine!
@@ -533,6 +534,17 @@ class ModuleVisitorSearchEngine// extends Frontend
 			$this->_search_engine = self::SEARCH_ENGINE_INCREDIMAIL ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
 			return true;
+	    }
+	    return false;
+	}
+	
+	protected function checkEngineDuckduckgo()
+	{
+	    if (preg_match('/http:\/\/duckduckgo\.com\/post\.html/', $this->_http_referer ))
+	    {
+	        $this->_search_engine = self::SEARCH_ENGINE_DUCKDUCKGO ;
+	        //no parameter
+	        return true;
 	    }
 	    return false;
 	}

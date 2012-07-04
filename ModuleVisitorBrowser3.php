@@ -135,6 +135,16 @@
 /**
  * @author     Glen Langer (BugBuster); modified for Contao Module Visitors
  *
+ * 2012-07-02:
+ * + Samsung Galaxy Ace Plus
+ * + Samsung Galaxy Ace 2
+ * 
+ * 2012-06-15:
+ * + Galaxy S III
+ * + Galaxy Note
+ * + HTC Desire S
+ * + HTC Runnymede / HTC Sensation XL
+ *
  * 2012-04-22:
  * + checkBrowserMaxthon
  * 
@@ -219,20 +229,26 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_CHROME = 'Chrome';                          // http://www.google.com/chrome
 	
 	const BROWSER_ANDROID = 'Android';                        // http://www.android.com/
-	const BROWSER_GALAXY_S = 'Galaxy S';
-	const BROWSER_GALAXY_S_PLUS = 'Galaxy S Plus';
-	const BROWSER_GALAXY_S_II   = 'Galaxy S II';
-	const BROWSER_GALAXY_ACE    = 'Galaxy Ace';
-	const BROWSER_GALAXY_TAB    = 'Galaxy Tab';
+	const BROWSER_GALAXY_S        = 'Galaxy S';
+	const BROWSER_GALAXY_S_PLUS   = 'Galaxy S Plus';
+	const BROWSER_GALAXY_S_II     = 'Galaxy S II';
+	const BROWSER_GALAXY_S_III    = 'Galaxy S III';
+	const BROWSER_GALAXY_ACE      = 'Galaxy Ace';
+	const BROWSER_GALAXY_ACE_2    = 'Galaxy Ace 2';
+	const BROWSER_GALAXY_ACE_PLUS = 'Galaxy Ace Plus';
+	const BROWSER_GALAXY_NOTE     = 'Galaxy Note';
+	const BROWSER_GALAXY_TAB      = 'Galaxy Tab';
 	const BROWSER_SAMSUNG_GALAXY_NEXUS = 'Galaxy Nexus';      // Google Phone Android 4, add BugBuster
 	const BROWSER_SAMSUNG_NEXUS_S = 'Nexus S';                // Google Phone, add BugBuster
 	const BROWSER_HTC_Desire_HD   = 'HTC Desire HD';
 	const BROWSER_HTC_Desire_Z    = 'HTC Desire Z';
+	const BROWSER_HTC_Desire_S    = 'HTC Desire S';
 	const BROWSER_HTC_Desire      = 'HTC Desire';
 	const BROWSER_HTC_MAGIC       = 'HTC Magic';
 	const BROWSER_HTC_NEXUS_ONE   = 'HTC Nexus One'; 			  // Google Phone, add BugBuster
 	const BROWSER_HTC_SENSATION       = 'HTC Sensation';
 	const BROWSER_HTC_SENSATION_XE    = 'HTC Sensation XE';
+	const BROWSER_HTC_SENSATION_XL    = 'HTC Sensation XL';
 	const BROWSER_HTC_SENSATION_Z710  = 'HTC Sensation Z710';
 	const BROWSER_HTC_WILDFIRES_A510e = 'HTC WildfireS A510e';
 	const BROWSER_ACER_A501  = 'Acer A501 Tab';				  // (Android 3.x Tab), add BugBuster
@@ -1208,6 +1224,13 @@ class ModuleVisitorBrowser3 {
 			    $this->setBrowser(self::BROWSER_GALAXY_S_II);
 			    return true;
 	    	}
+	    	if( stripos($this->_agent,'GT-I9300') !== false )
+	    	{
+	    	    $this->setVersion(self::VERSION_UNKNOWN);
+	    	    $this->setMobile(true);
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S_III);
+	    	    return true;
+	    	}
 	    	if( stripos($this->_agent,'GT-S5830') !== false ) 
 	    	{
 	    		$this->setVersion(self::VERSION_UNKNOWN);
@@ -1215,11 +1238,32 @@ class ModuleVisitorBrowser3 {
 			    $this->setBrowser(self::BROWSER_GALAXY_ACE);
 			    return true;
 	    	}
+	    	if( stripos($this->_agent,'GT-I8160') !== false )
+	    	{
+	    	    $this->setVersion(self::VERSION_UNKNOWN);
+	    	    $this->setMobile(true);
+	    	    $this->setBrowser(self::BROWSER_GALAXY_ACE_2);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'GT-S7500') !== false )
+	    	{
+	    	    $this->setVersion(self::VERSION_UNKNOWN);
+	    	    $this->setMobile(true);
+	    	    $this->setBrowser(self::BROWSER_GALAXY_ACE_PLUS);
+	    	    return true;
+	    	}
 	    	if( stripos($this->_agent,'GT-I9250') !== false ) 
 	    	{
 	    	    $this->setVersion(self::VERSION_UNKNOWN);
 	    	    $this->setMobile(true);
 	    	    $this->setBrowser(self::BROWSER_SAMSUNG_GALAXY_NEXUS);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'GT-N7000') !== false )
+	    	{
+	    	    $this->setVersion(self::VERSION_UNKNOWN);
+	    	    $this->setMobile(true);
+	    	    $this->setBrowser(self::BROWSER_GALAXY_NOTE);
 	    	    return true;
 	    	}
 	    	if( stripos($this->_agent,'GT-P1000') !== false ||
@@ -1259,6 +1303,13 @@ class ModuleVisitorBrowser3 {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
                 $this->setBrowser(self::BROWSER_HTC_Desire_Z);
+                return true;
+            }
+            if( stripos($this->_agent,'HTC_DesireS') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_HTC_Desire_S);
                 return true;
             }
             if( stripos($this->_agent,'HTC_Desire')   !== false ||
@@ -1365,6 +1416,15 @@ class ModuleVisitorBrowser3 {
         	    $this->setVersion(self::VERSION_UNKNOWN);
         	    $this->setMobile(true);
         	    $this->setBrowser(self::BROWSER_HTC_SENSATION_XE);
+        	    return true;
+        	}
+        	if( stripos($this->_agent,'HTC_SensationXL')  !== false ||
+        	    stripos($this->_agent,'HTC Sensation XL') !== false ||
+        	    stripos($this->_agent,'HTC_Runnymede') !== false ) //usa name
+        	{
+        	    $this->setVersion(self::VERSION_UNKNOWN);
+        	    $this->setMobile(true);
+        	    $this->setBrowser(self::BROWSER_HTC_SENSATION_XL);
         	    return true;
         	}
         	if( stripos($this->_agent,'HTC_Sensation_Z710') !== false )
