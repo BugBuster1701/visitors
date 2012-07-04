@@ -87,11 +87,13 @@ class ModuleVisitorReferrer	//extends Frontend
 	protected function detect()
 	{
 	    $this->_referrer_DNS = parse_url( $this->_http_referrer, PHP_URL_HOST );
-	    if ($this->_referrer_DNS === NULL) {
+	    if ($this->_referrer_DNS === NULL) 
+	    {
 	    	//try this...
 	    	$this->_referrer_DNS = @parse_url( 'http://'.$this->_http_referrer, PHP_URL_HOST );
 	    	if ($this->_referrer_DNS === NULL || 
-	    	    $this->_referrer_DNS === false) {
+	    	    $this->_referrer_DNS === false) 
+	    	{
 	    		//wtf...
 	    		$this->_referrer_DNS = self::REFERRER_WRONG; 
 	    	}
@@ -101,6 +103,18 @@ class ModuleVisitorReferrer	//extends Frontend
 	    if ( $this->_referrer_DNS == $this->_vhost ) 
 	    {
 	    	$this->_referrer_DNS = self::REFERRER_OWN; 
+	    }
+
+	    //Special for Fake Google.com (GitHub #32)
+	    if ( rtrim($this->_http_referrer,"/") == 'http://www.google.com' ||
+	         rtrim($this->_http_referrer,"/") == 'https://www.google.com'  )
+	    {
+	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer is a fake.
+	    }
+	    //Special for DuckDuckGo (GitHub #33)
+	    if ( $this->_http_referrer == 'http://duckduckgo.com/post.html') 
+	    {
+	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was shortened.
 	    }
 	}
 	
