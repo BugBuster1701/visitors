@@ -76,7 +76,8 @@ class ModuleVisitorsTag extends Frontend
 
 		$visitors_category_id = (int)$arrTag[1];
 		$this->import('Database');
-		if ($arrTag[2] == 'count') {
+		if ($arrTag[2] == 'count') 
+		{
 			/* __________  __  ___   _____________   ________
 			  / ____/ __ \/ / / / | / /_  __/  _/ | / / ____/
 			 / /   / / / / / / /  |/ / / /  / //  |/ / / __  
@@ -99,15 +100,19 @@ class ModuleVisitorsTag extends Frontend
 			{
 			    $this->VisitorCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
 			    $this->VisitorCheckSearchEngine($objVisitors->id);
-			    if ($this->_BOT === false && $this->_SE === false) {
+			    if ($this->_BOT === false && $this->_SE === false) 
+			    {
 			    	$this->VisitorCheckReferrer($objVisitors->id);
 			    }
 			}
 			if ($GLOBALS['TL_CONFIG']['cacheMode'] === 'server' 
 			 || $GLOBALS['TL_CONFIG']['cacheMode'] === 'none'
-			 || $objVisitors->visitors_cache_mode == 1) {
+			 || $objVisitors->visitors_cache_mode == 1) 
+			{
 				return '<!-- counted -->'; // <img src="system/modules/visitors/leer.gif" alt="" /> // style="width:0px; height:0px; visibility:hidden; display:inline; left:-1000px; overflow:hidden; position:absolute; top:-1000px;"
-			} else {
+			} 
+			else 
+			{
 				return '<img src="system/modules/visitors/ModuleVisitorsCount.php?vkatid='.$visitors_category_id.'" alt="" />'; // style="width:0px; height:0px; visibility:hidden; display:inline; left:-1000px; overflow:hidden; position:absolute; top:-1000px;"
 			}
 		}

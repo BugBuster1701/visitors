@@ -123,6 +123,17 @@ class VisitorsRunonceJob extends Controller
 		    // Windows-2-Win8, leider nicht eindeutig.
 		    //$this->Database->execute("UPDATE `tl_visitors_browser` SET `visitors_os`='Win8' WHERE `visitors_os`='Windows' AND `visitors_browser` IN ('IE 9.0','IE 10.0')");
 		}
+		if ($this->Database->tableExists('tl_visitors_referrer'))
+		{
+		    // Fake Referrer
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer` WHERE visitors_referrer_dns like ? 
+                                      AND ( visitors_referrer_dns = SUBSTRING(visitors_referrer_full,-14)
+                                       OR   visitors_referrer_dns = SUBSTRING(visitors_referrer_full,-13)
+                                       OR  CONCAT(visitors_referrer_dns,'/') = SUBSTRING(visitors_referrer_full,-14)
+                                       OR  CONCAT(visitors_referrer_dns,'/') = SUBSTRING(visitors_referrer_full,-15))")
+		                   ->execute('%google%');
+		}
+		
 	} //function run
 } // class
 

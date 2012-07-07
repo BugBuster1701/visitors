@@ -68,11 +68,15 @@ class ModuleVisitorsCount extends Frontend
 									      ->executeUncached($visitors_category_id,1);
 			if ($objVisitors->numRows < 1) {
 			    $this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_katid'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
-			} else {
-				while ($objVisitors->next()) {
+			} 
+			else 
+			{
+				while ($objVisitors->next()) 
+				{
 				    $this->VisitorCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
 				    $this->VisitorCheckSearchEngine($objVisitors->id);
-				    if ($this->_BOT === false && $this->_SE === false) {
+				    if ($this->_BOT === false && $this->_SE === false) 
+				    {
 				    	$this->VisitorCheckReferrer($objVisitors->id);
 				    }
 				}
@@ -208,24 +212,32 @@ class ModuleVisitorsCount extends Frontend
 			    /* Variante 3 */
 			    $this->import('ModuleVisitorBrowser3');
 				$this->ModuleVisitorBrowser3->initBrowser($this->Environment->httpUserAgent,implode(",", $this->Environment->httpAcceptLanguage));
-				if ($this->ModuleVisitorBrowser3->getLang() === null) {
+				if ($this->ModuleVisitorBrowser3->getLang() === null) 
+				{
 					log_message("ModuleVisitorBrowser3 Systemerror","error.log");
 			    	$this->log("ModuleVisitorBrowser3 Systemerror",'ModulVisitors', TL_ERROR);
-			    } else {
+			    } 
+			    else 
+			    {
 			    	$arrBrowser['Browser']  = $this->ModuleVisitorBrowser3->getBrowser();
 					$arrBrowser['Version']  = $this->ModuleVisitorBrowser3->getVersion();
 					$arrBrowser['Platform'] = $this->ModuleVisitorBrowser3->getPlatformVersion();
 					$arrBrowser['lang']     = $this->ModuleVisitorBrowser3->getLang();
 				    //Anpassen an Version 1 zur Weiterverarbeitung
-				    if ($arrBrowser['Browser'] == 'unknown') {
+				    if ($arrBrowser['Browser'] == 'unknown') 
+				    {
 				    	$arrBrowser['Browser'] = 'Unknown';
 				    }
-				    if ($arrBrowser['Version'] == 'unknown') {
+				    if ($arrBrowser['Version'] == 'unknown') 
+				    {
 				    	$arrBrowser['brversion'] = $arrBrowser['Browser'];
-				    } else {
+				    } 
+				    else 
+				    {
 				    	$arrBrowser['brversion'] = $arrBrowser['Browser'] . ' ' . $arrBrowser['Version'];
 				    }
-				    if ($arrBrowser['Platform'] == 'unknown') {
+				    if ($arrBrowser['Platform'] == 'unknown') 
+				    {
 				    	$arrBrowser['Platform'] = 'Unknown';
 				    }
 				    //if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == '0' ) {
@@ -240,7 +252,8 @@ class ModuleVisitorsCount extends Frontend
 					                                            )
 				                                    	->executeUncached($vid, $arrBrowser['brversion'], $arrBrowser['Platform'], $arrBrowser['lang']);
 				    //setzen
-				    if ($objBrowserCounter->numRows < 1) {
+				    if ($objBrowserCounter->numRows < 1) 
+				    {
 				        // Insert
 				        $arrSet = array
 			            (
@@ -251,7 +264,9 @@ class ModuleVisitorsCount extends Frontend
 			                'visitors_counter'  => 1
 			            );
 					    $this->Database->prepare("INSERT INTO tl_visitors_browser %s")->set($arrSet)->executeUncached();
-				    } else {
+				    } 
+				    else 
+				    {
 				    	//Update
 				        $objBrowserCounter->next();
 				        $visitors_counter = $objBrowserCounter->visitors_counter +1;

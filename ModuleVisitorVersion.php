@@ -16,7 +16,7 @@
  */
 
 // require_once(TL_ROOT . '/system/modules/visitors/ModuleVisitorVersion.php');
-define('VISITORS_VERSION', '2.6');
-define('VISITORS_BUILD'  , '3');
+define('VISITORS_VERSION', '2.7');
+define('VISITORS_BUILD'  , '0');
 
 ?>
