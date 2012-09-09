@@ -2,10 +2,10 @@
 /**
  * TL_ROOT/system/modules/visitors/languages/fa/default.php 
  * 
- * Contao extension: visitors 2.5.4 stable 
+ * Contao extension: visitors 2.6.0 stable 
  * Persian translation file 
  * 
- * Copyright : &copy; 2009..2011 Glen Langer 
+ * Copyright : &copy; 2009..2012 Glen Langer 
  * License   : LGPL 
  * Author    : Glen Langer (BugBuster), http://www.contao.glen-langer.de 
  * Translator: Hamid Abbaszadeh (respinar), http://www.contao.ir/ 
@@ -51,13 +51,20 @@ $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['parameter'] = "پارامتر";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['initial_values'] = "مقادیر اولیه";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_version'] = "ویرایش‌ها";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_lang'] = "زبان‌ها";
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_os'] = "سیستم‌عامل‌ها";
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_top10'] = "مرور ۱۰ برتر";
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_top20'] = "مرور ۲۰ برتر";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_unknown'] = "نامعلوم";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_known'] = "معلوم";
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_osdif'] = "متقاوت";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['chart_red'] = "قرمز";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['chart_green'] = "سبز";
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_no_data'] = "داده‌ای موجود نیست.";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchenginekeywords'] = "کلیدواژه‌ها";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine'] = "موتور جستجو";
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['over'] = "از طریق";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['number'] = "شماره";
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_dns'] = "دامنه";
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_direct'] = "درخواست مستقیم";
  
 ?>
