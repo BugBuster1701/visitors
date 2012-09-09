@@ -29,7 +29,7 @@ class ModuleVisitorReferrer	//extends Frontend
 	/**
 	 * Current version of the class.
 	 */
-	const VERSION          = '0.2';
+	const VERSION          = '0.3';
 	
     private $_http_referrer = '';
     
@@ -113,6 +113,11 @@ class ModuleVisitorReferrer	//extends Frontend
 	    }
 	    //Special for DuckDuckGo (GitHub #33)
 	    if ( $this->_http_referrer == 'http://duckduckgo.com/post.html') 
+	    {
+	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was shortened.
+	    }
+	    //Special for http:// (GitHub #37)
+	    if ( $this->_http_referrer == 'http://' || $this->_http_referrer == 'http:/' )
 	    {
 	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was shortened.
 	    }

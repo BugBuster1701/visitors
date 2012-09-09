@@ -135,6 +135,9 @@
 /**
  * @author     Glen Langer (BugBuster); modified for Contao Module Visitors
  *
+ * 2012-09-08:
+ * + Asus Transformer Pad
+ * 
  * 2012-07-02:
  * + Samsung Galaxy Ace Plus
  * + Samsung Galaxy Ace 2
@@ -255,6 +258,7 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_ACER_A500  = 'Acer A500 Tab';				  // (Android 3.x Tab), add BugBuster
 	const BROWSER_LENOVO_THINKPAD_TABLET = 'ThinkPad Tab'; 	  // (Android 3.x Tab), add BugBuster
 	const BROWSER_MOTOROLA_XOOM_TABLET   = 'Motorola Xoom Tab';	// (Android 3/4 Tab), add BugBuster
+	const BROWSER_ASUS_TRANSFORMER_PAD   = 'ASUS Transformer Pad'; // (Android 4 Tab), add BugBuster
 	
 	const BROWSER_GOOGLEBOT = 'GoogleBot';                    // http://en.wikipedia.org/wiki/Googlebot
 	const BROWSER_SLURP = 'Yahoo! Slurp';                     // http://en.wikipedia.org/wiki/Yahoo!_Slurp
@@ -511,7 +515,7 @@ class ModuleVisitorBrowser3 {
 			$this->checkBrowserSeaMonkey()  ||	//add BugBuster
 			$this->checkBrowserChromePlus() ||	//add BugBuster
 		    $this->checkBrowserCoolNovo()   ||	//add BugBuster
-			$this->checkBrowserChrome() ||
+			
 			$this->checkBrowserOmniWeb() ||
 
 			// common mobile
@@ -526,6 +530,7 @@ class ModuleVisitorBrowser3 {
 			$this->checkBrowserAndroidSamsungNexusS()  || //add BugBuster
 			$this->checkBrowserAndroidThinkPadTablet() || //add BugBuster
 			$this->checkBrowserAndroidXoomTablet()     || //add BugBuster
+			$this->checkBrowserAndroidAsusTransfomerPad() || //add BugBuster
 			//at last Android only!
 			$this->checkBrowserAndroid() ||
 
@@ -539,7 +544,8 @@ class ModuleVisitorBrowser3 {
 			//$this->checkBrowserGoogleBot() ||
 			//$this->checkBrowserMSNBot() ||
 			//$this->checkBrowserSlurp() ||
-
+		    // chrome post Android Pads
+		    $this->checkBrowserChrome() ||
 			// WebKit base check (post mobile and others)
 			$this->checkBrowserSafari() ||
 			// Opera Mini must check post mobile
@@ -1252,7 +1258,8 @@ class ModuleVisitorBrowser3 {
 	    	    $this->setBrowser(self::BROWSER_GALAXY_ACE_PLUS);
 	    	    return true;
 	    	}
-	    	if( stripos($this->_agent,'GT-I9250') !== false ) 
+	    	if( stripos($this->_agent,'GT-I9250') !== false ||
+	    	    stripos($this->_agent,'Galaxy Nexus Build') !== false ) 
 	    	{
 	    	    $this->setVersion(self::VERSION_UNKNOWN);
 	    	    $this->setMobile(true);
@@ -1576,6 +1583,25 @@ class ModuleVisitorBrowser3 {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
                 $this->setBrowser(self::BROWSER_MOTOROLA_XOOM_TABLET);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Determine if the browser is a Asus Transfomer Pad or not, add by BugBuster
+     * @return boolean True if the browser is a Asus Transfomer Pad otherwise false
+     */
+    protected function checkBrowserAndroidAsusTransfomerPad()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'ASUS Transformer Pad') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setMobile(true);
+                $this->setBrowser(self::BROWSER_ASUS_TRANSFORMER_PAD);
                 return true;
             }
         }

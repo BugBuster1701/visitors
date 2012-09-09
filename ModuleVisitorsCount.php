@@ -138,8 +138,15 @@ class ModuleVisitorsCount extends Frontend
                                      ." AND vid=? AND visitors_type=?")
                              	   ->executeUncached($ClientIP, $vid, 'h');
         //Hits setzen
-	    if ($objHitCounter->numRows < 1) {
-	    	if ($objHitIP->numRows < 1) {
+	    if ($objHitCounter->numRows < 1) 
+	    {
+	    	if ($objHitIP->numRows < 1) 
+	    	{
+	    	    //first block
+	    	    $this->Database->prepare("INSERT INTO tl_visitors_blocker"
+        	    	            ." SET vid=?, visitors_tstamp=CURRENT_TIMESTAMP, visitors_ip=?, visitors_type=?")
+        	    	           ->executeUncached($vid, $ClientIP, 'h');
+	    	    
 		        // Insert
 		        $arrSet = array
 	            (
@@ -148,27 +155,32 @@ class ModuleVisitorsCount extends Frontend
 	                'visitors_visit'    => 1,
 	                'visitors_hit'      => 1
 	            );
-			    $this->Database->prepare("INSERT INTO tl_visitors_counter %s")->set($arrSet)->executeUncached();
-    	        $this->Database->prepare("INSERT INTO tl_visitors_blocker"
-				                       ." SET vid=?, visitors_tstamp=CURRENT_TIMESTAMP, visitors_ip=?, visitors_type=?")
-				               ->executeUncached($vid, $ClientIP, 'h');
-	    	} else {
+			    $this->Database->prepare("INSERT IGNORE INTO tl_visitors_counter %s")->set($arrSet)->executeUncached();
+
+	    	} 
+	    	else 
+	    	{
 	    		$this->_PF = true;
 	    	}
 		    $visitors_hits=1;
 		    $visitors_visit=1;
-	    } else {
+	    } 
+	    else 
+	    {
 	        $objHitCounter->next();
 	        $visitors_hits = $objHitCounter->visitors_hit +1;
 	        $visitors_visit= $objHitCounter->visitors_visit +1; // wird nur gesetzt wenn auch neuer Besucher
-			if ($objHitIP->numRows < 1) {
+			if ($objHitIP->numRows < 1) 
+			{
 		        // Update
 		    	$this->Database->prepare("UPDATE tl_visitors_counter SET visitors_hit=? WHERE id=?")
 		    	               ->executeUncached($visitors_hits, $objHitCounter->id);
 		    	$this->Database->prepare("INSERT INTO tl_visitors_blocker"
 				                       ." SET vid=?, visitors_tstamp=CURRENT_TIMESTAMP, visitors_ip=?, visitors_type=?")
 				               ->executeUncached($vid, $ClientIP, 'h');
-			} else {
+			} 
+			else 
+			{
 	    		$this->_PF = true;
 	    	}
 	    }
@@ -179,7 +191,8 @@ class ModuleVisitorsCount extends Frontend
 	                                         ." WHERE visitors_ip=?"
 	                                         ." AND vid=? AND visitors_type=?")
 	                                 ->executeUncached($ClientIP, $vid, 'v');
-	    if ($objVisitIP->numRows < 1) {
+	    if ($objVisitIP->numRows < 1) 
+	    {
 	        // Insert IP + Update Visits
 	        $this->Database->prepare("INSERT INTO tl_visitors_blocker"
 	                               ." SET vid=?, visitors_tstamp=CURRENT_TIMESTAMP, visitors_ip=?, visitors_type=?")
@@ -188,7 +201,9 @@ class ModuleVisitorsCount extends Frontend
 	                               ." WHERE visitors_date=?"
 	                               ." AND vid=?")
 	    	               ->executeUncached($visitors_visit, $CURDATE, $vid);
-	    } else {
+	    } 
+	    else 
+	    {
 	    	// Update tstamp
 	    	$this->Database->prepare("UPDATE tl_visitors_blocker"
 	    	                       ." SET visitors_tstamp=CURRENT_TIMESTAMP"
@@ -197,9 +212,11 @@ class ModuleVisitorsCount extends Frontend
 	    	               ->executeUncached($ClientIP, $vid, 'v');
 	    	$this->_VB = true;
 	    }
-	    if ($objVisitIP->numRows < 1) { //Browser Check wenn nicht geblockt
+	    if ($objVisitIP->numRows < 1) 
+	    { //Browser Check wenn nicht geblockt
 		    //Only counting if User Agent is set.
-		    if ( strlen($this->Environment->httpUserAgent)>0 ) {
+		    if ( strlen($this->Environment->httpUserAgent)>0 ) 
+		    {
 			    /* Variante 2 */
 			    /*
 			    $this->import('ModuleVisitorBrowser2');
