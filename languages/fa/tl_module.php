@@ -1,6 +1,6 @@
 <?php
 /**
- * TL_ROOT/system/modules/visitors/languages/fa/modules.php 
+ * TL_ROOT/system/modules/visitors/languages/fa/tl_module.php 
  * 
  * Contao extension: visitors 2.6.0 stable 
  * Persian translation file 
@@ -15,9 +15,7 @@
  * permanent text corrections which are update-safe. 
  */
  
-$GLOBALS['TL_LANG']['MOD']['visitors']['0'] = "بازدیدکنندگان";
-$GLOBALS['TL_LANG']['MOD']['visitorstat']['0'] = "آمارهای بازدید";
-$GLOBALS['TL_LANG']['FMD']['visitors']['0'] = "بازدیدکنندگان";
-$GLOBALS['TL_LANG']['FMD']['visitors']['1'] = "شمارش کلیک‌ها و بازدیدها";
+$GLOBALS['TL_LANG']['tl_module']['visitors_categories']['0'] = "دسته بازدیدها";
+$GLOBALS['TL_LANG']['tl_module']['visitors_template']['0'] = "قالب شمارشگر";
  
 ?>
