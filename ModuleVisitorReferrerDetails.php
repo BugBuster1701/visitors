@@ -87,7 +87,7 @@ echo '
 <body id="top">
 <div id="main">
 	<br />
-	<h1 class="main_headline">'.$GLOBALS['TL_LANG']['tl_visitors_referrer']['details_for'].': '.$this->Input->get('tl_referrer',true).'</h1>
+	<h1 class="main_headline">'.$GLOBALS['TL_LANG']['tl_visitors_referrer']['details_for'].': '.str_rot13($this->Input->get('tl_referrer',true)).'</h1>
 	<br /><br />
 	<div class="tl_formbody_edit">
 		<table cellpadding="0" cellspacing="0" summary="Table lists records" class="mod_visitors_be_table_max">
@@ -107,14 +107,14 @@ echo '
 						                     . " WHERE `visitors_referrer_dns` = ?"
 						                     . " AND `vid` = ?"
 						                     . " GROUP BY 1 ORDER BY 2 DESC")
-        			       ->execute($this->Input->get('tl_referrer',true),$this->Input->get('tl_vid',true));
+        			       ->execute(str_rot13($this->Input->get('tl_referrer',true)),$this->Input->get('tl_vid',true));
 		$intRows = $objDetails->numRows;
 		if ($intRows > 0) {
 	        while ($objDetails->next())
 	        {
 				echo '
 			<tr>
-				<td class="tl_file_list" style="padding-left: 2px; text-align: left;">'.$objDetails->visitors_referrer_full.'</td>
+				<td class="tl_file_list" style="padding-left: 2px; text-align: left;">'.rawurldecode(htmlspecialchars($objDetails->visitors_referrer_full)).'</td>
 				<td class="tl_file_list" style="padding-left: 2px; text-align: left;">'.date($GLOBALS['TL_CONFIG']['datimFormat'],$objDetails->maxtstamp).'</td>
 				<td class="tl_file_list" style="text-align: center;">'.$objDetails->ANZ.'</td>
 			</tr>';

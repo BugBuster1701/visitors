@@ -352,8 +352,8 @@ class ModuleVisitorsTag extends Frontend
 	                'visitors_date'     => $CURDATE,
 	                'visitors_visit'    => 1,
 	                'visitors_hit'      => 1
-	            );
-			    $this->Database->prepare("INSERT INTO tl_visitors_counter %s")->set($arrSet)->executeUncached();
+	            ); 
+			    $this->Database->prepare("INSERT IGNORE INTO tl_visitors_counter %s")->set($arrSet)->executeUncached();
 	    	} 
 	    	else 
 	    	{

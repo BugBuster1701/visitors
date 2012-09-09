@@ -2,6 +2,8 @@
 sammel/
 tests/
 z_alt/
+html/
+.gitignore
 iconVisitor.pspimage
 Bearbeiten1.txt
 Bearbeiten2.txt

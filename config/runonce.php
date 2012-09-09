@@ -134,6 +134,50 @@ class VisitorsRunonceJob extends Controller
 		                   ->execute('%google%');
 		}
 		
+		// Doppeleintraege eliminieren (2.7.1)
+		if ($this->Database->tableExists('tl_visitors_counter'))
+		{
+		    $objMulti = $this->Database->prepare("SELECT `vid`,`visitors_date`,count( `id` ) as Anzahl
+                                                      FROM `tl_visitors_counter`
+                                                      GROUP BY 1,2
+                                                      HAVING count( `id` ) >1")
+		                                ->execute();
+		    while ($objMulti->next())
+		    {
+		        $currentRow = 0;
+		        $visits     = 0;
+		        $hits       = 0;
+		        $realId     = 0;
+		        $objMultiRows = $this->Database->prepare("SELECT `id`,`vid`,`visitors_date`,`visitors_visit`, `visitors_hit`
+                                                            FROM `tl_visitors_counter`
+                                                            WHERE `vid`=? AND `visitors_date`=?
+                                                            ORDER BY `visitors_visit` DESC")
+                                               ->execute($objMulti->vid, $objMulti->visitors_date);
+		        while ($objMultiRows->next())
+		        {
+		            $currentRow++;
+    		        if ($currentRow == 1) 
+    		        {
+    		            $realId = $objMultiRows->id;
+    		        }
+    		        else 
+    		        {
+    		            $objUpdate = $this->Database->prepare("UPDATE `tl_visitors_counter`
+    		                                                   SET `visitors_visit`=`visitors_visit`+ ?
+    		                                                     , `visitors_hit`  =`visitors_hit`  + ?
+    		                                                   WHERE `id`=?")
+    		                                        ->execute($objMultiRows->visitors_visit, 
+    		                                                  $objMultiRows->visitors_hit, 
+    		                                                  $realId);
+
+    		            $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_counter`
+    		                                                   WHERE `id`=?")
+    		                                        ->execute($objMultiRows->id);
+    		        }
+		        } //while $objMultiRows
+		    } //while $objMulti
+		} //if tl_visitors_counter
+		
 	} //function run
 } // class
 

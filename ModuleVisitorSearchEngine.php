@@ -1,14 +1,14 @@
 <?php
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Copyright (C) 2005-2012 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  * 
  * Modul Visitors SearchEngine - Frontend
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2011
+ * @copyright  Glen Langer 2009..2012
  * @author     Glen Langer 
  * @package    GLVisitors 
  * @license    LGPL 
@@ -21,7 +21,7 @@
  * 
  * Check for searchengines in referrer
  *
- * @copyright  Glen Langer 2011
+ * @copyright  Glen Langer 2012
  * @author     Glen Langer 
  * @package    GLVisitors
  * @license    LGPL 
@@ -68,6 +68,8 @@ class ModuleVisitorSearchEngine// extends Frontend
     const SEARCH_ENGINE_KENNENSIEMICH = 'Kennensiemich.ch';
     const SEARCH_ENGINE_WERBUNGPUBLICRELATIONS1824 = 'WerbungPublicRelations1824';
     const SEARCH_ENGINE_DUCKDUCKGO = 'DuckDuckGo';
+    const SEARCH_ENGINE_SUMAJA     = 'Sumaja';
+    const SEARCH_ENGINE_DELICIOUS  = 'Delicious';
 
     
     /**
@@ -142,6 +144,8 @@ class ModuleVisitorSearchEngine// extends Frontend
 			$this->checkEngineIncredimail() ||
 			$this->checkEngineGoogleBased() ||
 	        $this->checkEngineDuckduckgo()  ||
+	        $this->checkEngineSumaja()      ||
+	        $this->checkEngineDelicious()   ||
 			$this->checkEngineGeneric()     ||
 			false
 	    );
@@ -247,7 +251,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineYahoo()
 	{
-	    if (preg_match('/(http:\/\/.*\.search\.yahoo\..*\/search|http:\/\/search\.yahoo\..*\/search)/', $this->_http_referer ))
+	    if (preg_match('/(http:\/\/.*\.search\.yahoo\..*\/search|http:\/\/search\.yahoo\..*\/search|http:\/\/.*\.images\.search\.yahoo\..*\/images|http:\/\/images\.search\.yahoo\..*\/images)/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_YAHOO  ;
 			if ( isset($this->_parse_result['p']) ) { $this->_keywords = $this->_parse_result['p']; }
@@ -280,7 +284,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineWebde()
 	{
-	    if (preg_match('/http:\/\/suche\.web\.de\/search/', $this->_http_referer ))
+	    if (preg_match('/http:\/\/suche\.web\.de\/search|http:\/\/suche\.web\.de\/web/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_WEBDE ;
 			if ( isset($this->_parse_result['su']) ) { $this->_keywords = $this->_parse_result['su']; }
@@ -544,6 +548,34 @@ class ModuleVisitorSearchEngine// extends Frontend
 	    {
 	        $this->_search_engine = self::SEARCH_ENGINE_DUCKDUCKGO ;
 	        //no parameter
+	        return true;
+	    }
+	    return false;
+	}
+	
+	protected function checkEngineSumaja()
+	{
+	    if (preg_match('/http:\/\/www\.sumaja\.de\//', $this->_http_referer ))
+	    {
+	        $this->_search_engine = self::SEARCH_ENGINE_SUMAJA ;
+	        if ( isset($this->_parse_result['such_wert']) ) 
+	        {
+	            $this->_keywords = $this->_parse_result['such_wert'];
+	        }
+	        return true;
+	    }
+	    return false;
+	}
+	
+	protected function checkEngineDelicious()
+	{
+	    if (preg_match('/http:\/\/www\.delicious\.com\/search/', $this->_http_referer ))
+	    {
+	        $this->_search_engine = self::SEARCH_ENGINE_DELICIOUS ;
+	        if ( isset($this->_parse_result['p']) )
+	        {
+	            $this->_keywords = $this->_parse_result['p'];
+	        }
 	        return true;
 	    }
 	    return false;

@@ -61,7 +61,7 @@ CREATE TABLE `tl_visitors_counter` (
   `visitors_visit` int(10) unsigned NOT NULL default '0', 
   `visitors_hit` int(10) unsigned NOT NULL default '0', 
   PRIMARY KEY  (`id`),
-  KEY `vid` (`vid`)
+  UNIQUE KEY `vid_date` (`vid`, `visitors_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
