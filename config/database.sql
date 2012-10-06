@@ -18,7 +18,6 @@ CREATE TABLE `tl_visitors_category` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `tstamp` int(10) unsigned NOT NULL default '0',
   `title` varchar(60) NOT NULL default '', 
-  `visitors_template` varchar(32) NOT NULL default '', 
   `visitors_cache_mode` tinyint(3) unsigned NOT NULL default '1', 
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

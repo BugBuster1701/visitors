@@ -109,7 +109,6 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 	'palettes' => array
 	(
 		//'__selector__'                => array(''),
-		//'default'                     => '{title_legend},title,visitors_template;{cache_legend:hide},visitors_cache_mode'
 		'default'                     => '{title_legend},title;{cache_legend:hide},visitors_cache_mode'
 	),
 
@@ -130,16 +129,7 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>true, 'maxlength'=>60, 'tl_class'=>'w50')
 		),
-		'visitors_template'           => array // nicht mehr in palette
-		(
-            'label'                   => &$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_template'],
-            'default'                 => 'mod_visitors_fe_all',
-            'exclude'                 => true,
-            'inputType'               => 'select',
-            'options'                 => $this->getTemplateGroup('mod_visitors_fe_'),
-            'eval'                    => array('tl_class'=>'w50')
-		),
-		'visitors_cache_mode'        => array
+		'visitors_cache_mode' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode'],
 			'exclude'                 => true,

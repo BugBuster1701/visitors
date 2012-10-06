@@ -55,7 +55,7 @@ class ModuleVisitorsCount extends \Frontend
 
 	public function run()
 	{
-		require_once(TL_ROOT . '/system/modules/visitors/ModuleVisitorVersion.php');
+		require_once(TL_ROOT . '/system/modules/visitors/VisitorVersion.php');
 		//Parameter holen
 		if ((int)\Input::get('vkatid')>0) {
 			$visitors_category_id = (int)\Input::get('vkatid');
@@ -223,15 +223,6 @@ class ModuleVisitorsCount extends \Frontend
 		    //Only counting if User Agent is set.
 		    if ( strlen(\Environment::get('httpUserAgent'))>0 ) 
 		    {
-			    /* Variante 2 */
-			    /*
-			    $this->import('ModuleVisitorBrowser2');
-			    $arrBrowser = $this->ModuleVisitorBrowser2->getBrowser($this->Environment->httpUserAgent, true, implode(",", $this->Environment->httpAcceptLanguage));
-			    if (count($arrBrowser) === 0) {
-			    	log_message("ModuleVisitorBrowser2 Systemerror browscap.ini cache.php","error.log");
-			    	$this->log("ModuleVisitorBrowser2 Systemerror browscap.ini cache.php",'ModulVisitors Update '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
-			    } 
-			    */
 			    /* Variante 3 */
 			    $this->import('\Visitors\ModuleVisitorBrowser3','ModuleVisitorBrowser3');
 				$this->ModuleVisitorBrowser3->initBrowser(\Environment::get('httpUserAgent'),implode(",", \Environment::get('httpAcceptLanguage')));
@@ -374,8 +365,6 @@ class ModuleVisitorsCount extends \Frontend
 	
 } // class
 
-// Version
-require_once(TL_ROOT . '/system/modules/visitors/ModuleVisitorVersion.php');
 /**
  * Instantiate controller
  */

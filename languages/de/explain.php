@@ -1,4 +1,5 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
+
 /**
  * Contao Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
@@ -10,7 +11,7 @@
  * Language file for explains (de).
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2010
+ * @copyright  Glen Langer 2009..2012
  * @author     Glen Langer
  * @package    VisitorsLanguage
  * @license    LGPL
@@ -44,5 +45,3 @@ $GLOBALS['TL_LANG']['XPL']['visitors_help_module'] = array
 		'Genaue Anleitung dazu sind im Wiki / Forum zu finden.'
 	)
 );
-
-?>

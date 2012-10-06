@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
  * Contao Open Source CMS
@@ -11,7 +11,7 @@
  * Language file for table tl_visitors_category (en).
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2010 
+ * @copyright  Glen Langer 2009..2012 
  * @author     Glen Langer 
  * @package    VisitorsLanguage 
  * @license    LGPL 
@@ -23,7 +23,6 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_visitors_category']['title']              = array('Title', 'Please enter the title of the category.');
-//$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_template']  = array('Counter Template', 'Please choose the Counter-Template. Counter template files start with <em>mod_visitors_fe_</em>.'); 
 $GLOBALS['TL_LANG']['tl_visitors_category']['tstamp']             = array('Revision date', 'Date and time of latest revision');
 $GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']= array('Counting mode', 'Counting method when pages are cached.');
 
@@ -49,5 +48,3 @@ $GLOBALS['TL_LANG']['tl_visitors_category']['copy']   = array('Copy category', '
 $GLOBALS['TL_LANG']['tl_visitors_category']['delete'] = array('Delete category', 'Delete category ID %s');
 $GLOBALS['TL_LANG']['tl_visitors_category']['show']   = array('Category details', 'Show details of category ID %s');
 $GLOBALS['TL_LANG']['tl_visitors_category']['stat']   = array('Category statistic', 'Show counter statistic for category ID %s');
-
-?>

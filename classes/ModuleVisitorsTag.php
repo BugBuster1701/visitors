@@ -24,7 +24,7 @@ namespace BugBuster\Visitors;
 /**
  * Class ModuleVisitorsTag 
  *
- * @copyright  Glen Langer 2011
+ * @copyright  Glen Langer 2011..2012
  * @author     Glen Langer 
  * @package    GLVisitors
  * @license    LGPL 
@@ -63,9 +63,9 @@ class ModuleVisitorsTag extends \Frontend
 	 * @param string $strTag
 	 * @return bool / string
 	 */
-	public function ViReplaceInsertTags($strTag)
+	public function ReplaceInsertTagsVisitors($strTag)
 	{
-		require_once(TL_ROOT . '/system/modules/visitors/ModuleVisitorVersion.php');
+		require_once(TL_ROOT . '/system/modules/visitors/VisitorVersion.php');
 		$arrTag = trimsplit('::', $strTag);
 		if ($arrTag[0] != 'visitors')
 		{

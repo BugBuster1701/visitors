@@ -16,6 +16,6 @@
  * @filesource
  */
 
-// require_once(TL_ROOT . '/system/modules/visitors/ModuleVisitorVersion.php');
+// require_once(TL_ROOT . '/system/modules/visitors/VisitorVersion.php');
 define('VISITORS_VERSION', '3.0');
 define('VISITORS_BUILD'  , 'alpha1');

@@ -54,4 +54,4 @@ array_insert($GLOBALS['FE_MOD']['miscellaneous'], 0, array
  * HOOKS
  * -------------------------------------------------------------------------
  */
-$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('Visitors\ModuleVisitorsTag', 'ViReplaceInsertTags');
+$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('Visitors\ModuleVisitorsTag', 'ReplaceInsertTagsVisitors');

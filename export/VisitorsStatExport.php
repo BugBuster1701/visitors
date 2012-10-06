@@ -119,6 +119,7 @@ class VisitorsStatExport extends \Backend // Backend bringt DB mit
                                              . " ORDER BY tvc.title, tv.id, tvs.visitors_date")
 					                 ->execute($intVisitorKatId);
 	    $objExport->export($objVisitors,$this->strExportDelimiter,$intVisitorKatId);
+	    exit;
 	}
 }
 

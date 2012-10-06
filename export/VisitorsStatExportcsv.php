@@ -43,23 +43,27 @@ class VisitorsStatExportcsv
 	    //IE or other?
 	    $log_version ='';
         $HTTP_USER_AGENT = getenv("HTTP_USER_AGENT");
-        if (preg_match('@MSIE ([0-9].[0-9]{1,2})@', $HTTP_USER_AGENT, $log_version)) {
+        if (preg_match('@MSIE ([0-9].[0-9]{1,2})@', $HTTP_USER_AGENT, $log_version)) 
+        {
             $this->BrowserAgent = 'IE';
         } else {
             $this->BrowserAgent = 'NOIE';
         }
 	}
 	
-    public function getLibName() {
+    public function getLibName() 
+    {
         return $this->ExportLib;
     }
     
-    public function export($objVisitors,$csv_delimiter,$intVisitorKatId) {
+    public function export($objVisitors,$csv_delimiter,$intVisitorKatId) 
+    {
         // Download
         header('Content-Type: text/comma-separated-values');
         header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         header('Content-Disposition: attachment; filename="VisitorsStatExport-'.$intVisitorKatId.'.utf8.csv"');
-        if ($this->BrowserAgent == 'IE') {
+        if ($this->BrowserAgent == 'IE') 
+        {
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
         } else {

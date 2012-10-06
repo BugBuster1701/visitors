@@ -152,27 +152,15 @@ window.onload = function(){ // Better use use a modern onDomReady-Event instead
 		<div style="float:left; padding-left: 4px; text-align:center;"><span style="font-weight: bold;"><?php echo $this->visitors_exportfield; ?>:</span>
 			<br><span style="font-weight: normal;"><?php echo "(".$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit'].",".$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit'].")" ?></span>
 		</div>
-       	<div style="float:left; padding-left: 6px;">
-            <form method="get" class="popup info" action="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=csvc&amp;tl_katid=<?php echo $this->visitorskatid; ?>">
-            <div class="tl_formbody">
-                <input type="submit" value="CSV ','" alt="Export CSV ," class="tl_submit">
-            </div>
-            </form>
+		<div class="tl_submit" style="float:left; padding: 7px; margin-left: 6px;">
+			<a href="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=csvc&amp;tl_katid=<?php echo $this->visitorskatid; ?>">CSV ','</a>
         </div>
-        	<div style="float:left; padding-left: 6px;">
-            <form method="get" class="popup info" action="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=csvs&amp;tl_katid=<?php echo $this->visitorskatid; ?>">
-            <div class="tl_formbody">
-                <input type="submit" value="CSV ';'" alt="Export CSV ;" class="tl_submit">
-            </div>
-            </form>
-         </div>
-         <div style="float:left; padding-left: 6px;">
-            <form method="get" class="popup info" action="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=excel&amp;tl_katid=<?php echo $this->visitorskatid; ?>">
-            <div class="tl_formbody">
-                <input type="submit" value="Excel" alt="Export Excel" class="tl_submit">
-            </div>
-            </form>
-         </div>	
+		<div class="tl_submit" style="float:left; padding: 7px; margin-left: 6px;">
+			<a href="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=csvs&amp;tl_katid=<?php echo $this->visitorskatid; ?>">CSV ';'</a>
+        </div>
+        <div class="tl_submit" style="float:left; padding: 7px; margin-left: 6px; opacity: 0.3;">
+        	Excel<!-- <a href="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=excel&amp;tl_katid=<?php echo $this->visitorskatid; ?>">Excel</a>  -->
+        </div>
 	</div>
 	<!-- Export Zeile Ende //-->
 <?php endif; ?>
