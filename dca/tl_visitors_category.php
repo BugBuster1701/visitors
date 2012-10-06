@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
  * Contao Open Source CMS
@@ -11,7 +11,7 @@
  * This is the data container array for table tl_visitors_category.
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2011 
+ * @copyright  Glen Langer 2009..2012
  * @author     Glen Langer 
  * @package    GLVisitors 
  * @license    LGPL 
@@ -24,11 +24,11 @@ class tl_visitors_category extends Backend
 	{
 		$label_1 = $arrRow['title'];
 		$label_2 = ' <span style="color: #B3B3B3;">[ID:'.$arrRow['id'].']</span>';
-		if (version_compare(VERSION . '.' . BUILD, '2.8.9', '>'))
+		if (version_compare(VERSION , '2.99', '>'))
 		{
 			$version_warning = '';
 		} else {
-			$version_warning = '<br /><span style="color:#ff0000;">[ERROR: Visitors-Module requires at least Contao 2.9]</span>';
+			$version_warning = '<br /><span style="color:#ff0000;">[ERROR: Visitors-Module requires at least Contao 3.0]</span>';
 		}
 		return $label_1 . $label_2 . $version_warning;//. '<br /><span style="color:#b3b3b3;">['.$label_2.']</span>';
 	}
@@ -152,4 +152,3 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 	)
 );
 
-?>

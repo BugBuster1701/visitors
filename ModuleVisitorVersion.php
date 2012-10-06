@@ -1,4 +1,5 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
+
 /**
  * Contao Open Source CMS
  * Copyright (C) 2005-2012 Leo Feyer
@@ -16,7 +17,5 @@
  */
 
 // require_once(TL_ROOT . '/system/modules/visitors/ModuleVisitorVersion.php');
-define('VISITORS_VERSION', '2.7');
-define('VISITORS_BUILD'  , '1');
-
-?>
+define('VISITORS_VERSION', '3.0');
+define('VISITORS_BUILD'  , 'alpha1');

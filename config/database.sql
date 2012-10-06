@@ -74,7 +74,7 @@ CREATE TABLE `tl_visitors_counter` (
 CREATE TABLE `tl_visitors_blocker` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `vid` int(10) unsigned NOT NULL default '0',
-  `visitors_tstamp` timestamp NULL default NULL,
+  `visitors_tstamp` timestamp NULL,
   `visitors_ip` varchar(40) NOT NULL default '0.0.0.0',
   `visitors_type` char(1) NOT NULL default 'v',
   PRIMARY KEY  (`id`),

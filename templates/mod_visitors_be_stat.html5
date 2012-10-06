@@ -123,64 +123,61 @@ window.onload = function(){ // Better use use a modern onDomReady-Event instead
 }
 </script>
 <div class="tl_panel">
-    <!-- Export Zeile //-->
-<?php if ($this->visitorskatid>0 && $this->visitorsanzcounter>0) : ?>
-    <div style="margin-left: 6px; float:left;">
-<?php else: ?>
-    <div style="margin-left: 6px; float:left;visibility:hidden;">
-<?php endif; ?>
-    <fieldset>
-    <legend> <?php echo $this->visitors_exportfield; ?> </legend>
-        <div style="float:left; padding-left: 4px;">
+	<!-- Kategorie Zeile //-->
+	<form method="post" class="info" action="<?php echo $this->visitors_base_be; ?>/main.php?do=visitorstat">
+	<div class="tl_submit_panel tl_subpanel">
+		<input type="image" alt="<?php echo specialchars($GLOBALS['TL_LANG']['MSC']['showOnly']); ?>" title="<?php echo specialchars($GLOBALS['TL_LANG']['MSC']['showOnly']); ?>" class="tl_img_submit" src="system/themes/<?php echo $this->theme; ?>/images/reload.gif" value="statistics" id="filter" name="filter">
+	</div>
+	<div class="tl_limit tl_subpanel">
+		<strong><?php echo $this->visitorsstatkat; ?>:</strong>
+		<input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
+		<select onchange="this.form.submit()" class="tl_select" name="id" style="width:200px;">
+<?php foreach ($this->visitorskats as $visitorskat): ?>
+  <?php if ($visitorskat['id']==$this->visitorskatid) : ?>
+		    <option selected="selected" value="<?php echo $visitorskat['id']; ?>"><?php echo $visitorskat['title']; ?></option>
+   <?php else: ?>
+		    <option value="<?php echo $visitorskat['id']; ?>"><?php echo $visitorskat['title']; ?></option>
+   <?php endif; ?>
+<?php endforeach; ?>
+		</select>
+	</div>
+	</form>
+	<!-- Kategorie Ende //-->
+	<div class="tl_limit tl_subpanel">
+		&nbsp;
+	</div>
+<?php if ($this->visitorskatid>0 && $this->visitorsanzcounter>0) : ?>	
+	<!-- Export Zeile //-->
+	<div class="tl_limit tl_subpanel">
+		<div style="float:left; padding-left: 4px; text-align:center;"><span style="font-weight: bold;"><?php echo $this->visitors_exportfield; ?>:</span>
+			<br><span style="font-weight: normal;"><?php echo "(".$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit'].",".$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit'].")" ?></span>
+		</div>
+       	<div style="float:left; padding-left: 6px;">
             <form method="get" class="popup info" action="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=csvc&amp;tl_katid=<?php echo $this->visitorskatid; ?>">
             <div class="tl_formbody">
                 <input type="submit" value="CSV ','" alt="Export CSV ," class="tl_submit">
             </div>
             </form>
         </div>
-        <div style="float:left; padding-left: 6px;">
+        	<div style="float:left; padding-left: 6px;">
             <form method="get" class="popup info" action="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=csvs&amp;tl_katid=<?php echo $this->visitorskatid; ?>">
             <div class="tl_formbody">
                 <input type="submit" value="CSV ';'" alt="Export CSV ;" class="tl_submit">
             </div>
             </form>
-        </div>
-        <div style="float:left; padding-left: 6px;">
+         </div>
+         <div style="float:left; padding-left: 6px;">
             <form method="get" class="popup info" action="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=excel&amp;tl_katid=<?php echo $this->visitorskatid; ?>">
             <div class="tl_formbody">
                 <input type="submit" value="Excel" alt="Export Excel" class="tl_submit">
             </div>
             </form>
-        </div>
-    </fieldset>
-    <div style="text-align:center;"><?php echo "(".$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit'].",".$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit'].")" ?></div>
-    </div>
-    <!-- Export Zeile Ende //-->
-    <!-- Kategorie Zeile //-->
-    <fieldset style="margin-right: 6px; float:right;">
-    <legend> <?php echo $this->visitorsstatkat; ?> </legend>
-        <div style="float:left; padding-right: 6px;">
-            <form method="post" class="info" action="<?php echo $this->visitors_base_be; ?>/main.php?do=visitorstat">
-            <div class="tl_formbody">
-                <!-- <input type="hidden" value="visitorstat" name="do">  //-->
-                <input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
-                <select class="tl_select" name="id" style="width:300px;">
-                <?php foreach ($this->visitorskats as $visitorskat): ?>
-                    <?php if ($visitorskat['id']==$this->visitorskatid) : ?>
-                    <option selected="selected" value="<?php echo $visitorskat['id']; ?>"><?php echo $visitorskat['title']; ?></option>
-                    <?php else: ?>
-                    <option value="<?php echo $visitorskat['id']; ?>"><?php echo $visitorskat['title']; ?></option>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-                </select>
-                <input class="tl_img_submit" type="image" alt="<?php echo specialchars($GLOBALS['TL_LANG']['MSC']['showOnly']); ?>" title="<?php echo specialchars($GLOBALS['TL_LANG']['MSC']['showOnly']); ?>" value="statistics" src="system/themes/<?php echo $this->theme; ?>/images/reload.gif">
-            </div>
-            </form>
-        </div>
-     </fieldset>
-     <!-- Kategorie Ende //-->
-    <div class="clear"></div>
-</div>
+         </div>	
+	</div>
+	<!-- Export Zeile Ende //-->
+<?php endif; ?>
+	<div class="clear"></div>
+</div> <!--  tl_panel -->
 <br> <br>
 <?php if ($this->visitorsanzcounter==0) : ?>
 	<table summary="Table lists records" class="mod_visitors_be_table_max">
@@ -623,11 +620,7 @@ window.onload = function(){ // Better use use a modern onDomReady-Event instead
 			<tr>
 			    <td style="padding-left: 2px; text-align: left;" class="tl_file_list"><?php echo (isset($Referrer[0]) ? $Referrer[0] : ''); ?></td>
 			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($Referrer[1]) ? $Referrer[1] : ''); ?></td>
-			    <?php if (version_compare(VERSION, '2.11', '<')) : ?>
-	    			    <td style="text-align: center;" class="tl_file_list"><?php if ($Referrer[2]) : ?><a rel="lightbox[details 770 600]" title="Details" href="<?php echo $this->visitors_base; ?>system/modules/visitors/ModuleVisitorReferrerDetails.php?tl_referrer=<?php echo str_rot13($Referrer[0]); ?>&amp;tl_vid=<?php echo $Referrer[2]; ?>"><img width="16" height="16" alt="Details" src="system/themes/<?php echo $this->theme; ?>/images/show.gif"></a><?php endif; ?></td>
-	    		<?php else : ?>
-	    			    <td style="text-align: center;" class="tl_file_list"><?php if ($Referrer[2]) : ?><a data-lightbox="details 770 600" title="Details" href="<?php echo $this->visitors_base; ?>system/modules/visitors/ModuleVisitorReferrerDetails.php?tl_referrer=<?php echo str_rot13($Referrer[0]); ?>&amp;tl_vid=<?php echo $Referrer[2]; ?>"><img width="16" height="16" alt="Details" src="system/themes/<?php echo $this->theme; ?>/images/show.gif"></a><?php endif; ?></td>
-	    		<?php endif; ?>	    
+   			    <td style="text-align: center;" class="tl_file_list"><?php if ($Referrer[2]) : ?><a onclick="Backend.openModalIframe({'width':780,'height':600,'title':'Details','url':this.href});return false" title="Details" href="<?php echo $this->visitors_base; ?>system/modules/visitors/public/ModuleVisitorReferrerDetails.php?tl_referrer=<?php echo str_rot13($Referrer[0]); ?>&amp;tl_vid=<?php echo $Referrer[2]; ?>"><img width="16" height="16" alt="Details" src="system/themes/<?php echo $this->theme; ?>/images/show.gif"></a><?php endif; ?></td>
 			</tr>
 	<?php endforeach; ?>
 			<tr>

@@ -1,7 +1,8 @@
-<?php
+<?php 
+
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Copyright (C) 2005-2012 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  * 
@@ -10,11 +11,16 @@
  * wird per export button direkt über Formular aufgerufen als popup
  * 
  * PHP version 5
- * @copyright  Glen Langer 2009..2011
+ * @copyright  Glen Langer 2009..2012
  * @author     Glen Langer
  * @package    GLVisitors
  * @license    LGPL
  */
+
+/**
+ * Run in a custom namespace, so the class can be replaced
+ */
+namespace BugBuster\Visitors;
 
 /**
  * Initialize the system
@@ -25,11 +31,11 @@ require('../../../initialize.php');
 /**
  * Class VisitorsStatExport
  *
- * @copyright  Glen Langer 2009..2011
+ * @copyright  Glen Langer 2009..2012
  * @author     Glen Langer
  * @package    GLVisitors
  */
-class VisitorsStatExport extends Backend // Backend bringt DB mit
+class VisitorsStatExport extends \Backend // Backend bringt DB mit
 {
     /**
 	 * Export Type
@@ -57,29 +63,34 @@ class VisitorsStatExport extends Backend // Backend bringt DB mit
     // Die parametrisierte Factorymethode
     public function factory($type)
     {
-        if (@include(realpath(dirname(__FILE__)) . '/' . $type . '.php')) {
+    	/*
+        if (@include(realpath(dirname(__FILE__)) . '/VisitorsStatExport' . $type . '.php')) {
             $classname = 'VisitorsStatExport' . $type;
             return new $classname;
         } else {
             return false;
         }
+        */
+        $classname = 'VisitorsStatExport' . $type;
+        $this->import('Visitors\\' . $classname ,$classname); 
+        return $this->$classname;
     }
 
     public function run()
 	{
-   	    if ( (!$this->Input->get('tl_field',true)=='csvc') && 
-   	         (!$this->Input->get('tl_field',true)=='csvs') && 
-   	         (!$this->Input->get('tl_field',true)=='excel') 
+   	    if ( (!\Input::get('tl_field',true)=='csvc') && 
+   	         (!\Input::get('tl_field',true)=='csvs') && 
+   	         (!\Input::get('tl_field',true)=='excel') 
    	       ) {
    	        echo "<html><body>Missing Parameter(s)!</body></html>";
             return ;
 	    }
-	    if ((int)$this->Input->get('tl_katid',true)<1) {
+	    if ((int)\Input::get('tl_katid',true)<1) {
 	    	echo "<html><body>Missing Parameter(s)!</body></html>";
             return ;
 	    }
-	    $intVisitorKatId = (int)$this->Input->get('tl_katid',true);
-	    switch ($this->Input->get('tl_field',true)) {
+	    $intVisitorKatId = (int)\Input::get('tl_katid',true);
+	    switch (\Input::get('tl_field',true)) {
 	    	case "csvc":
                 $this->strExportType = 'csv';
 	    	    $this->strExportDelimiter = ',';
@@ -117,4 +128,3 @@ class VisitorsStatExport extends Backend // Backend bringt DB mit
 $objVisitorStatExport = new VisitorsStatExport();
 $objVisitorStatExport->run();
 
-?>

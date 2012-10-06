@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
  * Contao Open Source CMS
@@ -11,7 +11,7 @@
  * This file modifies the data container array of table tl_module.
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2011
+ * @copyright  Glen Langer 2009..2012
  * @author     Glen Langer
  * @package    GLVisitors
  * @license    LGPL
@@ -63,4 +63,3 @@ class tl_module_visitors extends Backend
 	}  
 }
 
-?>

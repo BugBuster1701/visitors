@@ -1,8 +1,8 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Copyright (C) 2005-2012 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  * 
@@ -11,7 +11,7 @@
  * This is the data container array for table tl_visitors.
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2011 
+ * @copyright  Glen Langer 2009..2012 
  * @author     Glen Langer 
  * @package    GLVisitors 
  * @license    LGPL 
@@ -60,9 +60,9 @@ class tl_visitors extends Backend
      */
     public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
     {
-            if (strlen($this->Input->get('tid')))
+            if (strlen(Input::get('tid')))
             {
-                    $this->toggleVisibility($this->Input->get('tid'), ($this->Input->get('state') == 1));
+                    $this->toggleVisibility(Input::get('tid'), (Input::get('state') == 1));
                     $this->redirect($this->getReferer());
             }
 
@@ -89,16 +89,21 @@ class tl_visitors extends Backend
      */
     public function toggleVisibility($intId, $blnVisible)
     {
-            // Check permissions to publish
-            if (!$this->User->isAdmin && !$this->User->hasAccess('tl_visitors::published', 'alexf'))
-            {
-                    $this->log('Not enough permissions to publish/unpublish Visitors ID "'.$intId.'"', 'tl_visitors toggleVisibility', TL_ERROR);
-                    $this->redirect('contao/main.php?act=error');
-            }
+    	// Check permissions to edit
+    	Input::setGet('id', $intId);
+    	Input::setGet('act', 'toggle');
+    	$this->checkPermission();
+    	
+        // Check permissions to publish
+        if (!$this->User->isAdmin && !$this->User->hasAccess('tl_visitors::published', 'alexf'))
+        {
+			$this->log('Not enough permissions to publish/unpublish Visitors ID "'.$intId.'"', 'tl_visitors toggleVisibility', TL_ERROR);
+            $this->redirect('contao/main.php?act=error');
+        }
 
-            // Update database
-            $this->Database->prepare("UPDATE tl_visitors SET published='" . ($blnVisible ? 1 : '') . "' WHERE id=?")
-                           ->execute($intId);
+        // Update database
+        $this->Database->prepare("UPDATE tl_visitors SET published='" . ($blnVisible ? 1 : '') . "' WHERE id=?")
+                       ->execute($intId);
     }
 }
 
@@ -255,4 +260,3 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 	)
 );
 
-?>

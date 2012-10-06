@@ -1,4 +1,6 @@
-<?php @error_reporting(0); @ini_set("display_errors", 0);  
+<?php 
+
+@error_reporting(0); @ini_set("display_errors", 0);  
 /**
  * Contao Open Source CMS
  * Copyright (C) 2005-2012 Leo Feyer
@@ -184,4 +186,3 @@ class VisitorsRunonceJob extends Controller
 $objVisitorsRunonceJob = new VisitorsRunonceJob();
 $objVisitorsRunonceJob->run();
 
-?>
