@@ -29,15 +29,12 @@ $GLOBALS['BE_MOD']['content']['visitors'] = array
 	'stylesheet' => 'system/modules/visitors/assets/mod_visitors_be.css'
 );
 
-array_insert($GLOBALS['BE_MOD']['system'], 1, array
+$GLOBALS['BE_MOD']['system']['visitorstat'] = array
 (
-	'visitorstat' => array
-	(
-		'callback'   => 'Visitors\ModuleVisitorStat',
-		'icon'       => 'system/modules/visitors/assets/iconVisitor.png',
-		'stylesheet' => 'system/modules/visitors/assets/mod_visitors_be.css'
-	)
-));
+	'callback'   => 'Visitors\ModuleVisitorStat',
+	'icon'       => 'system/modules/visitors/assets/iconVisitor.png',
+	'stylesheet' => 'system/modules/visitors/assets/mod_visitors_be.css'
+);
 
 /**
  * -------------------------------------------------------------------------
