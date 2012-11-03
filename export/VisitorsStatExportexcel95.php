@@ -50,14 +50,17 @@ class VisitorsStatExportexcel95
         }
 	}
 	
-    public function getLibName() {
+    public function getLibName() 
+    {
         return $this->ExportLib;
     }
     
-    public function export($objVisitors,$csv_delimiter,$intVisitorKatId) {
-    	if (file_exists(TL_ROOT . "/plugins/xls_export/xls_export.php")) {
-	    	include(TL_ROOT . "/plugins/xls_export/xls_export.php");
-			$xls = new xlsexport();
+    public function export($objVisitors,$csv_delimiter,$intVisitorKatId) 
+    {
+    	if (file_exists(TL_ROOT . "/system/modules/xls_export/vendor/xls_export.php")) 
+    	{
+	    	include(TL_ROOT . "/system/modules/xls_export/vendor/xls_export.php");
+			$xls = new \xlsexport();
 			$sheet = 'VisitorsStatExport-'.$intVisitorKatId.'';
 			$xls->addworksheet($sheet);
 	        //Kopfdaten
@@ -85,11 +88,13 @@ class VisitorsStatExportexcel95
 	        	$intRowCounter++;
 	        } // while
 			$xls->sendFile($sheet . ".xls");
-		} else {
+		} 
+		else 
+		{
 			echo "<html><head><title>Need extension xls_export</title></head><body>"
-			    ."Please install the extension 'xls_export'.<br /><br />"
-			    ."Bitte die Erweiterung 'xls_export' installieren.<br /><br />"
-			    ."Installer l'extension 'xls_export' s'il vous plaît."
+			    ."Please install the extension 'xls_export' 3.x.<br /><br />"
+			    ."Bitte die Erweiterung 'xls_export' 3.x installieren.<br /><br />"
+			    ."Installer l'extension 'xls_export' 3.x s'il vous plaît."
 			    ."</body></html>";
 		}
     }

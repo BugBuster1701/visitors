@@ -158,8 +158,8 @@ window.onload = function(){ // Better use use a modern onDomReady-Event instead
 		<div class="tl_submit" style="float:left; padding: 7px; margin-left: 6px;">
 			<a href="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=csvs&amp;tl_katid=<?php echo $this->visitorskatid; ?>">CSV ';'</a>
         </div>
-        <div class="tl_submit" style="float:left; padding: 7px; margin-left: 6px; opacity: 0.3;">
-        	Excel<!-- <a href="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=excel&amp;tl_katid=<?php echo $this->visitorskatid; ?>">Excel</a>  -->
+        <div class="tl_submit" style="float:left; padding: 7px; margin-left: 6px;">
+        	<a href="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=excel&amp;tl_katid=<?php echo $this->visitorskatid; ?>">Excel</a>
         </div>
 	</div>
 	<!-- Export Zeile Ende //-->

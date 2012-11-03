@@ -34,8 +34,8 @@ class VisitorsRunonceJob extends Controller
 	
 	public function run()
 	{
-		//nur ab Contao 2.9
-		if (version_compare(VERSION, '2.8', '>'))
+		//nur ab Contao 3.0
+		if (version_compare(VERSION, '2.9', '>'))
 		{
 			$migration = false;
 			$addTemplate = false;
@@ -115,7 +115,7 @@ class VisitorsRunonceJob extends Controller
 		} // if >2.8
 		else 
 		{
-			$this->Database->prepare("INSERT INTO `tl_log` (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'FE', 'ERROR', ($GLOBALS['TL_USERNAME'] ? $GLOBALS['TL_USERNAME'] : ''), 'ERROR: Visitors-Module requires at least Contao 2.9', 'ModulVisitors Runonce', '127.0.0.1', 'NoBrowser');
+			$this->Database->prepare("INSERT INTO `tl_log` (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'FE', 'ERROR', ($GLOBALS['TL_USERNAME'] ? $GLOBALS['TL_USERNAME'] : ''), 'ERROR: Visitors-Module requires at least Contao 3.0', 'ModulVisitors Runonce', '127.0.0.1', 'NoBrowser');
 		}
 		
 		if ($this->Database->tableExists('tl_visitors_browser'))
