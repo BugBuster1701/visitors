@@ -48,3 +48,4 @@ $GLOBALS['TL_LANG']['tl_visitors_category']['copy']   = array('Copy category', '
 $GLOBALS['TL_LANG']['tl_visitors_category']['delete'] = array('Delete category', 'Delete category ID %s');
 $GLOBALS['TL_LANG']['tl_visitors_category']['show']   = array('Category details', 'Show details of category ID %s');
 $GLOBALS['TL_LANG']['tl_visitors_category']['stat']   = array('Category statistic', 'Show counter statistic for category ID %s');
+$GLOBALS['TL_LANG']['tl_visitors_category']['editheader'] = array('Edit category settings', 'Edit the settings of category ID %s');

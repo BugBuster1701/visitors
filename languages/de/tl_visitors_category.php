@@ -48,3 +48,4 @@ $GLOBALS['TL_LANG']['tl_visitors_category']['copy']   = array('Kategorie duplizi
 $GLOBALS['TL_LANG']['tl_visitors_category']['delete'] = array('Kategorie l&ouml;schen', 'Kategorie ID %s l&ouml;schen');
 $GLOBALS['TL_LANG']['tl_visitors_category']['show']   = array('Kategoriedetails', 'Details der Kategorie ID %s anzeigen');
 $GLOBALS['TL_LANG']['tl_visitors_category']['stat']   = array('Kategoriestatistik', 'Besucherstatistik f&uuml;r die Kategorie ID %s anzeigen');
+$GLOBALS['TL_LANG']['tl_visitors_category']['editheader'] = array('Einstellungen der Kategorie bearbeiten', 'Einstellungen der Kategorie ID %s bearbeiten');

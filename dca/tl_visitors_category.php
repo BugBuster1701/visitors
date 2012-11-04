@@ -83,6 +83,13 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 				'href'                => 'table=tl_visitors',
 				'icon'                => 'edit.gif'
 			),
+			'editheader' => array
+			(
+			        'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['editheader'],
+			        'href'                => 'act=edit',
+			        'icon'                => 'header.gif',
+			        'attributes'          => 'class="edit-header"'
+			),
 			'copy' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['copy'],
@@ -101,6 +108,12 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 				'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['show'],
 				'href'                => 'act=show',
 				'icon'                => 'show.gif'
+			),
+			'stat' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['stat'],
+				'href'                => 'do=visitorstat',
+				'icon'                => 'system/modules/visitors/assets/iconVisitor.png'
 			)
 		)
 	),
