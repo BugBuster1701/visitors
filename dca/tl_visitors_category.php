@@ -81,14 +81,15 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['edit'],
 				'href'                => 'table=tl_visitors',
-				'icon'                => 'edit.gif'
+				'icon'                => 'edit.gif',
+				'attributes'          => 'class="contextmenu"'
 			),
 			'editheader' => array
 			(
-			        'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['editheader'],
-			        'href'                => 'act=edit',
-			        'icon'                => 'header.gif',
-			        'attributes'          => 'class="edit-header"'
+		        'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['editheader'],
+		        'href'                => 'act=edit',
+		        'icon'                => 'header.gif',
+		        'attributes'          => 'class="edit-header"'
 			),
 			'copy' => array
 			(
