@@ -85,8 +85,7 @@ class ModuleVisitorChecks extends \Frontend
 	    {
 	    	return false; // keine Angaben im Modul
 	    }
-	    array_walk($arrUserAgents, array('ModuleVisitorChecks','visitor_array_trim_value'));  // trim der array values
-        // grobe Suche
+        // Suche
         $CheckUserAgent=str_replace($arrUserAgents, '#', $UserAgent);
         if ($UserAgent != $CheckUserAgent) 
         { 	// es wurde ersetzt also was gefunden
@@ -96,12 +95,6 @@ class ModuleVisitorChecks extends \Frontend
         //log_message('CheckBotUserAgent False','debug.log');
         return false; 
 	} //CheckUserAgent
-	
-	static function visitor_array_trim_value(&$data) 
-	{
-        $data = trim($data);
-        return ;
-    }
 	
 	/**
 	 * BE Login Check
