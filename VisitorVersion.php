@@ -18,4 +18,4 @@
 
 // require_once(TL_ROOT . '/system/modules/visitors/VisitorVersion.php');
 define('VISITORS_VERSION', '3.0');
-define('VISITORS_BUILD'  , 'rc1');
+define('VISITORS_BUILD'  , '0');
