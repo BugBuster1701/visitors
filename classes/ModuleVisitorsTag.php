@@ -166,7 +166,8 @@ class ModuleVisitorsTag extends \Frontend
 				    } 
 				    else 
 				    {
-				        $VisitorsStartDate = date($GLOBALS['TL_CONFIG']['dateFormat'],$objVisitors->visitors_startdate);
+				        global $objPage;
+				        $VisitorsStartDate = $this->parseDate($objPage->dateFormat, $objVisitors->visitors_startdate);
 				    }
 				return $VisitorsStartDate;
 				break;
