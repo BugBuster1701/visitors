@@ -154,10 +154,14 @@ class ModuleVisitorsTag extends Frontend
 				break;
 		    case "start":
 			    	//VisitorsStartDate
-			        if (!strlen($objVisitors->visitors_startdate)) {
+			        if (!strlen($objVisitors->visitors_startdate)) 
+			        {
 				    	$VisitorsStartDate = '';
-				    } else {
-				        $VisitorsStartDate = date($GLOBALS['TL_CONFIG']['dateFormat'],$objVisitors->visitors_startdate);
+				    } 
+				    else 
+				    {
+				        global $objPage;
+				        $VisitorsStartDate = $this->parseDate($objPage->dateFormat, $objVisitors->visitors_startdate);
 				    }
 				return $VisitorsStartDate;
 				break;
