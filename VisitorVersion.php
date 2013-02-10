@@ -9,7 +9,7 @@
  * Modul Visitors Version Definition
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2012
+ * @copyright  Glen Langer 2009..2013
  * @author     Glen Langer 
  * @package    GLVisitors 
  * @license    LGPL 
@@ -18,4 +18,4 @@
 
 // require_once(TL_ROOT . '/system/modules/visitors/VisitorVersion.php');
 define('VISITORS_VERSION', '3.0');
-define('VISITORS_BUILD'  , '0');
+define('VISITORS_BUILD'  , '1');
