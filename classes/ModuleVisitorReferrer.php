@@ -116,9 +116,9 @@ class ModuleVisitorReferrer	//extends Frontend
 	    	$this->_referrer_DNS = self::REFERRER_OWN; 
 	    }
 
-	    //Special for Fake Google.com (GitHub #32)
-	    if ( rtrim($this->_http_referrer,"/") == 'http://www.google.com' ||
-	         rtrim($this->_http_referrer,"/") == 'https://www.google.com'  )
+	    //Special for Fake Google.com (GitHub #32, #53)
+	    if ( rtrim($this->_http_referrer,"/") == 'http://'  . $this->_referrer_DNS ||
+	         rtrim($this->_http_referrer,"/") == 'https://' . $this->_referrer_DNS  )
 	    {
 	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer is a fake.
 	    }
