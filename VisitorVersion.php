@@ -14,8 +14,9 @@
  * @package    GLVisitors 
  * @license    LGPL 
  * @filesource
+ * @deprecated
  */
 
 // require_once(TL_ROOT . '/system/modules/visitors/VisitorVersion.php');
-define('VISITORS_VERSION', '3.0');
-define('VISITORS_BUILD'  , '1');
+//define('VISITORS_VERSION', '3.0');
+//define('VISITORS_BUILD'  , '1');
