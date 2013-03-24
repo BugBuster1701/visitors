@@ -66,9 +66,6 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	protected function compile()
 	{
-		// Version
-		require_once(TL_ROOT . '/system/modules/visitors/VisitorVersion.php');
-		
 	    if ($this->intKatID == 0) { //direkter Aufruf ohne ID 
 	        $objVisitorsKatID = $this->Database->prepare("SELECT MIN(pid) AS ANZ from tl_visitors")->execute();
     	    $objVisitorsKatID->next();

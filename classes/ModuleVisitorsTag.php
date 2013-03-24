@@ -65,7 +65,6 @@ class ModuleVisitorsTag extends \Frontend
 	 */
 	public function ReplaceInsertTagsVisitors($strTag)
 	{
-		require_once(TL_ROOT . '/system/modules/visitors/VisitorVersion.php');
 		$arrTag = trimsplit('::', $strTag);
 		if ($arrTag[0] != 'visitors')
 		{

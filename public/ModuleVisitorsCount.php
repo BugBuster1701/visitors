@@ -55,7 +55,6 @@ class ModuleVisitorsCount extends \Frontend
 
 	public function run()
 	{
-		require_once(TL_ROOT . '/system/modules/visitors/VisitorVersion.php');
 		//Parameter holen
 		if ((int)\Input::get('vkatid')>0) {
 			$visitors_category_id = (int)\Input::get('vkatid');
