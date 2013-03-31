@@ -362,9 +362,9 @@ window.onload = function(){ // Better use use a modern onDomReady-Event instead
 			<table summary="Table lists countings" class="mod_visitors_be_table">
 			<tbody>
 			<tr>
-			    <td style="width: 120px; padding-left: 2px; text-align: center;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['date']; ?></td>
-			    <td style="min-width: 70px;  padding-right: 5px; text-align: right;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit']; ?></td>
-			    <td style="min-width: 70px;  padding-right: 5px; text-align: right;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit']; ?></td>
+			    <td style="width:    120px; padding-left:  2px; text-align: center;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['date']; ?></td>
+			    <td style="min-width: 70px; padding-right: 5px; text-align:  right;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit']; ?></td>
+			    <td style="min-width: 70px; padding-right: 5px; text-align:  right;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit']; ?></td>
 			</tr>
 			<tr>
 			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][0]['visitors_date'])  ? $this->visitorsstatDays[$vcid][0]['visitors_date']  : '&nbsp;'); ?></td>

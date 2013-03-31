@@ -1,18 +1,16 @@
 <?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2012 Leo Feyer
+ * Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  *
- * Formerly known as TYPOlight Open Source CMS.
- * 
  * Modul Visitors Stat - Backend
  * 
- * PHP version 5
- * @copyright  Glen Langer 2009..2012
- * @author     Glen Langer
+ * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL
+ * @filesource
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
 /**
@@ -23,7 +21,7 @@ namespace BugBuster\Visitors;
 /**
  * Class ModuleVisitorStat
  *
- * @copyright  Glen Langer 2009..2012
+ * @copyright  Glen Langer 2009..2013
  * @author     Glen Langer
  * @package    GLVisitors
  * @todo       Must be completely rewritten.
@@ -232,6 +230,7 @@ class ModuleVisitorStat extends \BackendModule
 		$visitors_yesterday_hit   = 0;
 		$visitors_visit_start     = 0;
 		$visitors_hit_start       = 0;
+		$visitors_day_of_week_prefix = '';
 	    // 7 Tages Statistik und Vorgabewerte
 	    $objVisitors = $this->Database->prepare("SELECT tv.id, tv.visitors_name, tv.visitors_startdate, tv.visitors_visit_start, tv.visitors_hit_start, tv.published, tvc.visitors_date, tvc.visitors_visit, tvc.visitors_hit"
 		                                     . " FROM tl_visitors tv, tl_visitors_counter tvc"
@@ -256,12 +255,18 @@ class ModuleVisitorStat extends \BackendModule
     		        //$visitors_startdate = $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $objVisitors->visitors_startdate);
     		        $visitors_startdate = $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'], $objVisitors->visitors_startdate);
     		    }
+    		    // day of the week prüfen
+    		    if (strpos($GLOBALS['TL_CONFIG']['dateFormat'],'D')===false  // day of the week short 
+    		     && strpos($GLOBALS['TL_CONFIG']['dateFormat'],'l')===false) // day of the week long
+    		    {
+    		        $visitors_day_of_week_prefix = 'D, ';
+    		    }
     		    $arrVisitorsStat[] = array
     			(
     			    'visitors_id'           => $objVisitors->id,
     				'visitors_name'         => specialchars(ampersand($objVisitors->visitors_name)),
     				'visitors_active'       => $objVisitors->published,
-    				'visitors_date'         => $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'],strtotime($objVisitors->visitors_date)),
+    				'visitors_date'         => $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'], strtotime($objVisitors->visitors_date), $visitors_day_of_week_prefix),
     				'visitors_date_ymd'     => $objVisitors->visitors_date,
     				'visitors_startdate'    => $visitors_startdate,
     				'visitors_visit'        => $this->getFormattedNumber($objVisitors->visitors_visit,0),
@@ -899,17 +904,21 @@ class ModuleVisitorStat extends \BackendModule
 	 * @param	insteger	$intTstamp
 	 * @return	string
 	 */
-	protected function parseDateVisitors($language='en', $intTstamp=null)
+	protected function parseDateVisitors($language='en', $intTstamp=null, $prefix='')
 	{
-		if ($language == 'de') 
-		{
-			$strModified = 'd.m.Y';
-		} 
-		else 
-		{
-			$strModified = 'Y-m-d';
-		}
-		if (is_null($intTstamp))
+	    switch ($language)
+	    {
+	        case 'de':
+	            $strModified = $prefix . 'd.m.Y';
+	            break;
+	        case 'en':
+	            $strModified = $prefix . 'Y-m-d';
+	            break;
+	        default :
+	            $strModified = $prefix . $GLOBALS['TL_CONFIG']['dateFormat'];
+	            break;
+	    }
+	    if (is_null($intTstamp))
 		{
 			$strDate = date($strModified);
 		}
@@ -919,7 +928,7 @@ class ModuleVisitorStat extends \BackendModule
 		}
 		else
 		{
-			$strDate = date($strModified, $intTstamp);
+			$strDate = $this->parseDate($strModified, $intTstamp);
 		}
 		return $strDate;
 	}
@@ -984,8 +993,8 @@ class ModuleVisitorStat extends \BackendModule
 		                                             ." FROM tl_visitors_counter"
 		                                             ." WHERE vid=? AND visitors_date < ?" 
 		                                             ." ORDER BY visitors_visit ASC,visitors_hit ASC")
-		                                     ->limit(1)
-		                                     ->execute($VisitorsID, date('Y-m-d'));
+		                                    ->limit(1)
+		                                    ->execute($VisitorsID, date('Y-m-d'));
 		if ($objVisitorsBadday->numRows > 0) 
 		{
         	$objVisitorsBadday->next();
