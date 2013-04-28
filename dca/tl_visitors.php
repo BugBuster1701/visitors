@@ -19,95 +19,6 @@
  */
 
 /**
- * Class tl_visitors
- *
- * Methods that are used by the DCA
- */
-class tl_visitors extends Backend
-{
-	/**
-     * Import the back end user object
-     */
-    public function __construct()
-    {
-            parent::__construct();
-            $this->import('BackendUser', 'User');
-    }
-	
-	public function listVisitors($arrRow)
-	{
-	    $key = $arrRow['published'] ? 'published' : 'unpublished';
-	    if (!strlen($arrRow['visitors_startdate'])) {
-	    	$startdate = $GLOBALS['TL_LANG']['tl_visitors']['not_defined'];
-	    } else {
-	    	$startdate = date($GLOBALS['TL_CONFIG']['dateFormat'], $arrRow['visitors_startdate']);
-	    }
-	    $output = '<div class="cte_type ' . $key . '"><strong>' . $arrRow['visitors_name'] . '</strong></div>' ;
-	    $output.= '<div>'.$GLOBALS['TL_LANG']['tl_visitors']['visitors_startdate'][0].': ' . $startdate . '</div>';
-	    //$output.= '<div>'.print_r($arrRow,true).'</div>';
-	    return $output;
-	}
-	
-	/**
-     * Return the "toggle visibility" button
-     * @param array
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @return string
-     */
-    public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
-    {
-            if (strlen(Input::get('tid')))
-            {
-                    $this->toggleVisibility(Input::get('tid'), (Input::get('state') == 1));
-                    $this->redirect($this->getReferer());
-            }
-
-            // Check permissions AFTER checking the tid, so hacking attempts are logged
-            if (!$this->User->isAdmin && !$this->User->hasAccess('tl_visitors::published', 'alexf'))
-            {
-            	return '';
-            }
-
-            $href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
-
-            if (!$row['published'])
-            {
-                    $icon = 'invisible.gif';
-            }
-
-            return '<a href="'.$this->addToUrl($href).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
-    }
-    
-    /**
-     * Disable/enable a counter
-     * @param integer
-     * @param boolean
-     */
-    public function toggleVisibility($intId, $blnVisible)
-    {
-    	// Check permissions to edit
-    	Input::setGet('id', $intId);
-    	Input::setGet('act', 'toggle');
-    	$this->checkPermission();
-    	
-        // Check permissions to publish
-        if (!$this->User->isAdmin && !$this->User->hasAccess('tl_visitors::published', 'alexf'))
-        {
-			$this->log('Not enough permissions to publish/unpublish Visitors ID "'.$intId.'"', 'tl_visitors toggleVisibility', TL_ERROR);
-            $this->redirect('contao/main.php?act=error');
-        }
-
-        // Update database
-        $this->Database->prepare("UPDATE tl_visitors SET published='" . ($blnVisible ? 1 : '') . "' WHERE id=?")
-                       ->execute($intId);
-    }
-}
-
-/**
  * Table tl_visitors 
  */
 $GLOBALS['TL_DCA']['tl_visitors'] = array
@@ -131,7 +42,7 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 			'fields'                  => array('sorting'),
 			'panelLayout'             => 'search,filter,limit',
 			'headerFields'            => array('title', 'tstamp'), //, 'visitors_template'
-			'child_record_callback'   => array('tl_visitors', 'listVisitors')
+			'child_record_callback'   => array('BugBuster\Visitors\DCA_visitors', 'listVisitors')
 		),/**
 		'label' => array
 		(
@@ -174,7 +85,7 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
                     'label'               => &$GLOBALS['TL_LANG']['tl_visitors']['toggle'],
                     'icon'                => 'visible.gif',
                     'attributes'          => 'onclick="Backend.getScrollOffset(); return AjaxRequest.toggleVisibility(this, %s);"',
-                    'button_callback'     => array('tl_visitors', 'toggleIcon')
+                    'button_callback'     => array('BugBuster\Visitors\DCA_visitors', 'toggleIcon')
             ),
 			'show' => array
 			(

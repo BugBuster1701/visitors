@@ -43,7 +43,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_template'] = array
     'default'                 => 'mod_visitors_fe_all',
     'exclude'                 => true,
     'inputType'               => 'select',
-    'options_callback'        => array('tl_module_visitors', 'getBannerTemplates'), 
+    'options_callback'        => array('BugBuster\Visitors\DCA_module_visitors', 'getVisitorsTemplates'), 
     'eval'                    => array('tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_useragent'] = array
@@ -54,12 +54,3 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_useragent'] = array
 	'explanation'	          => 'visitors_help_module',
 	'eval'                    => array('mandatory'=>false, 'maxlength'=>64, 'helpwizard'=>true)
 );
-
-class tl_module_visitors extends Backend 
-{
-	public function getBannerTemplates(DataContainer $dc)
-	{
-	    return $this->getTemplateGroup('mod_visitors_fe_', $dc->activeRecord->pid);
-	}  
-}
-

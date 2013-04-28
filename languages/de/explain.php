@@ -28,9 +28,9 @@ $GLOBALS['TL_LANG']['XPL']['visitors_help'] = array
 	array
 	(
 		'Startdatum',
-		'Das Startdatum dient der reinen Information.<br />'.
-		'Es wird im Frontend angezeigt.<br />'.
-		'Es beeinflusst nicht den Beginn der Z&auml;hlung!<br />'.
+		'Das Startdatum dient der reinen Information.<br>'.
+		'Es wird im Frontend angezeigt.<br>'.
+		'Es beeinflusst nicht den Beginn der Z&auml;hlung!<br>'.
 		'Wird die Angabe leer gelassen, wird im Template die entsprechende Zeile ausgeblendet.'
 	)
 );
@@ -41,7 +41,7 @@ $GLOBALS['TL_LANG']['XPL']['visitors_help_module'] = array
 		'HTTP_USER_AGENT Teilkennung',
 		'Mit &Auml;nderung der Browser-Kennung durch ein eindeutigen String '.
 		'und Eintragung in dieses Feld kann verhindert werden, '.
-		'dass die eigenen Zugriffe mitgez&auml;hlt werden.<br />'.
+		'dass die eigenen Zugriffe mitgez&auml;hlt werden.<br>'.
 		'Genaue Anleitung dazu sind im Wiki / Forum zu finden.'
 	)
 );
