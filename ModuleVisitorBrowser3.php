@@ -286,7 +286,7 @@ class ModuleVisitorBrowser3 {
 	const PLATFORM_UNKNOWN = 'unknown';
 	const PLATFORM_WINDOWS = 'Windows';
 	const PLATFORM_WINDOWS_CE = 'WinCE'; //modified for compatibility
-	const PLATFORM_WINDOWS_PHONE = 'Windows Phone';           // http://www.developer.nokia.com/Community/Wiki/User-Agent_headers_for_Nokia_devices
+	const PLATFORM_WINDOWS_PHONE = 'WinPhone';           // http://www.developer.nokia.com/Community/Wiki/User-Agent_headers_for_Nokia_devices
 	const PLATFORM_APPLE = 'Apple';
 	const PLATFORM_LINUX = 'Linux';
 	const PLATFORM_OS2 = 'OS/2';
@@ -1805,12 +1805,12 @@ class ModuleVisitorBrowser3 {
             if ( stripos($this->_agent, 'Windows Phone OS') !== false )
             {
                 $aresult = explode(' ',stristr($this->_agent,'Windows Phone OS'));
-                $this->_platformVersion = str_replace(array('(',')',';'),'',$aresult[3]);
+                $this->_platformVersion = self::PLATFORM_WINDOWS_PHONE .' '. str_replace(array('(',')',';'),'',$aresult[3]);
             }
             elseif ( stripos($this->_agent, 'Windows Phone') !== false )
             {
                 $aresult = explode(' ',stristr($this->_agent,'Windows Phone'));
-                $this->_platformVersion = str_replace(array('(',')',';'),'',$aresult[2]);
+                $this->_platformVersion = self::PLATFORM_WINDOWS_PHONE .' '. str_replace(array('(',')',';'),'',$aresult[2]);
             }
         }
         
