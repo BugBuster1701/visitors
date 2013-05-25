@@ -212,6 +212,7 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_OPERA_MINI = 'Opera Mini';                  // http://www.opera.com/mini/
 	const BROWSER_WEBTV = 'WebTV';                            // http://www.webtv.net/pc/
 	const BROWSER_IE = 'IE';    //modified for compatibility  // http://www.microsoft.com/ie/
+	const BROWSER_IE_MOBILE = 'IE Mobile';
 	const BROWSER_POCKET_IE = 'Pocket IE';//modified for compatibility     // http://en.wikipedia.org/wiki/Internet_Explorer_Mobile
 	const BROWSER_KONQUEROR = 'Konqueror';                    // http://www.konqueror.org/
 	const BROWSER_ICAB = 'iCab';                              // http://www.icab.de/
@@ -280,10 +281,12 @@ class ModuleVisitorBrowser3 {
 	const BROWSER_NETPOSITIVE = 'NetPositive';                // http://en.wikipedia.org/wiki/NetPositive (DEPRECATED)
 	const BROWSER_PHOENIX = 'Phoenix';                        // http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox (DEPRECATED)
 	const BROWSER_TONLINE = 'T-Online';
+	const BROWSER_KINDLE_FIRE = 'Kindle Fire';//add BugBuster // http://amazonsilk.wordpress.com/useful-bits/silk-user-agent/
 
 	const PLATFORM_UNKNOWN = 'unknown';
 	const PLATFORM_WINDOWS = 'Windows';
 	const PLATFORM_WINDOWS_CE = 'WinCE'; //modified for compatibility
+	const PLATFORM_WINDOWS_PHONE = 'Windows Phone';           // http://www.developer.nokia.com/Community/Wiki/User-Agent_headers_for_Nokia_devices
 	const PLATFORM_APPLE = 'Apple';
 	const PLATFORM_LINUX = 'Linux';
 	const PLATFORM_OS2 = 'OS/2';
@@ -318,6 +321,7 @@ class ModuleVisitorBrowser3 {
 	const PLATFORM_WINDOWS_VISTA = 'WinVista';
 	const PLATFORM_WINDOWS_7     = 'Win7';
 	const PLATFORM_WINDOWS_8     = 'Win8';
+	const PLATFORM_WINDOWS_RT    = 'WinRT';
 	const PLATFORM_MACOSX        = 'MacOSX';
 	const PLATFORM_IOSX          = 'iOS';
 	const PLATFORM_WARP4         = 'OS/2 Warp 4';
@@ -531,6 +535,8 @@ class ModuleVisitorBrowser3 {
 			$this->checkBrowserAndroidThinkPadTablet() || //add BugBuster
 			$this->checkBrowserAndroidXoomTablet()     || //add BugBuster
 			$this->checkBrowserAndroidAsusTransfomerPad() || //add BugBuster
+		    $this->checkBrowserAndroidKindleFire() ||      //add BugBuster
+		    
 			//at last Android only!
 			$this->checkBrowserAndroid() ||
 
@@ -682,7 +688,8 @@ class ModuleVisitorBrowser3 {
     protected function checkBrowserInternetExplorer() {
 
 	    // Test for v1 - v1.5 IE
-	    if( stripos($this->_agent,'microsoft internet explorer') !== false ) {
+	    if( stripos($this->_agent,'microsoft internet explorer') !== false ) 
+	    {
 		    $this->setBrowser(self::BROWSER_IE);
 		    $this->setVersion('1.0');
 		    $aresult = stristr($this->_agent, '/');
@@ -692,7 +699,10 @@ class ModuleVisitorBrowser3 {
 			return true;
 	    }
 	    // Test for versions > 1.5
-	    else if( stripos($this->_agent,'msie') !== false && stripos($this->_agent,'opera') === false ) {
+	    else if( stripos($this->_agent,'msie')     !== false 
+	          && stripos($this->_agent,'opera')    === false 
+	          && stripos($this->_agent,'iemobile') === false ) 
+	    {
 	    	/*// See if the browser is the odd MSN Explorer
 	    	if( stripos($this->_agent,'msnb') !== false ) {
 		    	$aresult = explode(' ',stristr(str_replace(';','; ',$this->_agent),'MSN'));
@@ -705,8 +715,28 @@ class ModuleVisitorBrowser3 {
 	    	$this->setVersion(str_replace(array('(',')',';'),'',$aresult[1]));
 	    	return true;
 	    }
+	    else if (stripos($this->_agent,'iemobile')      !== false
+	          && stripos($this->_agent,'windows phone') !== false )
+	    { // Windows Phones mit IEMobile
+    	    $this->setPlatform( self::PLATFORM_WINDOWS_PHONE );
+    	    $this->setBrowser( self::BROWSER_IE_MOBILE );
+    	    $this->setMobile(true);
+    	    $aresult = explode(' ',stristr(str_replace('/',' ',$this->_agent),'iemobile'));
+    	    $this->setVersion(str_replace(array('(',')',';'),'',$aresult[1]));
+    	    return true;
+	    }
+	    else if (stripos($this->_agent,'iemobile')      !== false
+	          && stripos($this->_agent,'windows phone') === false )
+	    { // Irgendwas mit IEMobile
+    	    $this->setBrowser( self::BROWSER_IE_MOBILE );
+    	    $this->setMobile(true);
+    	    $aresult = explode(' ',stristr(str_replace('/',' ',$this->_agent),'iemobile'));
+    	    $this->setVersion(str_replace(array('(',')',';'),'',$aresult[1]));
+    	    return true;
+	    }
 	    // Test for Pocket IE
-	    else if( stripos($this->_agent,'mspie') !== false || stripos($this->_agent,'pocket') !== false ) {
+	    else if( stripos($this->_agent,'mspie') !== false || stripos($this->_agent,'pocket') !== false ) 
+	    {
 		    $aresult = explode(' ',stristr($this->_agent,'mspie'));
 		    $this->setPlatform( self::PLATFORM_WINDOWS_CE );
 		    $this->setBrowser( self::BROWSER_POCKET_IE );
@@ -1101,8 +1131,12 @@ class ModuleVisitorBrowser3 {
      * Determine if the browser is Safari or not (last updated 1.7)
      * @return boolean True if the browser is Safari otherwise false
      */
-    protected function checkBrowserSafari() {
-	    if( stripos($this->_agent,'Safari') !== false && stripos($this->_agent,'iPhone') === false && stripos($this->_agent,'iPod') === false ) {
+    protected function checkBrowserSafari() 
+    {
+        if( stripos($this->_agent,'Safari') !== false 
+	     && stripos($this->_agent,'iPhone') === false 
+	     && stripos($this->_agent,'iPod') === false ) 
+	{
 		    $aresult = explode('/',stristr($this->_agent,'Version'));
 		    if( isset($aresult[1]) ) {
 			    $aversion = explode(' ',$aresult[1]);
@@ -1609,6 +1643,25 @@ class ModuleVisitorBrowser3 {
     }
     
     /**
+     * Determine if the browser is a Kindle Fire with Silk Browser (Safari) or not, add by BugBuster
+     * @return boolean True if the browser is a Kindle Fire otherwise false
+     */
+    protected function checkBrowserAndroidKindleFire()
+    {
+        if( stripos($this->_agent,'Android') !== false )
+        {
+            if( stripos($this->_agent,'Silk') !== false )
+            {
+                $this->setVersion(self::VERSION_UNKNOWN);
+                $this->setBrowser(self::BROWSER_KINDLE_FIRE);
+                $this->setMobile(true);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Determine the user's platform (last updated 1.7)
      */
     protected function checkPlatform() 
@@ -1634,11 +1687,17 @@ class ModuleVisitorBrowser3 {
 	    elseif( stripos($this->_agent, 'linux') !== false ) {
 		    $this->_platform = self::PLATFORM_LINUX;
 	    }
+	    elseif( stripos($this->_agent, 'windows phone') !== false ) {
+	        $this->_platform = self::PLATFORM_WINDOWS_PHONE;
+	    }
 	    elseif( stripos($this->_agent, 'Nokia') !== false ) {
 		    $this->_platform = self::PLATFORM_NOKIA;
 	    }
 	    elseif( stripos($this->_agent, 'BlackBerry') !== false ) {
 		    $this->_platform = self::PLATFORM_BLACKBERRY;
+	    }
+	    elseif( stripos($this->_agent, 'windows ce') !== false ) {
+	        $this->_platform = self::PLATFORM_WINDOWS_CE;
 	    }
 	    elseif( stripos($this->_agent, 'windows') !== false ) {
 	        $this->_platform = self::PLATFORM_WINDOWS;
@@ -1701,8 +1760,13 @@ class ModuleVisitorBrowser3 {
 	        /*if( stripos($this->_agent, 'windows NT 7.1') !== false ) {
 			    $this->_platform = self::PLATFORM_WINDOWS_7;
 		    }
-	        else*/if( stripos($this->_agent, 'windows NT 6.2') !== false ) {
+	        else*/
+            if( stripos($this->_agent, 'windows NT 6.2') !== false ) {
 			    $this->_platformVersion = self::PLATFORM_WINDOWS_8;
+			    if( stripos($this->_agent, 'arm') !== false ) 
+			    {
+			        $this->_platformVersion = self::PLATFORM_WINDOWS_RT;
+			    }
 		    }
 		    elseif( stripos($this->_agent, 'windows NT 6.1') !== false ) {
 			    $this->_platformVersion = self::PLATFORM_WINDOWS_7;
@@ -1735,6 +1799,21 @@ class ModuleVisitorBrowser3 {
 		        $this->_platformVersion = self::PLATFORM_WINDOWS_95;
 		    }
         }
+
+        if ($this->_platform == self::PLATFORM_WINDOWS_PHONE)
+        {
+            if ( stripos($this->_agent, 'Windows Phone OS') !== false )
+            {
+                $aresult = explode(' ',stristr($this->_agent,'Windows Phone OS'));
+                $this->_platformVersion = str_replace(array('(',')',';'),'',$aresult[3]);
+            }
+            elseif ( stripos($this->_agent, 'Windows Phone') !== false )
+            {
+                $aresult = explode(' ',stristr($this->_agent,'Windows Phone'));
+                $this->_platformVersion = str_replace(array('(',')',';'),'',$aresult[2]);
+            }
+        }
+        
         if ($this->_platform == self::PLATFORM_APPLE)
         {
             if ( stripos($this->_agent, 'Mac OS X') !== false ) 

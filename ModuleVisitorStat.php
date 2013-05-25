@@ -174,7 +174,6 @@ class ModuleVisitorStat extends BackendModule
 		$this->Template->visitorsstatReferrer    = $arrVisitorsStatReferrer;
 		//log_message(print_r($this->Template->visitorsstatBrowser,true), 'debug.log');
 		//log_message(print_r($this->Template->visitorsstatAverages,true), 'debug.log');
-		
 		// Kat sammeln
 		$objVisitorsKat = $this->Database->prepare("SELECT id , title FROM tl_visitors_category WHERE id IN "
 		                                        . " ( SELECT pid FROM tl_visitors "
@@ -282,11 +281,13 @@ class ModuleVisitorStat extends BackendModule
     				'visitors_visit'        => $this->getFormattedNumber($objVisitors->visitors_visit,0),
     				'visitors_hit'          => $this->getFormattedNumber($objVisitors->visitors_hit,0)
 	            );
-	            if ($objVisitors->visitors_date == date("Y-m-d")) {
+	            if ($objVisitors->visitors_date == date("Y-m-d")) 
+	            {
 	                $visitors_today_visit = $objVisitors->visitors_visit;
 	                $visitors_today_hit   = $objVisitors->visitors_hit;
 	            }
-	            if ($objVisitors->visitors_date == date("Y-m-d", time()-(60*60*24))) {
+	            if ($objVisitors->visitors_date == date("Y-m-d", time()-(60*60*24))) 
+	            {
 	                $visitors_yesterday_visit = $objVisitors->visitors_visit;
 	                $visitors_yesterday_hit   = $objVisitors->visitors_hit;
 	            }
