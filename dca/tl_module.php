@@ -35,6 +35,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_categories'] = array
 	'exclude'                 => true,
 	'inputType'               => 'select',
 	'foreignKey'              => 'tl_visitors_category.title',
+    'sql'                     => "varchar(255) NOT NULL default ''",
 	'eval'                    => array('multiple'=>false, 'mandatory'=>true, 'tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_template'] = array
@@ -43,7 +44,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_template'] = array
     'default'                 => 'mod_visitors_fe_all',
     'exclude'                 => true,
     'inputType'               => 'select',
-    'options_callback'        => array('BugBuster\Visitors\DCA_module_visitors', 'getVisitorsTemplates'), 
+    'options_callback'        => array('BugBuster\Visitors\DCA_module_visitors', 'getVisitorsTemplates'),
+    'sql'                     => "varchar(32) NOT NULL default ''",
     'eval'                    => array('tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_useragent'] = array
@@ -52,5 +54,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_useragent'] = array
 	'inputType'               => 'text',
 	'search'                  => true,
 	'explanation'	          => 'visitors_help_module',
+    'sql'                     => "varchar(64) NOT NULL default ''",
 	'eval'                    => array('mandatory'=>false, 'maxlength'=>64, 'helpwizard'=>true)
 );

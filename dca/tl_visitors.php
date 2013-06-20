@@ -29,7 +29,15 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 	(
 		'dataContainer'               => 'Table',
 		'ptable'                      => 'tl_visitors_category',
-		'enableVersioning'            => true
+		'enableVersioning'            => true,
+        'sql' => array
+        (
+            'keys' => array
+            (
+                'id'  => 'primary',
+                'pid' => 'index'
+            )
+        )
 	),
 
 	// List
@@ -112,12 +120,29 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 	// Fields
 	'fields' => array
 	(
+    	'id' => array
+    	(
+    	        'sql'       => "int(10) unsigned NOT NULL auto_increment"
+    	),
+    	'pid' => array
+    	(
+    	        'sql'       => "int(10) unsigned NOT NULL default '0'"
+    	),
+    	'sorting' => array
+    	(
+    	        'sql'       => "int(10) unsigned NOT NULL default '0'"
+    	),
+    	'tstamp' => array
+    	(
+    	        'sql'       => "int(10) unsigned NOT NULL default '0'"
+    	),
 	    'visitors_name' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_name'],
 			'inputType'               => 'text',
 			'search'                  => true,
 			'explanation'	          => 'visitors_help',
+			'sql'                     => "varchar(64) NOT NULL default ''",
 			'eval'                    => array('mandatory'=>true, 'maxlength'=>40, 'helpwizard'=>true, 'tl_class'=>'w50')
 		),
 		'visitors_startdate' => array
@@ -126,18 +151,21 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_startdate'],
 			'inputType'               => 'text',
 			'explanation'	          => 'visitors_help',
+			'sql'                     => "varchar(10) NOT NULL default ''",
 			'eval'                    => array('maxlength'=>10, 'rgxp'=>'date', 'helpwizard'=>true, 'datepicker'=>$this->getDatePickerString(), 'tl_class'=>'w50 wizard')
 		),
 		'visitors_visit_start' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_visit_start'],
 			'inputType'               => 'text',
+			'sql'                     => "int(10) unsigned NOT NULL default '0'",
 			'eval'                    => array('mandatory'=>false, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50')
 		),
 		'visitors_hit_start'   => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_hit_start'],
 			'inputType'               => 'text',
+			'sql'                     => "int(10) unsigned NOT NULL default '0'",
 			'eval'                    => array('mandatory'=>false, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50')
 		),
 		'visitors_average'   => array
@@ -145,18 +173,21 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_average'],
 			'exclude'                 => true,
 			'inputType'               => 'checkbox',
+			'sql'                     => "char(1) NOT NULL default ''",
 			'eval'					  => array('tl_class'=>'w50')
 		),
 		'visitors_block_time'	=> array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_block_time'],
 			'inputType'               => 'text',
+			'sql'                     => "int(10) unsigned NOT NULL default '1800'",
 			'eval'                    => array('mandatory'=>true, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50')
 		),
 		'visitors_thousands_separator'=> array
 		(
 			'label'					  => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_thousands_separator'],
 			'inputType'               => 'checkbox',
+			'sql'                     => "char(1) NOT NULL default ''",
 			'eval'                    => array('mandatory'=>false, 'helpwizard'=>false)
 		),
 		'published' => array
@@ -166,6 +197,7 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 			'filter'                  => true,
 			'flag'                    => 2,
 			'inputType'               => 'checkbox',
+			'sql'                     => "char(1) NOT NULL default ''",
 			'eval'                    => array('doNotCopy'=>true)
 		)
 	)

@@ -30,7 +30,14 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 		'dataContainer'               => 'Table',
 		'ctable'                      => array('tl_visitors'),
 		'switchToEdit'                => true,
-		'enableVersioning'            => true
+		'enableVersioning'            => true,
+        'sql' => array
+        (
+            'keys' => array
+            (
+                'id'  => 'primary'
+            )
+        )
 	),
 
 	// List
@@ -119,12 +126,21 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 	// Fields
 	'fields' => array
 	(
+    	'id' => array
+    	(
+    	        'sql'       => "int(10) unsigned NOT NULL auto_increment"
+    	),
+    	'tstamp' => array
+    	(
+    	        'sql'       => "int(10) unsigned NOT NULL default '0'"
+    	),
 		'title' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors_category']['title'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
+			'sql'                     => "varchar(60) NOT NULL default ''",
 			'eval'                    => array('mandatory'=>true, 'maxlength'=>60, 'tl_class'=>'w50')
 		),
 		'visitors_cache_mode' => array
@@ -135,6 +151,7 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 			'inputType'               => 'radio',
 			'options'                 => array('1', '2'),
 			'reference'               => &$GLOBALS['TL_LANG']['tl_visitors_category'],
+			'sql'                     => "tinyint(3) unsigned NOT NULL default '1'",
 			'eval'                    => array('mandatory'=>true)
 		)
 	)
