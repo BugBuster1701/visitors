@@ -1,19 +1,16 @@
 <?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2012 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  * 
  * Modul Visitors SearchEngine - Frontend
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2012
- * @author     Glen Langer 
- * @package    GLVisitors 
- * @license    LGPL 
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
 /**
@@ -26,8 +23,8 @@ namespace BugBuster\Visitors;
  * 
  * Check for searchengines in referrer
  *
- * @copyright  Glen Langer 2012
- * @author     Glen Langer 
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL 
  */
@@ -86,7 +83,9 @@ class ModuleVisitorSearchEngine// extends Frontend
 	    if (function_exists('filter_var'))	// Adjustment for hoster without the filter extension
 	    {
 	    	$this->_http_referer  = isset($_SERVER['HTTP_REFERER']) ? filter_var($_SERVER['HTTP_REFERER'],  FILTER_SANITIZE_URL) : self::REFERER_UNKNOWN ;
-	    } else {
+	    } 
+	    else 
+	    {
 	    	$this->_http_referer  = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : self::REFERER_UNKNOWN ;
 	    }
 	    
@@ -103,11 +102,14 @@ class ModuleVisitorSearchEngine// extends Frontend
 			if (function_exists('filter_var'))	// Adjustment for hoster without the filter extension
 	    	{
 				$this->_http_referer = filter_var($referer,  FILTER_SANITIZE_URL);
-	    	} else {
+	    	} 
+	    	else 
+	    	{
 	    		$this->_http_referer = $referer;
 	    	}
 		}
-		if ($this->_http_referer !== self::REFERER_UNKNOWN ) {
+		if ($this->_http_referer !== self::REFERER_UNKNOWN ) 
+		{
 			$this->detect();
 		}
 		
@@ -166,13 +168,18 @@ class ModuleVisitorSearchEngine// extends Frontend
 	    if (preg_match('/http:\/\/.*\.google\..*\/(|url|search|cse|imgres)/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_GOOGLE ;
-			if ( isset($this->_parse_result['q']) ) { 
+			if ( isset($this->_parse_result['q']) ) 
+			{ 
 				$this->_keywords = $this->_parse_result['q']; 
-			} else { 
+			} 
+			else 
+			{ 
 				//for imgres
-				if ( isset($this->_parse_result['prev']) ) {
+				if ( isset($this->_parse_result['prev']) ) 
+				{
 					parse_str( parse_url( $this->_parse_result['prev'], PHP_URL_QUERY ), $this->_parse_result);
-					if ( isset($this->_parse_result['q']) ) { 
+					if ( isset($this->_parse_result['q']) ) 
+					{ 
 						$this->_keywords = $this->_parse_result['q']; 
 					}
 				}
@@ -189,14 +196,19 @@ class ModuleVisitorSearchEngine// extends Frontend
 		if (preg_match('/http:\/\/.*\.googleusercontent\..*\//', $this->_http_referer ))
 		{
 			$this->_search_engine = self::SEARCH_ENGINE_GOOGLE ;
-			if ( isset($this->_parse_result['q']) ) { 
+			if ( isset($this->_parse_result['q']) ) 
+			{ 
 				//webcache.googleusercontent.com
 				$this->_keywords = substr($this->_parse_result['q'],1+strpos($this->_parse_result['q'],' ')); 
-			} else {
+			} 
+			else 
+			{
 				//translate.googleusercontent
-				if ( isset($this->_parse_result['prev']) ) {
+				if ( isset($this->_parse_result['prev']) ) 
+				{
 					parse_str( parse_url( $this->_parse_result['prev'], PHP_URL_QUERY ), $this->_parse_result);
-					if ( isset($this->_parse_result['q']) ) { 
+					if ( isset($this->_parse_result['q']) ) 
+					{ 
 						$this->_keywords = str_replace('+','',$this->_parse_result['q']); 
 					}
 				}
@@ -215,7 +227,8 @@ class ModuleVisitorSearchEngine// extends Frontend
 	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_GOOGLE ;
-			if ( isset($this->_parse_result['q']) ) { 
+			if ( isset($this->_parse_result['q']) ) 
+			{ 
 				$this->_keywords = $this->_parse_result['q']; 
 			}
 			//default
@@ -614,6 +627,3 @@ class ModuleVisitorSearchEngine// extends Frontend
 	}
 	
 }
-
-
-?>

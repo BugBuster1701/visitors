@@ -1,19 +1,16 @@
 <?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2012 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  * 
  * Modul Visitors Tag - Frontend for InsertTags
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2012
- * @author     Glen Langer 
- * @package    GLVisitors 
- * @license    LGPL 
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
 /**
@@ -24,8 +21,8 @@ namespace BugBuster\Visitors;
 /**
  * Class ModuleVisitorsTag 
  *
- * @copyright  Glen Langer 2011..2012
- * @author     Glen Langer 
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL 
  */
@@ -68,18 +65,20 @@ class ModuleVisitorsTag extends \Frontend
 		$arrTag = trimsplit('::', $strTag);
 		if ($arrTag[0] != 'visitors')
 		{
-			if ($arrTag[0] != 'cache_visitors') {
+			if ($arrTag[0] != 'cache_visitors') 
+			{
 				return false; // nicht für uns
 			}
 		}
 		$this->loadLanguageFile('tl_visitors');
-		if (!isset($arrTag[2])) {
+		if (!isset($arrTag[2])) 
+		{
 			$this->log($GLOBALS['TL_LANG']['tl_visitors']['no_key'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 			return false;  // da fehlt was
 		}
 
 		$visitors_category_id = (int)$arrTag[1];
-		$this->import('Database');
+
 		if ($arrTag[2] == 'count') 
 		{
 			/* __________  __  ___   _____________   ________
@@ -89,12 +88,20 @@ class ModuleVisitorsTag extends \Frontend
 			\____/\____/\____/_/ |_/ /_/ /___/_/ |_/\____/ only
 			*/
 
-			$objVisitors = $this->Database->prepare("SELECT tl_visitors.id AS id, visitors_block_time, visitors_cache_mode"
-			                                      ." FROM tl_visitors LEFT JOIN tl_visitors_category ON (tl_visitors_category.id=tl_visitors.pid)"
-			                                      ." WHERE pid=? AND published=?" 
-			                                      ." ORDER BY id, visitors_name")
-			                              ->limit(1)
-									      ->executeUncached($visitors_category_id,1);
+			$objVisitors = \Database::getInstance()
+			        ->prepare("SELECT 
+                                    tl_visitors.id AS id, 
+                                    visitors_block_time, 
+                                    visitors_cache_mode
+                                FROM 
+                                    tl_visitors 
+                                LEFT JOIN 
+                                    tl_visitors_category ON (tl_visitors_category.id=tl_visitors.pid)
+                                WHERE 
+                                    pid=? AND published=?
+                                ORDER BY id, visitors_name")
+                    ->limit(1)
+                    ->executeUncached($visitors_category_id,1);
 			if ($objVisitors->numRows < 1)
 			{
 			    $this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_katid'], 'ModulVisitors ReplaceInsertTags', TL_ERROR);
@@ -127,15 +134,24 @@ class ModuleVisitorsTag extends \Frontend
 		/ /_/ / /_/ / / / / ____/ /_/ / / /    
 		\____/\____/ /_/ /_/    \____/ /_/ 
 		*/
-		$objVisitors = $this->Database->prepare("SELECT tl_visitors.id AS id, visitors_name"
-											  . ", visitors_startdate, visitors_visit_start, visitors_hit_start"
-											  . ", visitors_average, visitors_thousands_separator"
-		                                      ." FROM tl_visitors "
-		                                      . "LEFT JOIN tl_visitors_category ON (tl_visitors_category.id=tl_visitors.pid)"
-		                                      ." WHERE pid=? AND published=?" 
-		                                      ." ORDER BY id, visitors_name")
-		                              ->limit(1)
-								      ->executeUncached($visitors_category_id,1);
+		$objVisitors = \Database::getInstance()
+		        ->prepare("SELECT 
+                                tl_visitors.id AS id, 
+                                visitors_name, 
+                                visitors_startdate, 
+                                visitors_visit_start, 
+                                visitors_hit_start, 
+                                visitors_average, 
+                                visitors_thousands_separator
+                            FROM 
+                                tl_visitors 
+                            LEFT JOIN 
+                                tl_visitors_category ON (tl_visitors_category.id=tl_visitors.pid)
+                            WHERE 
+                                pid=? AND published=?
+                            ORDER BY id, visitors_name")
+                ->limit(1)
+                ->executeUncached($visitors_category_id,1);
 		if ($objVisitors->numRows < 1)
 		{
 		    $this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_katid'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
@@ -150,9 +166,14 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "online":
 				    //VisitorsOnlineCount
-				    $objVisitorsOnlineCount = $this->Database->prepare("SELECT COUNT(id) AS VOC FROM tl_visitors_blocker"
-				                                                     ." WHERE vid=? AND visitors_type=?")
-				                                             ->executeUncached($objVisitors->id,'v');
+				    $objVisitorsOnlineCount = \Database::getInstance()
+				            ->prepare("SELECT 
+                                            COUNT(id) AS VOC 
+                                        FROM 
+                                            tl_visitors_blocker
+                                        WHERE 
+                                            vid=? AND visitors_type=?")
+                            ->executeUncached($objVisitors->id,'v');
 		            $objVisitorsOnlineCount->next();
 		            $VisitorsOnlineCount = ($objVisitorsOnlineCount->VOC === null) ? 0 : $objVisitorsOnlineCount->VOC;
 				return ($boolSeparator) ? $this->getFormattedNumber($VisitorsOnlineCount,0) : $VisitorsOnlineCount;
@@ -172,10 +193,14 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "totalvisit":
 			    	//TotalVisitCount
-		            $objVisitorsTotalCount = $this->Database->prepare("SELECT SUM(visitors_visit) AS SUMV"
-		                                                            ." FROM tl_visitors_counter"
-		                                                            ." WHERE vid=?")
-		    		                                        ->executeUncached($objVisitors->id);
+		            $objVisitorsTotalCount = \Database::getInstance()
+		                    ->prepare("SELECT 
+                                            SUM(visitors_visit) AS SUMV
+                                        FROM 
+                                            tl_visitors_counter
+                                        WHERE 
+                                            vid=?")
+                            ->executeUncached($objVisitors->id);
 					$VisitorsTotalVisitCount = $objVisitors->visitors_visit_start; //startwert
 					if ($objVisitorsTotalCount->numRows > 0) 
 					{
@@ -186,10 +211,14 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "totalhit":
 		    		//TotalHitCount
-		            $objVisitorsTotalCount = $this->Database->prepare("SELECT SUM(visitors_hit) AS SUMH"
-		                                                            ." FROM tl_visitors_counter"
-		                                                            ." WHERE vid=?")
-		    		                                        ->executeUncached($objVisitors->id);
+		            $objVisitorsTotalCount = \Database::getInstance()
+		                    ->prepare("SELECT 
+                                            SUM(visitors_hit) AS SUMH
+                                        FROM 
+                                            tl_visitors_counter
+                                        WHERE 
+                                            vid=?")
+                            ->executeUncached($objVisitors->id);
 					$VisitorsTotalHitCount   = $objVisitors->visitors_hit_start;   //startwert
 					if ($objVisitorsTotalCount->numRows > 0) 
 					{
@@ -200,10 +229,14 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "todayvisit":
 					//TodaysVisitCount
-				    $objVisitorsTodaysCount = $this->Database->prepare("SELECT visitors_visit"
-		                                                            ." FROM tl_visitors_counter"
-		                                                            ." WHERE vid=? AND visitors_date=?")
-				                                             ->executeUncached($objVisitors->id,date('Y-m-d'));
+				    $objVisitorsTodaysCount = \Database::getInstance()
+				            ->prepare("SELECT 
+                                            visitors_visit
+                                        FROM 
+                                            tl_visitors_counter
+                                        WHERE 
+                                            vid=? AND visitors_date=?")
+                            ->executeUncached($objVisitors->id,date('Y-m-d'));
 				    if ($objVisitorsTodaysCount->numRows < 1) 
 				    {
 				    	$VisitorsTodaysVisitCount = 0;
@@ -217,10 +250,14 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "todayhit":
 					//TodaysHitCount
-				    $objVisitorsTodaysCount = $this->Database->prepare("SELECT visitors_hit"
-		                                                            ." FROM tl_visitors_counter"
-		                                                            ." WHERE vid=? AND visitors_date=?")
-				                                             ->executeUncached($objVisitors->id,date('Y-m-d'));
+				    $objVisitorsTodaysCount = \Database::getInstance()
+				            ->prepare("SELECT 
+                                            visitors_hit
+                                        FROM 
+                                            tl_visitors_counter
+                                        WHERE 
+                                            vid=? AND visitors_date=?")
+                            ->executeUncached($objVisitors->id,date('Y-m-d'));
 				    if ($objVisitorsTodaysCount->numRows < 1) 
 				    {
 				    	$VisitorsTodaysHitCount   = 0;
@@ -238,11 +275,15 @@ class ModuleVisitorsTag extends \Frontend
 				    {
 				    	$today     = date('Y-m-d');
 						$yesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-1, date("Y")));
-		                $objVisitorsAverageCount = $this->Database->prepare("SELECT SUM(visitors_visit) AS SUMV"
-		        		                                                ." , MIN( visitors_date ) AS MINDAY"
-		                                                                ." FROM tl_visitors_counter"
-		                                                                ." WHERE vid=? AND visitors_date<?")
-		                                                ->executeUncached($objVisitors->id,$today);
+		                $objVisitorsAverageCount = \Database::getInstance()
+		                        ->prepare("SELECT 
+                                                SUM(visitors_visit)  AS SUMV, 
+                                                MIN( visitors_date ) AS MINDAY
+                                            FROM 
+                                                tl_visitors_counter
+                                            WHERE 
+                                                vid=? AND visitors_date<?")
+                                ->executeUncached($objVisitors->id,$today);
 		    		    if ($objVisitorsAverageCount->numRows > 0) 
 		    		    {
 		                    $objVisitorsAverageCount->next();
@@ -271,12 +312,18 @@ class ModuleVisitorsTag extends \Frontend
 					$this->log($GLOBALS['TL_LANG']['tl_visitors']['no_param4'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 					return false;  // da fehlt was
 				}
-				$objVisitorsBestday = $this->Database->prepare("SELECT visitors_date, visitors_visit, visitors_hit"
-				                                             ." FROM tl_visitors_counter"
-				                                             ." WHERE vid=?"
-				                                             ." ORDER BY visitors_visit DESC,visitors_hit DESC")
-				                                     ->limit(1)
-				                                     ->execute($objVisitors->id);
+				$objVisitorsBestday = \Database::getInstance()
+				        ->prepare("SELECT 
+                                        visitors_date, 
+                                        visitors_visit, 
+                                        visitors_hit
+                                    FROM 
+                                        tl_visitors_counter
+                                    WHERE 
+                                        vid=?
+                                    ORDER BY visitors_visit DESC, visitors_hit DESC")
+                        ->limit(1)
+                        ->execute($objVisitors->id);
 				if ($objVisitorsBestday->numRows > 0) 
 				{
 		        	$objVisitorsBestday->next();
@@ -335,15 +382,24 @@ class ModuleVisitorsTag extends \Frontend
 	    $BlockTime = ($BlockTime == '') ? 1800 : $BlockTime; //Sekunden
 	    $CURDATE = date('Y-m-d');
 	    //Visitor Blocker
-	    $this->Database->prepare("DELETE FROM tl_visitors_blocker"
-	                           ." WHERE CURRENT_TIMESTAMP - INTERVAL ? SECOND > visitors_tstamp"
-	                           ." AND vid=? AND visitors_type=?")
-	                   ->executeUncached($BlockTime, $vid, 'v');
+	    \Database::getInstance()
+	            ->prepare("DELETE FROM 
+                                tl_visitors_blocker
+                            WHERE 
+                                CURRENT_TIMESTAMP - INTERVAL ? SECOND > visitors_tstamp
+                                AND vid = ? 
+                                AND visitors_type = ?")
+                ->executeUncached($BlockTime, $vid, 'v');
+
 	    //Hit Blocker for IE8 Bullshit and Browser Counting
-	    $this->Database->prepare("DELETE FROM tl_visitors_blocker"
-	                           ." WHERE CURRENT_TIMESTAMP - INTERVAL ? SECOND > visitors_tstamp"
-	                           ." AND vid=? AND visitors_type=?")
-	                   ->executeUncached(3, $vid, 'h'); // 3 Sekunden Blockierung zw. Zählung per Tag und Zählung per Browser
+	    \Database::getInstance()
+	            ->prepare("DELETE FROM 
+                                tl_visitors_blocker
+                            WHERE 
+                                CURRENT_TIMESTAMP - INTERVAL ? SECOND > visitors_tstamp
+                                AND vid = ? 
+                                AND visitors_type = ?")
+                ->executeUncached(3, $vid, 'h'); // 3 Sekunden Blockierung zw. Zählung per Tag und Zählung per Browser
 	    if ($this->ModuleVisitorChecks->CheckBE() == true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
@@ -351,30 +407,44 @@ class ModuleVisitorsTag extends \Frontend
 		}
 		
 		//Test ob Hits gesetzt werden muessen (IE8 Bullshit and Browser Counting)
-		$objHitIP = $this->Database->prepare("SELECT id, visitors_ip"
-                            		        ." FROM tl_visitors_blocker"
-                            		        ." WHERE visitors_ip=?"
-                            		        ." AND vid=? AND visitors_type=?")
-                    		       ->executeUncached($ClientIP, $vid, 'h');
+		$objHitIP = \Database::getInstance()
+		        ->prepare("SELECT 
+                                id, 
+                                visitors_ip
+                            FROM 
+                                tl_visitors_blocker
+                            WHERE 
+                                visitors_ip = ?
+                                AND vid = ? 
+                                AND visitors_type = ?")
+                ->executeUncached($ClientIP, $vid, 'h');
 				
 	    //Hits und Visits lesen
-	    $objHitCounter = $this->Database->prepare("SELECT id, visitors_hit, visitors_visit"
-	                                            ." FROM tl_visitors_counter"
-	                                            ." WHERE visitors_date=?"
-	                                            ." AND vid=?")
-	                                    ->executeUncached($CURDATE, $vid);
+	    $objHitCounter = \Database::getInstance()
+	            ->prepare("SELECT 
+                                id, 
+                                visitors_hit, 
+                                visitors_visit
+                            FROM 
+                                tl_visitors_counter
+                            WHERE 
+                                visitors_date = ? AND vid = ?")
+                ->executeUncached($CURDATE, $vid);
         //Hits setzen
 	    if ($objHitCounter->numRows < 1) 
 	    {
 	    	if ($objHitIP->numRows < 1) 
 	    	{
 	    	    //at first: block
-	    	    $this->Database->prepare("INSERT INTO tl_visitors_blocker"
-	    	                           ." SET vid=?"
-	    	                           .", visitors_tstamp=CURRENT_TIMESTAMP"
-	    	                           .", visitors_ip=?"
-	    	                           .", visitors_type=?")
-	    	                   ->execute($vid, $ClientIP, 'h');
+	    	    \Database::getInstance()
+	    	            ->prepare("INSERT INTO 
+                                        tl_visitors_blocker
+                                    SET 
+                                        vid = ?, 
+                                        visitors_tstamp=CURRENT_TIMESTAMP, 
+                                        visitors_ip = ?, 
+                                        visitors_type = ?")
+                        ->execute($vid, $ClientIP, 'h');
 		        // Insert
 		        $arrSet = array
 	            (
@@ -383,7 +453,10 @@ class ModuleVisitorsTag extends \Frontend
 	                'visitors_visit'    => 1,
 	                'visitors_hit'      => 1
 	            ); 
-			    $this->Database->prepare("INSERT IGNORE INTO tl_visitors_counter %s")->set($arrSet)->executeUncached();
+			    \Database::getInstance()
+			            ->prepare("INSERT IGNORE INTO tl_visitors_counter %s")
+                        ->set($arrSet)
+                        ->executeUncached();
 	    	} 
 	    	else 
 	    	{
@@ -400,14 +473,23 @@ class ModuleVisitorsTag extends \Frontend
 			if ($objHitIP->numRows < 1) 
 			{
 		        // Update
-		    	$this->Database->prepare("INSERT INTO tl_visitors_blocker"
-				                       ." SET vid=?"
-		    	                       .", visitors_tstamp=CURRENT_TIMESTAMP"
-		    	                       .", visitors_ip=?"
-		    	                       .", visitors_type=?")
-				               ->execute($vid, $ClientIP, 'h');
-		    	$this->Database->prepare("UPDATE tl_visitors_counter SET visitors_hit=? WHERE id=?")
-		    	               ->executeUncached($visitors_hits, $objHitCounter->id);
+		    	\Database::getInstance()
+		    	        ->prepare("INSERT INTO 
+                                        tl_visitors_blocker
+                                    SET 
+                                        vid = ?, 
+                                        visitors_tstamp=CURRENT_TIMESTAMP, 
+                                        visitors_ip = ?, 
+                                        visitors_type = ?")
+                        ->execute($vid, $ClientIP, 'h');
+		    	\Database::getInstance()
+		    	        ->prepare("UPDATE 
+                                        tl_visitors_counter 
+                                    SET 
+                                        visitors_hit=? 
+                                    WHERE 
+                                        id=?")
+                        ->executeUncached($visitors_hits, $objHitCounter->id);
 			} 
 			else 
 			{
@@ -416,34 +498,50 @@ class ModuleVisitorsTag extends \Frontend
 	    }
 	    
 	    //Visits / IP setzen
-	    $objVisitIP = $this->Database->prepare("SELECT id, visitors_ip"
-	                                         ." FROM tl_visitors_blocker"
-	                                         ." WHERE visitors_ip=?"
-	                                         ." AND vid=? AND visitors_type=?")
-	                                 ->executeUncached($ClientIP, $vid, 'v');
+	    $objVisitIP = \Database::getInstance()
+	            ->prepare("SELECT 
+                                id, 
+                                visitors_ip
+                            FROM 
+                                tl_visitors_blocker
+                            WHERE 
+                                visitors_ip = ? AND vid = ? AND visitors_type = ?")
+                ->executeUncached($ClientIP, $vid, 'v');
 	    if ($objVisitIP->numRows < 1) 
 	    {
 	        // not blocked: Insert IP + Update Visits
-	        $this->Database->prepare("INSERT INTO tl_visitors_blocker"
-	                               ." SET vid=?"
-	                               .", visitors_tstamp=CURRENT_TIMESTAMP"
-	                               .", visitors_ip=?"
-	                               .", visitors_type=?")
-	                       ->execute($vid, $ClientIP, 'v');
+	        \Database::getInstance()
+	                ->prepare("INSERT INTO 
+                                    tl_visitors_blocker
+                                SET 
+                                    vid = ?, 
+                                    visitors_tstamp = CURRENT_TIMESTAMP, 
+                                    visitors_ip = ?, 
+                                    visitors_type = ?")
+                    ->execute($vid, $ClientIP, 'v');
 	        
-	        $this->Database->prepare("UPDATE tl_visitors_counter SET visitors_visit=?"
-	                               ." WHERE visitors_date=?"
-	                               ." AND vid=?")
-	    	               ->executeUncached($visitors_visit, $CURDATE, $vid);
+	        \Database::getInstance()
+	                ->prepare("UPDATE 
+                                    tl_visitors_counter 
+                                SET 
+                                    visitors_visit = ?
+                                WHERE 
+                                    visitors_date = ? AND vid = ?")
+                    ->executeUncached($visitors_visit, $CURDATE, $vid);
 	    } 
 	    else 
 	    {
 	    	// blocked: Update tstamp
-	    	$this->Database->prepare("UPDATE tl_visitors_blocker"
-	    	                       ." SET visitors_tstamp=CURRENT_TIMESTAMP"
-	    	                       ." WHERE visitors_ip=?"
-	    	                       ." AND vid=? AND visitors_type=?")
-	    	               ->executeUncached($ClientIP, $vid, 'v');
+	    	\Database::getInstance()
+	    	        ->prepare("UPDATE 
+                                    tl_visitors_blocker
+                                SET 
+                                    visitors_tstamp = CURRENT_TIMESTAMP
+                                WHERE 
+                                    visitors_ip = ?
+                                    AND vid = ? 
+                                    AND visitors_type = ?")
+                    ->executeUncached($ClientIP, $vid, 'v');
 	    	$this->_VB = true;
 	    }
 	    if ($objVisitIP->numRows < 1) 
@@ -494,14 +592,18 @@ class ModuleVisitorsTag extends \Frontend
 				    //if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == 'unknown' ) {
 				    //	log_message("Unbekannter User Agent: ".$this->Environment->httpUserAgent."", 'unknown.log');
 				    //}
-				    $objBrowserCounter = $this->Database->prepare("SELECT id,visitors_counter"
-					                                            ." FROM tl_visitors_browser"
-					                                            ." WHERE vid=?"
-					                                            ." AND visitors_browser=?"
-					                                            ." AND visitors_os=?"
-					                                            ." AND visitors_lang=?"
-					                                            )
-				                                    	->executeUncached($vid, $arrBrowser['brversion'], $arrBrowser['Platform'], $arrBrowser['lang']);
+				    $objBrowserCounter = \Database::getInstance()
+				            ->prepare("SELECT 
+                                            id,
+                                            visitors_counter
+                                        FROM 
+                                            tl_visitors_browser
+                                        WHERE 
+                                            vid = ? 
+                                            AND visitors_browser = ?
+                                            AND visitors_os = ?
+                                            AND visitors_lang = ?")
+                            ->executeUncached($vid, $arrBrowser['brversion'], $arrBrowser['Platform'], $arrBrowser['lang']);
 				    //setzen
 				    if ($objBrowserCounter->numRows < 1) 
 				    {
@@ -514,7 +616,10 @@ class ModuleVisitorsTag extends \Frontend
 			                'visitors_lang'		=> $arrBrowser['lang'],
 			                'visitors_counter'  => 1
 			            );
-					    $this->Database->prepare("INSERT INTO tl_visitors_browser %s")->set($arrSet)->execute();
+					    \Database::getInstance()
+					            ->prepare("INSERT INTO tl_visitors_browser %s")
+                                ->set($arrSet)
+                                ->execute();
 				    } 
 				    else 
 				    {
@@ -522,8 +627,9 @@ class ModuleVisitorsTag extends \Frontend
 				        $objBrowserCounter->next();
 				        $visitors_counter = $objBrowserCounter->visitors_counter +1;
 				    	// Update
-				    	$this->Database->prepare("UPDATE tl_visitors_browser SET visitors_counter=? WHERE id=?")
-				    	               ->executeUncached($visitors_counter, $objBrowserCounter->id);
+				    	\Database::getInstance()
+                                ->prepare("UPDATE tl_visitors_browser SET visitors_counter=? WHERE id=?")
+                                ->executeUncached($visitors_counter, $objBrowserCounter->id);
 				    }
 			    } // else von NULL
 			} // if strlen
@@ -551,11 +657,15 @@ class ModuleVisitorsTag extends \Frontend
 		            'visitors_searchengine' => $SearchEngine,
 		            'visitors_keywords'		=> $Keywords
 		        );
-			    $this->Database->prepare("INSERT INTO tl_visitors_searchengines %s")->set($arrSet)->executeUncached();
+			    \Database::getInstance()
+			            ->prepare("INSERT INTO tl_visitors_searchengines %s")
+                        ->set($arrSet)
+                        ->executeUncached();
 			    // Delete old entries
 			    $CleanTime = mktime(0, 0, 0, date("m")-3, date("d"), date("Y")); // Einträge >= 90 Tage werden gelöscht
-			    $this->Database->prepare("DELETE FROM tl_visitors_searchengines WHERE tstamp<? AND vid=?")
-		                       ->execute($CleanTime,$vid);
+			    \Database::getInstance()
+			            ->prepare("DELETE FROM tl_visitors_searchengines WHERE tstamp < ? AND vid = ?")
+                        ->execute($CleanTime,$vid);
 			} //keywords
 		} //searchengine
 	} //VisitorCheckSearchEngine
@@ -589,11 +699,15 @@ class ModuleVisitorsTag extends \Frontend
 			        );
 			        //Referrer setzen
 			    	//log_message('VisitorCheckReferrer Referrer setzen', 'debug.log');
-			        $this->Database->prepare("INSERT INTO tl_visitors_referrer %s")->set($arrSet)->executeUncached();
+			        \Database::getInstance()
+			                ->prepare("INSERT INTO tl_visitors_referrer %s")
+                            ->set($arrSet)
+                            ->executeUncached();
 				    // Delete old entries
 				    $CleanTime = mktime(0, 0, 0, date("m")-4, date("d"), date("Y")); // Einträge >= 120 Tage werden gelöscht
-				    $this->Database->prepare("DELETE FROM tl_visitors_referrer WHERE tstamp<? AND vid=?")
-			                       ->execute($CleanTime,$vid);
+				    \Database::getInstance()
+                            ->prepare("DELETE FROM tl_visitors_referrer WHERE tstamp < ? AND vid = ?")
+                            ->execute($CleanTime, $vid);
 		    	}
 		    } //if PF
 	    } //if VB

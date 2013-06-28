@@ -1,23 +1,20 @@
 <?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  * 
  * Modul Visitors Config File
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2012
- * @author     Glen Langer 
- * @package    GLVisitors 
- * @license    LGPL 
+ * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
 define('VISITORS_VERSION', '3.1');
-define('VISITORS_BUILD'  , '2');
+define('VISITORS_BUILD'  , '3');
 
 /**
  * -------------------------------------------------------------------------

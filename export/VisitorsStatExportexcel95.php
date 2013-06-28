@@ -1,21 +1,18 @@
 <?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  * 
- * Visitors Statistik Export - Excel Variante
+ * Visitors Statistik Export - Excel 95 Variante
  *
  * wird von VisitorsStatExport.php aufgerufen als popup
  * 
- * PHP version 5
- * @copyright  Glen Langer 2009..2011
- * @author     Glen Langer
- * @package    GLVisitors
- * @license    LGPL
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
 /**
@@ -26,8 +23,8 @@ namespace BugBuster\Visitors;
 /**
  * Class VisitorsStatExportexcel95
  *
- * @copyright  Glen Langer 2011
- * @author     Glen Langer
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  */
 class VisitorsStatExportexcel95
@@ -43,9 +40,12 @@ class VisitorsStatExportexcel95
 	    //IE or other?
 	    $log_version ='';
         $HTTP_USER_AGENT = getenv("HTTP_USER_AGENT");
-        if (preg_match('@MSIE ([0-9].[0-9]{1,2})@', $HTTP_USER_AGENT, $log_version)) {
+        if (preg_match('@MSIE ([0-9].[0-9]{1,2})@', $HTTP_USER_AGENT, $log_version)) 
+        {
             $this->BrowserAgent = 'IE';
-        } else {
+        } 
+        else 
+        {
             $this->BrowserAgent = 'NOIE';
         }
 	}
@@ -82,7 +82,8 @@ class VisitorsStatExportexcel95
 	    		$arrVisitorsStat[5] = $objVisitors->visitors_visit=='' ? '0' : $objVisitors->visitors_visit;
 	    		$arrVisitorsStat[6] = $objVisitors->visitors_hit=='' ? '0' : $objVisitors->visitors_hit;
 	    		
-	        	for ($c = 1; $c <= 7; $c++) {
+	        	for ($c = 1; $c <= 7; $c++) 
+	        	{
 	        		$xls->setcell(array("sheetname" => $sheet,"row" => $intRowCounter, "col" => $c-1, 'hallign' => XLSXF_HALLIGN_CENTER, "data" => $arrVisitorsStat[$c-1]));
 	        	}
 	        	$intRowCounter++;

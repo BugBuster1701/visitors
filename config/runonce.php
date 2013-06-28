@@ -2,25 +2,23 @@
 
 @error_reporting(0); @ini_set("display_errors", 0);  
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2012 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  *
  * Modul Visitors - /config/runonce.php
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2012
- * @author     Glen Langer
+ * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
+ * @filesource
  * @package    GLVisitors
- * @license    LGPL
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
 /**
  * Class VisitorsRunonceJob
  *
- * @copyright  Glen Langer 2009..2012
- * @author     Glen Langer
+ * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL
  */
@@ -179,6 +177,16 @@ class VisitorsRunonceJob extends Controller
 		        } //while $objMultiRows
 		    } //while $objMulti
 		} //if tl_visitors_counter
+		
+		//Contao 3.1, database2DCA, delete for manual installations
+		if (is_file(TL_ROOT . '/system/modules/visitors/config/database.sql'))
+		{
+		    $objFile = new File('system/modules/visitors/config/database.sql');
+		    $objFile->delete();
+		    $objFile->close();
+		    $objFile=null;
+		    unset($objFile);
+		}
 		
 	} //function run
 } // class

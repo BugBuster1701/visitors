@@ -21,8 +21,8 @@ namespace BugBuster\Visitors;
 /**
  * Class ModuleVisitorStat
  *
- * @copyright  Glen Langer 2009..2013
- * @author     Glen Langer
+ * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @todo       Must be completely rewritten.
  */
@@ -46,15 +46,23 @@ class ModuleVisitorStat extends \BackendModule
 	public function __construct()
 	{
 	    parent::__construct();
-	    if (\Input::get('act',true)=='zero') {
+	    
+	    if (\Input::get('act',true)=='zero') 
+	    {
 	    	$this->setZero();
 	    }
-	    if (\Input::get('act',true)=='zerobrowser') {
+	    
+	    if (\Input::get('act',true)=='zerobrowser') 
+	    {
 	    	$this->setZeroBrowser();
 	    }
-	    if (\Input::post('id')>0) {
+	    
+	    if (\Input::post('id')>0) 
+	    {
 	    	$this->intKatID = preg_replace('@\D@', '', \Input::post('id')); //  only digits
-	    } else {
+	    } 
+	    else 
+	    {
 	    	$this->intKatID = 0;
 	    }
 	}
@@ -64,19 +72,35 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	protected function compile()
 	{
-	    if ($this->intKatID == 0) { //direkter Aufruf ohne ID 
-	        $objVisitorsKatID = $this->Database->prepare("SELECT MIN(pid) AS ANZ from tl_visitors")->execute();
+	    if ($this->intKatID == 0) //direkter Aufruf ohne ID 
+	    { 
+	        $objVisitorsKatID = \Database::getInstance()
+	                ->prepare("SELECT
+                                    MIN(pid) AS ANZ 
+                                FROM 
+                                    tl_visitors")
+	                ->execute();
     	    $objVisitorsKatID->next();
-    	    if ($objVisitorsKatID->ANZ === null) {
+    	    if ($objVisitorsKatID->ANZ === null) 
+    	    {
     	    	$this->intKatID = 0;
-    	    } else {
+    	    } 
+    	    else 
+    	    {
     	        $this->intKatID = $objVisitorsKatID->ANZ;
     	    }
 	    }
 		// Alle Zähler je Kat holen, die Aktiven zuerst
-		$objVisitorsX = $this->Database->prepare("SELECT id FROM tl_visitors WHERE pid=?"
-		                                      . " ORDER BY published DESC,id")
-                                       ->execute($this->intKatID);
+		$objVisitorsX = \Database::getInstance()
+		        ->prepare("SELECT 
+                                id 
+                            FROM 
+                                tl_visitors 
+                            WHERE 
+                                pid=? 
+                            ORDER BY 
+                                published DESC,id")
+                ->execute($this->intKatID);
 		$intRowsX = $objVisitorsX->numRows;
 		$intAnzCounter=0;
 		if ($intRowsX>0) 
@@ -123,7 +147,8 @@ class ModuleVisitorStat extends \BackendModule
 				//log_message(print_r(array_reverse($arrVisitorsStatDays[$intAnzCounter]),true), 'debug.log');
 				foreach (array_reverse($arrVisitorsStatDays[$intAnzCounter]) as $key => $valuexy)
 				{
-					if (isset($valuexy['visitors_date_ymd'])) {
+					if (isset($valuexy['visitors_date_ymd'])) 
+					{
 						//log_message(print_r(substr($valuexy['visitors_date'],0,2),true), 'debug.log');
 						//log_message(print_r($valuexy['visitors_visit'],true), 'debug.log');
 						// chart resetten, wie? fehlt noch
@@ -177,12 +202,22 @@ class ModuleVisitorStat extends \BackendModule
 		//log_message(print_r($this->Template->visitorsstatAverages,true), 'debug.log');
 		
 		// Kat sammeln
-		$objVisitorsKat = $this->Database->prepare("SELECT id , title FROM tl_visitors_category WHERE id IN "
-		                                        . " ( SELECT pid FROM tl_visitors "
-                                                . " LEFT JOIN tl_visitors_category ON tl_visitors.pid = tl_visitors_category.id "
-                                                . " GROUP BY tl_visitors.pid )"
-                                                . " ORDER BY title")
-					                     ->execute();
+		$objVisitorsKat = \Database::getInstance()
+    	        ->prepare("SELECT 
+                                id, title
+                            FROM
+                                tl_visitors_category
+                            WHERE
+                                id IN (SELECT 
+                                        pid
+                                        FROM
+                                            tl_visitors
+                                        LEFT JOIN
+                                            tl_visitors_category ON tl_visitors.pid = tl_visitors_category.id
+                                        GROUP BY tl_visitors.pid
+                                        )
+                            ORDER BY title")
+                ->execute();
 		$intKatRows = $objVisitorsKat->numRows;
 		if ($intKatRows>0) 
 		{
@@ -194,7 +229,9 @@ class ModuleVisitorStat extends \BackendModule
                     'title' => $objVisitorsKat->title
 			    );
 			}
-		} else { // es gibt keine Kat mit Zaehler
+		} 
+		else 
+		{ // es gibt keine Kat mit Zaehler
 			$arrVisitorsKats[] = array
 		    (
                 'id'    => '0',
@@ -210,10 +247,13 @@ class ModuleVisitorStat extends \BackendModule
 		
 		//SearchEngines
 		$arrSE = $this->getSearchEngine($this->intKatID);
-		if ($arrSE !== false) {
+		if ($arrSE !== false) 
+		{
 			$this->Template->visitorssearchengines        = $arrSE['SearchEngines'];
 			$this->Template->visitorssearchenginekeywords = $arrSE['SearchEngineKeywords'];
-		} else {
+		} 
+		else 
+		{
 			$this->Template->visitorssearchengine = false;
 		}
 	}
@@ -232,26 +272,45 @@ class ModuleVisitorStat extends \BackendModule
 		$visitors_hit_start       = 0;
 		$visitors_day_of_week_prefix = '';
 	    // 7 Tages Statistik und Vorgabewerte
-	    $objVisitors = $this->Database->prepare("SELECT tv.id, tv.visitors_name, tv.visitors_startdate, tv.visitors_visit_start, tv.visitors_hit_start, tv.published, tvc.visitors_date, tvc.visitors_visit, tvc.visitors_hit"
-		                                     . " FROM tl_visitors tv, tl_visitors_counter tvc"
-                                             . " WHERE tv.id=tvc.vid"
-                                             . " AND tv.pid =?"
-                                             . " AND tv.id=?"
-                                             . " ORDER BY tv.visitors_name, tvc.visitors_date DESC")
-                                     ->limit(14)
-					                 ->execute($KatID, $VisitorsXid);
+	    $objVisitors = \Database::getInstance()
+	            ->prepare("SELECT 
+                                tv.id,
+                                tv.visitors_name,
+                                tv.visitors_startdate,
+                                tv.visitors_visit_start,
+                                tv.visitors_hit_start,
+                                tv.published,
+                                tvc.visitors_date,
+                                tvc.visitors_visit,
+                                tvc.visitors_hit
+                            FROM
+                                tl_visitors tv,
+                                tl_visitors_counter tvc
+                            WHERE
+                                tv.id = tvc.vid AND tv.pid = ? AND tv.id = ?
+                            ORDER BY tv.visitors_name , tvc.visitors_date DESC")
+                ->limit(14)
+                ->execute($KatID, $VisitorsXid);
 		$intRowsVisitors = $objVisitors->numRows;
-		if ($intRowsVisitors>0) { // Zählungen vorhanden
+		if ($intRowsVisitors>0) 
+		{ // Zählungen vorhanden
 		    while ($objVisitors->next())
     		{
-    		    if ($objVisitors->published == 1) {
+    		    if ($objVisitors->published == 1) 
+    		    {
+    		        
     		        $objVisitors->published = '<span class="visitors_stat_yes">'.$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['pub_yes'].'</span>';
-    		    } else {
+    		    } 
+    		    else 
+    		    {
     		    	$objVisitors->published = '<span class="visitors_stat_no">'.$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['pub_no'].'</span>';
     		    }
-    		    if (!strlen($objVisitors->visitors_startdate)) {
+    		    if (!strlen($objVisitors->visitors_startdate)) 
+    		    {
     		    	$visitors_startdate = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['not_defined'];
-    		    } else {
+    		    } 
+    		    else 
+    		    {
     		        //$visitors_startdate = $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $objVisitors->visitors_startdate);
     		        $visitors_startdate = $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'], $objVisitors->visitors_startdate);
     		    }
@@ -272,11 +331,13 @@ class ModuleVisitorStat extends \BackendModule
     				'visitors_visit'        => $this->getFormattedNumber($objVisitors->visitors_visit,0),
     				'visitors_hit'          => $this->getFormattedNumber($objVisitors->visitors_hit,0)
 	            );
-	            if ($objVisitors->visitors_date == date("Y-m-d")) {
+	            if ($objVisitors->visitors_date == date("Y-m-d")) 
+	            {
 	                $visitors_today_visit = $objVisitors->visitors_visit;
 	                $visitors_today_hit   = $objVisitors->visitors_hit;
 	            }
-	            if ($objVisitors->visitors_date == date("Y-m-d", time()-(60*60*24))) {
+	            if ($objVisitors->visitors_date == date("Y-m-d", time()-(60*60*24))) 
+	            {
 	                $visitors_yesterday_visit = $objVisitors->visitors_visit;
 	                $visitors_yesterday_hit   = $objVisitors->visitors_hit;
 	            }
@@ -287,13 +348,19 @@ class ModuleVisitorStat extends \BackendModule
 		} 
 		else 
 		{
-			$objVisitors = $this->Database->prepare("SELECT tv.id, tv.visitors_name, tv.visitors_startdate, tv.published"
-		                                     . " FROM tl_visitors tv"
-                                             . " WHERE tv.pid =?"
-                                             . " AND tv.id=?"
-                                             . " ORDER BY tv.visitors_name")
-                                     	  ->limit(1)
-					                 	  ->execute($KatID, $VisitorsXid);
+			$objVisitors = \Database::getInstance()
+			        ->prepare("SELECT 
+                                    tv.id, 
+                                    tv.visitors_name, 
+                                    tv.visitors_startdate, 
+                                    tv.published
+                                FROM
+                                    tl_visitors tv
+                                WHERE
+                                    tv.pid = ? AND tv.id = ?
+                                ORDER BY tv.visitors_name")
+                    ->limit(1)
+                    ->execute($KatID, $VisitorsXid);
 			$objVisitors->next();
 			if ($objVisitors->published == 1) 
 			{
@@ -348,14 +415,19 @@ class ModuleVisitorStat extends \BackendModule
 		if ($VisitorsID) 
 		{
 			//Total je Monat (aktueller und letzter)
-			$objVisitorsToMo = $this->Database->prepare('SELECT EXTRACT( MONTH FROM visitors_date ) AS M, SUM( visitors_visit ) AS SUMV , SUM( visitors_hit ) AS SUMH '
-	                                                 . ' FROM tl_visitors_counter '
-	                                                 . ' WHERE vid=?'
-	                                                 . ' AND visitors_date BETWEEN ? AND ?'
-	                                                 . ' GROUP BY M'
-	                                                 . ' ORDER BY M '.$ORDER)
-	                                          ->limit(2)
-	  					                      ->execute($VisitorsID,$YearLastMonth,$YearCurrentMonth);
+			$objVisitorsToMo = \Database::getInstance()
+			        ->prepare('SELECT 
+                                    EXTRACT( MONTH FROM visitors_date ) AS M, 
+                                    SUM( visitors_visit ) AS SUMV , 
+                                    SUM( visitors_hit ) AS SUMH 
+                                FROM 
+                                    tl_visitors_counter 
+                                WHERE 
+                                    vid=? AND visitors_date BETWEEN ? AND ?
+                                GROUP BY M
+                                ORDER BY M '.$ORDER)
+                    ->limit(2)
+                    ->execute($VisitorsID,$YearLastMonth,$YearCurrentMonth);
 			$intRows = $objVisitorsToMo->numRows;
 			if ($intRows>0) 
 			{ 
@@ -400,21 +472,30 @@ class ModuleVisitorStat extends \BackendModule
 		if ($VisitorsID) 
 		{
 			//Total je Monat (aktueller und letzter)
-			$objVisitorsToMo = $this->Database->prepare('SELECT EXTRACT( YEAR FROM visitors_date ) AS Y, EXTRACT( MONTH FROM visitors_date ) AS M'
-			                                         . ', SUM( visitors_visit ) AS SUMV , SUM( visitors_hit ) AS SUMH '
-	                                                 . ' FROM tl_visitors_counter '
-	                                                 . ' WHERE vid=?'
-	                                                 . ' AND visitors_date BETWEEN ? AND ?'
-	                                                 . ' GROUP BY Y,M'
-	                                                 . ' ORDER BY Y DESC,M DESC')
-	  					                      ->execute($VisitorsID,$StartMonth,$EndMonth);
+            $objVisitorsToMo = \Database::getInstance()
+			        ->prepare('SELECT 
+                                    EXTRACT( YEAR FROM visitors_date ) AS Y, 
+                                    EXTRACT( MONTH FROM visitors_date ) AS M, 
+                                    SUM( visitors_visit ) AS SUMV, 
+                                    SUM( visitors_hit ) AS SUMH 
+                                 FROM 
+                                    tl_visitors_counter 
+                                 WHERE 
+                                    vid=? AND visitors_date BETWEEN ? AND ?
+                                 GROUP BY Y, M
+                                 ORDER BY Y DESC, M DESC')
+                    ->execute($VisitorsID,$StartMonth,$EndMonth);
 			$intRows = $objVisitorsToMo->numRows;
 			$arrOtherMonth = array();
 			if ($intRows>0) 
 			{ 
 				while ($objVisitorsToMo->next()) 
 				{
-					$arrOtherMonth[] = array($objVisitorsToMo->Y,$GLOBALS['TL_LANG']['MONTHS'][($objVisitorsToMo->M - 1)],$this->getFormattedNumber($objVisitorsToMo->SUMV,0),$this->getFormattedNumber($objVisitorsToMo->SUMH,0));
+					$arrOtherMonth[] = array($objVisitorsToMo->Y,
+					                         $GLOBALS['TL_LANG']['MONTHS'][($objVisitorsToMo->M - 1)],
+					                         $this->getFormattedNumber($objVisitorsToMo->SUMV,0),
+					                         $this->getFormattedNumber($objVisitorsToMo->SUMH,0)
+					                        );
 				}
 			}
 		}
@@ -440,11 +521,16 @@ class ModuleVisitorStat extends \BackendModule
 			$today     = date('Y-m-d');
 			$yesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-1, date("Y")));
     	    //Durchschnittswerte bis heute 00:00 Uhr, also bis einschließlich gestern
-    	    $objVisitorsAverageCount = $this->Database->prepare("SELECT SUM(visitors_visit) AS SUMV, SUM(visitors_hit) AS SUMH"
-    		                                                  ." , MIN( visitors_date ) AS MINDAY"
-                                                              ." FROM tl_visitors_counter"
-                                                              ." WHERE vid=? AND visitors_date<?")
-                                            ->execute($VisitorsID,$today);
+    	    $objVisitorsAverageCount = \Database::getInstance()
+    	            ->prepare("SELECT 
+                                    SUM(visitors_visit) AS SUMV, 
+                                    SUM(visitors_hit) AS SUMH, 
+                                    MIN( visitors_date ) AS MINDAY
+                                FROM 
+                                    tl_visitors_counter
+                                WHERE 
+                                    vid=? AND visitors_date<?")
+                    ->execute($VisitorsID,$today);
             if ($objVisitorsAverageCount->numRows > 0) 
             {
                 $objVisitorsAverageCount->next();
@@ -463,12 +549,17 @@ class ModuleVisitorStat extends \BackendModule
             if ($tmpTotalDays > 30) 
             {
 	            //Durchschnittswerte der letzten 30 Tage
-	            $day30     = date('Y-m-d',mktime(0, 0, 0, date("m")-1 , date("d")-1 ,date("Y")));            
+	            $day30 = date('Y-m-d',mktime(0, 0, 0, date("m")-1 , date("d")-1 ,date("Y")));            
 			
-	            $objVisitorsAverageCount = $this->Database->prepare("SELECT SUM(visitors_visit) AS SUMV, SUM(visitors_hit) AS SUMH"
-	                                                              ." FROM tl_visitors_counter"
-	                                                              ." WHERE vid=? AND visitors_date BETWEEN ? AND ?")
-	                                            ->execute($VisitorsID,$day30,$yesterday);
+	            $objVisitorsAverageCount = \Database::getInstance()
+	                    ->prepare("SELECT 
+                                        SUM(visitors_visit) AS SUMV, 
+                                        SUM(visitors_hit) AS SUMH
+                                    FROM 
+                                        tl_visitors_counter
+                                    WHERE 
+                                        vid=? AND visitors_date BETWEEN ? AND ?")
+                        ->execute($VisitorsID,$day30,$yesterday);
 	            if ($objVisitorsAverageCount->numRows > 0) 
 	            {
 	                $objVisitorsAverageCount->next();
@@ -483,12 +574,17 @@ class ModuleVisitorStat extends \BackendModule
             if ($tmpTotalDays > 60) 
             {
 	            //Durchschnittswerte der letzten 60 Tage
-	            $day60     = date('Y-m-d',mktime(0, 0, 0, date("m")-2 , date("d")-1 ,date("Y")));
+	            $day60 = date('Y-m-d',mktime(0, 0, 0, date("m")-2 , date("d")-1 ,date("Y")));
 	
-	            $objVisitorsAverageCount = $this->Database->prepare("SELECT SUM(visitors_visit) AS SUMV, SUM(visitors_hit) AS SUMH"
-	                                                              ." FROM tl_visitors_counter"
-	                                                              ." WHERE vid=? AND visitors_date BETWEEN ? AND ?")
-	                                            ->execute($VisitorsID,$day60,$yesterday);
+	            $objVisitorsAverageCount = \Database::getInstance()
+	                    ->prepare("SELECT 
+                                        SUM(visitors_visit) AS SUMV, 
+                                        SUM(visitors_hit) AS SUMH
+                                    FROM 
+                                        tl_visitors_counter
+                                    WHERE 
+                                        vid=? AND visitors_date BETWEEN ? AND ?")
+                        ->execute($VisitorsID,$day60,$yesterday);
 	            if ($objVisitorsAverageCount->numRows > 0) 
 	            {
 	                $objVisitorsAverageCount->next();
@@ -530,14 +626,19 @@ class ModuleVisitorStat extends \BackendModule
 	    if ($VisitorsID) 
 	    {
     		//Total je Woche (aktuelle und letzte)
-    		$objVisitorsToWe = $this->Database->prepare('SELECT YEARWEEK( visitors_date, 3 ) AS YW, SUM( visitors_visit ) AS SUMV , SUM( visitors_hit ) AS SUMH'
-                                             		 . ' FROM tl_visitors_counter '
-                                                     . ' WHERE vid=? '
-                                                     . ' AND YEARWEEK( visitors_date, 3 ) BETWEEN ? AND ?'
-                                                     . ' GROUP BY YW'
-                                                     . ' ORDER BY YW DESC')
-                                              ->limit(2)
-      					                      ->execute($VisitorsID,$YearLastWeek.$LastWeek,$YearCurrentWeek.$CurrentWeek);
+    		$objVisitorsToWe = \Database::getInstance()
+    		        ->prepare('SELECT 
+                                    YEARWEEK(visitors_date, 3) AS YW,
+                                    SUM(visitors_visit) AS SUMV,
+                                    SUM(visitors_hit) AS SUMH
+                                FROM
+                                    tl_visitors_counter
+                                WHERE
+                                    vid = ? AND YEARWEEK(visitors_date, 3) BETWEEN ? AND ?
+                                GROUP BY YW
+                                ORDER BY YW DESC')
+                    ->limit(2)
+                    ->execute($VisitorsID,$YearLastWeek.$LastWeek,$YearCurrentWeek.$CurrentWeek);
     		$intRows = $objVisitorsToWe->numRows;
     		if ($intRows>0) 
     		{ 
@@ -580,10 +681,15 @@ class ModuleVisitorStat extends \BackendModule
 	    if ($VisitorsID) 
 	    {
     		//Total seit Zählung
-    		$objVisitorsTotalCount = $this->Database->prepare("SELECT SUM(visitors_visit) AS SUMV, SUM(visitors_hit) AS SUMH"
-                                                            ." FROM tl_visitors_counter"
-                                                            ." WHERE vid=?")
-    		                                        ->execute($VisitorsID);
+    		$objVisitorsTotalCount = \Database::getInstance()
+    		        ->prepare("SELECT 
+                                    SUM(visitors_visit) AS SUMV, 
+                                    SUM(visitors_hit) AS SUMH
+                                FROM 
+                                    tl_visitors_counter
+                                WHERE 
+                                    vid=?")
+                    ->execute($VisitorsID);
     	    if ($objVisitorsTotalCount->numRows > 0) 
     	    {
     		    $objVisitorsTotalCount->next();
@@ -605,22 +711,37 @@ class ModuleVisitorStat extends \BackendModule
 	    if ($intCID>0) 
 	    {
 	        // mal sehen ob ein Startdatum gesetzt war
-    	    $objVisitorsDate = $this->Database->prepare("SELECT visitors_startdate FROM tl_visitors WHERE id=?")
-    	    			            ->execute($intCID);
+    	    $objVisitorsDate = \Database::getInstance()
+    	            ->prepare("SELECT 
+                                    visitors_startdate 
+                                FROM 
+                                    tl_visitors 
+                                WHERE 
+                                    id=?")
+                    ->execute($intCID);
     	    $objVisitorsDate->next();
     	    if (0 < (int)$objVisitorsDate->visitors_startdate) 
     	    {
     	        // ok es war eins gesetzt, dann setzen wir es wieder
-                $this->Database->prepare("UPDATE tl_visitors SET tstamp=?, visitors_startdate=? WHERE id=?")
-        					   ->execute( time(), strtotime(date('Y-m-d')), $intCID );
+                \Database::getInstance()
+                        ->prepare("UPDATE tl_visitors 
+                                    SET 
+                                        tstamp=?, 
+                                        visitors_startdate=? 
+                                    WHERE 
+                                        id=?")
+                        ->execute( time(), strtotime(date('Y-m-d')), $intCID );
     	    }
     	    // und nun die eigendlichen counter
-    	    $this->Database->prepare("DELETE FROM tl_visitors_counter WHERE vid=?")
-                	       ->execute($intCID);
-            $this->Database->prepare("DELETE FROM tl_visitors_blocker WHERE vid=?")
-                	       ->execute($intCID);
-            $this->Database->prepare("DELETE FROM tl_visitors_browser WHERE vid=?")
-                	       ->execute($intCID);
+    	    \Database::getInstance()
+    	            ->prepare("DELETE FROM tl_visitors_counter WHERE vid=?")
+                    ->execute($intCID);
+            \Database::getInstance()
+                    ->prepare("DELETE FROM tl_visitors_blocker WHERE vid=?")
+                    ->execute($intCID);
+            \Database::getInstance()
+                    ->prepare("DELETE FROM tl_visitors_browser WHERE vid=?")
+                    ->execute($intCID);
 	    }
 	    return ;
 	}
@@ -634,8 +755,9 @@ class ModuleVisitorStat extends \BackendModule
 	    if ($intCID>0) 
 	    {
 	        // Browser 
-            $this->Database->prepare("DELETE FROM tl_visitors_browser WHERE vid=?")
-                	       ->execute($intCID);
+            \Database::getInstance()
+                    ->prepare("DELETE FROM tl_visitors_browser WHERE vid=?")
+                    ->execute($intCID);
 	    }
 	    return ;
 	}
@@ -652,55 +774,69 @@ class ModuleVisitorStat extends \BackendModule
 	    if ($VisitorsID) 
 	    {
     		//Version
-    		$objVisitorsBrowserVersion = $this->Database->prepare("SELECT `visitors_browser`, SUM(`visitors_counter`) AS SUMBV"
-	                                                            ." FROM tl_visitors_browser"
-	                                                            ." WHERE vid=?"
-	                                                            ." AND visitors_browser !=?"
-	                                                            ." AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?"
-	                                                            ." GROUP BY `visitors_browser`"
-	                                                            . "ORDER BY SUMBV DESC, visitors_browser ASC"
-	                                                            )
-                                              ->limit($topNo)
-    		                                  ->execute($VisitorsID,'Unknown','Mozilla');
+    		$objVisitorsBrowserVersion = \Database::getInstance()
+    		        ->prepare("SELECT 
+                                    `visitors_browser`, 
+                                    SUM(`visitors_counter`) AS SUMBV
+                                FROM 
+                                    tl_visitors_browser
+                                WHERE 
+                                    vid=? 
+                                    AND visitors_browser !=? 
+                                    AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?
+                                GROUP BY `visitors_browser`
+                                ORDER BY SUMBV DESC, visitors_browser ASC")
+                    ->limit($topNo)
+                    ->execute($VisitorsID,'Unknown','Mozilla');
     	    if ($objVisitorsBrowserVersion->numRows > 0) 
     	    {
     		    while ($objVisitorsBrowserVersion->next()) 
     		    {
-    		    	$VisitorsBrowserVersion[] = array($objVisitorsBrowserVersion->visitors_browser, $objVisitorsBrowserVersion->SUMBV);
+    		    	$VisitorsBrowserVersion[] = array($objVisitorsBrowserVersion->visitors_browser, 
+                                                      $objVisitorsBrowserVersion->SUMBV);
     		    }
     	    }
     	    //Version without number
-    	    $objVisitorsBrowserVersion2 = $this->Database->prepare("SELECT visitors_browser, SUM(`visitors_counter`) AS SUMBV FROM"
-    	                                                        ." (SELECT SUBSTRING_INDEX(`visitors_browser`,' ',1) AS visitors_browser, `visitors_counter`"
-	                                                            ."  FROM tl_visitors_browser"
-	                                                            ."  WHERE vid=?"
-	                                                            ."  AND visitors_browser !=?"
-	                                                            ."  AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?"
-	                                                            ." ) AS A"
-	                                                            ." GROUP BY `visitors_browser`"
-	                                                            ." ORDER BY SUMBV DESC, visitors_browser ASC"
-	                                                            )
-		                                              ->limit(10)
-		    		                                  ->execute($VisitorsID,'Unknown','Mozilla');
+    	    $objVisitorsBrowserVersion2 = \Database::getInstance()
+    	            ->prepare("SELECT 
+                                    visitors_browser, 
+                                    SUM(`visitors_counter`) AS SUMBV 
+                                FROM
+                                    (SELECT 
+                                        SUBSTRING_INDEX(`visitors_browser`,' ',1) AS visitors_browser, 
+                                        `visitors_counter`
+                                    FROM tl_visitors_browser
+                                    WHERE vid=?
+                                    AND visitors_browser !=?
+                                    AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?
+                                    ) AS A
+                                GROUP BY `visitors_browser`
+                                ORDER BY SUMBV DESC, visitors_browser ASC")
+                    ->limit(10)
+                    ->execute($VisitorsID,'Unknown','Mozilla');
     	    if ($objVisitorsBrowserVersion2->numRows > 0) 
     	    {
     		    while ($objVisitorsBrowserVersion2->next()) 
     		    {
-    		    	$VisitorsBrowserVersion2[] = array($objVisitorsBrowserVersion2->visitors_browser, $objVisitorsBrowserVersion2->SUMBV);
+    		    	$VisitorsBrowserVersion2[] = array($objVisitorsBrowserVersion2->visitors_browser, 
+                                                       $objVisitorsBrowserVersion2->SUMBV);
     		    }
     	    }
     	    // Unknown Version
-    	    $objVisitorsBrowserVersion = $this->Database->prepare("SELECT SUM(`visitors_counter`) AS SUMBV"
-	                                                            ." FROM `tl_visitors_browser`"
-	                                                            ." WHERE `vid`=?"
-	                                                            ." AND `visitors_browser` =?"
-	                                                            ." AND `visitors_os` =?"
-	                                                            //." AND (visitors_browser =? OR SUBSTRING_INDEX(`visitors_browser`,' ',1) =?)"
-	                                                            //." GROUP BY `visitors_browser`"
-	                                                            //. "ORDER BY SUMBV DESC, visitors_browser ASC"
-	                                                            )
-                                              ->limit(1)
-    		                                  ->execute($VisitorsID,'Unknown','Unknown'); // ,'Mozilla'
+    	    $objVisitorsBrowserVersion = \Database::getInstance()
+    	            ->prepare("SELECT 
+                                    SUM(`visitors_counter`) AS SUMBV
+                                FROM 
+                                    `tl_visitors_browser`
+                                WHERE 
+                                    `vid`=?
+                                    AND `visitors_browser` =?
+                                    AND `visitors_os` =?")
+                                    //AND (visitors_browser =? OR SUBSTRING_INDEX(`visitors_browser`,' ',1) =?)
+                                //GROUP BY `visitors_browser`
+                                //ORDER BY SUMBV DESC, visitors_browser ASC"
+                    ->limit(1)
+                    ->execute($VisitorsID,'Unknown','Unknown'); // ,'Mozilla'
     	    if ($objVisitorsBrowserVersion->numRows > 0) 
     	    {
     		    while ($objVisitorsBrowserVersion->next()) 
@@ -710,14 +846,17 @@ class ModuleVisitorStat extends \BackendModule
     		    }
     	    }
     	    //Count all versions
-    	    $objVisitorsBrowserVersion = $this->Database->prepare("SELECT COUNT(DISTINCT `visitors_browser`) AS SUMBV"
-	                                                            ." FROM tl_visitors_browser"
-	                                                            ." WHERE vid=?"
-	                                                            ." AND visitors_browser !=?"
-	                                                            ." AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?"
-	                                                            )
-	                                          ->limit(1)
-    		                                  ->execute($VisitorsID,'Unknown','Mozilla');
+    	    $objVisitorsBrowserVersion = \Database::getInstance()
+    	            ->prepare("SELECT 
+                                    COUNT(DISTINCT `visitors_browser`) AS SUMBV
+                                FROM 
+                                    tl_visitors_browser
+                                WHERE 
+                                    vid=? 
+                                    AND visitors_browser !=?
+                                    AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?")
+                    ->limit(1)
+                    ->execute($VisitorsID,'Unknown','Mozilla');
     	    if ($objVisitorsBrowserVersion->numRows > 0) 
     	    {
     		    while ($objVisitorsBrowserVersion->next()) 
@@ -726,50 +865,60 @@ class ModuleVisitorStat extends \BackendModule
     		    }
     	    }
     	    //Language
-    		$objVisitorsBrowserLang = $this->Database->prepare("SELECT `visitors_lang`, SUM(`visitors_counter`) AS SUMBL"
-                                                            ." FROM tl_visitors_browser"
-                                                            ." WHERE vid=?"
-                                                            ." AND `visitors_lang` !=?"
-                                                            ." AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?"
-                                                            ." GROUP BY `visitors_lang`"
-                                                            ." ORDER BY SUMBL DESC, `visitors_lang` ASC"
-                                                            )
-	                                              ->limit($topNo)
-	    		                                  ->execute($VisitorsID,'Unknown','Mozilla');
+    		$objVisitorsBrowserLang = \Database::getInstance()
+    		        ->prepare("SELECT 
+                                    `visitors_lang`, 
+                                    SUM(`visitors_counter`) AS SUMBL
+                                FROM 
+                                    tl_visitors_browser
+                                WHERE 
+                                    vid=? AND `visitors_lang` !=?
+                                    AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?
+                                GROUP BY `visitors_lang`
+                                ORDER BY SUMBL DESC, `visitors_lang` ASC")
+                    ->limit($topNo)
+                    ->execute($VisitorsID,'Unknown','Mozilla');
     	    if ($objVisitorsBrowserLang->numRows > 0) 
     	    {
     		    while ($objVisitorsBrowserLang->next()) 
     		    {
-                	$VisitorsBrowserLang[] = array($objVisitorsBrowserLang->visitors_lang, $objVisitorsBrowserLang->SUMBL);
+                	$VisitorsBrowserLang[] = array($objVisitorsBrowserLang->visitors_lang, 
+                                                   $objVisitorsBrowserLang->SUMBL);
     		    }
     	    }
     	    //OS
-    		$objVisitorsBrowserOS = $this->Database->prepare("SELECT `visitors_os`, SUM(`visitors_counter`) AS SUMBOS"
-                                                            ." FROM tl_visitors_browser"
-                                                            ." WHERE vid=?"
-                                                            ." AND visitors_os !=?"
-                                                            ." AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?"
-                                                            ." GROUP BY `visitors_os`"
-                                                            ." ORDER BY SUMBOS DESC, visitors_os ASC"
-                                                            )
-	                                              ->limit($topNo)
-	    		                                  ->execute($VisitorsID,'Unknown','Mozilla');
+    		$objVisitorsBrowserOS = \Database::getInstance()
+    		        ->prepare("SELECT 
+                                    `visitors_os`, 
+                                    SUM(`visitors_counter`) AS SUMBOS
+                                FROM 
+                                    tl_visitors_browser
+                                WHERE 
+                                    vid=? AND visitors_os !=?
+                                    AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?
+                                GROUP BY `visitors_os`
+                                ORDER BY SUMBOS DESC, visitors_os ASC")
+                    ->limit($topNo)
+                    ->execute($VisitorsID,'Unknown','Mozilla');
     	    if ($objVisitorsBrowserOS->numRows > 0) 
     	    {
     		    while ($objVisitorsBrowserOS->next()) 
     		    {
-                	$VisitorsBrowserOS[] = array($objVisitorsBrowserOS->visitors_os, $objVisitorsBrowserOS->SUMBOS);
+                	$VisitorsBrowserOS[] = array($objVisitorsBrowserOS->visitors_os, 
+                                                 $objVisitorsBrowserOS->SUMBOS);
     		    }
     	    }
     	    //Count all OS
-    	    $objVisitorsBrowserOS = $this->Database->prepare("SELECT COUNT(DISTINCT `visitors_os`) AS SUMBOS"
-                                                            ." FROM tl_visitors_browser"
-                                                            ." WHERE vid=?"
-                                                            ." AND visitors_os !=?"
-                                                            ." AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?"
-                                                            )
-	                                              ->limit(1)
-	    		                                  ->execute($VisitorsID,'Unknown','Mozilla');
+    	    $objVisitorsBrowserOS = \Database::getInstance()
+    	            ->prepare("SELECT 
+                                    COUNT(DISTINCT `visitors_os`) AS SUMBOS
+                                FROM 
+                                    tl_visitors_browser
+                                WHERE 
+                                    vid=? AND visitors_os !=?
+                                    AND SUBSTRING_INDEX(`visitors_browser`,' ',1) !=?")
+                    ->limit(1)
+                    ->execute($VisitorsID,'Unknown','Mozilla');
     	    if ($objVisitorsBrowserOS->numRows > 0) 
     	    {
     		    while ($objVisitorsBrowserOS->next()) 
@@ -781,10 +930,11 @@ class ModuleVisitorStat extends \BackendModule
 	    for ($BT=0; $BT<$topNo; $BT++)
 	    {
 	    	$VisitorsBrowserVersion[$BT] = (isset($VisitorsBrowserVersion[$BT][0])) ? $VisitorsBrowserVersion[$BT] : '0';
-	    	$VisitorsBrowserLang[$BT] = (isset($VisitorsBrowserLang[$BT][0])) ? $VisitorsBrowserLang[$BT] : '0';
-	    	$VisitorsBrowserOS[$BT] = (isset($VisitorsBrowserOS[$BT][0])) ? $VisitorsBrowserOS[$BT] : '0';
+	    	$VisitorsBrowserLang[$BT]    = (isset($VisitorsBrowserLang[$BT][0]))    ? $VisitorsBrowserLang[$BT]    : '0';
+	    	$VisitorsBrowserOS[$BT]      = (isset($VisitorsBrowserOS[$BT][0]))      ? $VisitorsBrowserOS[$BT]      : '0';
 			//Platz 1-20 [0..19]
-	    	$arrBrowserTop[$BT] = array($VisitorsBrowserVersion[$BT],$VisitorsBrowserLang[$BT],$VisitorsBrowserOS[$BT]);
+	    	$arrBrowserTop[$BT] = array($VisitorsBrowserVersion[$BT],
+                                        $VisitorsBrowserLang[$BT],$VisitorsBrowserOS[$BT]);
 	    }
 		$VisitorsBrowserVersionUNK = (isset($VisitorsBrowserVersionUNK)) ? $VisitorsBrowserVersionUNK : 0;
 		$VisitorsBrowserVersionKNO = (isset($VisitorsBrowserVersionKNO)) ? $VisitorsBrowserVersionKNO : 0;
@@ -797,7 +947,9 @@ class ModuleVisitorStat extends \BackendModule
 		//log_message(print_r($VisitorsBrowserVersion2,true), 'debug.log');
 	    return array('TOP' =>$arrBrowserTop
 	    		    ,'TOP2'=>$VisitorsBrowserVersion2
-	    		    ,'DEF' =>array('UNK'=>$VisitorsBrowserVersionUNK,'KNO'=>$VisitorsBrowserVersionKNO,'OSALL'=>$VisitorsBrowserOSALL));
+	    		    ,'DEF' =>array('UNK'  => $VisitorsBrowserVersionUNK,
+                                   'KNO'  => $VisitorsBrowserVersionKNO,
+                                   'OSALL'=> $VisitorsBrowserOSALL));
 	}
 	
 	/**
@@ -812,51 +964,69 @@ class ModuleVisitorStat extends \BackendModule
 		$VisitorsSearchEngineKeywords = array(); //searchengine - keywords, order by keywords
 		$day60 = mktime(0, 0, 0, date("m")-2 , date("d") ,date("Y"));
 		
-		$objVisitors = $this->Database->prepare("SELECT tl_visitors.id AS id"
-		                                      ." FROM tl_visitors LEFT JOIN tl_visitors_category ON (tl_visitors_category.id=tl_visitors.pid)"
-		                                      ." WHERE tl_visitors.pid=? AND published=?" 
-		                                      ." ORDER BY id")
-			                              ->limit(1)
-									      ->executeUncached($VisitorsKatID,1);
+		$objVisitors = \Database::getInstance()
+		        ->prepare("SELECT 
+                                tl_visitors.id AS id
+                            FROM 
+                                tl_visitors 
+                            LEFT JOIN 
+                                tl_visitors_category ON (tl_visitors_category.id=tl_visitors.pid)
+                            WHERE 
+                                tl_visitors.pid=? AND published=?
+                            ORDER BY id")
+                ->limit(1)
+                ->executeUncached($VisitorsKatID,1);
 		if ($objVisitors->numRows > 0) 
 		{
 			$objVisitors->next();
 			$VisitorsID = $objVisitors->id;
 			
-			$objVisitorsSearchEngines = $this->Database->prepare("SELECT `visitors_searchengine`,count(*) as anz "
-															    . "FROM `tl_visitors_searchengines` "
-															    . "WHERE `vid`=? AND `tstamp` > ? "
-															    . "GROUP BY 1 "
-															    . "ORDER BY anz DESC "
-															    )
-			                                              ->limit(20)
-			    		                                  ->execute($VisitorsID,$day60);
+			$objVisitorsSearchEngines = \Database::getInstance()
+			        ->prepare("SELECT 
+                                    `visitors_searchengine`,
+                                    count(*) as anz 
+                                FROM 
+                                    `tl_visitors_searchengines` 
+                                WHERE 
+                                    `vid`=? AND `tstamp` > ? 
+                                GROUP BY 1 
+                                ORDER BY anz DESC")
+                    ->limit(20)
+                    ->execute($VisitorsID,$day60);
 			if ($objVisitorsSearchEngines->numRows > 0) 
 			{
 			    while ($objVisitorsSearchEngines->next()) 
 			    {
-	            	$VisitorsSearchEngines[] = array($objVisitorsSearchEngines->visitors_searchengine, $objVisitorsSearchEngines->anz);
+	            	$VisitorsSearchEngines[] = array($objVisitorsSearchEngines->visitors_searchengine, 
+                                                     $objVisitorsSearchEngines->anz);
 			    }
 		    }
 		    
-		    $objVisitorsSearchEngineKeywords = $this->Database->prepare("SELECT `visitors_searchengine`, lower(`visitors_keywords`) AS keyword, count(*) AS anz "
-																	    . "FROM `tl_visitors_searchengines` "
-																	    . "WHERE `vid`=? AND `tstamp` > ? "
-																	    . "GROUP BY 1,2 "
-																	    . "ORDER BY anz DESC"
-															    		)
-			                                              		->limit(20)
-			    		                                  		->execute($VisitorsID,$day60);
+		    $objVisitorsSearchEngineKeywords = \Database::getInstance()
+		            ->prepare("SELECT 
+                                    `visitors_searchengine`, 
+                                    lower(`visitors_keywords`) AS keyword, 
+                                    count(*) AS anz 
+                                FROM 
+                                    `tl_visitors_searchengines` 
+                                WHERE 
+                                    `vid`=? AND `tstamp` > ? 
+                                GROUP BY 1,2 
+                                ORDER BY anz DESC")
+                    ->limit(20)
+                    ->execute($VisitorsID,$day60);
 			if ($objVisitorsSearchEngineKeywords->numRows > 0) 
 			{
 			    while ($objVisitorsSearchEngineKeywords->next()) 
 			    {
-	            	$VisitorsSearchEngineKeywords[] = array($objVisitorsSearchEngineKeywords->visitors_searchengine, $objVisitorsSearchEngineKeywords->keyword, $objVisitorsSearchEngineKeywords->anz);
+	            	$VisitorsSearchEngineKeywords[] = array($objVisitorsSearchEngineKeywords->visitors_searchengine, 
+                                                            $objVisitorsSearchEngineKeywords->keyword, 
+                                                            $objVisitorsSearchEngineKeywords->anz);
 			    }
 		    }
 	    }
-	    return array('SearchEngines' => $VisitorsSearchEngines, 'SearchEngineKeywords' =>$VisitorsSearchEngineKeywords);
-		
+	    return array('SearchEngines' => $VisitorsSearchEngines, 
+                     'SearchEngineKeywords' =>$VisitorsSearchEngineKeywords);
 	}
 	
 	/**
@@ -872,14 +1042,18 @@ class ModuleVisitorStat extends \BackendModule
 		if ($VisitorsID) 
 		{
 			//Version
-    		$objVisitorsReferrerTop = $this->Database->prepare("SELECT `visitors_referrer_dns`, count(`id`) AS SUMRT"
-                                                            ." FROM tl_visitors_referrer"
-                                                            ." WHERE vid=?"
-                                                            ." GROUP BY `visitors_referrer_dns`"
-                                                            . "ORDER BY SUMRT DESC, visitors_referrer_dns ASC"
-                                                            )
-                                              ->limit($topNo)
-    		                                  ->execute($VisitorsID);
+    		$objVisitorsReferrerTop = \Database::getInstance()
+    		        ->prepare("SELECT 
+                                    `visitors_referrer_dns`, 
+                                    count(`id`) AS SUMRT
+                                FROM 
+                                    tl_visitors_referrer
+                                WHERE 
+                                    vid=?
+                                GROUP BY `visitors_referrer_dns`
+                                ORDER BY SUMRT DESC, visitors_referrer_dns ASC")
+                    ->limit($topNo)
+                    ->execute($VisitorsID);
     	    if ($objVisitorsReferrerTop->numRows > 0) 
     	    {
     		    while ($objVisitorsReferrerTop->next()) 
@@ -887,7 +1061,9 @@ class ModuleVisitorStat extends \BackendModule
     		    	if ($objVisitorsReferrerTop->visitors_referrer_dns !== '-') 
     		    	{
     		    		$VisitorsReferrerTop[] = array($objVisitorsReferrerTop->visitors_referrer_dns, $objVisitorsReferrerTop->SUMRT, $VisitorsID);
-    		    	} else {
+    		    	} 
+    		    	else 
+    		    	{
     		    		$VisitorsReferrerTop[] = array('- ('.$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_direct'].')', $objVisitorsReferrerTop->SUMRT, 0);
     		    	}
     		    	
@@ -941,9 +1117,14 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	protected function getVisitorsOnline($VisitorsID)
 	{
-		$objVisitorsOnlineCount = $this->Database->prepare("SELECT COUNT(id) AS VOC FROM tl_visitors_blocker"
-		                                                 ." WHERE vid=? AND visitors_type=?")
-		                                         ->executeUncached($VisitorsID,'v');
+		$objVisitorsOnlineCount = \Database::getInstance()
+		        ->prepare("SELECT 
+                                COUNT(id) AS VOC 
+                            FROM 
+                                tl_visitors_blocker
+                            WHERE 
+                                vid=? AND visitors_type=?")
+                ->executeUncached($VisitorsID,'v');
 		$objVisitorsOnlineCount->next();
 		return ($objVisitorsOnlineCount->VOC === null) ? 0 : $objVisitorsOnlineCount->VOC;
 	}
@@ -956,18 +1137,24 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	protected function getBestDay($VisitorsID)
 	{
-		$objVisitorsBestday = $this->Database->prepare("SELECT visitors_date, visitors_visit, visitors_hit"
-		                                             ." FROM tl_visitors_counter"
-		                                             ." WHERE vid=?"
-		                                             ." ORDER BY visitors_visit DESC,visitors_hit DESC")
-		                                     ->limit(1)
-		                                     ->execute($VisitorsID);
+		$objVisitorsBestday = \Database::getInstance()
+		        ->prepare("SELECT 
+                                visitors_date, 
+                                visitors_visit, 
+                                visitors_hit
+                            FROM 
+                                tl_visitors_counter
+                            WHERE 
+                                vid=?
+                            ORDER BY visitors_visit DESC,visitors_hit DESC")
+                ->limit(1)
+                ->execute($VisitorsID);
 		if ($objVisitorsBestday->numRows > 0) 
 		{
         	$objVisitorsBestday->next();
-        	$visitors_date = $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'],strtotime($objVisitorsBestday->visitors_date));
+        	$visitors_date   = $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'],strtotime($objVisitorsBestday->visitors_date));
         	$visitors_visits = $this->getFormattedNumber($objVisitorsBestday->visitors_visit,0);
-        	$visitors_hits = $this->getFormattedNumber($objVisitorsBestday->visitors_hit,0);
+        	$visitors_hits   = $this->getFormattedNumber($objVisitorsBestday->visitors_hit,0);
 		} 
 		else 
 		{
@@ -989,18 +1176,24 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	protected function getBadDay($VisitorsID)
 	{
-		$objVisitorsBadday = $this->Database->prepare("SELECT visitors_date, visitors_visit, visitors_hit"
-		                                             ." FROM tl_visitors_counter"
-		                                             ." WHERE vid=? AND visitors_date < ?" 
-		                                             ." ORDER BY visitors_visit ASC,visitors_hit ASC")
-		                                    ->limit(1)
-		                                    ->execute($VisitorsID, date('Y-m-d'));
+		$objVisitorsBadday = \Database::getInstance()
+		        ->prepare("SELECT 
+                                visitors_date, 
+                                visitors_visit, 
+                                visitors_hit
+                            FROM 
+                                tl_visitors_counter
+                            WHERE 
+                                vid=? AND visitors_date < ?
+                            ORDER BY visitors_visit ASC, visitors_hit ASC")
+                ->limit(1)
+                ->execute($VisitorsID, date('Y-m-d'));
 		if ($objVisitorsBadday->numRows > 0) 
 		{
         	$objVisitorsBadday->next();
-        	$visitors_date = $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'],strtotime($objVisitorsBadday->visitors_date));
+        	$visitors_date   = $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'],strtotime($objVisitorsBadday->visitors_date));
         	$visitors_visits = $this->getFormattedNumber($objVisitorsBadday->visitors_visit,0);
-        	$visitors_hits = $this->getFormattedNumber($objVisitorsBadday->visitors_hit,0);
+        	$visitors_hits   = $this->getFormattedNumber($objVisitorsBadday->visitors_hit,0);
 		} 
 		else 
 		{

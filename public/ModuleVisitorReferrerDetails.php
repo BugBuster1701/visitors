@@ -1,20 +1,16 @@
 <?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2012 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  * 
  * Modul Visitors Stat - Backend Referrer Details
  *
- * 
- * PHP version 5
- * @copyright  Glen Langer 2007..2012
- * @author     Glen Langer
- * @package    GLVisitors
- * @license    LGPL
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors 
  */
 
 /**
@@ -63,14 +59,8 @@ class ModuleVisitorReferrerDetails extends \Backend // Backend bringt DB mit
 	    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
 <head>
-<!--
-
-	This website is powered by Contao Open Source CMS :: Licensed under GNU/LGPL
-	Copyright ©2005-2012 by Leo Feyer :: Extensions are copyright of their respective owners
-	Visit the project website at http://www.contao.org for more information
-
-//-->
 <base href="'.\Environment::get('base').'"></base>
+<meta name="generator" content="Contao Open Source CMS">
 <title>Contao Open Source CMS '.VERSION.'</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="system/themes/'.$this->getTheme().'/basic.css" media="screen" />
@@ -94,17 +84,23 @@ echo '
 				<td style="width: 120px; padding-left: 2px;" class="tl_folder_tlist">'.$GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer_last_seen'].'</td>
 				<td style="width: 80px; padding-left: 2px; text-align: center;" class="tl_folder_tlist">'.$GLOBALS['TL_LANG']['tl_visitors_referrer']['number'].'</td>
 			</tr>';
-		/*$objDetails = $this->Database->prepare("SELECT `visitors_referrer_full`, count(id) as ANZ"
+		/*$objDetails = \Database::getInstance()->prepare("SELECT `visitors_referrer_full`, count(id) as ANZ"
 						                     . " FROM `tl_visitors_referrer`"
 						                     . " WHERE `visitors_referrer_dns` = ?"
 						                     . " AND `vid` = ?"
 						                     . " GROUP BY 1 ORDER BY 2 DESC")*/
-		$objDetails = $this->Database->prepare("SELECT `visitors_referrer_full`, count(id) as ANZ, max(`tstamp`) as maxtstamp"
-						                     . " FROM `tl_visitors_referrer`"
-						                     . " WHERE `visitors_referrer_dns` = ?"
-						                     . " AND `vid` = ?"
-						                     . " GROUP BY 1 ORDER BY 2 DESC")
-        			       ->execute(str_rot13(\Input::get('tl_referrer',true)),\Input::get('tl_vid',true));
+		$objDetails = \Database::getInstance()
+		        ->prepare("SELECT 
+                                visitors_referrer_full,
+                                count(id)   as ANZ,
+                                max(tstamp) as maxtstamp
+                            FROM
+                                tl_visitors_referrer
+                            WHERE
+                                visitors_referrer_dns = ? AND vid = ?
+                            GROUP BY 1
+                            ORDER BY 2 DESC")
+                ->execute(str_rot13(\Input::get('tl_referrer',true)),\Input::get('tl_vid',true));
 		$intRows = $objDetails->numRows;
 		if ($intRows > 0) 
 		{

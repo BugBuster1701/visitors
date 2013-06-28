@@ -1,7 +1,7 @@
 
 
 <div class="clear"></div>
-<script type="text/javascript">
+<script>
 PopUp = function(autoapply){
 	this.types = [];
 	this.defaults = {
@@ -107,9 +107,9 @@ o.open = function(url,type){
 	return false;
 }
 </script>
-<script type="text/javascript">
-window.onload = function(){ // Better use use a modern onDomReady-Event instead
-	if(document.getElementById && document.getElementsByTagName){ // Check DOM
+<script>
+(function($) {
+    window.addEvent('domready', function() {
 		popup = new PopUp(); // create new PopUp-Instance
 		popup.addType({
 			name: "info",
@@ -119,8 +119,8 @@ window.onload = function(){ // Better use use a modern onDomReady-Event instead
 			status:true
 		});
 		popup.apply(); // Apply Popup-Behavior to all Links using the Class "popup"		
-	}
-}
+	});
+})(document.id);
 </script>
 <div class="tl_panel">
 	<!-- Kategorie Zeile //-->

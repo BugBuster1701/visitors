@@ -1,21 +1,18 @@
 <?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2012 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  * 
  * Visitors - Backend DCA tl_visitors
  *
  * This is the data container array for table tl_visitors.
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2012 
- * @author     Glen Langer 
- * @package    GLVisitors 
- * @license    LGPL 
+ * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
 /**

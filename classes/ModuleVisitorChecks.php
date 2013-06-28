@@ -1,19 +1,16 @@
 <?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  * 
  * Modul Visitors Checks - Frontend
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2012
- * @author     Glen Langer 
- * @package    GLVisitors 
- * @license    LGPL 
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
 /**
@@ -24,8 +21,8 @@ namespace BugBuster\Visitors;
 /**
  * Class ModuleVisitorChecks 
  *
- * @copyright  Glen Langer 2012
- * @author     Glen Langer 
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL 
  */
@@ -72,8 +69,14 @@ class ModuleVisitorChecks extends \Frontend
 	        return false; // Ohne Absender keine Suche
 	    }
 	    $arrUserAgents = array();
-	    $objUserAgents = $this->Database->prepare("SELECT `visitors_useragent` FROM `tl_module` WHERE `type` = ? AND `visitors_categories` = ?")
-	                                    ->execute('visitors',$visitors_category_id);
+	    $objUserAgents = \Database::getInstance()
+	            ->prepare("SELECT 
+                                `visitors_useragent` 
+                            FROM 
+                                `tl_module` 
+                            WHERE 
+                                `type` = ? AND `visitors_categories` = ?")
+                ->execute('visitors',$visitors_category_id);
 		if ($objUserAgents->numRows) 
 		{
 			while ($objUserAgents->next()) 
@@ -107,7 +110,7 @@ class ModuleVisitorChecks extends \Frontend
 		if (\Input::cookie($strCookie) == $hash)
 		{
 			/*
-			$objSession = $this->Database->prepare("SELECT * FROM tl_session WHERE hash=? AND name=?")
+			$objSession = \Database::getInstance()->prepare("SELECT * FROM tl_session WHERE hash=? AND name=?")
 										 ->limit(1)
 										 ->execute($hash, $strCookie);
 			*/

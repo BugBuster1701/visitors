@@ -1,21 +1,18 @@
 <?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2010 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  * 
  * Visitors Statistik Export - Excel Variante
  *
  * wird von VisitorsStatExport.php aufgerufen als popup
  * 
- * PHP version 5
- * @copyright  Glen Langer 2009..2010
- * @author     Glen Langer
- * @package    GLVisitors
- * @license    LGPL
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
 /**
@@ -26,8 +23,8 @@ namespace BugBuster\Visitors;
 /**
  * Class VisitorsStatExportexcel
  *
- * @copyright  Glen Langer 2009..2010
- * @author     Glen Langer
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  */
 class VisitorsStatExportexcel
@@ -43,26 +40,34 @@ class VisitorsStatExportexcel
 	    //IE or other?
 	    $log_version ='';
         $HTTP_USER_AGENT = getenv("HTTP_USER_AGENT");
-        if (preg_match('@MSIE ([0-9].[0-9]{1,2})@', $HTTP_USER_AGENT, $log_version)) {
+        if (preg_match('@MSIE ([0-9].[0-9]{1,2})@', $HTTP_USER_AGENT, $log_version)) 
+        {
             $this->BrowserAgent = 'IE';
-        } else {
+        } 
+        else 
+        {
             $this->BrowserAgent = 'NOIE';
         }
 	}
 	
-    public function getLibName() {
+    public function getLibName() 
+    {
         return $this->ExportLib;
     }
     
-    public function export($objVisitors,$csv_delimiter,$intVisitorKatId) {
+    public function export($objVisitors,$csv_delimiter,$intVisitorKatId) 
+    {
         // Download
         header('Content-Type: application/vnd.ms-excel');
         header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         header('Content-Disposition: attachment; filename="VisitorsStatExport-'.$intVisitorKatId.'.utf8.xls"');
-        if ($this->BrowserAgent == 'IE') {
+        if ($this->BrowserAgent == 'IE') 
+        {
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
-        } else {
+        } 
+        else 
+        {
             header('Pragma: no-cache');
         }
         //$csv_enclosure = '"'; 
