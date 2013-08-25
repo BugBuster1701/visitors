@@ -160,8 +160,33 @@ class ModuleVisitorsTag extends Frontend
 				    } 
 				    else 
 				    {
-				        global $objPage;
-				        $VisitorsStartDate = $this->parseDate($objPage->dateFormat, $objVisitors->visitors_startdate);
+				        //so, 2.10 geht nicht ueber objPage, da fehlen die Parent Definitionen
+				        //issues #64
+				        if (version_compare(VERSION, '2.11', '<'))
+				        {
+				            $rootID = $this->getRootIdFromUrl();
+				            $objdateFormat = $this->Database->prepare("SELECT dateFormat 
+                                                                        FROM tl_page 
+                                                                        WHERE id=?")
+				                                            ->limit(1)
+				                                            ->execute($rootID);
+				            if ($objdateFormat->dateFormat !='')
+				            {
+				                //dateFormat in Startseite gesetzt
+				                $VisitorsStartDate = $this->parseDate($objdateFormat->dateFormat, $objVisitors->visitors_startdate);
+				            }
+				            else
+				            {
+				                //dateFormat in Startseite nicht gesetzt
+				                //Fallback zu Backend Einstellungen
+				                $VisitorsStartDate = $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $objVisitors->visitors_startdate);
+				            }
+				        }
+				        else // Contao 2.11
+				        {
+				            global $objPage;
+				            $VisitorsStartDate = $this->parseDate($objPage->dateFormat, $objVisitors->visitors_startdate);
+				        }
 				    }
 				return $VisitorsStartDate;
 				break;
