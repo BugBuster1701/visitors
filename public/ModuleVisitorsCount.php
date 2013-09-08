@@ -95,6 +95,7 @@ class ModuleVisitorsCount extends \Frontend
 		{
 			$this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_count_katid'], 'ModulVisitorsCount '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 		}
+		//log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
 		//Pixel und raus hier
 		header('Cache-Control: no-cache');
 		header('Content-type: image/gif');
@@ -112,11 +113,13 @@ class ModuleVisitorsCount extends \Frontend
 		if ($this->ModuleVisitorChecks->CheckBot() == true) 
 		{
 			$this->_BOT = true;
+			//log_message("VisitorCountUpdate BOT=true","debug.log");
 	    	return; //Bot / IP gefunden, wird nicht gezaehlt
 	    }
 	    if ($this->ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
+	    	//log_message("VisitorCountUpdate UserAgent=true","debug.log");
 	    	return ; //User Agent Filterung
 	    }
 	    //log_message("VisitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");

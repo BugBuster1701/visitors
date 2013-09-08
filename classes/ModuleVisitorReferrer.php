@@ -26,12 +26,12 @@ namespace BugBuster\Visitors;
  * @package    GLVisitors
  * @license    LGPL 
  */
-class ModuleVisitorReferrer	//extends Frontend
+class ModuleVisitorReferrer	extends \System
 {
 	/**
 	 * Current version of the class.
 	 */
-	const VERSION          = '3.0';
+	const VERSION          = '3.1';
 	
     private $_http_referrer = '';
     
@@ -90,6 +90,7 @@ class ModuleVisitorReferrer	//extends Frontend
 		{ 
 			$this->detect();
 		}
+		//log_message('checkReferrer: '.$this->__toString(),'debug.log');
 	}
 	
 	protected function detect()
@@ -103,31 +104,74 @@ class ModuleVisitorReferrer	//extends Frontend
 	    	    $this->_referrer_DNS === false) 
 	    	{
 	    		//wtf...
-	    		$this->_referrer_DNS = self::REFERRER_WRONG; 
+	    		$this->_referrer_DNS = self::REFERRER_WRONG;
+	    		return ;
 	    	}
 	    }
 	    $this->_vhost = parse_url( 'http://'.$this->vhost(), PHP_URL_HOST );
 	    //ReferrerDNS = HostDomain ?
 	    if ( $this->_referrer_DNS == $this->_vhost ) 
 	    {
-	    	$this->_referrer_DNS = self::REFERRER_OWN; 
+	    	$this->_referrer_DNS = self::REFERRER_OWN;
+	    	return ;
 	    }
 
+	    //Special fake and local checks
+	    $this->import('\Visitors\ModuleVisitorChecks','ModuleVisitorChecks');
+
+	    if ( $this->ModuleVisitorChecks->isIP4($this->_referrer_DNS) === true 
+	      || $this->ModuleVisitorChecks->isIP6($this->_referrer_DNS) === true) 
+	    {
+	        // loopback ?
+	        if ( substr($this->_referrer_DNS, 0,3)  == '127'
+	            || trim($this->_referrer_DNS, '[]') == '::1' ) 
+	        {
+	            //log_message('detect: loopback True','debug.log');
+	            $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was loopback IP
+	            return ;
+	        }
+	        //remove IPv6 [] (comes from parse_url) 
+	        $this->_referrer_DNS = trim($this->_referrer_DNS, '[]');
+	        return ;
+	    }
+	    else
+	    {
+	        //no IP 
+    	    //Kill external local domain (Github #63)
+    	    if ( strpos($this->_referrer_DNS, '.') === false )
+    	    {
+    	        //log_message('detect: Domain (not dot in Host) True','debug.log');
+    	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was local (not domain)
+    	        return ;
+    	    }
+	    }
+	    
 	    //Special for Fake Google.com (GitHub #32, #53)
 	    if ( rtrim($this->_http_referrer,"/") == 'http://'  . $this->_referrer_DNS ||
 	         rtrim($this->_http_referrer,"/") == 'https://' . $this->_referrer_DNS  )
 	    {
 	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer is a fake.
+	        return ;
 	    }
 	    //Special for DuckDuckGo (GitHub #33)
 	    if ( $this->_http_referrer == 'http://duckduckgo.com/post.html') 
 	    {
 	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was shortened.
+	        return ;
 	    }
 	    //Special for http:// (GitHub #37)
 	    if ( $this->_http_referrer == 'http://' || $this->_http_referrer == 'http:/' )
 	    {
 	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was shortened.
+	        return ;
+	    }
+	    
+	    //Kill fake domain (local.lan, planet.ufp, ....)
+	    if ( $this->ModuleVisitorChecks->isDomain($this->_referrer_DNS) === false )
+	    {
+	        //log_message('detect: Domain (not valid Domain) True','debug.log');
+	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was not a valid Domain
+	        return ;
 	    }
 	}
 	
@@ -171,6 +215,8 @@ class ModuleVisitorReferrer	//extends Frontend
 			return '';
 		}
 	}
+	
+	
     
 	public function getReferrerDNS()  { return $this->_referrer_DNS;  }
 	
@@ -182,7 +228,8 @@ class ModuleVisitorReferrer	//extends Frontend
 	{
 	    return "Referrer DNS : {$this->getReferrerDNS()}\n<br>" .
 			   "Referrer full: {$this->getReferrerFull()}\n<br>".
-			   "Server Host : {$this->getHost()}\n<br>";
+			   "Server Host : {$this->getHost()}\n<br>".
+               "";
 	}
 	
 }

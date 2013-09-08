@@ -31,7 +31,7 @@ class ModuleVisitorChecks extends \Frontend
 	/**
 	 * Current version of the class.
 	 */
-	const VERSION           = '3.0';
+	const VERSION           = '3.1';
 	
 	/**
 	 * Spider Bot Check
@@ -127,6 +127,54 @@ class ModuleVisitorChecks extends \Frontend
 		//log_message('CheckBotBELogin False','debug.log');
 		return false;
 	} //CheckBE
+	
+	/**
+	 * Check if Domain valid
+	 * 
+	 * @param string    Host / domain.tld
+	 * @return boolean
+	 */
+	public function isDomain($host)
+	{
+	    $dnsResult = false;
+	    //$this->_vhost :  Host.TLD
+	    //idn_to_ascii
+	    require_once TL_ROOT . '/system/modules/core/vendor/idna/idna_convert.class.php';
+	    $objIdn    = new \idna_convert();
+     
+	    $dnsResult = dns_get_record( $objIdn->encode( $host ), DNS_ANY );
+	    if ( $dnsResult )
+	    {
+	        //log_message('isDomain True','debug.log');
+	        return true;
+	    }
+	    //log_message('isDomain False','debug.log');
+	    return false;
+	}
+	
+	/**
+	 * Check if a string contains a valid IPv6 address.
+	 * If the string was extracted with parse_url (host),
+	 * the brackets must be removed.
+	 *
+	 * @param string
+	 * @return boolean
+	 */
+	public function isIP6($ip6)
+	{
+	    return (filter_var( trim($ip6,'[]'), FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ? true : false);
+	}
+	
+	/**
+	 * Check if a string contains a valid IPv4 address.
+	 *
+	 * @param string
+	 * @return boolean
+	 */
+	public function isIP4($ip4)
+	{
+	    return (filter_var( $ip4, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) ? true : false);
+	}
 	
 }
 

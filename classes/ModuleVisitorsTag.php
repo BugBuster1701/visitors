@@ -116,6 +116,7 @@ class ModuleVisitorsTag extends \Frontend
 			    	$this->VisitorCheckReferrer($objVisitors->id);
 			    }
 			}
+			//log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
 			if ($GLOBALS['TL_CONFIG']['cacheMode'] === 'server' 
 			 || $GLOBALS['TL_CONFIG']['cacheMode'] === 'none'
 			 || $objVisitors->visitors_cache_mode == 1) 
@@ -668,6 +669,7 @@ class ModuleVisitorsTag extends \Frontend
                         ->execute($CleanTime,$vid);
 			} //keywords
 		} //searchengine
+		//log_message('VisitorCheckSearchEngine $SearchEngine: ' . $SearchEngine,'debug.log');
 	} //VisitorCheckSearchEngine
 	
 	/**
