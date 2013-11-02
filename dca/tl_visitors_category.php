@@ -1,38 +1,19 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  * 
  * Visitors Banner - Backend DCA tl_visitors_category
  *
  * This is the data container array for table tl_visitors_category.
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2011 
- * @author     Glen Langer 
- * @package    GLVisitors 
- * @license    LGPL 
+ * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors
  */
-
-class tl_visitors_category extends Backend
-{
-	public function labelCallback($arrRow)
-	{
-		$label_1 = $arrRow['title'];
-		$label_2 = ' <span style="color: #B3B3B3;">[ID:'.$arrRow['id'].']</span>';
-		if (version_compare(VERSION . '.' . BUILD, '2.8.9', '>'))
-		{
-			$version_warning = '';
-		} else {
-			$version_warning = '<br /><span style="color:#ff0000;">[ERROR: Visitors-Module requires at least Contao 2.9]</span>';
-		}
-		return $label_1 . $label_2 . $version_warning;//. '<br /><span style="color:#b3b3b3;">['.$label_2.']</span>';
-	}
-}
 
 /**
  * Table tl_visitors_category 
@@ -46,7 +27,14 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 		'dataContainer'               => 'Table',
 		'ctable'                      => array('tl_visitors'),
 		'switchToEdit'                => true,
-		'enableVersioning'            => true
+		'enableVersioning'            => true,
+        'sql' => array
+        (
+            'keys' => array
+            (
+                'id'  => 'primary'
+            )
+        )
 	),
 
 	// List
@@ -63,7 +51,7 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 		(
 			'fields'                  => array('tag'),
 			'format'                  => '%s',
-			'label_callback'		  => array('tl_visitors_category', 'labelCallback'),
+			'label_callback'		  => array('BugBuster\Visitors\DCA_visitors_category', 'labelCallback'),
 		),
 		'global_operations' => array
 		(
@@ -81,7 +69,15 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['edit'],
 				'href'                => 'table=tl_visitors',
-				'icon'                => 'edit.gif'
+				'icon'                => 'edit.gif',
+				'attributes'          => 'class="contextmenu"'
+			),
+			'editheader' => array
+			(
+		        'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['editheader'],
+		        'href'                => 'act=edit',
+		        'icon'                => 'header.gif',
+		        'attributes'          => 'class="edit-header"'
 			),
 			'copy' => array
 			(
@@ -101,6 +97,12 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 				'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['show'],
 				'href'                => 'act=show',
 				'icon'                => 'show.gif'
+			),
+			'stat' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_visitors_category']['stat'],
+				'href'                => 'do=visitorstat',
+				'icon'                => 'system/modules/visitors/assets/iconVisitor.png'
 			)
 		)
 	),
@@ -109,7 +111,6 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 	'palettes' => array
 	(
 		//'__selector__'                => array(''),
-		//'default'                     => '{title_legend},title,visitors_template;{cache_legend:hide},visitors_cache_mode'
 		'default'                     => '{title_legend},title;{cache_legend:hide},visitors_cache_mode'
 	),
 
@@ -122,24 +123,24 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 	// Fields
 	'fields' => array
 	(
+    	'id' => array
+    	(
+    	        'sql'       => "int(10) unsigned NOT NULL auto_increment"
+    	),
+    	'tstamp' => array
+    	(
+    	        'sql'       => "int(10) unsigned NOT NULL default '0'"
+    	),
 		'title' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors_category']['title'],
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
+			'sql'                     => "varchar(60) NOT NULL default ''",
 			'eval'                    => array('mandatory'=>true, 'maxlength'=>60, 'tl_class'=>'w50')
 		),
-		'visitors_template'           => array // nicht mehr in palette
-		(
-            'label'                   => &$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_template'],
-            'default'                 => 'mod_visitors_fe_all',
-            'exclude'                 => true,
-            'inputType'               => 'select',
-            'options'                 => $this->getTemplateGroup('mod_visitors_fe_'),
-            'eval'                    => array('tl_class'=>'w50')
-		),
-		'visitors_cache_mode'        => array
+		'visitors_cache_mode' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode'],
 			'exclude'                 => true,
@@ -147,9 +148,9 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 			'inputType'               => 'radio',
 			'options'                 => array('1', '2'),
 			'reference'               => &$GLOBALS['TL_LANG']['tl_visitors_category'],
+			'sql'                     => "tinyint(3) unsigned NOT NULL default '1'",
 			'eval'                    => array('mandatory'=>true)
 		)
 	)
 );
 
-?>

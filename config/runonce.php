@@ -1,24 +1,24 @@
-<?php @error_reporting(0); @ini_set("display_errors", 0);  
+<?php 
+
+@error_reporting(0); @ini_set("display_errors", 0);  
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2012 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  *
  * Modul Visitors - /config/runonce.php
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2012
- * @author     Glen Langer
+ * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
+ * @filesource
  * @package    GLVisitors
- * @license    LGPL
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
 /**
  * Class VisitorsRunonceJob
  *
- * @copyright  Glen Langer 2009..2012
- * @author     Glen Langer
+ * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL
  */
@@ -32,8 +32,8 @@ class VisitorsRunonceJob extends Controller
 	
 	public function run()
 	{
-		//nur ab Contao 2.9
-		if (version_compare(VERSION, '2.8', '>'))
+		//nur ab Contao 3.0
+		if (version_compare(VERSION, '2.9', '>'))
 		{
 			$migration = false;
 			$addTemplate = false;
@@ -113,7 +113,7 @@ class VisitorsRunonceJob extends Controller
 		} // if >2.8
 		else 
 		{
-			$this->Database->prepare("INSERT INTO `tl_log` (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'FE', 'ERROR', ($GLOBALS['TL_USERNAME'] ? $GLOBALS['TL_USERNAME'] : ''), 'ERROR: Visitors-Module requires at least Contao 2.9', 'ModulVisitors Runonce', '127.0.0.1', 'NoBrowser');
+			$this->Database->prepare("INSERT INTO `tl_log` (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'FE', 'ERROR', ($GLOBALS['TL_USERNAME'] ? $GLOBALS['TL_USERNAME'] : ''), 'ERROR: Visitors-Module requires at least Contao 3.0', 'ModulVisitors Runonce', '127.0.0.1', 'NoBrowser');
 		}
 		
 		if ($this->Database->tableExists('tl_visitors_browser'))
@@ -178,10 +178,19 @@ class VisitorsRunonceJob extends Controller
 		    } //while $objMulti
 		} //if tl_visitors_counter
 		
+		//Contao 3.1, database2DCA, delete for manual installations
+		if (is_file(TL_ROOT . '/system/modules/visitors/config/database.sql'))
+		{
+		    $objFile = new File('system/modules/visitors/config/database.sql');
+		    $objFile->delete();
+		    $objFile->close();
+		    $objFile=null;
+		    unset($objFile);
+		}
+		
 	} //function run
 } // class
 
 $objVisitorsRunonceJob = new VisitorsRunonceJob();
 $objVisitorsRunonceJob->run();
 
-?>

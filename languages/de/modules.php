@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
  * Contao Open Source CMS
@@ -11,7 +11,7 @@
  * Language file for modules (de).
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2010 
+ * @copyright  Glen Langer 2009..2012 
  * @author     Glen Langer 
  * @package    VisitorsLanguage 
  * @license    LGPL 
@@ -22,7 +22,7 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['visitors'] = array('Besucher', 'Dieses Modul dient zum z&auml;hlen von Zugriffen und Besuchern auf der Website.');
+$GLOBALS['TL_LANG']['MOD']['visitors']    = array('Besucher', 'Dieses Modul dient zum z&auml;hlen von Zugriffen und Besuchern auf der Website.');
 $GLOBALS['TL_LANG']['MOD']['visitorstat'] = array('Besucherstatistik', 'Statistik vom Besucher-Modul.');
 
 
@@ -31,5 +31,3 @@ $GLOBALS['TL_LANG']['MOD']['visitorstat'] = array('Besucherstatistik', 'Statisti
  */
 $GLOBALS['TL_LANG']['FMD']['visitors'] = array('Besucher','Z&auml;hlt Zugriffe und Besucher');
 
-
-?>

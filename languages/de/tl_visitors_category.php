@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
  * Contao Open Source CMS
@@ -11,7 +11,7 @@
  * Language file for table tl_visitors_category (de).
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2010 
+ * @copyright  Glen Langer 2009..2012 
  * @author     Glen Langer 
  * @package    VisitorsLanguage 
  * @license    LGPL 
@@ -23,7 +23,6 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_visitors_category']['title']              = array('Kategorie', 'Bitte geben Sie den Namen der Kategorie ein.');
-//$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_template']  = array('Besucher Vorlage', 'Bitte w&auml;hlen Sie eine Besucher-Vorlage. Sie k&ouml;nnen eigene Vorlagen im Ordner <em>templates</em> speichern. Vorlagen m&uuml;ssen mit <em>mod_visitors_fe_</em> beginnen und die Dateiendung <em>.tpl</em> haben.'); 
 $GLOBALS['TL_LANG']['tl_visitors_category']['tstamp']             = array('&Auml;nderungsdatum', 'Datum und Uhrzeit der letzten &Auml;nderung');
 $GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']= array('Zählweise bei eingeschaltetem Seiten Cache','');
 
@@ -49,5 +48,4 @@ $GLOBALS['TL_LANG']['tl_visitors_category']['copy']   = array('Kategorie duplizi
 $GLOBALS['TL_LANG']['tl_visitors_category']['delete'] = array('Kategorie l&ouml;schen', 'Kategorie ID %s l&ouml;schen');
 $GLOBALS['TL_LANG']['tl_visitors_category']['show']   = array('Kategoriedetails', 'Details der Kategorie ID %s anzeigen');
 $GLOBALS['TL_LANG']['tl_visitors_category']['stat']   = array('Kategoriestatistik', 'Besucherstatistik f&uuml;r die Kategorie ID %s anzeigen');
-
-?>
+$GLOBALS['TL_LANG']['tl_visitors_category']['editheader'] = array('Einstellungen der Kategorie bearbeiten', 'Einstellungen der Kategorie ID %s bearbeiten');

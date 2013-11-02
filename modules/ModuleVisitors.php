@@ -1,30 +1,32 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
+
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  *
- * Formerly known as TYPOlight Open Source CMS.
- * 
  * Modul Visitors File - Frontend
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2011
- * @author     Glen Langer 
- * @package    GLVisitors 
- * @license    LGPL 
+ * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors 
  */
 
+/**
+ * Run in a custom namespace, so the class can be replaced
+ */
+namespace BugBuster\Visitors;
 
 /**
  * Class ModuleVisitors 
  *
- * @copyright  Glen Langer 2009..2011
+ * @copyright  Glen Langer 2009..2012
  * @author     Glen Langer 
  * @package    GLVisitors
  * @license    LGPL 
  */
-class ModuleVisitors extends Module
+class ModuleVisitors extends \Module
 {
 
 	/**
@@ -43,28 +45,22 @@ class ModuleVisitors extends Module
 	{
 		if (TL_MODE == 'BE')
 		{
-			$objTemplate = new BackendTemplate('be_wildcard');
+			$objTemplate = new \BackendTemplate('be_wildcard');
 			$objTemplate->wildcard = '### VISITORS LIST ###';
 			$objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            if (version_compare(VERSION . '.' . BUILD, '2.8.9', '>'))
-			{
-			   // Code für Versionen ab 2.9.0
-			   $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
-			}
-			else
-			{
-			   // Code für Versionen < 2.9.0
-			   $objTemplate->wildcard = '### VISITORS MODUL ONLY FOR CONTAO 2.9 ###';
-			}
+            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+		
 			return $objTemplate->parse();
 		}
 		//alte und neue Art gemeinsam zum Array bringen
 		if (strpos($this->visitors_categories,':') !== false) 
 		{
 			$this->visitors_categories = deserialize($this->visitors_categories, true);
-		} else {
+		} 
+		else 
+		{
 			$this->visitors_categories = array($this->visitors_categories);
 		}
 		// Return if there are no categories
@@ -81,17 +77,26 @@ class ModuleVisitors extends Module
 	 * Generate module
 	 */
 	protected function compile()
-	{																						//visitors_template
-		$objVisitors = $this->Database->prepare("SELECT tl_visitors.id AS id, visitors_name, visitors_startdate, visitors_average"
-		                                      ." FROM tl_visitors LEFT JOIN tl_visitors_category ON (tl_visitors_category.id=tl_visitors.pid)"
-		                                      ." WHERE pid=? AND published=?" 
-		                                      ." ORDER BY id, visitors_name")
-		                              ->limit(1)
-								      ->execute($this->visitors_categories[0],1);
+	{						//visitors_template
+		$objVisitors = \Database::getInstance()
+		        ->prepare("SELECT 
+                                tl_visitors.id AS id, 
+                                visitors_name, 
+                                visitors_startdate, 
+                                visitors_average
+                            FROM 
+                                tl_visitors 
+                            LEFT JOIN 
+                                tl_visitors_category ON (tl_visitors_category.id=tl_visitors.pid)
+                            WHERE 
+                                pid=? AND published=?
+                            ORDER BY id, visitors_name")
+                ->limit(1)
+                ->execute($this->visitors_categories[0],1);
 		if ($objVisitors->numRows < 1)
 		{
 			$this->strTemplate = 'mod_visitors_error';
-			$this->Template = new FrontendTemplate($this->strTemplate); 
+			$this->Template = new \FrontendTemplate($this->strTemplate); 
 			$this->log("ModuleVisitors User Error: no published counter found.",'ModulVisitors compile', TL_ERROR);
 			return;
 		}
@@ -101,20 +106,28 @@ class ModuleVisitors extends Module
 		while ($objVisitors->next())
 		{
 		    //if (($objVisitors->visitors_template != $this->strTemplate) && ($objVisitors->visitors_template != '')) {
-		    if (($this->visitors_template != $this->strTemplate) && ($this->visitors_template != '')) {
+		    if (($this->visitors_template != $this->strTemplate) && ($this->visitors_template != '')) 
+		    {
                 $this->strTemplate = $this->visitors_template;
-                $this->Template = new FrontendTemplate($this->strTemplate); 
+                $this->Template = new \FrontendTemplate($this->strTemplate); 
 		    }
-		    if ($this->strTemplate != 'mod_visitors_fe_invisible') {
+		    if ($this->strTemplate != 'mod_visitors_fe_invisible') 
+		    {
 		    	//VisitorsStartDate
-	            if (!strlen($objVisitors->visitors_startdate)) {
+	            if (!strlen($objVisitors->visitors_startdate)) 
+	            {
 			    	$VisitorsStartDate = false;
-			    } else {
+			    } 
+			    else 
+			    {
 			        $VisitorsStartDate = true;
 			    } 
-			    if ($objVisitors->visitors_average) {
+			    if ($objVisitors->visitors_average) 
+			    {
 			    	$VisitorsAverageVisits = true;
-			    } else {
+			    } 
+			    else 
+			    {
 	                $VisitorsAverageVisits = false;
 	            } 
 			    $arrVisitors[] = array
@@ -132,7 +145,9 @@ class ModuleVisitors extends Module
 	                'TodayHitCountLegend'       => $GLOBALS['TL_LANG']['visitors']['TodayHitCountLegend'],
 	                'AverageVisitsLegend'       => $GLOBALS['TL_LANG']['visitors']['AverageVisitsLegend']
 				);
-			} else {
+			} 
+			else 
+			{
 				// invisible, but counting!
 				$arrVisitors[] = array('VisitorsKatID' => $this->visitors_categories[0]);
 			}
@@ -141,4 +156,3 @@ class ModuleVisitors extends Module
 	} // compile
 } // class
 
-?>

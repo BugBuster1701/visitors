@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
  * Contao Open Source CMS
@@ -11,7 +11,7 @@
  * Language file for ModuleVisitorsReferrerDetails (de).
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2011 
+ * @copyright  Glen Langer 2009..2012 
  * @author     Glen Langer 
  * @package    VisitorsLanguage 
  * @license    LGPL 
@@ -28,13 +28,9 @@ $GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer'] = 'Besucherherku
 $GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer_last_seen'] = 'Zuletzt gesehen';
 $GLOBALS['TL_LANG']['tl_visitors_referrer']['number'] = 'Anzahl';
 
-//$GLOBALS['TL_LANG']['MSC']['backToTop']        = 'Nach oben'; 
-
-
 /**
  * Errorlog
  */
-$GLOBALS['TL_LANG']['tl_visitors_referrer']['no_referrer'] = 'Aufruf mit nicht genug Parameter!';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['no_referrer'] = 'Aufruf mit nicht genug Parametern!';
 $GLOBALS['TL_LANG']['tl_visitors_referrer']['no_data']  = 'Keine Daten vorhanden für diese Parameter.';
 
-?>

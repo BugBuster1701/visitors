@@ -1,115 +1,53 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
- *
- * Formerly known as TYPOlight Open Source CMS.
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
  * 
  * Modul Visitors Config File
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2011
- * @author     Glen Langer 
- * @package    GLVisitors 
- * @license    LGPL 
+ * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @author     Glen Langer (BugBuster)
+ * @licence    LGPL
  * @filesource
+ * @package    GLVisitors
+ * @see	       https://github.com/BugBuster1701/visitors
  */
 
+define('VISITORS_VERSION', '3.1');
+define('VISITORS_BUILD'  , '4');
 
 /**
  * -------------------------------------------------------------------------
  * BACK END MODULES
  * -------------------------------------------------------------------------
- *
- * Back end modules are stored in a global array called "BE_MOD". Each module 
- * has certain properties like an icon, an optional callback function and one 
- * or more tables. Each module belongs to a particular group.
- * 
- *   $GLOBALS['BE_MOD'] = array
- *   (
- *       'group_1' => array
- *       (
- *           'module_1' => array
- *           (
- *               'tables'       => array('table_1', 'table_2'),
- *               'key'          => array('Class', 'method'),
- *               'callback'     => 'ClassName',
- *               'icon'         => 'path/to/icon.gif',
- *               'stylesheet'   => 'path/to/stylesheet.css',
- *               'javascript'   => 'path/to/javascript.js'
- *           )
- *       )
- *   );
- * 
- * Use function array_insert() to modify an existing modules array.
  */
 $GLOBALS['BE_MOD']['content']['visitors'] = array
 (
 	'tables'     => array('tl_visitors_category', 'tl_visitors'),
-	//'icon'       => ModuleVisitorFile::VisitorIcon('iconVisitor.png'),
-	'icon'       => 'system/modules/visitors/iconVisitor.png',
-	//'stylesheet' => ModuleVisitorFile::VisitorCss('mod_visitors_be.css')
-	'stylesheet' => 'system/modules/visitors/mod_visitors_be.css'
+	'icon'       => 'system/modules/visitors/assets/iconVisitor.png',
+	'stylesheet' => 'system/modules/visitors/assets/mod_visitors_be.css'
 );
 
-array_insert($GLOBALS['BE_MOD']['system'], 1, array
+$GLOBALS['BE_MOD']['system']['visitorstat'] = array
 (
-	'visitorstat' => array
-	(
-		'callback'   => 'ModuleVisitorStat',
-		//'icon'       => ModuleVisitorFile::VisitorIcon('iconVisitor.png'),
-		'icon'       => 'system/modules/visitors/iconVisitor.png',
-		//'stylesheet' => ModuleVisitorFile::VisitorCss('mod_visitors_be.css')
-		'stylesheet' => 'system/modules/visitors/mod_visitors_be.css'
-	)
-));
+	'callback'   => 'Visitors\ModuleVisitorStat',
+	'icon'       => 'system/modules/visitors/assets/iconVisitor.png',
+	'stylesheet' => 'system/modules/visitors/assets/mod_visitors_be.css'
+);
 
 /**
  * -------------------------------------------------------------------------
  * FRONT END MODULES
  * -------------------------------------------------------------------------
- *
- * List all fontend modules and their class names.
- * 
- *   $GLOBALS['FE_MOD'] = array
- *   (
- *       'group_1' => array
- *       (
- *           'module_1' => 'Contentlass',
- *           'module_2' => 'Contentlass'
- *       )
- *   );
- * 
- * Use function array_insert() to modify an existing CTE array.
  */
 array_insert($GLOBALS['FE_MOD']['miscellaneous'], 0, array
 (
-	'visitors' => 'ModuleVisitors',
+	'visitors' => 'Visitors\ModuleVisitors',
 ));
 
 /**
  * -------------------------------------------------------------------------
  * HOOKS
  * -------------------------------------------------------------------------
- *
- * Hooking allows you to register one or more callback functions that are 
- * called on a particular event in a specific order. Thus, third party 
- * extensions can add functionality to the core system without having to
- * modify the source code.
- * 
- *   $GLOBALS['TL_HOOKS'] = array
- *   (
- *       'hook_1' => array
- *       (
- *           array('Class', 'Method'),
- *           array('Class', 'Method')
- *       )
- *   );
- * 
- * Use function array_insert() to modify an existing hooks array.
  */
-$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('ModuleVisitorsTag', 'ViReplaceInsertTags');
-
-
-?>
+$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('Visitors\ModuleVisitorsTag', 'ReplaceInsertTagsVisitors');

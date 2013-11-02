@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
  * Contao Open Source CMS
@@ -11,18 +11,12 @@
  * Language file for default (en).
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2010 
+ * @copyright  Glen Langer 2009..2012 
  * @author     Glen Langer 
  * @package    VisitorsLanguage
  * @license    LGPL 
  * @filesource
  */
-
-
-/**
- * Miscellaneous
- */
-//$GLOBALS['TL_LANG']['MSC'][''] = '';
 
 /**
  * Frontend
@@ -110,5 +104,3 @@ $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_top'] = 'Visitor Referr
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_dns'] = 'Domain';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_data']= 'Values of the last 120 days.';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_direct'] = 'Direct Request';
-
-?>

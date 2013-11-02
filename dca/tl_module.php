@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
  * Contao Open Source CMS
@@ -11,7 +11,7 @@
  * This file modifies the data container array of table tl_module.
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2011
+ * @copyright  Glen Langer 2009..2012
  * @author     Glen Langer
  * @package    GLVisitors
  * @license    LGPL
@@ -35,6 +35,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_categories'] = array
 	'exclude'                 => true,
 	'inputType'               => 'select',
 	'foreignKey'              => 'tl_visitors_category.title',
+    'sql'                     => "varchar(255) NOT NULL default ''",
 	'eval'                    => array('multiple'=>false, 'mandatory'=>true, 'tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_template'] = array
@@ -43,7 +44,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_template'] = array
     'default'                 => 'mod_visitors_fe_all',
     'exclude'                 => true,
     'inputType'               => 'select',
-    'options_callback'        => array('tl_module_visitors', 'getBannerTemplates'), 
+    'options_callback'        => array('BugBuster\Visitors\DCA_module_visitors', 'getVisitorsTemplates'),
+    'sql'                     => "varchar(32) NOT NULL default ''",
     'eval'                    => array('tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_useragent'] = array
@@ -52,15 +54,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_useragent'] = array
 	'inputType'               => 'text',
 	'search'                  => true,
 	'explanation'	          => 'visitors_help_module',
+    'sql'                     => "varchar(64) NOT NULL default ''",
 	'eval'                    => array('mandatory'=>false, 'maxlength'=>64, 'helpwizard'=>true)
 );
-
-class tl_module_visitors extends Backend 
-{
-	public function getBannerTemplates(DataContainer $dc)
-	{
-	    return $this->getTemplateGroup('mod_visitors_fe_', $dc->activeRecord->pid);
-	}  
-}
-
-?>

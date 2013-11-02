@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php 
 
 /**
  * Contao Open Source CMS
@@ -11,18 +11,12 @@
  * Language file for default (de).
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2010 
+ * @copyright  Glen Langer 2009..2012 
  * @author     Glen Langer 
  * @package    VisitorsLanguage
  * @license    LGPL 
  * @filesource
  */
-
-
-/**
- * Miscellaneous
- */
-//$GLOBALS['TL_LANG']['MSC'][''] = '';
 
 /**
  * Frontend
@@ -71,28 +65,28 @@ $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['zero']          = 'Z&auml;hler u
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['zero_confirm']  = 'Z&auml;hler und Statistik der Besucher und Zugriffe wirklich auf 0 setzen f&uuml;r diesen Z&auml;hler?';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['zerobrowser']   = 'Browserstatistik l&ouml;schen f&uuml;r diesen Z&auml;hler.';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['zerobrowser_confirm'] = 'Browserstatistik wirklich l&ouml;schen f&uuml;r diesen Z&auml;hler?';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_visits'] = 'Besucher pro Tag:';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_hits']   = 'Zugriffe pro Tag:';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_legend'] = 'Durchschnittswerte';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_tipp'] = '(30) / (60) = &Oslash; Werte der letzten 30 / 60 Tage';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['parameter']      = 'Vorgaben';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['initial_values'] = 'Startwerte';
-$GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['most_visitors']   = 'Tag mit den meisten Besuchern';
-$GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['fewest_visitors'] = 'Tag mit den wenigsten Besuchern';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_visits']    = 'Besucher pro Tag:';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_hits']      = 'Zugriffe pro Tag:';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_legend']    = 'Durchschnittswerte';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_tipp']      = '(30) / (60) = &Oslash; Werte der letzten 30 / 60 Tage';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['parameter']         = 'Vorgaben';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['initial_values']    = 'Startwerte';
+$GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['most_visitors']     = 'Tag mit den meisten Besuchern';
+$GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['fewest_visitors']   = 'Tag mit den wenigsten Besuchern';
 $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['visitors_this_day'] = 'Besucher an diesem Tag';
 $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['hits_this_day']     = 'Zugriffe an diesem Tag';
 $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['currently online']  = 'Derzeit online';
 
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_version'] = 'Versionen';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_lang']    = 'Sprachen';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_os']      = 'Betriebssysteme';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_top10']     = 'Browser TOP 10';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_top20']     = 'Browser TOP 20';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_version']    = 'Versionen';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_lang']       = 'Sprachen';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_os']         = 'Betriebssysteme';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_top10']      = 'Browser TOP 10';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_top20']      = 'Browser TOP 20';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_definition'] = 'Browser Definitionen';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_unknown']    = 'Unerkannte';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_known']      = 'Erkannte';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_osdif']      = 'unterschiedliche';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_no_data']  = 'Keine Daten vorhanden.';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_no_data']    = 'Keine Daten vorhanden.';
 
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['chart_red']   = 'rot';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['chart_green'] = 'gr&uuml;n';
@@ -110,5 +104,3 @@ $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_top']    = 'Besucherher
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_dns']    = 'Domain';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_data']   = 'Werte aus den Daten der letzten 120 Tage.';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_direct'] = 'Direkter Zugriff';
-
-?>
