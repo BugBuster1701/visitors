@@ -321,6 +321,7 @@ class ModuleVisitorBrowser3 {
 	const PLATFORM_WINDOWS_VISTA = 'WinVista';
 	const PLATFORM_WINDOWS_7     = 'Win7';
 	const PLATFORM_WINDOWS_8     = 'Win8';
+	const PLATFORM_WINDOWS_81    = 'Win8.1';
 	const PLATFORM_WINDOWS_RT    = 'WinRT';
 	const PLATFORM_MACOSX        = 'MacOSX';
 	const PLATFORM_IOSX          = 'iOS';
@@ -685,8 +686,10 @@ class ModuleVisitorBrowser3 {
      * Determine if the browser is Internet Explorer or not (last updated 1.7)
      * @return boolean True if the browser is Internet Explorer otherwise false
      */
-    protected function checkBrowserInternetExplorer() {
-
+    protected function checkBrowserInternetExplorer() 
+    {
+        $match = '';
+        
 	    // Test for v1 - v1.5 IE
 	    if( stripos($this->_agent,'microsoft internet explorer') !== false ) 
 	    {
@@ -714,6 +717,14 @@ class ModuleVisitorBrowser3 {
 	    	$this->setBrowser( self::BROWSER_IE );
 	    	$this->setVersion(str_replace(array('(',')',';'),'',$aresult[1]));
 	    	return true;
+	    }
+	    // Test for versions > 10
+	    else if (  preg_match('/Trident\/[0-9\.]+/', $this->_agent) 
+	            && preg_match('/rv:([0-9\.]+)/', $this->_agent, $match) )
+	    {
+	        $this->setBrowser( self::BROWSER_IE );
+	        $this->setVersion($match[1]);
+	        return true;
 	    }
 	    else if (stripos($this->_agent,'iemobile')      !== false
 	          && stripos($this->_agent,'windows phone') !== false )
@@ -1743,7 +1754,8 @@ class ModuleVisitorBrowser3 {
 	* @return string Platformversion of the browser
 	*/
 	public function getPlatformVersion() { 
-		if ($this->_platformVersion === self::PLATFORM_UNKNOWN ) {
+		if ($this->_platformVersion === self::PLATFORM_UNKNOWN ) 
+		{
 			$this->_platformVersion = $this->_platform;
 		}
 		return $this->_platformVersion; 
@@ -1753,7 +1765,8 @@ class ModuleVisitorBrowser3 {
      * and Mac OS X
      * BugBuster (Glen Langer)
      */
-    protected function checkPlatformVersion() {
+    protected function checkPlatformVersion() 
+    {
         // based on browscap.ini
         if ($this->_platform == self::PLATFORM_WINDOWS) 
         {
@@ -1761,7 +1774,16 @@ class ModuleVisitorBrowser3 {
 			    $this->_platform = self::PLATFORM_WINDOWS_7;
 		    }
 	        else*/
-            if( stripos($this->_agent, 'windows NT 6.2') !== false ) {
+            if( stripos($this->_agent, 'windows NT 6.3') !== false ) 
+            {
+                $this->_platformVersion = self::PLATFORM_WINDOWS_81;
+                if( stripos($this->_agent, 'arm') !== false )
+                {
+                    $this->_platformVersion = self::PLATFORM_WINDOWS_RT;
+                }
+            }
+            elseif( stripos($this->_agent, 'windows NT 6.2') !== false ) 
+            {
 			    $this->_platformVersion = self::PLATFORM_WINDOWS_8;
 			    if( stripos($this->_agent, 'arm') !== false ) 
 			    {
