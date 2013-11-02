@@ -3,15 +3,13 @@ Contao Module Visitors
 
 ## About
 
-A counter module for hits and visits
+A Contao counter module for hits and visits
 
 ## Branches
 
-**master** This is the current stable branch.
+**master** This is the current stable branch for Contao 3.
 
-**dev** This is the current unstable upstream development branch.
+**master_c2** This is the current stable branch for Contao 2.
 
-**uat** This is the current release candidate branch. (see tags with "rc" in name)
-
-**c3version** This is a first try for Contao 3 
+**dev** This is the current unstable upstream development branch. (for Contao 3.x)
 
