@@ -110,7 +110,7 @@ class VisitorsRunonceJob extends Controller
 				    $this->Database->execute("UPDATE `tl_visitors_browser` SET `visitors_counter`=0 WHERE `visitors_browser`='Unknown' AND `visitors_os`='Unknown'");
 				}
 			}
-		} // if >2.8
+		} // if >2.9
 		else 
 		{
 			$this->Database->prepare("INSERT INTO `tl_log` (tstamp, source, action, username, text, func, ip, browser) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")->execute(time(), 'FE', 'ERROR', ($GLOBALS['TL_USERNAME'] ? $GLOBALS['TL_USERNAME'] : ''), 'ERROR: Visitors-Module requires at least Contao 3.0', 'ModulVisitors Runonce', '127.0.0.1', 'NoBrowser');
