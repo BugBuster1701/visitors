@@ -21,7 +21,8 @@
 		"php":">=5.3",
 		"contao/core":">=3.1,<4",
 		"contao-community-alliance/composer-installer":"*",
-		"bugbuster/botdetection":"~3.1"
+		"bugbuster/botdetection":"~3.1",
+		"contao-legacy/xls_export":"~3.0"
 	},
 	"autoload":{
 		"classmap":[""]
