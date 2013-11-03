@@ -97,8 +97,10 @@ $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_no_data'] = 'Keine 
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_data']    = 'Werte aus den Daten der letzten 60 Tage.';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchenginekeywords'] = 'Suchbegriffe';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine']         = 'Suchmaschine';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['over']   = 'über';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['number'] = 'Anzahl';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['over']        = 'über';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['number']      = 'Anzahl';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['not_defined'] = 'Suchbegriff nicht definiert';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown'] = 'unbekannt';
 
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_top']    = 'Besucherherkunft TOP 30';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_dns']    = 'Domain';

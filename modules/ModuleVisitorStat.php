@@ -996,6 +996,10 @@ class ModuleVisitorStat extends \BackendModule
 			{
 			    while ($objVisitorsSearchEngines->next()) 
 			    {
+			        if ('Generic' == $objVisitorsSearchEngines->visitors_searchengine)
+			        {
+			            $objVisitorsSearchEngines->visitors_searchengine = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown'];
+			        }
 	            	$VisitorsSearchEngines[] = array($objVisitorsSearchEngines->visitors_searchengine, 
                                                      $objVisitorsSearchEngines->anz);
 			    }
@@ -1018,6 +1022,15 @@ class ModuleVisitorStat extends \BackendModule
 			{
 			    while ($objVisitorsSearchEngineKeywords->next()) 
 			    {
+			        // Issue #67
+			        if ('notdefined' == $objVisitorsSearchEngineKeywords->keyword) 
+			        {
+			            $objVisitorsSearchEngineKeywords->keyword = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['not_defined'];
+			        }
+			        if ('Generic' == $objVisitorsSearchEngineKeywords->visitors_searchengine)
+			        {
+			            $objVisitorsSearchEngineKeywords->visitors_searchengine = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown'];
+			        }
 	            	$VisitorsSearchEngineKeywords[] = array($objVisitorsSearchEngineKeywords->visitors_searchengine, 
                                                             $objVisitorsSearchEngineKeywords->keyword, 
                                                             $objVisitorsSearchEngineKeywords->anz);
