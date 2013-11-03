@@ -810,9 +810,23 @@ class ModuleVisitorStat extends BackendModule
 															    		)
 			                                              		->limit(20)
 			    		                                  		->execute($VisitorsID,$day60);
-			if ($objVisitorsSearchEngineKeywords->numRows > 0) {
-			    while ($objVisitorsSearchEngineKeywords->next()) {
-	            	$VisitorsSearchEngineKeywords[] = array($objVisitorsSearchEngineKeywords->visitors_searchengine, $objVisitorsSearchEngineKeywords->keyword, $objVisitorsSearchEngineKeywords->anz);
+			if ($objVisitorsSearchEngineKeywords->numRows > 0) 
+			{
+			    while ($objVisitorsSearchEngineKeywords->next()) 
+			    {
+			        // Issue #67
+			        if ('notdefined' == $objVisitorsSearchEngineKeywords->keyword)
+			        {
+			            $objVisitorsSearchEngineKeywords->keyword = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['not_defined'];
+			        }
+			        if ('Generic' == $objVisitorsSearchEngineKeywords->visitors_searchengine)
+			        {
+			            $objVisitorsSearchEngineKeywords->visitors_searchengine = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown'];
+			        }
+	            	$VisitorsSearchEngineKeywords[] = array($objVisitorsSearchEngineKeywords->visitors_searchengine, 
+	            	                                        $objVisitorsSearchEngineKeywords->keyword, 
+	            	                                        $objVisitorsSearchEngineKeywords->anz);
+
 			    }
 		    }
 	    }
