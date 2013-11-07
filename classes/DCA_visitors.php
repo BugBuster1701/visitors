@@ -92,11 +92,6 @@ class DCA_visitors extends \Backend
      */
     public function toggleVisibility($intId, $blnVisible)
     {
-        // Check permissions to edit
-        \Input::setGet('id' , $intId);
-        \Input::setGet('act', 'toggle');
-        $this->checkPermission();
-         
         // Check permissions to publish
         if (!$this->User->isAdmin && !$this->User->hasAccess('tl_visitors::published', 'alexf'))
         {
