@@ -15,7 +15,9 @@
 	"support":{
 		"issues":"https://github.com/BugBuster1701/visitors/issues",
 		"irc":"irc://irc.freenode.org/contao.dev",
-		"source":"https://github.com/BugBuster1701/visitors"
+		"source":"https://github.com/BugBuster1701/visitors",
+		"wiki":"http://de.contaowiki.org/Visitors",
+		"forum":"https://community.contao.org/de/forumdisplay.php?28-visitors"
 	},
 	"require":{
 		"php":">=5.3",
