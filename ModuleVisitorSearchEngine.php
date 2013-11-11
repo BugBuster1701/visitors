@@ -36,6 +36,7 @@ class ModuleVisitorSearchEngine// extends Frontend
     const REFERER_UNKNOWN         = 'unknown';
     const SEARCH_ENGINE_UNKNOWN   = 'unknown';
     const KEYWORDS_UNKNOWN        = 'unknown';
+    const KEYWORDS_NOT_DEFINED    = 'notdefined';
     
     const SEARCH_ENGINE_GOOGLE    = 'Google';
     const SEARCH_ENGINE_BING      = 'Bing';
@@ -70,7 +71,10 @@ class ModuleVisitorSearchEngine// extends Frontend
     const SEARCH_ENGINE_DUCKDUCKGO = 'DuckDuckGo';
     const SEARCH_ENGINE_SUMAJA     = 'Sumaja';
     const SEARCH_ENGINE_DELICIOUS  = 'Delicious';
-
+    const SEARCH_ENGINE_DOKOSEARCH = 'Doko-Search';
+    const SEARCH_ENGINE_CERTIFIEDTOOLBAR = 'certified-toolbar';
+    const SEARCH_ENGINE_SNAPDO     = 'Snapdo';
+    const SEARCH_ENGINE_SOFTONIC   = 'Softonic';
     
     /**
 	 * Reset all properties
@@ -104,6 +108,12 @@ class ModuleVisitorSearchEngine// extends Frontend
 		}
 		if ($this->_http_referer !== self::REFERER_UNKNOWN ) {
 			$this->detect();
+			// Issue #67
+			if ($this->_search_engine != self::SEARCH_ENGINE_UNKNOWN
+			    &&  strlen($this->_keywords) == 0) 
+			{
+			    $this->_keywords      = self::KEYWORDS_NOT_DEFINED ;
+			}
 		}
 		
 	}
@@ -146,6 +156,12 @@ class ModuleVisitorSearchEngine// extends Frontend
 	        $this->checkEngineDuckduckgo()  ||
 	        $this->checkEngineSumaja()      ||
 	        $this->checkEngineDelicious()   ||
+	        $this->checkEngineDokoSearch()  ||
+	        $this->checkEngineCertifiedToolbar() ||
+	        $this->checkEngineSnapdo()      ||
+	        $this->checkEngineSoftonic()    || 
+	            
+	        //last check 
 			$this->checkEngineGeneric()     ||
 			false
 	    );
@@ -153,17 +169,20 @@ class ModuleVisitorSearchEngine// extends Frontend
     
 	protected function checkEngineGoogle()
 	{
-	    if (preg_match('/http:\/\/plus\.google\..*\/url/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/plus\.google\..*\/url/', $this->_http_referer ))
 	    {
 	    	//no search engine!
 	    	return false;
 	    }
-	    if (preg_match('/http:\/\/.*\.google\..*\/(|url|search|cse|imgres)/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.google\..*\/(#|url|search|cse|imgres)/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_GOOGLE ;
-			if ( isset($this->_parse_result['q']) ) { 
-				$this->_keywords = $this->_parse_result['q']; 
-			} else { 
+			if ( isset($this->_parse_result['q']) ) 
+			{ 
+				$this->_keywords = $this->_parse_result['q'];
+			} 
+			else 
+			{ 
 				//for imgres
 				if ( isset($this->_parse_result['prev']) ) {
 					parse_str( parse_url( $this->_parse_result['prev'], PHP_URL_QUERY ), $this->_parse_result);
@@ -172,8 +191,6 @@ class ModuleVisitorSearchEngine// extends Frontend
 					}
 				}
 			}
-			//default
-			if ( strlen($this->_keywords) == 0 ) { $this->_keywords = self::REFERER_UNKNOWN ; }
 			return true;
 	    }
 	    return false;
@@ -181,7 +198,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineGoogleUserContent()
 	{
-		if (preg_match('/http:\/\/.*\.googleusercontent\..*\//', $this->_http_referer ))
+		if (preg_match('/(http|https):\/\/.*\.googleusercontent\..*\//', $this->_http_referer ))
 		{
 			$this->_search_engine = self::SEARCH_ENGINE_GOOGLE ;
 			if ( isset($this->_parse_result['q']) ) { 
@@ -196,7 +213,6 @@ class ModuleVisitorSearchEngine// extends Frontend
 					}
 				}
 			}
-			if ( strlen($this->_keywords) == 0 ) { $this->_keywords = self::REFERER_UNKNOWN ; }
 			return true;
 		}
 		return false;
@@ -204,17 +220,16 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineGoogleBased()
 	{
-	    if ( preg_match('/http:\/\/search\.avg\.com/'    , $this->_http_referer ) ||
-	         preg_match('/http:\/\/search\.conduit\.com/', $this->_http_referer ) ||
-	         preg_match('/http:\/\/search\.toolbars\.alexa\.com/', $this->_http_referer )
+	    if ( preg_match('/(http|https):\/\/search\.avg\.com/'             , $this->_http_referer ) ||
+	         preg_match('/(http|https):\/\/isearch\.avg\.com/'            , $this->_http_referer ) ||
+	         preg_match('/(http|https):\/\/search\.conduit\.com/'         , $this->_http_referer ) ||
+	         preg_match('/(http|https):\/\/search\.toolbars\.alexa\.com/' , $this->_http_referer )
 	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_GOOGLE ;
 			if ( isset($this->_parse_result['q']) ) { 
 				$this->_keywords = $this->_parse_result['q']; 
 			}
-			//default
-			if ( strlen($this->_keywords) == 0 ) { $this->_keywords = self::REFERER_UNKNOWN ; }
 			return true;
 	    }
 	    return false;
@@ -223,7 +238,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	protected function checkEngineBing()
 	{
 	    //if (preg_match('/http:\/\/www\.bing\..*\/search/', $this->_http_referer ))
-	    if (preg_match('/http:\/\/.*\.bing\..*\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.bing\..*\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_BING ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -234,7 +249,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineBaidu()
 	{
-	    if (preg_match('/http:\/\/www\.baidu\.com\/s/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/www\.baidu\.com\/s/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_BAIDU ;
 			if ( isset($this->_parse_result['wd']) ) { $this->_keywords = $this->_parse_result['wd']; }
@@ -251,7 +266,11 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineYahoo()
 	{
-	    if (preg_match('/(http:\/\/.*\.search\.yahoo\..*\/search|http:\/\/search\.yahoo\..*\/search|http:\/\/.*\.images\.search\.yahoo\..*\/images|http:\/\/images\.search\.yahoo\..*\/images)/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.search\.yahoo\..*\/search/'        , $this->_http_referer ) ||
+            preg_match('/(http|https):\/\/search\.yahoo\..*\/search/'            , $this->_http_referer ) ||
+            preg_match('/(http|https):\/\/.*\.images\.search\.yahoo\..*\/images/', $this->_http_referer ) ||
+            preg_match('/(http|https):\/\/images\.search\.yahoo\..*\/images/'    , $this->_http_referer )
+	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_YAHOO  ;
 			if ( isset($this->_parse_result['p']) ) { $this->_keywords = $this->_parse_result['p']; }
@@ -262,7 +281,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineAsk()
 	{
-	    if (preg_match('/http:\/\/.*\.ask\.com\/web/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.ask\.com\/web/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_ASKCOM ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -273,7 +292,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 
 	protected function checkEngineTOnline()
 	{
-	    if (preg_match('/http:\/\/suche\.t-online\.de\/fast-cgi/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/suche\.t-online\.de\/fast-cgi/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_TONLINE ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -284,7 +303,9 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineWebde()
 	{
-	    if (preg_match('/http:\/\/suche\.web\.de\/search|http:\/\/suche\.web\.de\/web/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/suche\.web\.de\/search/', $this->_http_referer ) ||
+	        preg_match('/(http|https):\/\/suche\.web\.de\/web/'  , $this->_http_referer )
+	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_WEBDE ;
 			if ( isset($this->_parse_result['su']) ) { $this->_keywords = $this->_parse_result['su']; }
@@ -295,7 +316,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineGMX()
 	{
-	    if (preg_match('/http:\/\/suche\.gmx\.net\/search/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/suche\.gmx\.net\/search/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_GMX  ;
 			if ( isset($this->_parse_result['su']) ) { $this->_keywords = $this->_parse_result['su']; }
@@ -306,7 +327,9 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineLycos()
 	{
-	    if (preg_match('/(http:\/\/www\.lycos\.de|http:\/\/search\.lycos\..*)/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/www\.lycos\.de/'   , $this->_http_referer ) ||
+	        preg_match('/(http|https):\/\/search\.lycos\..*/', $this->_http_referer )
+	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_LYCOS ;
 			if ( isset($this->_parse_result['query']) ) { $this->_keywords = $this->_parse_result['query']; }
@@ -317,7 +340,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineFreenet()
 	{
-	    if (preg_match('/http:\/\/suche\.freenet\.de\/suche/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/suche\.freenet\.de\/suche/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_FREENET ;
 			if ( isset($this->_parse_result['query']) ) { $this->_keywords = $this->_parse_result['query']; }
@@ -328,7 +351,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineConduit()
 	{
-	    if (preg_match('/http:\/\/search\.conduit\.com\/ResultsExt.aspx/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/search\.conduit\.com\/ResultsExt.aspx/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_CONDUIT ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -339,7 +362,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineForestle()
 	{
-	    if (preg_match('/http:\/\/.*\.forestle\.org\/search.php/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.forestle\.org\/search.php/', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_FORESTLE ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -350,7 +373,9 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineAOL()
 	{
-	    if (preg_match('/(http:\/\/.*\.aol\..*|http:\/\/.*\.aolsvc\..*)/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.aol\..*/'    , $this->_http_referer ) ||
+	        preg_match('/(http|https):\/\/.*\.aolsvc\..*/', $this->_http_referer )
+	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_AOL ;
 			if ( isset($this->_parse_result['query']) ) { $this->_keywords = $this->_parse_result['query']; }
@@ -361,12 +386,13 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineYandex()
 	{
-	    if (preg_match('/(http:\/\/yandex\.ru\/yandsearch|http:\/\/www\.yandex\.ru\/yandsearch)/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/yandex\.ru\/yandsearch/'      , $this->_http_referer ) ||
+	        preg_match('/(http|https):\/\/www\.yandex\.ru\/yandsearch/' , $this->_http_referer )
+	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_YANDEX ;
 			if ( isset($this->_parse_result['text']) ) { $this->_keywords = $this->_parse_result['text']; }
-			$this->_keywords = trim(preg_replace(array('/\xb6/','/  /'),array('',' '),$this->_keywords)); 
-			if ( strlen($this->_keywords)===0 ) { $this->_keywords = self::KEYWORDS_UNKNOWN ; }
+			$this->_keywords = trim(preg_replace(array('/\xb6/','/  /'),array('',' '),$this->_keywords));
 			return true;
 	    }
 	    return false;
@@ -374,11 +400,11 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineBigfinder()
 	{
-	    if (preg_match('/http:\/\/www\.bigfinder\.de\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.bigfinder\.de\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_BIGFINDER ;
 			if ( isset($this->_parse_result['suchwert']) ) { $this->_keywords = $this->_parse_result['suchwert']; }
-			if ( strlen($this->_keywords) == 0 ) { $this->_keywords = self::REFERER_UNKNOWN ; }
+			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
 			return true;
 	    }
 	    return false;
@@ -386,11 +412,10 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineBabylon()
 	{
-	    if (preg_match('/http:\/\/search\.babylon\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/search\.babylon\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_BABYLON ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
-			if ( strlen($this->_keywords) == 0 ) { $this->_keywords = self::REFERER_UNKNOWN ; }
 			return true;
 	    }
 	    return false;
@@ -398,7 +423,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineSearchResult()
 	{
-	    if (preg_match('/http:\/\/.*\.search-results\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.search-results\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_SEARCH_RESULT ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -409,7 +434,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineMetaCrawler()
 	{
-	    if (preg_match('/http:\/\/.*\.metacrawler\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.metacrawler\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_METACRAWLER ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -420,7 +445,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineWerbungPublicRelations1824()
 	{
-	    if (preg_match('/http:\/\/werbung-public-relations\.18x24\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/werbung-public-relations\.18x24\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_WERBUNGPUBLICRELATIONS1824 ;
 			//if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -431,7 +456,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineKennenSieMich()
 	{
-	    if (preg_match('/http:\/\/kennensiemich\.ch\/roboto/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/kennensiemich\.ch\/roboto/', $this->_http_referer ))
 	    {
 	    	$parse_result = array();
 			$this->_search_engine = self::SEARCH_ENGINE_KENNENSIEMICH ;
@@ -444,11 +469,10 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineFoxtab()
 	{
-	    if (preg_match('/http:\/\/search\.foxtab\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/search\.foxtab\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_FOXTAB ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
-			if ( strlen($this->_keywords) == 0 ) { $this->_keywords = self::REFERER_UNKNOWN ; }
 			return true;
 	    }
 	    return false;
@@ -456,7 +480,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineSeexie()
 	{
-	    if (preg_match('/http:\/\/.*\.seexie\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.seexie\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_SEEXIE ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -467,7 +491,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineExtrabot()
 	{
-	    if (preg_match('/http:\/\/extrabot\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/extrabot\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_EXTRABOT ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -478,7 +502,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineWhorush()
 	{
-	    if (preg_match('/http:\/\/.*\.whorush\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.whorush\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_WHORUSH ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -489,7 +513,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineNewtabking()
 	{
-	    if (preg_match('/http:\/\/search\.newtabking\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/search\.newtabking\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_NEWTABKING ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -500,7 +524,9 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineEcosia()
 	{
-	    if (preg_match('/http:\/\/ecosia\.org\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/ecosia\.org\//'      , $this->_http_referer ) ||
+	        preg_match('/(http|https):\/\/www\.ecosia\.org\//' , $this->_http_referer )
+	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_ECOSIA ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -511,7 +537,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineSuchAlles()
 	{
-	    if (preg_match('/http:\/\/.*\.such-alles\.de\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/.*\.such-alles\.de\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_SUCHALLES ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -522,7 +548,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineSearchICQ()
 	{
-	    if (preg_match('/http:\/\/search\.icq\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/search\.icq\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_SEARCHICQ ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -533,7 +559,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineIncredimail()
 	{
-	    if (preg_match('/http:\/\/search\.incredimail\.com\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/search\.incredimail\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_INCREDIMAIL ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
@@ -544,7 +570,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineDuckduckgo()
 	{
-	    if (preg_match('/http:\/\/duckduckgo\.com\/post\.html/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/duckduckgo\.com\/post\.html/', $this->_http_referer ))
 	    {
 	        $this->_search_engine = self::SEARCH_ENGINE_DUCKDUCKGO ;
 	        //no parameter
@@ -555,7 +581,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineSumaja()
 	{
-	    if (preg_match('/http:\/\/www\.sumaja\.de\//', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/www\.sumaja\.de\//', $this->_http_referer ))
 	    {
 	        $this->_search_engine = self::SEARCH_ENGINE_SUMAJA ;
 	        if ( isset($this->_parse_result['such_wert']) ) 
@@ -569,12 +595,68 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineDelicious()
 	{
-	    if (preg_match('/http:\/\/www\.delicious\.com\/search/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/www\.delicious\.com\/search/', $this->_http_referer ))
 	    {
 	        $this->_search_engine = self::SEARCH_ENGINE_DELICIOUS ;
 	        if ( isset($this->_parse_result['p']) )
 	        {
 	            $this->_keywords = $this->_parse_result['p'];
+	        }
+	        return true;
+	    }
+	    return false;
+	}
+	
+	protected function checkEngineDokoSearch()
+	{
+	    if (preg_match('/(http|https):\/\/www\.doko-search\.com/', $this->_http_referer ))
+	    {
+	        $this->_search_engine = self::SEARCH_ENGINE_DOKOSEARCH ;
+	        if ( isset($this->_parse_result['q']) )
+	        {
+	            $this->_keywords = $this->_parse_result['q'];
+	        }
+	        return true;
+	    }
+	    return false;
+	}
+	
+	protected function checkEngineCertifiedToolbar()
+	{
+	    if (preg_match('/(http|https):\/\/search\.certified-toolbar\.com/', $this->_http_referer ))
+	    {
+	        $this->_search_engine = self::SEARCH_ENGINE_CERTIFIEDTOOLBAR ;
+	        if ( isset($this->_parse_result['q']) )
+	        {
+	            $this->_keywords = $this->_parse_result['q'];
+	        }
+	        return true;
+	    }
+	    return false;
+	}
+	
+	protected function checkEngineSnapdo()
+	{
+	    if (preg_match('/(http|https):\/\/search\.snapdo\.com/', $this->_http_referer ))
+	    {
+	        $this->_search_engine = self::SEARCH_ENGINE_SNAPDO ;
+	        if ( isset($this->_parse_result['q']) )
+	        {
+	            $this->_keywords = $this->_parse_result['q'];
+	        }
+	        return true;
+	    }
+	    return false;
+	}
+	
+	protected function checkEngineSoftonic()
+	{
+	    if (preg_match('/(http|https):\/\/search\.softonic\.com/', $this->_http_referer ))
+	    {
+	        $this->_search_engine = self::SEARCH_ENGINE_SOFTONIC ;
+	        if ( isset($this->_parse_result['q']) )
+	        {
+	            $this->_keywords = $this->_parse_result['q'];
 	        }
 	        return true;
 	    }
@@ -588,7 +670,9 @@ class ModuleVisitorSearchEngine// extends Frontend
 	 */
 	protected function checkEngineGeneric()
 	{
-	    if ( preg_match('/\?q=/', $this->_http_referer ) || preg_match('/\&q=/', $this->_http_referer ) )
+	    if ( preg_match('/\?q=/', $this->_http_referer ) || 
+	         preg_match('/\&q=/', $this->_http_referer ) 
+	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_GENERIC ;
 			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }

@@ -178,6 +178,14 @@ class VisitorsRunonceJob extends Controller
 		    } //while $objMulti
 		} //if tl_visitors_counter
 		
+		// leere Generic eliminieren (Issue #67)
+		if ($this->Database->tableExists('tl_visitors_searchengines'))
+		{
+		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_searchengines`
+                                                    WHERE `visitors_searchengine`=? 
+                                                    AND `visitors_keywords`=?")
+                                        ->execute('Generic','');
+		}
 	} //function run
 } // class
 
