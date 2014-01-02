@@ -619,9 +619,9 @@ class ModuleVisitorStat extends \BackendModule
 	    $CurrentWeekHits   = 0;
 	    $CurrentWeek       = date('W'); //date('YW', mktime(0, 0, 0, date("m"), date("d"), date("Y")) );
 	    $LastWeek          = date('W', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );	//date('YW', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );
-	    $CurrentMonth      = (int)date('m');
-	    $YearCurrentWeek   = ($CurrentWeek > 40 && $CurrentMonth == 1) ? date('Y')-1 : date('Y');
-	    $YearLastWeek      = ($LastWeek    > 40 && $CurrentMonth == 1) ? date('Y')-1 : date('Y');
+        $YearCurrentWeek   = date('Y');
+        $YearLastWeek      = date('Y', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );
+	    
 	    if ($VisitorsID) 
 	    {
     		//Total je Woche (aktuelle und letzte)
