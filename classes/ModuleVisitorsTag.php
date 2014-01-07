@@ -364,16 +364,16 @@ class ModuleVisitorsTag extends \Frontend
 	 */
 	protected function VisitorCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
-		$this->import('Visitors\ModuleVisitorChecks','ModuleVisitorChecks');
+		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
 		if (!isset($GLOBALS['TL_CONFIG']['mod_visitors_bot_check']) || $GLOBALS['TL_CONFIG']['mod_visitors_bot_check'] !== false) 
 		{
-			if ($this->ModuleVisitorChecks->CheckBot() == true) 
+			if ($ModuleVisitorChecks->CheckBot() == true) 
 			{
 				$this->_BOT = true;
 		    	return; //Bot / IP gefunden, wird nicht gezaehlt
 		    }
 		}
-	    if ($this->ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
+	    if ($ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 	    	return ; //User Agent Filterung
@@ -401,7 +401,7 @@ class ModuleVisitorsTag extends \Frontend
                                 AND vid = ? 
                                 AND visitors_type = ?")
                 ->executeUncached(3, $vid, 'h'); // 3 Sekunden Blockierung zw. Zählung per Tag und Zählung per Browser
-	    if ($this->ModuleVisitorChecks->CheckBE() == true) 
+	    if ($ModuleVisitorChecks->CheckBE() == true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 			return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
@@ -550,29 +550,20 @@ class ModuleVisitorsTag extends \Frontend
 		    //Only counting if User Agent is set.
 		    if ( strlen(\Environment::get('httpUserAgent'))>0 ) 
 		    {
-			    /* Variante 2 */
-			    /*
-			    $this->import('ModuleVisitorBrowser2');
-			    $arrBrowser = $this->ModuleVisitorBrowser2->getBrowser($this->Environment->httpUserAgent, true, implode(",", $this->Environment->httpAcceptLanguage));
-			    if (count($arrBrowser) === 0) {
-			    	log_message("ModuleVisitorBrowser2 Systemerror browscap.ini cache.php","error.log");
-			    	$this->log("ModuleVisitorBrowser2 Systemerror browscap.ini cache.php",'ModulVisitors Update', TL_ERROR);
-			    }
-			    */
 			    /* Variante 3 */
-				$this->import('Visitors\ModuleVisitorBrowser3','ModuleVisitorBrowser3');
-				$this->ModuleVisitorBrowser3->initBrowser(\Environment::get('httpUserAgent'),implode(",", \Environment::get('httpAcceptLanguage')));
-				if ($this->ModuleVisitorBrowser3->getLang() === null) 
+				$ModuleVisitorBrowser3 = new \Visitors\ModuleVisitorBrowser3();
+				$ModuleVisitorBrowser3->initBrowser(\Environment::get('httpUserAgent'),implode(",", \Environment::get('httpAcceptLanguage')));
+				if ($ModuleVisitorBrowser3->getLang() === null) 
 				{
 					log_message("ModuleVisitorBrowser3 Systemerror","error.log");
 			    	$this->log("ModuleVisitorBrowser3 Systemerror",'ModulVisitors', TL_ERROR);
 				} 
 				else 
 				{
-					$arrBrowser['Browser']  = $this->ModuleVisitorBrowser3->getBrowser();
-					$arrBrowser['Version']  = $this->ModuleVisitorBrowser3->getVersion();
-					$arrBrowser['Platform'] = $this->ModuleVisitorBrowser3->getPlatformVersion();
-					$arrBrowser['lang']     = $this->ModuleVisitorBrowser3->getLang();
+					$arrBrowser['Browser']  = $ModuleVisitorBrowser3->getBrowser();
+					$arrBrowser['Version']  = $ModuleVisitorBrowser3->getVersion();
+					$arrBrowser['Platform'] = $ModuleVisitorBrowser3->getPlatformVersion();
+					$arrBrowser['lang']     = $ModuleVisitorBrowser3->getLang();
 				    //Anpassen an Version 1 zur Weiterverarbeitung
 				    if ($arrBrowser['Browser'] == 'unknown') 
 				    {
@@ -641,10 +632,10 @@ class ModuleVisitorsTag extends \Frontend
 	{
 		//$SearchEngine = 'unknown';
 		//$Keywords     = 'unknown';
-		$this->import('Visitors\ModuleVisitorSearchEngine','ModuleVisitorSearchEngine');
-		$this->ModuleVisitorSearchEngine->checkEngines();
-		$SearchEngine = $this->ModuleVisitorSearchEngine->getEngine();
-		$Keywords     = $this->ModuleVisitorSearchEngine->getKeywords();
+		$ModuleVisitorSearchEngine = new \Visitors\ModuleVisitorSearchEngine();
+		$ModuleVisitorSearchEngine->checkEngines();
+		$SearchEngine = $ModuleVisitorSearchEngine->getEngine();
+		$Keywords     = $ModuleVisitorSearchEngine->getKeywords();
 		if ($SearchEngine !== 'unknown') 
 		{
 			$this->_SE = true;
@@ -683,10 +674,10 @@ class ModuleVisitorsTag extends \Frontend
 		{
 			if ($this->_PF === false) 
 			{
-				$this->import('Visitors\ModuleVisitorReferrer','ModuleVisitorReferrer');
-				$this->ModuleVisitorReferrer->checkReferrer();
-				$ReferrerDNS = $this->ModuleVisitorReferrer->getReferrerDNS();
-				$ReferrerFull= $this->ModuleVisitorReferrer->getReferrerFull();
+				$ModuleVisitorReferrer = new \Visitors\ModuleVisitorReferrer();
+				$ModuleVisitorReferrer->checkReferrer();
+				$ReferrerDNS = $ModuleVisitorReferrer->getReferrerDNS();
+				$ReferrerFull= $ModuleVisitorReferrer->getReferrerFull();
 				//log_message('VisitorCheckReferrer $ReferrerDNS:'.print_r($ReferrerDNS,true), 'debug.log');
 				//log_message('VisitorCheckReferrer Host:'.print_r($this->ModuleVisitorReferrer->getHost(),true), 'debug.log');
 				if ($ReferrerDNS != 'o' && $ReferrerDNS != 'w') 
