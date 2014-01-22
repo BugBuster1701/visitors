@@ -613,14 +613,21 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	protected function getWeeks($VisitorsID)
 	{
+	    /*
+	     * YEARWEEK('2013-12-31', 3) ergibt 201401 (iso Jahr der iso Woche)!
+	     * muss so sein, da sonst between nicht funktioniert 
+	     * (Current muss größer sein als Last)
+	     * daher muss PHP auch das ISO Jahr zurückgeben!
+	     */
+	    
 	    $LastWeekVisits    = 0;
 	    $LastWeekHits      = 0;
 	    $CurrentWeekVisits = 0;
 	    $CurrentWeekHits   = 0;
-	    $CurrentWeek       = date('W'); //date('YW', mktime(0, 0, 0, date("m"), date("d"), date("Y")) );
-	    $LastWeek          = date('W', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );	//date('YW', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );
-        $YearCurrentWeek   = date('Y');
-        $YearLastWeek      = date('Y', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );
+	    $CurrentWeek       = date('W'); 
+	    $LastWeek          = date('W', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );
+        $YearCurrentWeek   = date('o');
+        $YearLastWeek      = date('o', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );
 	    
 	    if ($VisitorsID) 
 	    {
