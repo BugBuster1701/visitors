@@ -106,12 +106,12 @@ class ModuleVisitorStat extends \BackendModule
 		if ($intRowsX>0) 
 		{
 			//Vorbereiten Chart
-			$this->import('Visitors\ModuleVisitorCharts','ModuleVisitorCharts');
-			$this->ModuleVisitorCharts->setName($GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit'].' (<span style="color:red">'.$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['chart_red'].'</span>)');
-			$this->ModuleVisitorCharts->setName2($GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit'].' (<span style="color:green">'.$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['chart_green'].'</span>)');
-			$this->ModuleVisitorCharts->setHeight(270); // setMaxvalueHeight + 20 + 20 +10
-			$this->ModuleVisitorCharts->setWidth(330);
-			$this->ModuleVisitorCharts->setMaxvalueHeight(220); // Balkenhöhe setzen
+			$ModuleVisitorCharts = new \Visitors\ModuleVisitorCharts();
+			$ModuleVisitorCharts->setName($GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit'].' (<span style="color:red">'.$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['chart_red'].'</span>)');
+			$ModuleVisitorCharts->setName2($GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit'].' (<span style="color:green">'.$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['chart_green'].'</span>)');
+			$ModuleVisitorCharts->setHeight(270); // setMaxvalueHeight + 20 + 20 +10
+			$ModuleVisitorCharts->setWidth(330);
+			$ModuleVisitorCharts->setMaxvalueHeight(220); // Balkenhöhe setzen
 			
 			while ($objVisitorsX->next()) 
 			{
@@ -152,14 +152,14 @@ class ModuleVisitorStat extends \BackendModule
 						//log_message(print_r(substr($valuexy['visitors_date'],0,2),true), 'debug.log');
 						//log_message(print_r($valuexy['visitors_visit'],true), 'debug.log');
 						// chart resetten, wie? fehlt noch
-						$this->ModuleVisitorCharts->addX(substr($valuexy['visitors_date_ymd'],8,2).'<br />'.substr($valuexy['visitors_date_ymd'],5,2));
-						//$this->ModuleVisitorCharts->addY($valuexy['visitors_visit']);
-						$this->ModuleVisitorCharts->addY(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_visit'])); // Formatierte Zahl wieder in reine Zahl
-						//$this->ModuleVisitorCharts->addY2($valuexy['visitors_hit']);
-						$this->ModuleVisitorCharts->addY2(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_hit'])); // Formatierte Zahl wieder in reine Zahl
+						$ModuleVisitorCharts->addX(substr($valuexy['visitors_date_ymd'],8,2).'<br />'.substr($valuexy['visitors_date_ymd'],5,2));
+						//$ModuleVisitorCharts->addY($valuexy['visitors_visit']);
+						$ModuleVisitorCharts->addY(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_visit'])); // Formatierte Zahl wieder in reine Zahl
+						//$ModuleVisitorCharts->addY2($valuexy['visitors_hit']);
+						$ModuleVisitorCharts->addY2(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_hit'])); // Formatierte Zahl wieder in reine Zahl
 					}
 				}
-				$arrVisitorsChart[$intAnzCounter] = $this->ModuleVisitorCharts->display(false);
+				$arrVisitorsChart[$intAnzCounter] = $ModuleVisitorCharts->display(false);
 				
 				//Browser
 				$arrVSB = $this->getBrowserTop($objVisitorsID);
@@ -613,14 +613,21 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	protected function getWeeks($VisitorsID)
 	{
+	    /*
+	     * YEARWEEK('2013-12-31', 3) ergibt 201401 (iso Jahr der iso Woche)!
+	     * muss so sein, da sonst between nicht funktioniert 
+	     * (Current muss größer sein als Last)
+	     * daher muss PHP auch das ISO Jahr zurückgeben!
+	     */
+	    
 	    $LastWeekVisits    = 0;
 	    $LastWeekHits      = 0;
 	    $CurrentWeekVisits = 0;
 	    $CurrentWeekHits   = 0;
-	    $CurrentWeek       = date('W'); //date('YW', mktime(0, 0, 0, date("m"), date("d"), date("Y")) );
-	    $LastWeek          = date('W', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );	//date('YW', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );
-        $YearCurrentWeek   = date('Y');
-        $YearLastWeek      = date('Y', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );
+	    $CurrentWeek       = date('W'); 
+	    $LastWeek          = date('W', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );
+        $YearCurrentWeek   = date('o');
+        $YearLastWeek      = date('o', mktime(0, 0, 0, date("m"), date("d")-7, date("Y")) );
 	    
 	    if ($VisitorsID) 
 	    {

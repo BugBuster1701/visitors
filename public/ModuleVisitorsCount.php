@@ -109,14 +109,14 @@ class ModuleVisitorsCount extends \Frontend
 	 */
 	protected function VisitorCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
-		$this->import('\Visitors\ModuleVisitorChecks','ModuleVisitorChecks');
-		if ($this->ModuleVisitorChecks->CheckBot() == true) 
+		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
+		if ($ModuleVisitorChecks->CheckBot() == true) 
 		{
 			$this->_BOT = true;
 			//log_message("VisitorCountUpdate BOT=true","debug.log");
 	    	return; //Bot / IP gefunden, wird nicht gezaehlt
 	    }
-	    if ($this->ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
+	    if ($ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 	    	//log_message("VisitorCountUpdate UserAgent=true","debug.log");
@@ -151,7 +151,7 @@ class ModuleVisitorsCount extends \Frontend
                                 visitors_type = ?")
                 ->executeUncached(3, $vid, 'h');
 	    
-	    if ($this->ModuleVisitorChecks->CheckBE() == true) 
+	    if ($ModuleVisitorChecks->CheckBE() == true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 			return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
@@ -289,19 +289,19 @@ class ModuleVisitorsCount extends \Frontend
 		    if ( strlen(\Environment::get('httpUserAgent'))>0 ) 
 		    {
 			    /* Variante 3 */
-			    $this->import('\Visitors\ModuleVisitorBrowser3','ModuleVisitorBrowser3');
-				$this->ModuleVisitorBrowser3->initBrowser(\Environment::get('httpUserAgent'),implode(",", \Environment::get('httpAcceptLanguage')));
-				if ($this->ModuleVisitorBrowser3->getLang() === null) 
+			    $ModuleVisitorBrowser3 = new \Visitors\ModuleVisitorBrowser3();
+				$ModuleVisitorBrowser3->initBrowser(\Environment::get('httpUserAgent'),implode(",", \Environment::get('httpAcceptLanguage')));
+				if ($ModuleVisitorBrowser3->getLang() === null) 
 				{
 					log_message("ModuleVisitorBrowser3 Systemerror","error.log");
 			    	$this->log("ModuleVisitorBrowser3 Systemerror",'ModulVisitors', TL_ERROR);
 			    } 
 			    else 
 			    {
-			    	$arrBrowser['Browser']  = $this->ModuleVisitorBrowser3->getBrowser();
-					$arrBrowser['Version']  = $this->ModuleVisitorBrowser3->getVersion();
-					$arrBrowser['Platform'] = $this->ModuleVisitorBrowser3->getPlatformVersion();
-					$arrBrowser['lang']     = $this->ModuleVisitorBrowser3->getLang();
+			    	$arrBrowser['Browser']  = $ModuleVisitorBrowser3->getBrowser();
+					$arrBrowser['Version']  = $ModuleVisitorBrowser3->getVersion();
+					$arrBrowser['Platform'] = $ModuleVisitorBrowser3->getPlatformVersion();
+					$arrBrowser['lang']     = $ModuleVisitorBrowser3->getLang();
 				    //Anpassen an Version 1 zur Weiterverarbeitung
 				    if ($arrBrowser['Browser'] == 'unknown') 
 				    {
@@ -377,10 +377,10 @@ class ModuleVisitorsCount extends \Frontend
 	{
 		//$SearchEngine = 'unknown';
 		//$Keywords     = 'unknown';
-		$this->import('\Visitors\ModuleVisitorSearchEngine','ModuleVisitorSearchEngine');
-		$this->ModuleVisitorSearchEngine->checkEngines();
-		$SearchEngine = $this->ModuleVisitorSearchEngine->getEngine();
-		$Keywords = $this->ModuleVisitorSearchEngine->getKeywords();
+		$ModuleVisitorSearchEngine = new \Visitors\ModuleVisitorSearchEngine();
+		$ModuleVisitorSearchEngine->checkEngines();
+		$SearchEngine = $ModuleVisitorSearchEngine->getEngine();
+		$Keywords     = $ModuleVisitorSearchEngine->getKeywords();
 		if ($SearchEngine !== 'unknown') 
 		{
 			$this->_SE = true;
@@ -417,10 +417,10 @@ class ModuleVisitorsCount extends \Frontend
 		{
 			if ($this->_PF === false) 
 			{
-				$this->import('\Visitors\ModuleVisitorReferrer','ModuleVisitorReferrer');
-				$this->ModuleVisitorReferrer->checkReferrer();
-				$ReferrerDNS = $this->ModuleVisitorReferrer->getReferrerDNS();
-				$ReferrerFull= $this->ModuleVisitorReferrer->getReferrerFull();
+				$ModuleVisitorReferrer = new \Visitors\ModuleVisitorReferrer();
+				$ModuleVisitorReferrer->checkReferrer();
+				$ReferrerDNS = $ModuleVisitorReferrer->getReferrerDNS();
+				$ReferrerFull= $ModuleVisitorReferrer->getReferrerFull();
 				if ($ReferrerDNS != 'o' && $ReferrerDNS != 'w') 
 				{ 	// not the own, not wrong
 					// Insert

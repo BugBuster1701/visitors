@@ -87,10 +87,10 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 			),
 			'toggle' => array
             (
-                    'label'               => &$GLOBALS['TL_LANG']['tl_visitors']['toggle'],
-                    'icon'                => 'visible.gif',
-                    'attributes'          => 'onclick="Backend.getScrollOffset(); return AjaxRequest.toggleVisibility(this, %s);"',
-                    'button_callback'     => array('BugBuster\Visitors\DCA_visitors', 'toggleIcon')
+                'label'               => &$GLOBALS['TL_LANG']['tl_visitors']['toggle'],
+                'icon'                => 'visible.gif',
+                'attributes'          => 'onclick="Backend.getScrollOffset(); return AjaxRequest.toggleVisibility(this, %s);"',
+                'button_callback'     => array('BugBuster\Visitors\DCA_visitors', 'toggleIcon')
             ),
 			'show' => array
 			(
