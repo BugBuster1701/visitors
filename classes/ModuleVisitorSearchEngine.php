@@ -1,11 +1,11 @@
 <?php 
 
 /**
- * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
  * 
  * Modul Visitors SearchEngine - Frontend
  *
- * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2012..2014 <http://www.contao.glen-langer.de>
  * @author     Glen Langer (BugBuster)
  * @licence    LGPL
  * @filesource
@@ -23,7 +23,7 @@ namespace BugBuster\Visitors;
  * 
  * Check for searchengines in referrer
  *
- * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2012..2014 <http://www.contao.glen-langer.de>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL 

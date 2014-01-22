@@ -1,11 +1,11 @@
 <?php 
 
 /**
- * Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
+ * Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
  * 
  * Modul Visitors Stat - Backend Referrer Details
  *
- * @copyright  Glen Langer 2012..2013 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2012..2014 <http://www.contao.glen-langer.de>
  * @author     Glen Langer (BugBuster)
  * @licence    LGPL
  * @filesource
@@ -27,7 +27,7 @@ require('../../../initialize.php');
 /**
  * Class ModuleVisitorReferrerDetails
  *
- * @copyright  Glen Langer 2007..2012
+ * @copyright  Glen Langer 2007..2014
  * @author     Glen Langer
  * @package    GLVisitors
  */

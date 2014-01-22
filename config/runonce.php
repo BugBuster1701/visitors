@@ -2,11 +2,11 @@
 
 @error_reporting(0); @ini_set("display_errors", 0);  
 /**
- * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
  *
  * Modul Visitors - /config/runonce.php
  *
- * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2009..2014 <http://www.contao.glen-langer.de>
  * @author     Glen Langer (BugBuster)
  * @licence    LGPL
  * @filesource
@@ -17,7 +17,7 @@
 /**
  * Class VisitorsRunonceJob
  *
- * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2009..2014 <http://www.contao.glen-langer.de>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL

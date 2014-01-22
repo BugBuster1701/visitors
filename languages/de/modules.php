@@ -11,7 +11,7 @@
  * Language file for modules (de).
  *
  * PHP version 5
- * @copyright  Glen Langer 2009..2012 
+ * @copyright  Glen Langer 2009..2014 
  * @author     Glen Langer 
  * @package    VisitorsLanguage 
  * @license    LGPL 

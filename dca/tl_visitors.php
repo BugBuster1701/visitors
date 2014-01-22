@@ -1,13 +1,13 @@
 <?php 
 
 /**
- * Extension for Contao Open Source CMS, Copyright (C) 2005-2013 Leo Feyer
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
  * 
  * Visitors - Backend DCA tl_visitors
  *
  * This is the data container array for table tl_visitors.
  *
- * @copyright  Glen Langer 2009..2013 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2009..2014 <http://www.contao.glen-langer.de>
  * @author     Glen Langer (BugBuster)
  * @licence    LGPL
  * @filesource
