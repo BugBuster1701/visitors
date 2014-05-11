@@ -46,6 +46,7 @@ ClassLoader::addClasses(array
 	'BugBuster\Visitors\DCA_visitors_category'        => 'system/modules/visitors/classes/DCA_visitors_category.php',
 	'BugBuster\Visitors\ModuleVisitorSearchEngine'    => 'system/modules/visitors/classes/ModuleVisitorSearchEngine.php',
 	'BugBuster\Visitors\ModuleVisitorsTag'            => 'system/modules/visitors/classes/ModuleVisitorsTag.php',
+	'BugBuster\Visitors\ModuleVisitorLog'             => 'system/modules/visitors/classes/ModuleVisitorLog.php',
 	'BugBuster\Visitors\ModuleVisitorReferrer'        => 'system/modules/visitors/classes/ModuleVisitorReferrer.php',
 	'BugBuster\Visitors\ModuleVisitorCharts'          => 'system/modules/visitors/classes/ModuleVisitorCharts.php',
 	'BugBuster\Visitors\ModuleVisitorChecks'          => 'system/modules/visitors/classes/ModuleVisitorChecks.php',

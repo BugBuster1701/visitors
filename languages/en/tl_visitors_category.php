@@ -29,7 +29,7 @@ $GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']= array('Count
 /**
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_visitors_category']['title_legend']     = 'Title and counter template'; 
+$GLOBALS['TL_LANG']['tl_visitors_category']['title_legend']     = 'Title'; 
 $GLOBALS['TL_LANG']['tl_visitors_category']['cache_legend']     = 'Counting mode'; 
 
 /**

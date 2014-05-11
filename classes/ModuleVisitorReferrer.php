@@ -31,7 +31,7 @@ class ModuleVisitorReferrer	extends \System
 	/**
 	 * Current version of the class.
 	 */
-	const VERSION          = '3.1';
+	const VERSION          = '3.2';
 	
     private $_http_referrer = '';
     
@@ -40,6 +40,8 @@ class ModuleVisitorReferrer	extends \System
     private $_referrer_DNS  = '';
     
     private $_vhost        = '';
+    
+    private $_wrong_detail = '';
     
     const REFERRER_UNKNOWN  = '-';
     
@@ -67,6 +69,7 @@ class ModuleVisitorReferrer	extends \System
 	    {
 	    	//ungueltiger Referrer
 	    	$this->_referrer_DNS = self::REFERRER_WRONG;
+	    	$this->_wrong_detail = 'Invalid referrer';
 	    }
 	}
 	
@@ -90,7 +93,7 @@ class ModuleVisitorReferrer	extends \System
 		{ 
 			$this->detect();
 		}
-		//log_message('checkReferrer: '.$this->__toString(),'debug.log');
+		\Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , $this->__toString() );
 	}
 	
 	protected function detect()
@@ -105,6 +108,7 @@ class ModuleVisitorReferrer	extends \System
 	    	{
 	    		//wtf...
 	    		$this->_referrer_DNS = self::REFERRER_WRONG;
+	    		$this->_wrong_detail = 'Problem on parse_url for referrer: '.$this->_http_referrer;
 	    		return ;
 	    	}
 	    }
@@ -127,6 +131,7 @@ class ModuleVisitorReferrer	extends \System
 	            || trim($this->_referrer_DNS, '[]') == '::1' ) 
 	        {
 	            //log_message('detect: loopback True','debug.log');
+	            $this->_wrong_detail = 'Referrer DNS was loopback IP: '.$this->_referrer_DNS;
 	            $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was loopback IP
 	            return ;
 	        }
@@ -141,6 +146,7 @@ class ModuleVisitorReferrer	extends \System
     	    if ( strpos($this->_referrer_DNS, '.') === false )
     	    {
     	        //log_message('detect: Domain (not dot in Host) True','debug.log');
+    	        $this->_wrong_detail = 'Referrer DNS was local (not domain): '.$this->_referrer_DNS;
     	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was local (not domain)
     	        return ;
     	    }
@@ -150,19 +156,25 @@ class ModuleVisitorReferrer	extends \System
 	    if ( rtrim($this->_http_referrer,"/") == 'http://'  . $this->_referrer_DNS ||
 	         rtrim($this->_http_referrer,"/") == 'https://' . $this->_referrer_DNS  )
 	    {
-	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer is a fake.
-	        return ;
+	        if ( substr($this->_referrer_DNS, 0, 10) == 'www.google') 
+	        {
+    	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer is a fake. (shortened)
+    	        $this->_wrong_detail = 'Referrer is a fake. (shortened): '.$this->_http_referrer;
+    	        return ;
+	        }
 	    }
 	    //Special for DuckDuckGo (GitHub #33)
 	    if ( $this->_http_referrer == 'http://duckduckgo.com/post.html') 
 	    {
-	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was shortened.
+	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was duckduckgo.
+	        $this->_wrong_detail = 'Referrer is a fake. (duckduckgo): '.$this->_http_referrer;
 	        return ;
 	    }
 	    //Special for http:// (GitHub #37)
 	    if ( $this->_http_referrer == 'http://' || $this->_http_referrer == 'http:/' )
 	    {
 	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was shortened.
+	        $this->_wrong_detail = 'Referrer was shortened: '.$this->_http_referrer;
 	        return ;
 	    }
 	    
@@ -170,6 +182,7 @@ class ModuleVisitorReferrer	extends \System
 	    if ( $this->ModuleVisitorChecks->isDomain($this->_referrer_DNS) === false )
 	    {
 	        //log_message('detect: Domain (not valid Domain) True','debug.log');
+	        $this->_wrong_detail = 'Referrer DNS was not a valid Domain: '.$this->_referrer_DNS;
 	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was not a valid Domain
 	        return ;
 	    }
@@ -216,8 +229,7 @@ class ModuleVisitorReferrer	extends \System
 		}
 	}
 	
-	
-    
+   
 	public function getReferrerDNS()  { return $this->_referrer_DNS;  }
 	
 	public function getReferrerFull() { return $this->_http_referrer; }
@@ -226,10 +238,15 @@ class ModuleVisitorReferrer	extends \System
 	
 	public function __toString() 
 	{
-	    return "Referrer DNS : {$this->getReferrerDNS()}\n<br>" .
-			   "Referrer full: {$this->getReferrerFull()}\n<br>".
-			   "Server Host : {$this->getHost()}\n<br>".
-               "";
+	    $out = '';
+	    if ($this->_wrong_detail != '') 
+	    {
+	        $out = "Error Detail: {$this->_wrong_detail}\n" ;
+	    }
+	    return "\n".
+	           "Referrer DNS : {$this->getReferrerDNS()}\n{$out}" .
+			   "Referrer full: {$this->getReferrerFull()}\n".
+			   "Server Host : {$this->getHost()}\n";
 	}
 	
 }
