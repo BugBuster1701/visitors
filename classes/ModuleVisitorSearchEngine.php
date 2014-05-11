@@ -77,6 +77,7 @@ class ModuleVisitorSearchEngine// extends Frontend
     const SEARCH_ENGINE_CERTIFIEDTOOLBAR = 'certified-toolbar';
     const SEARCH_ENGINE_SNAPDO     = 'Snapdo';
     const SEARCH_ENGINE_SOFTONIC   = 'Softonic';
+    const SEARCH_ENGINE_QWANT      = 'Qwant'; // Europa sein Google Ersatz
     
     /**
 	 * Reset all properties
@@ -167,7 +168,8 @@ class ModuleVisitorSearchEngine// extends Frontend
 	        $this->checkEngineDokoSearch()  ||
 	        $this->checkEngineCertifiedToolbar() ||
 	        $this->checkEngineSnapdo()      ||
-	        $this->checkEngineSoftonic()    || 
+	        $this->checkEngineSoftonic()    ||
+	        $this->checkEngineQwant()       ||
 	            
 	        //last check 
 			$this->checkEngineGeneric()     ||
@@ -320,11 +322,13 @@ class ModuleVisitorSearchEngine// extends Frontend
 	protected function checkEngineWebde()
 	{
 	    if (preg_match('/(http|https):\/\/suche\.web\.de\/search/', $this->_http_referer ) ||
-	        preg_match('/(http|https):\/\/suche\.web\.de\/web/'  , $this->_http_referer )
+	        preg_match('/(http|https):\/\/suche\.web\.de\/web/'  , $this->_http_referer )  ||
+	        preg_match('/(http|https):\/\/suche\.web\.de\/pic/'  , $this->_http_referer )
 	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_WEBDE ;
 			if ( isset($this->_parse_result['su']) ) { $this->_keywords = $this->_parse_result['su']; }
+			if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
 			return true;
 	    }
 	    return false;
@@ -670,6 +674,20 @@ class ModuleVisitorSearchEngine// extends Frontend
 	    if (preg_match('/(http|https):\/\/search\.softonic\.com/', $this->_http_referer ))
 	    {
 	        $this->_search_engine = self::SEARCH_ENGINE_SOFTONIC ;
+	        if ( isset($this->_parse_result['q']) )
+	        {
+	            $this->_keywords = $this->_parse_result['q'];
+	        }
+	        return true;
+	    }
+	    return false;
+	}
+	
+	protected function checkEngineQwant()
+	{
+	    if (preg_match('/(http|https):\/\/www\.qwant\.com/', $this->_http_referer ))
+	    {
+	        $this->_search_engine = self::SEARCH_ENGINE_QWANT ;
 	        if ( isset($this->_parse_result['q']) )
 	        {
 	            $this->_keywords = $this->_parse_result['q'];
