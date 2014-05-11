@@ -29,6 +29,10 @@ $GLOBALS['TL_LANG']['tl_visitors']['visitors_average']     = array('Visitors per
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_block_time']  = array('Block time', 'After interruption of the requests at this time, an access is counted as an additional visitor.');
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_thousands_separator'] = array('Thousands separator','With activation, the thousands separator are also displayed in the front end.');
 $GLOBALS['TL_LANG']['tl_visitors']['published']            = array('Published', 'The counter will not be visible on your website until it is published.');
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_debug_tag']          = array('Debug mode for the class "Visitors Tag"'        ,'With activation, write debug information to the log file (<em>system/logs/visitors_debug.log</em>)');
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_debug_checks']       = array('Debug mode for the class "Visitor Check"'       ,'With activation, write debug information to the log file (<em>system/logs/visitors_debug.log</em>)');
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_debug_referrer']     = array('Debug mode for the class "Visitor Referrer"'    ,'With activation, write debug information to the log file (<em>system/logs/visitors_debug.log</em>)');
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_debug_searchengine'] = array('Debug mode for the class "Visitor SearchEngine"','With activation, write debug information to the log file (<em>system/logs/visitors_debug.log</em>)');
 
 /**
  * Reference
@@ -43,6 +47,7 @@ $GLOBALS['TL_LANG']['tl_visitors']['start_legend']   = 'Optional initial values'
 $GLOBALS['TL_LANG']['tl_visitors']['average_legend'] = 'Average and blocktime';
 $GLOBALS['TL_LANG']['tl_visitors']['publish_legend'] = 'Publish settings';
 $GLOBALS['TL_LANG']['tl_visitors']['design_legend']  = 'Design';
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_legend']  = 'Expert settings';
 
 /**
  * Buttons

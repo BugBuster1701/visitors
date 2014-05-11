@@ -71,13 +71,19 @@ class ModuleVisitorsTag extends \Frontend
 			}
 		}
 		$this->loadLanguageFile('tl_visitors');
+		
+		if (isset($arrTag[1]))
+		{
+		    $visitors_category_id = (int)$arrTag[1];
+		    //Get Debug Settings
+		    $this->VisitorSetDebugSettings($visitors_category_id);
+		}
+		
 		if (!isset($arrTag[2])) 
 		{
 			$this->log($GLOBALS['TL_LANG']['tl_visitors']['no_key'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 			return false;  // da fehlt was
 		}
-
-		$visitors_category_id = (int)$arrTag[1];
 
 		if ($arrTag[2] == 'count') 
 		{
@@ -121,10 +127,12 @@ class ModuleVisitorsTag extends \Frontend
 			 || $GLOBALS['TL_CONFIG']['cacheMode'] === 'none'
 			 || $objVisitors->visitors_cache_mode == 1) 
 			{
+			    \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , 'Counted Server: True' );
 				return '<!-- counted -->'; // <img src="system/modules/visitors/assets/leer.gif" alt="" /> // style="width:0px; height:0px; visibility:hidden; display:inline; left:-1000px; overflow:hidden; position:absolute; top:-1000px;"
 			} 
 			else 
 			{
+			    \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , 'Counted Client: True' );
 				return '<img src="system/modules/visitors/public/ModuleVisitorsCount.php?vkatid='.$visitors_category_id.'" alt="" />'; // style="width:0px; height:0px; visibility:hidden; display:inline; left:-1000px; overflow:hidden; position:absolute; top:-1000px;"
 			}
 		}
@@ -163,154 +171,164 @@ class ModuleVisitorsTag extends \Frontend
 		switch ($arrTag[2]) 
 		{
 		    case "name":
+		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 				return trim($objVisitors->visitors_name);
 				break;
 		    case "online":
-				    //VisitorsOnlineCount
-				    $objVisitorsOnlineCount = \Database::getInstance()
-				            ->prepare("SELECT 
-                                            COUNT(id) AS VOC 
-                                        FROM 
-                                            tl_visitors_blocker
-                                        WHERE 
-                                            vid=? AND visitors_type=?")
-                            ->executeUncached($objVisitors->id,'v');
-		            $objVisitorsOnlineCount->next();
-		            $VisitorsOnlineCount = ($objVisitorsOnlineCount->VOC === null) ? 0 : $objVisitorsOnlineCount->VOC;
+			    //VisitorsOnlineCount
+	            \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+			    $objVisitorsOnlineCount = \Database::getInstance()
+			            ->prepare("SELECT 
+                                        COUNT(id) AS VOC 
+                                    FROM 
+                                        tl_visitors_blocker
+                                    WHERE 
+                                        vid=? AND visitors_type=?")
+                        ->executeUncached($objVisitors->id,'v');
+	            $objVisitorsOnlineCount->next();
+	            $VisitorsOnlineCount = ($objVisitorsOnlineCount->VOC === null) ? 0 : $objVisitorsOnlineCount->VOC;
 				return ($boolSeparator) ? $this->getFormattedNumber($VisitorsOnlineCount,0) : $VisitorsOnlineCount;
 				break;
 		    case "start":
-			    	//VisitorsStartDate
-			        if (!strlen($objVisitors->visitors_startdate)) 
-			        {
-				    	$VisitorsStartDate = '';
-				    } 
-				    else 
-				    {
-				        global $objPage;
-				        $VisitorsStartDate = $this->parseDate($objPage->dateFormat, $objVisitors->visitors_startdate);
-				    }
+		    	//VisitorsStartDate
+		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        if (!strlen($objVisitors->visitors_startdate)) 
+		        {
+			    	$VisitorsStartDate = '';
+			    } 
+			    else 
+			    {
+			        global $objPage;
+			        $VisitorsStartDate = $this->parseDate($objPage->dateFormat, $objVisitors->visitors_startdate);
+			    }
 				return $VisitorsStartDate;
 				break;
 		    case "totalvisit":
-			    	//TotalVisitCount
-		            $objVisitorsTotalCount = \Database::getInstance()
-		                    ->prepare("SELECT 
-                                            SUM(visitors_visit) AS SUMV
-                                        FROM 
-                                            tl_visitors_counter
-                                        WHERE 
-                                            vid=?")
-                            ->executeUncached($objVisitors->id);
-					$VisitorsTotalVisitCount = $objVisitors->visitors_visit_start; //startwert
-					if ($objVisitorsTotalCount->numRows > 0) 
-					{
-		    		    $objVisitorsTotalCount->next();
-		                $VisitorsTotalVisitCount += ($objVisitorsTotalCount->SUMV === null) ? 0 : $objVisitorsTotalCount->SUMV;
-				    }
+		    	//TotalVisitCount
+		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+	            $objVisitorsTotalCount = \Database::getInstance()
+	                    ->prepare("SELECT 
+                                        SUM(visitors_visit) AS SUMV
+                                    FROM 
+                                        tl_visitors_counter
+                                    WHERE 
+                                        vid=?")
+                        ->executeUncached($objVisitors->id);
+				$VisitorsTotalVisitCount = $objVisitors->visitors_visit_start; //startwert
+				if ($objVisitorsTotalCount->numRows > 0) 
+				{
+	    		    $objVisitorsTotalCount->next();
+	                $VisitorsTotalVisitCount += ($objVisitorsTotalCount->SUMV === null) ? 0 : $objVisitorsTotalCount->SUMV;
+			    }
 				return ($boolSeparator) ? $this->getFormattedNumber($VisitorsTotalVisitCount,0) : $VisitorsTotalVisitCount;
 				break;
 		    case "totalhit":
-		    		//TotalHitCount
-		            $objVisitorsTotalCount = \Database::getInstance()
-		                    ->prepare("SELECT 
-                                            SUM(visitors_hit) AS SUMH
-                                        FROM 
-                                            tl_visitors_counter
-                                        WHERE 
-                                            vid=?")
-                            ->executeUncached($objVisitors->id);
-					$VisitorsTotalHitCount   = $objVisitors->visitors_hit_start;   //startwert
-					if ($objVisitorsTotalCount->numRows > 0) 
-					{
-		    		    $objVisitorsTotalCount->next();
-		                $VisitorsTotalHitCount += ($objVisitorsTotalCount->SUMH === null) ? 0 : $objVisitorsTotalCount->SUMH;
-				    }
+	    		//TotalHitCount
+		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+	            $objVisitorsTotalCount = \Database::getInstance()
+	                    ->prepare("SELECT 
+                                        SUM(visitors_hit) AS SUMH
+                                    FROM 
+                                        tl_visitors_counter
+                                    WHERE 
+                                        vid=?")
+                        ->executeUncached($objVisitors->id);
+				$VisitorsTotalHitCount   = $objVisitors->visitors_hit_start;   //startwert
+				if ($objVisitorsTotalCount->numRows > 0) 
+				{
+	    		    $objVisitorsTotalCount->next();
+	                $VisitorsTotalHitCount += ($objVisitorsTotalCount->SUMH === null) ? 0 : $objVisitorsTotalCount->SUMH;
+			    }
 				return ($boolSeparator) ? $this->getFormattedNumber($VisitorsTotalHitCount,0) : $VisitorsTotalHitCount;
 				break;
 		    case "todayvisit":
-					//TodaysVisitCount
-				    $objVisitorsTodaysCount = \Database::getInstance()
-				            ->prepare("SELECT 
-                                            visitors_visit
-                                        FROM 
-                                            tl_visitors_counter
-                                        WHERE 
-                                            vid=? AND visitors_date=?")
-                            ->executeUncached($objVisitors->id,date('Y-m-d'));
-				    if ($objVisitorsTodaysCount->numRows < 1) 
-				    {
-				    	$VisitorsTodaysVisitCount = 0;
-				    } 
-				    else 
-				    {
-		    		    $objVisitorsTodaysCount->next();
-		    		    $VisitorsTodaysVisitCount = ($objVisitorsTodaysCount->visitors_visit === null) ? 0 : $objVisitorsTodaysCount->visitors_visit;
-				    }
+				//TodaysVisitCount
+		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+			    $objVisitorsTodaysCount = \Database::getInstance()
+			            ->prepare("SELECT 
+                                        visitors_visit
+                                    FROM 
+                                        tl_visitors_counter
+                                    WHERE 
+                                        vid=? AND visitors_date=?")
+                        ->executeUncached($objVisitors->id,date('Y-m-d'));
+			    if ($objVisitorsTodaysCount->numRows < 1) 
+			    {
+			    	$VisitorsTodaysVisitCount = 0;
+			    } 
+			    else 
+			    {
+	    		    $objVisitorsTodaysCount->next();
+	    		    $VisitorsTodaysVisitCount = ($objVisitorsTodaysCount->visitors_visit === null) ? 0 : $objVisitorsTodaysCount->visitors_visit;
+			    }
 				return ($boolSeparator) ? $this->getFormattedNumber($VisitorsTodaysVisitCount,0) : $VisitorsTodaysVisitCount;
 				break;
 		    case "todayhit":
-					//TodaysHitCount
-				    $objVisitorsTodaysCount = \Database::getInstance()
-				            ->prepare("SELECT 
-                                            visitors_hit
-                                        FROM 
-                                            tl_visitors_counter
-                                        WHERE 
-                                            vid=? AND visitors_date=?")
-                            ->executeUncached($objVisitors->id,date('Y-m-d'));
-				    if ($objVisitorsTodaysCount->numRows < 1) 
-				    {
-				    	$VisitorsTodaysHitCount   = 0;
-				    } 
-				    else 
-				    {
-		    		    $objVisitorsTodaysCount->next();
-		    		    $VisitorsTodaysHitCount   = ($objVisitorsTodaysCount->visitors_hit   === null) ? 0 : $objVisitorsTodaysCount->visitors_hit;
-				    }
+				//TodaysHitCount
+		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+			    $objVisitorsTodaysCount = \Database::getInstance()
+			            ->prepare("SELECT 
+                                        visitors_hit
+                                    FROM 
+                                        tl_visitors_counter
+                                    WHERE 
+                                        vid=? AND visitors_date=?")
+                        ->executeUncached($objVisitors->id,date('Y-m-d'));
+			    if ($objVisitorsTodaysCount->numRows < 1) 
+			    {
+			    	$VisitorsTodaysHitCount   = 0;
+			    } 
+			    else 
+			    {
+	    		    $objVisitorsTodaysCount->next();
+	    		    $VisitorsTodaysHitCount   = ($objVisitorsTodaysCount->visitors_hit   === null) ? 0 : $objVisitorsTodaysCount->visitors_hit;
+			    }
 				return ($boolSeparator) ? $this->getFormattedNumber($VisitorsTodaysHitCount,0) : $VisitorsTodaysHitCount;
 				break;
 		    case "averagevisits":
-					// Average Visits
-				    if ($objVisitors->visitors_average) 
-				    {
-				    	$today     = date('Y-m-d');
-						$yesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-1, date("Y")));
-		                $objVisitorsAverageCount = \Database::getInstance()
-		                        ->prepare("SELECT 
-                                                SUM(visitors_visit)  AS SUMV, 
-                                                MIN( visitors_date ) AS MINDAY
-                                            FROM 
-                                                tl_visitors_counter
-                                            WHERE 
-                                                vid=? AND visitors_date<?")
-                                ->executeUncached($objVisitors->id,$today);
-		    		    if ($objVisitorsAverageCount->numRows > 0) 
-		    		    {
-		                    $objVisitorsAverageCount->next();
-		                    $tmpTotalDays = floor( (strtotime($yesterday) - strtotime($objVisitorsAverageCount->MINDAY))/60/60/24 );
-		                    $VisitorsAverageVisitCount = ($objVisitorsAverageCount->SUMV === null) ? 0 : $objVisitorsAverageCount->SUMV;
-		                    if ($tmpTotalDays > 0) 
-		                    {
-		                    	$VisitorsAverageVisits = round($VisitorsAverageVisitCount / $tmpTotalDays , 0);
-		                    } 
-		                    else 
-		                    {
-		                    	$VisitorsAverageVisits = 0;
-		                    }
-		                }
-				    } 
-				    else 
-				    {
-		                $VisitorsAverageVisits = 0;
-		            }
+				// Average Visits
+		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+			    if ($objVisitors->visitors_average) 
+			    {
+			    	$today     = date('Y-m-d');
+					$yesterday = date('Y-m-d',mktime(0, 0, 0, date("m"), date("d")-1, date("Y")));
+	                $objVisitorsAverageCount = \Database::getInstance()
+	                        ->prepare("SELECT 
+                                            SUM(visitors_visit)  AS SUMV, 
+                                            MIN( visitors_date ) AS MINDAY
+                                        FROM 
+                                            tl_visitors_counter
+                                        WHERE 
+                                            vid=? AND visitors_date<?")
+                            ->executeUncached($objVisitors->id,$today);
+	    		    if ($objVisitorsAverageCount->numRows > 0) 
+	    		    {
+	                    $objVisitorsAverageCount->next();
+	                    $tmpTotalDays = floor( (strtotime($yesterday) - strtotime($objVisitorsAverageCount->MINDAY))/60/60/24 );
+	                    $VisitorsAverageVisitCount = ($objVisitorsAverageCount->SUMV === null) ? 0 : $objVisitorsAverageCount->SUMV;
+	                    if ($tmpTotalDays > 0) 
+	                    {
+	                    	$VisitorsAverageVisits = round($VisitorsAverageVisitCount / $tmpTotalDays , 0);
+	                    } 
+	                    else 
+	                    {
+	                    	$VisitorsAverageVisits = 0;
+	                    }
+	                }
+			    } 
+			    else 
+			    {
+	                $VisitorsAverageVisits = 0;
+	            }
 				return ($boolSeparator) ? $this->getFormattedNumber($VisitorsAverageVisits,0) : $VisitorsAverageVisits;
 				break;
 		    case "bestday":
 		    	//Day with the most visitors
+		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 		    	if (!isset($arrTag[3])) 
 		    	{
 					$this->log($GLOBALS['TL_LANG']['tl_visitors']['no_param4'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
+					\Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , $GLOBALS['TL_LANG']['tl_visitors']['no_param4'] );
 					return false;  // da fehlt was
 				}
 				$objVisitorsBestday = \Database::getInstance()
@@ -332,6 +350,7 @@ class ModuleVisitorsTag extends \Frontend
 				switch ($arrTag[3]) 
 				{
 					case "date":
+					    \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						if (!isset($arrTag[4])) 
 						{
 							return date($GLOBALS['TL_CONFIG']['dateFormat'],strtotime($objVisitorsBestday->visitors_date));
@@ -342,9 +361,11 @@ class ModuleVisitorsTag extends \Frontend
 						}
 						break;
 					case "visits":
+					    \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						return ($boolSeparator) ? $this->getFormattedNumber($objVisitorsBestday->visitors_visit,0) : $objVisitorsBestday->visitors_visit;
 						break;
 					case "hits":
+					    \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						return ($boolSeparator) ? $this->getFormattedNumber($objVisitorsBestday->visitors_hit,0) : $objVisitorsBestday->visitors_hit;
 						break;
 					default:
@@ -353,6 +374,7 @@ class ModuleVisitorsTag extends \Frontend
 				}
 		    	break;
 			default:
+			    \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':' .$GLOBALS['TL_LANG']['tl_visitors']['wrong_key'] );
 				$this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_key'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 				return false;
 				break;
@@ -706,5 +728,37 @@ class ModuleVisitorsTag extends \Frontend
 	    } //if VB
 	} // VisitorCheckReferrer
 	
+	protected function VisitorSetDebugSettings($visitors_category_id)
+	{
+	    $GLOBALS['visitors']['debug']['tag']          = false; 
+	    $GLOBALS['visitors']['debug']['checks']       = false;
+	    $GLOBALS['visitors']['debug']['referrer']     = false;
+	    $GLOBALS['visitors']['debug']['searchengine'] = false;
+	    
+	    $objVisitors = \Database::getInstance()
+                ->prepare("SELECT
+                                visitors_expert_debug_tag,
+                                visitors_expert_debug_checks,
+                                visitors_expert_debug_referrer,
+                                visitors_expert_debug_searchengine
+                            FROM
+                                tl_visitors
+                            LEFT JOIN
+                                tl_visitors_category ON (tl_visitors_category.id=tl_visitors.pid)
+                            WHERE
+                                pid=? AND published=?
+                            ORDER BY tl_visitors.id, visitors_name")
+                ->limit(1)
+                ->executeUncached($visitors_category_id,1);
+	    while ($objVisitors->next())
+	    {
+	        $GLOBALS['visitors']['debug']['tag']          = (boolean)$objVisitors->visitors_expert_debug_tag;
+	        $GLOBALS['visitors']['debug']['checks']       = (boolean)$objVisitors->visitors_expert_debug_checks;
+	        $GLOBALS['visitors']['debug']['referrer']     = (boolean)$objVisitors->visitors_expert_debug_referrer;
+	        $GLOBALS['visitors']['debug']['searchengine'] = (boolean)$objVisitors->visitors_expert_debug_searchengine;
+	        //log_message('VisitorSetDebugSettings: '.print_r($GLOBALS['visitors']['debug'],true),'debug.log');
+	        \Visitors\ModuleVisitorLog::Writer('## START ##', '## DEBUG ## ', 'T'.(int)$GLOBALS['visitors']['debug']['tag'] .'#C'. (int)$GLOBALS['visitors']['debug']['checks'] .'#R'.(int) $GLOBALS['visitors']['debug']['referrer'] .'#S'.(int)$GLOBALS['visitors']['debug']['searchengine']);
+	    }
+	}
 } // class
 

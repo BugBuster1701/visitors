@@ -122,6 +122,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 			    $this->_keywords      = self::KEYWORDS_NOT_DEFINED ;
 			}
 		}
+		\Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , $this->__toString() );
 		
 	}
 	
@@ -703,8 +704,9 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	public function __toString() 
 	{
-	    return "Engine Name : {$this->getEngine()}\n" .
-			   "Keywords    : {$this->getKeywords()}\n\n";
+	    return "\n" .
+	           "Engine Name : {$this->getEngine()}\n" .
+			   "Keywords    : {$this->getKeywords()}\n";
 	}
 	
 }

@@ -30,6 +30,10 @@ $GLOBALS['TL_LANG']['tl_visitors']['visitors_average']     = array('Besucher pro
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_block_time']  = array('Blockzeit', 'Zeit in Sekunden. Nach Zugriffspause dieser Zeit wird ein Zugriff als weiterer Besucher gez&auml;hlt.');
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_thousands_separator'] = array('Tausendertrennzeichen','Bei Aktivierung werden im Frontend Tausendertrennzeichen eingef&uuml;gt.');
 $GLOBALS['TL_LANG']['tl_visitors']['published']            = array('Veröffentlicht', 'Der Besucherz&auml;hler wird erst auf Ihrer Webseite erscheinen, wenn dieser ver&ouml;ffentlicht ist.');
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_debug_tag']          = array('Debugmodus für die Klasse "Visitors Tag"'        ,'Bei Aktivierung werden Laufzeitinformationen in die Logdatei (<em>system/logs/visitors_debug.log</em>) geschrieben.');
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_debug_checks']       = array('Debugmodus für die Klasse "Visitor Check"'       ,'Bei Aktivierung werden Laufzeitinformationen in die Logdatei (<em>system/logs/visitors_debug.log</em>) geschrieben.');
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_debug_referrer']     = array('Debugmodus für die Klasse "Visitor Referrer"'    ,'Bei Aktivierung werden Laufzeitinformationen in die Logdatei (<em>system/logs/visitors_debug.log</em>) geschrieben.');
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_debug_searchengine'] = array('Debugmodus für die Klasse "Visitor SearchEngine"','Bei Aktivierung werden Laufzeitinformationen in die Logdatei (<em>system/logs/visitors_debug.log</em>) geschrieben.');
 
 /**
  * Reference
@@ -44,6 +48,7 @@ $GLOBALS['TL_LANG']['tl_visitors']['start_legend']   = 'Startwerte für Z&auml;h
 $GLOBALS['TL_LANG']['tl_visitors']['average_legend'] = 'Durchschnitt und Blockzeit';
 $GLOBALS['TL_LANG']['tl_visitors']['publish_legend'] = 'Ver&ouml;ffentlichung';
 $GLOBALS['TL_LANG']['tl_visitors']['design_legend']  = 'Darstellung';
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_legend']  = 'Experteneinstellungen';
 
 /**
  * Buttons
