@@ -29,7 +29,7 @@ $GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']= array('Zähl
 /**
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_visitors_category']['title_legend']     = 'Kategorie und Besuchervorlage'; 
+$GLOBALS['TL_LANG']['tl_visitors_category']['title_legend']     = 'Kategorie'; 
 $GLOBALS['TL_LANG']['tl_visitors_category']['cache_legend']     = 'Zählweise'; 
 
 /**
