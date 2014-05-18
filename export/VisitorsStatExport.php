@@ -24,7 +24,20 @@ namespace BugBuster\Visitors;
  * Initialize the system
  */
 define('TL_MODE', 'BE');
-require('../../../initialize.php');
+
+$dir = __DIR__;
+ 
+while ($dir != '.' && $dir != '/' && !is_file($dir . '/system/initialize.php'))
+{
+    $dir = dirname($dir);
+}
+ 
+if (!is_file($dir . '/system/initialize.php'))
+{
+    echo 'Could not find initialize.php!';
+    exit(1);
+}
+require($dir . '/system/initialize.php');
 
 /**
  * Class VisitorsStatExport
