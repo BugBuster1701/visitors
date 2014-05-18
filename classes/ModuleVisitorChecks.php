@@ -17,6 +17,7 @@
  * Run in a custom namespace, so the class can be replaced
  */
 namespace BugBuster\Visitors;
+use BugBuster\Visitors\ModuleVisitorLog;
 
 /**
  * Class ModuleVisitorChecks 
@@ -48,11 +49,11 @@ class ModuleVisitorChecks extends \Frontend
 	    if ($ModuleBotDetection->BD_CheckBotAgent() || $ModuleBotDetection->BD_CheckBotIP()) 
 	    {
 	    	//log_message('CheckBot True','debug.log');
-	        \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
+	        ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
 	    	return true;
 	    }
 	    //log_message('CheckBot False','debug.log');
-	    \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
+	    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
 	    return false;
 	} //CheckBot
 	
@@ -94,11 +95,11 @@ class ModuleVisitorChecks extends \Frontend
         if ($UserAgent != $CheckUserAgent) 
         { 	// es wurde ersetzt also was gefunden
         	//log_message('CheckBotUserAgent True','debug.log');
-            \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
+            ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
             return true;
         }
         //log_message('CheckBotUserAgent False','debug.log');
-        \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
+        ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
         return false; 
 	} //CheckUserAgent
 	
@@ -124,12 +125,12 @@ class ModuleVisitorChecks extends \Frontend
 			if ($objSession !== null && $objSession->sessionID == session_id() && ($GLOBALS['TL_CONFIG']['disableIpCheck'] || $objSession->ip == \Environment::get('ip')) && ($objSession->tstamp + $GLOBALS['TL_CONFIG']['sessionTimeout']) > time())
 			{
 				//log_message('CheckBotBELogin True','debug.log');
-			    \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
+			    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
 				return true;
 			}
 		}
 		//log_message('CheckBotBELogin False','debug.log');
-		\Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
+		ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
 		return false;
 	} //CheckBE
 	
@@ -151,11 +152,11 @@ class ModuleVisitorChecks extends \Frontend
 	    if ( $dnsResult )
 	    {
 	        //log_message('isDomain True','debug.log');
-	        \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
+	        ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
 	        return true;
 	    }
 	    //log_message('isDomain False','debug.log');
-	    \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
+	    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
 	    return false;
 	}
 	

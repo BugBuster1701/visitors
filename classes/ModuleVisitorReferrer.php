@@ -17,6 +17,7 @@
  * Run in a custom namespace, so the class can be replaced
  */
 namespace BugBuster\Visitors;
+use BugBuster\Visitors\ModuleVisitorLog;
 
 /**
  * Class ModuleVisitorReferrer
@@ -93,7 +94,7 @@ class ModuleVisitorReferrer	extends \System
 		{ 
 			$this->detect();
 		}
-		\Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , $this->__toString() );
+		ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , $this->__toString() );
 	}
 	
 	protected function detect()

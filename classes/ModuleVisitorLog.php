@@ -36,10 +36,10 @@ class ModuleVisitorLog
         {
             if (!isset($GLOBALS['visitors']['debug']['first'])) 
             {
-                if ($GLOBALS['visitors']['debug']['tag']          ||
-                    $GLOBALS['visitors']['debug']['checks']       ||
-                    $GLOBALS['visitors']['debug']['referrer']     ||
-                    $GLOBALS['visitors']['debug']['searchengine']
+                if ((bool)$GLOBALS['visitors']['debug']['tag']          ||
+                    (bool)$GLOBALS['visitors']['debug']['checks']       ||
+                    (bool)$GLOBALS['visitors']['debug']['referrer']     ||
+                    (bool)$GLOBALS['visitors']['debug']['searchengine']
                    )
                 {
                     $arrUniqid = trimsplit('.', uniqid('c0n7a0',true) );
@@ -47,6 +47,7 @@ class ModuleVisitorLog
                     log_message(sprintf('[%s] [%s] [%s] %s',$GLOBALS['visitors']['debug']['first'],$method,$line,$value),'visitors_debug.log');
                     return ;
                 }
+                return ;
             }
             else
             {

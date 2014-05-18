@@ -17,6 +17,7 @@
  * Run in a custom namespace, so the class can be replaced
  */
 namespace BugBuster\Visitors;
+use BugBuster\Visitors\ModuleVisitorLog;
 
 /**
  * Class ModuleVisitorsTag 
@@ -127,12 +128,12 @@ class ModuleVisitorsTag extends \Frontend
 			 || $GLOBALS['TL_CONFIG']['cacheMode'] === 'none'
 			 || $objVisitors->visitors_cache_mode == 1) 
 			{
-			    \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , 'Counted Server: True' );
+			    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , 'Counted Server: True' );
 				return '<!-- counted -->'; // <img src="system/modules/visitors/assets/leer.gif" alt="" /> // style="width:0px; height:0px; visibility:hidden; display:inline; left:-1000px; overflow:hidden; position:absolute; top:-1000px;"
 			} 
 			else 
 			{
-			    \Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , 'Counted Client: True' );
+			    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , 'Counted Client: True' );
 				return '<img src="system/modules/visitors/public/ModuleVisitorsCount.php?vkatid='.$visitors_category_id.'" alt="" />'; // style="width:0px; height:0px; visibility:hidden; display:inline; left:-1000px; overflow:hidden; position:absolute; top:-1000px;"
 			}
 		}
@@ -171,12 +172,12 @@ class ModuleVisitorsTag extends \Frontend
 		switch ($arrTag[2]) 
 		{
 		    case "name":
-		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 				return trim($objVisitors->visitors_name);
 				break;
 		    case "online":
 			    //VisitorsOnlineCount
-	            \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+	            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    $objVisitorsOnlineCount = \Database::getInstance()
 			            ->prepare("SELECT 
                                         COUNT(id) AS VOC 
@@ -191,7 +192,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "start":
 		    	//VisitorsStartDate
-		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 		        if (!strlen($objVisitors->visitors_startdate)) 
 		        {
 			    	$VisitorsStartDate = '';
@@ -205,7 +206,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "totalvisit":
 		    	//TotalVisitCount
-		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 	            $objVisitorsTotalCount = \Database::getInstance()
 	                    ->prepare("SELECT 
                                         SUM(visitors_visit) AS SUMV
@@ -224,7 +225,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "totalhit":
 	    		//TotalHitCount
-		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 	            $objVisitorsTotalCount = \Database::getInstance()
 	                    ->prepare("SELECT 
                                         SUM(visitors_hit) AS SUMH
@@ -243,7 +244,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "todayvisit":
 				//TodaysVisitCount
-		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    $objVisitorsTodaysCount = \Database::getInstance()
 			            ->prepare("SELECT 
                                         visitors_visit
@@ -265,7 +266,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "todayhit":
 				//TodaysHitCount
-		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    $objVisitorsTodaysCount = \Database::getInstance()
 			            ->prepare("SELECT 
                                         visitors_hit
@@ -287,7 +288,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "averagevisits":
 				// Average Visits
-		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    if ($objVisitors->visitors_average) 
 			    {
 			    	$today     = date('Y-m-d');
@@ -324,11 +325,11 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "bestday":
 		    	//Day with the most visitors
-		        \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 		    	if (!isset($arrTag[3])) 
 		    	{
 					$this->log($GLOBALS['TL_LANG']['tl_visitors']['no_param4'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
-					\Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , $GLOBALS['TL_LANG']['tl_visitors']['no_param4'] );
+					ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , $GLOBALS['TL_LANG']['tl_visitors']['no_param4'] );
 					return false;  // da fehlt was
 				}
 				$objVisitorsBestday = \Database::getInstance()
@@ -350,7 +351,7 @@ class ModuleVisitorsTag extends \Frontend
 				switch ($arrTag[3]) 
 				{
 					case "date":
-					    \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
+					    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						if (!isset($arrTag[4])) 
 						{
 							return date($GLOBALS['TL_CONFIG']['dateFormat'],strtotime($objVisitorsBestday->visitors_date));
@@ -361,11 +362,11 @@ class ModuleVisitorsTag extends \Frontend
 						}
 						break;
 					case "visits":
-					    \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
+					    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						return ($boolSeparator) ? $this->getFormattedNumber($objVisitorsBestday->visitors_visit,0) : $objVisitorsBestday->visitors_visit;
 						break;
 					case "hits":
-					    \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
+					    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						return ($boolSeparator) ? $this->getFormattedNumber($objVisitorsBestday->visitors_hit,0) : $objVisitorsBestday->visitors_hit;
 						break;
 					default:
@@ -374,7 +375,7 @@ class ModuleVisitorsTag extends \Frontend
 				}
 		    	break;
 			default:
-			    \Visitors\ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':' .$GLOBALS['TL_LANG']['tl_visitors']['wrong_key'] );
+			    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':' .$GLOBALS['TL_LANG']['tl_visitors']['wrong_key'] );
 				$this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_key'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 				return false;
 				break;
@@ -756,8 +757,8 @@ class ModuleVisitorsTag extends \Frontend
 	        $GLOBALS['visitors']['debug']['checks']       = (boolean)$objVisitors->visitors_expert_debug_checks;
 	        $GLOBALS['visitors']['debug']['referrer']     = (boolean)$objVisitors->visitors_expert_debug_referrer;
 	        $GLOBALS['visitors']['debug']['searchengine'] = (boolean)$objVisitors->visitors_expert_debug_searchengine;
-	        //log_message('VisitorSetDebugSettings: '.print_r($GLOBALS['visitors']['debug'],true),'debug.log');
-	        \Visitors\ModuleVisitorLog::Writer('## START ##', '## DEBUG ## ', 'T'.(int)$GLOBALS['visitors']['debug']['tag'] .'#C'. (int)$GLOBALS['visitors']['debug']['checks'] .'#R'.(int) $GLOBALS['visitors']['debug']['referrer'] .'#S'.(int)$GLOBALS['visitors']['debug']['searchengine']);
+	        //log_message('VisitorSetDebugSettings: '.print_r($GLOBALS['visitors']['debug'],true),'visitors_debug.log');
+	        ModuleVisitorLog::Writer('## START ##', '## DEBUG ##', 'T'.(int)$GLOBALS['visitors']['debug']['tag'] .'#C'. (int)$GLOBALS['visitors']['debug']['checks'] .'#R'.(int) $GLOBALS['visitors']['debug']['referrer'] .'#S'.(int)$GLOBALS['visitors']['debug']['searchengine']);
 	    }
 	}
 } // class

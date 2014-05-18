@@ -17,6 +17,7 @@
  * Run in a custom namespace, so the class can be replaced
  */
 namespace BugBuster\Visitors;
+use BugBuster\Visitors\ModuleVisitorLog;
 
 /**
  * Class ModuleVisitorSearchEngine
@@ -123,7 +124,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 			    $this->_keywords      = self::KEYWORDS_NOT_DEFINED ;
 			}
 		}
-		\Visitors\ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , $this->__toString() );
+		ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , $this->__toString() );
 		
 	}
 	
@@ -594,6 +595,12 @@ class ModuleVisitorSearchEngine// extends Frontend
 	    {
 	        $this->_search_engine = self::SEARCH_ENGINE_DUCKDUCKGO ;
 	        //no parameter
+	        return true;
+	    }
+	    if (preg_match('/(http|https):\/\/r\.duckduckgo\.com\//', $this->_http_referer ))
+	    {
+	        $this->_search_engine = self::SEARCH_ENGINE_DUCKDUCKGO ;
+	        if ( isset($this->_parse_result['uddg']) ) { $this->_keywords = $this->_parse_result['uddg']; }
 	        return true;
 	    }
 	    return false;
