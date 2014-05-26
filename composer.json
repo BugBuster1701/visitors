@@ -22,7 +22,7 @@
 	"require":{
 		"php":">=5.3",
 		"contao/core":">=3.1,<4",
-		"contao-community-alliance/composer-installer":"*",
+		"contao-community-alliance/composer-plugin": "*",
 		"bugbuster/botdetection":"~3.1",
 		"contao-legacy/xls_export":"~3.0"
 	},
@@ -38,7 +38,7 @@
 				"":"system/modules/visitors"
 			},
 			"runonce":[
-				"system/modules/visitors/runonce/runonce.php"
+				"runonce/runonce.php"
 			]
 		}
 	}
