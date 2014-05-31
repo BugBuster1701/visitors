@@ -145,10 +145,7 @@ class ModuleVisitorChecks extends \Frontend
 	    $dnsResult = false;
 	    //$this->_vhost :  Host.TLD
 	    //idn_to_ascii
-	    require_once TL_ROOT . '/system/modules/core/vendor/idna/idna_convert.class.php';
-	    $objIdn    = new \idna_convert();
-     
-	    $dnsResult = dns_get_record( $objIdn->encode( $host ), DNS_ANY );
+	    $dnsResult = dns_get_record( \Idna::encode( $host ), DNS_ANY );
 	    if ( $dnsResult )
 	    {
 	        //log_message('isDomain True','debug.log');
