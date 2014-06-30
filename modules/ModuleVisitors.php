@@ -130,6 +130,10 @@ class ModuleVisitors extends \Module
 			    {
 	                $VisitorsAverageVisits = false;
 	            } 
+	            if (!isset($GLOBALS['TL_LANG']['visitors']['VisitorsNameLegend'])) 
+	            {
+	                $GLOBALS['TL_LANG']['visitors']['VisitorsNameLegend']='';
+	            }
 			    $arrVisitors[] = array
 				(
 	                'VisitorsName'        => trim($objVisitors->visitors_name),

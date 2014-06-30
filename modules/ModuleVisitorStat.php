@@ -174,6 +174,10 @@ class ModuleVisitorStat extends \BackendModule
 			} //while X next
 		} // if intRowsX >0
 
+		if (!isset($GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['footer'])) 
+		{
+		    $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['footer'] = '';
+		}
 		// Version, Base, Footer
 		//$arrVersion = str_split(self::VisitorsVersion);
 		$this->Template->visitors_version = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['modname'] . ' ' . VISITORS_VERSION .'.'. VISITORS_BUILD;

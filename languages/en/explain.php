@@ -28,10 +28,7 @@ $GLOBALS['TL_LANG']['XPL']['visitors_help'] = array
 	array
 	(
 		'Start date',
-		'The start date is used for pure information.<br>'.
-		'In the frontend this date will be displayed<br>'.
-		'It does not affect the start of counting!<br>'.
-		'When the field left blank will hide the row in frontend.'
+		'The start date is used for pure information.<br>In the frontend this date will be displayed<br>It does not affect the start of counting!<br>When the field left blank will hide the row in frontend.'
 	)
 );
 $GLOBALS['TL_LANG']['XPL']['visitors_help_module'] = array
@@ -39,9 +36,6 @@ $GLOBALS['TL_LANG']['XPL']['visitors_help_module'] = array
 	array
 	(
 		'HTTP_USER_AGENT partial identifier',
-		'With the change of a user agent with a unique string '.
-		'and entry in this field can be prevented, '.
-		'that will count your own requests.<br>'.
-		'Detailed instructions, can be found in the Wiki.'
+		'With the change of a user agent with a unique string and entry in this field can be prevented, that will count your own requests.<br>Detailed instructions, can be found in the Wiki.'
 	)
 );

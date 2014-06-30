@@ -22,12 +22,12 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['visitors']    = array('Besucher', 'Dieses Modul dient zum z&auml;hlen von Zugriffen und Besuchern auf der Website.');
+$GLOBALS['TL_LANG']['MOD']['visitors']    = array('Besucher', 'Dieses Modul dient zur Zählung von Zugriffen und Besuchern auf der Website.');
 $GLOBALS['TL_LANG']['MOD']['visitorstat'] = array('Besucherstatistik', 'Statistik vom Besucher-Modul.');
 
 
 /**
  * Front end modules
  */
-$GLOBALS['TL_LANG']['FMD']['visitors'] = array('Besucher','Z&auml;hlt Zugriffe und Besucher');
+$GLOBALS['TL_LANG']['FMD']['visitors'] = array('Besucher','Zählt Zugriffe und Besucher');
 

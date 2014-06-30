@@ -14,7 +14,7 @@
  */
 
 define('VISITORS_VERSION', '3.3');
-define('VISITORS_BUILD'  , '0');
+define('VISITORS_BUILD'  , '1');
 
 /**
  * -------------------------------------------------------------------------
