@@ -1,51 +1,40 @@
-<?php 
-
+<?php
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2010 Leo Feyer
+ * Translations are managed using Transifex. To create a new translation
+ * or to help to maintain an existing one, please register at transifex.com.
  *
- * Formerly known as TYPOlight Open Source CMS.
- * 
- * Modul Visitors Sprachdateien
- * 
- * Language file for table tl_visitors_category (de).
+ * @link http://help.transifex.com/intro/translating.html
+ * @link https://www.transifex.com/projects/p/contao-visitors/language/de/
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2014 
- * @author     Glen Langer 
- * @package    VisitorsLanguage 
- * @license    LGPL 
- * @filesource
+ * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
+ *
+ * last-updated: 2014-06-30T22:23:56+02:00
  */
 
 
-/**
- * Fields
- */
-$GLOBALS['TL_LANG']['tl_visitors_category']['title']              = array('Kategorie', 'Bitte geben Sie den Namen der Kategorie ein.');
-$GLOBALS['TL_LANG']['tl_visitors_category']['tstamp']             = array('Änderungsdatum', 'Datum und Uhrzeit der letzten Änderung');
-$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']= array('Zählmodus','Zählweise, wenn die Seiten zwischengespeichert werden.');
+$GLOBALS['TL_LANG']['tl_visitors_category']['1']                        = 'Last-Zählung, serverseitig durch Contao';
+$GLOBALS['TL_LANG']['tl_visitors_category']['2']                        = 'Lese-Zählung, clientseitig durch Browser (nur im Contao cacheModus: Server- und Browsercache / Nur Browsercache)';
+$GLOBALS['TL_LANG']['tl_visitors_category']['cache_legend']             = 'Zählweise';
+$GLOBALS['TL_LANG']['tl_visitors_category']['copy']['0']                = 'Kategorie duplizieren';
+$GLOBALS['TL_LANG']['tl_visitors_category']['copy']['1']                = 'Kategorie ID %s duplizieren';
+$GLOBALS['TL_LANG']['tl_visitors_category']['delete']['0']              = 'Kategorie löschen';
+$GLOBALS['TL_LANG']['tl_visitors_category']['delete']['1']              = 'Kategorie ID %s löschen';
+$GLOBALS['TL_LANG']['tl_visitors_category']['deleteConfirm']            = 'Wenn Sie eine Kategorie löschen werden auch alle darin enthaltenen Besucher Definitionen gelöscht. Wollen Sie die Kategorie ID %s wirklich löschen?';
+$GLOBALS['TL_LANG']['tl_visitors_category']['edit']['0']                = 'Kategorie bearbeiten';
+$GLOBALS['TL_LANG']['tl_visitors_category']['edit']['1']                = 'Kategorie ID %s bearbeiten';
+$GLOBALS['TL_LANG']['tl_visitors_category']['editheader']['0']          = 'Einstellungen der Kategorie bearbeiten';
+$GLOBALS['TL_LANG']['tl_visitors_category']['editheader']['1']          = 'Einstellungen der Kategorie ID %s bearbeiten';
+$GLOBALS['TL_LANG']['tl_visitors_category']['new']['0']                 = 'Neue Kategorie';
+$GLOBALS['TL_LANG']['tl_visitors_category']['new']['1']                 = 'Eine neue Kategorie anlegen';
+$GLOBALS['TL_LANG']['tl_visitors_category']['show']['0']                = 'Kategoriedetails';
+$GLOBALS['TL_LANG']['tl_visitors_category']['show']['1']                = 'Details der Kategorie ID %s anzeigen';
+$GLOBALS['TL_LANG']['tl_visitors_category']['stat']['0']                = 'Kategoriestatistik';
+$GLOBALS['TL_LANG']['tl_visitors_category']['stat']['1']                = 'Besucherstatistik für die Kategorie ID %s anzeigen';
+$GLOBALS['TL_LANG']['tl_visitors_category']['title']['0']               = 'Kategorie';
+$GLOBALS['TL_LANG']['tl_visitors_category']['title']['1']               = 'Bitte geben Sie den Namen der Kategorie ein.';
+$GLOBALS['TL_LANG']['tl_visitors_category']['title_legend']             = 'Kategorie';
+$GLOBALS['TL_LANG']['tl_visitors_category']['tstamp']['0']              = 'Änderungsdatum';
+$GLOBALS['TL_LANG']['tl_visitors_category']['tstamp']['1']              = 'Datum und Uhrzeit der letzten Änderung';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']['0'] = 'Zählmodus';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']['1'] = 'Zählweise, wenn die Seiten zwischengespeichert werden.';
 
-/**
- * Legends
- */
-$GLOBALS['TL_LANG']['tl_visitors_category']['title_legend']     = 'Kategorie'; 
-$GLOBALS['TL_LANG']['tl_visitors_category']['cache_legend']     = 'Zählweise'; 
-
-/**
- * Reference
- */
-$GLOBALS['TL_LANG']['tl_visitors_category']['deleteConfirm'] = 'Wenn Sie eine Kategorie löschen werden auch alle darin enthaltenen Besucher Definitionen gelöscht. Wollen Sie die Kategorie ID %s wirklich löschen?';
-$GLOBALS['TL_LANG']['tl_visitors_category']['1'] = 'Last-Zählung, serverseitig durch Contao';
-$GLOBALS['TL_LANG']['tl_visitors_category']['2'] = 'Lese-Zählung, clientseitig durch Browser (nur im Contao cacheModus: Server- und Browsercache / Nur Browsercache)';
-
-/**
- * Buttons
- */
-$GLOBALS['TL_LANG']['tl_visitors_category']['new']    = array('Neue Kategorie', 'Eine neue Kategorie anlegen');
-$GLOBALS['TL_LANG']['tl_visitors_category']['edit']   = array('Kategorie bearbeiten', 'Kategorie ID %s bearbeiten');
-$GLOBALS['TL_LANG']['tl_visitors_category']['copy']   = array('Kategorie duplizieren', 'Kategorie ID %s duplizieren');
-$GLOBALS['TL_LANG']['tl_visitors_category']['delete'] = array('Kategorie löschen', 'Kategorie ID %s löschen');
-$GLOBALS['TL_LANG']['tl_visitors_category']['show']   = array('Kategoriedetails', 'Details der Kategorie ID %s anzeigen');
-$GLOBALS['TL_LANG']['tl_visitors_category']['stat']   = array('Kategoriestatistik', 'Besucherstatistik für die Kategorie ID %s anzeigen');
-$GLOBALS['TL_LANG']['tl_visitors_category']['editheader'] = array('Einstellungen der Kategorie bearbeiten', 'Einstellungen der Kategorie ID %s bearbeiten');

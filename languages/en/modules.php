@@ -1,32 +1,21 @@
-<?php 
-
+<?php
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2010 Leo Feyer
+ * Translations are managed using Transifex. To create a new translation
+ * or to help to maintain an existing one, please register at transifex.com.
  *
- * Formerly known as TYPOlight Open Source CMS.
- * 
- * Modul Visitors Sprachdateien
- * 
- * Language file for modules (en).
+ * @link http://help.transifex.com/intro/translating.html
+ * @link https://www.transifex.com/projects/p/contao-visitors/language/en/
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2014
- * @author     Glen Langer 
- * @package    VisitorsLanguage 
- * @license    LGPL 
- * @filesource
+ * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
+ *
+ * last-updated: 2014-01-23T00:26:57+01:00
  */
 
 
-/**
- * Back end modules
- */
-$GLOBALS['TL_LANG']['MOD']['visitors']    = array('Visitors', 'This module allows you to count hits and visits of your website.');
-$GLOBALS['TL_LANG']['MOD']['visitorstat'] = array('Visitor Statistics', 'Visitor statistics from visitor module.');
+$GLOBALS['TL_LANG']['FMD']['visitors']['0']    = 'Visitors';
+$GLOBALS['TL_LANG']['FMD']['visitors']['1']    = 'Count hits and visits';
+$GLOBALS['TL_LANG']['MOD']['visitors']['0']    = 'Visitors';
+$GLOBALS['TL_LANG']['MOD']['visitors']['1']    = 'This module allows you to count hits and visits of your website.';
+$GLOBALS['TL_LANG']['MOD']['visitorstat']['0'] = 'Visitor Statistics';
+$GLOBALS['TL_LANG']['MOD']['visitorstat']['1'] = 'Visitor statistics from visitor module.';
 
-
-/**
- * Front end modules
- */
-$GLOBALS['TL_LANG']['FMD']['visitors']       = array('Visitors','Count hits and visits');
