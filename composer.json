@@ -37,6 +37,12 @@
 			"sources":{
 				"":"system/modules/visitors"
 			},
+			"transifex": {
+				"project": "contao-visitors",
+				"prefix": "master-",
+				"languages_cto": "languages",
+				"languages_tx": ".tx"
+			},
 			"runonce":[
 				"runonce/runonce.php"
 			]

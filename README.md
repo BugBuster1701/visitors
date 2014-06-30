@@ -6,6 +6,13 @@ Contao Module Visitors
 
 A Contao counter module for hits and visits
 
+## For Translators
+Translations are managed using Transifex. To create a new translation or to help to maintain an existing one, please register at transifex.com.
+
+Project Link: [https://www.transifex.com/projects/p/contao-visitors/](https://www.transifex.com/projects/p/contao-visitors/)
+
+Howto: [http://help.transifex.com/intro/translating.html](http://help.transifex.com/intro/translating.html)
+
 ## Branches
 
 **master** This is the current stable branch for Contao 3.

@@ -7,3 +7,6 @@ html/
 iconVisitor.pspimage
 Bearbeiten1.txt
 Bearbeiten2.txt
+# Transifex
+/.tx/
+
