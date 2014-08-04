@@ -288,7 +288,9 @@ class ModuleVisitorSearchEngine// extends Frontend
 	    if (preg_match('/(http|https):\/\/.*\.search\.yahoo\..*\/search/'        , $this->_http_referer ) ||
             preg_match('/(http|https):\/\/search\.yahoo\..*\/search/'            , $this->_http_referer ) ||
             preg_match('/(http|https):\/\/.*\.images\.search\.yahoo\..*\/images/', $this->_http_referer ) ||
-            preg_match('/(http|https):\/\/images\.search\.yahoo\..*\/images/'    , $this->_http_referer )
+            preg_match('/(http|https):\/\/images\.search\.yahoo\..*\/images/'    , $this->_http_referer ) ||
+	        //Referrer Entferner über einen Redirect der SuMa
+	        preg_match('/(http|https):\/\/r\.search\.yahoo\.com/'                , $this->_http_referer )
 	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_YAHOO  ;
@@ -600,7 +602,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	    if (preg_match('/(http|https):\/\/r\.duckduckgo\.com\//', $this->_http_referer ))
 	    {
 	        $this->_search_engine = self::SEARCH_ENGINE_DUCKDUCKGO ;
-	        if ( isset($this->_parse_result['uddg']) ) { $this->_keywords = $this->_parse_result['uddg']; }
+	        //Referrer Entferner über einen Redirect der SuMa.
 	        return true;
 	    }
 	    return false;
