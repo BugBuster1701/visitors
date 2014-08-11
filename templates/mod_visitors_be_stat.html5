@@ -311,17 +311,17 @@ o.open = function(url,type){
 			<tr>
 			    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: left;"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['most_visitors']; ?>:</td>
 			    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: right;">&nbsp;</td>
-			    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: right;"><?php echo $this->visitorsstatBestDay[$vcid]['VisitorsBestDayDate']; ?>&nbsp;</td>
+			    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: right;"><?php echo $this->visitorsstatBestDay[$vcid]['VisitorsBestDayDate']; ?></td>
 			</tr>
 			<tr>
 			    <td class="tl_file_list" style="padding-left: 2px; text-align: left;"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['visitors_this_day']; ?>:</td>
 			    <td class="tl_file_list" style="padding-right: 2px; text-align: right;">&nbsp;</td>
-			    <td class="tl_file_list" style="padding-right: 2px; text-align: right;"><?php echo $this->visitorsstatBestDay[$vcid]['VisitorsBestDayVisits']; ?>&nbsp;</td>
+			    <td class="tl_file_list" style="padding-right: 2px; text-align: right;"><?php echo $this->visitorsstatBestDay[$vcid]['VisitorsBestDayVisits']; ?></td>
 			</tr>
 			<tr>
 			    <td class="tl_file_list" style="padding-left: 2px; text-align: left;"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['hits_this_day']; ?>:</td>
 			    <td class="tl_file_list" style="padding-right: 2px; text-align: right;">&nbsp;</td>
-			    <td class="tl_file_list" style="padding-right: 2px; text-align: right;"><?php echo $this->visitorsstatBestDay[$vcid]['VisitorsBestDayHits']; ?>&nbsp;</td>
+			    <td class="tl_file_list" style="padding-right: 2px; text-align: right;"><?php echo $this->visitorsstatBestDay[$vcid]['VisitorsBestDayHits']; ?></td>
 			</tr>
 			</tbody>
 			</table>
@@ -331,17 +331,17 @@ o.open = function(url,type){
 				<tr>
 				    <td style="padding-left: 2px; text-align: left;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['fewest_visitors']; ?>:</td>
 				    <td style="padding-left: 2px; text-align: right;" class="tl_folder_tlist">&nbsp;</td>
-				    <td style="padding-left: 2px; text-align: right;" class="tl_folder_tlist"><?php echo $this->visitorsstatBadDay[$vcid]['VisitorsBadDayDate']; ?>&nbsp;</td>
+				    <td style="padding-left: 2px; text-align: right;" class="tl_folder_tlist"><?php echo $this->visitorsstatBadDay[$vcid]['VisitorsBadDayDate']; ?></td>
 	        		</tr>
 				<tr>
 				    <td style="padding-left: 2px; text-align: left;" class="tl_file_list"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['visitors_this_day']; ?>:</td>
 				    <td style="padding-right: 2px; text-align: right;" class="tl_file_list">&nbsp;</td>
-				    <td style="padding-right: 2px; text-align: right;" class="tl_file_list"><?php echo $this->visitorsstatBadDay[$vcid]['VisitorsBadDayVisits']; ?>&nbsp;</td>
+				    <td style="padding-right: 2px; text-align: right;" class="tl_file_list"><?php echo $this->visitorsstatBadDay[$vcid]['VisitorsBadDayVisits']; ?></td>
 				</tr>
 				<tr>
 				    <td style="padding-left: 2px; text-align: left;" class="tl_file_list"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['hits_this_day']; ?>:</td>
 				    <td style="padding-right: 2px; text-align: right;" class="tl_file_list">&nbsp;</td>
-				    <td style="padding-right: 2px; text-align: right;" class="tl_file_list"><?php echo $this->visitorsstatBadDay[$vcid]['VisitorsBadDayHits']; ?>&nbsp;</td>
+				    <td style="padding-right: 2px; text-align: right;" class="tl_file_list"><?php echo $this->visitorsstatBadDay[$vcid]['VisitorsBadDayHits']; ?></td>
 				</tr>
 				</tbody>
 			</table>
@@ -350,7 +350,7 @@ o.open = function(url,type){
 				<tbody>
 				<tr>
 				    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: left;"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['currently online']; ?>:</td>
-				    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: right;"><?php echo $this->visitorsstatOnline[$vcid]; ?>&nbsp;</td>
+				    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: right;"><?php echo $this->visitorsstatOnline[$vcid]; ?></td>
 				</tr>
 				</tbody>
 			</table>
@@ -444,6 +444,18 @@ o.open = function(url,type){
         </div>
 	</div> <!-- 3 -->
 	<div style="clear:left;"></div><hr>
+	
+	<div class="mod_visitors_be_page_stat limit_height h64 block" style="height: 64px;">
+		<?php echo $this->visitorsstatPageVisitHits[$vcid]; ?>
+		<?php echo $this->visitorsstatPageVisitHitsDays[$vcid]; ?>
+		<div style="clear:left;"><br></div>	
+		<?php echo $this->visitorsstatPageVisitHitsToday[$vcid]; ?>
+		<?php echo $this->visitorsstatPageVisitHitsYesterday[$vcid]; ?>
+	</div>
+	<div style="clear:left;"></div><hr>
+	
+	
+	
 	<div class="mod_visitors_be_IV limit_height h64 block" style="height: 64px;"> 
 		<div class="mod_visitors_be_browser">
 			<table summary="Table lists countings" class="mod_visitors_be_table_360">
@@ -590,7 +602,8 @@ o.open = function(url,type){
 		</table>
 	</div> <!-- 5 -->
 	<div style="clear:left;"></div>	
-	<hr />
+	<hr>
+	
 	<div class="mod_visitors_be_VI limit_height h64 block" style="height: 64px;"> 
 		<div class="mod_visitors_be_referrer">
 			<table summary="Table lists countings" class="mod_visitors_be_table_360">

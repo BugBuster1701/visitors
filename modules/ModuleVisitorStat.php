@@ -161,6 +161,12 @@ class ModuleVisitorStat extends \BackendModule
 				}
 				$arrVisitorsChart[$intAnzCounter] = $ModuleVisitorCharts->display(false);
 				
+				//Page Hits
+				$arrVisitorsPageVisitHits[$intAnzCounter]          = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitTop($objVisitorsID,20);
+				$arrVisitorsPageVisitHitsDays[$intAnzCounter]      = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitDays($objVisitorsID,7,5);
+				$arrVisitorsPageVisitHitsToday[$intAnzCounter]     = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitToday($objVisitorsID,5);
+				$arrVisitorsPageVisitHitsYesterday[$intAnzCounter] = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitYesterday($objVisitorsID,5);
+				
 				//Browser
 				$arrVSB = $this->getBrowserTop($objVisitorsID);
 				$arrVisitorsStatBrowser[$intAnzCounter] = $arrVSB['TOP'];
@@ -187,21 +193,25 @@ class ModuleVisitorStat extends \BackendModule
 		$this->Template->theme0           = 'default'; // for down0.gif
 
 		
-		$this->Template->visitorsanzcounter   	= $intAnzCounter;
-		$this->Template->visitorsstatDays     	= $arrVisitorsStatDays;
-		$this->Template->visitorsstatWeeks    	= $arrVisitorsStatWeek;
-		$this->Template->visitorsstatMonths   	= $arrVisitorsStatMonth;
-		$this->Template->visitorsstatOtherMonths= $arrVisitorsStatOtherMonth;
-		$this->Template->visitorsstatTotals   	= $arrVisitorsStatTotal;
-		$this->Template->visitorsstatAverages 	= $arrVisitorsStatAverage;
-		$this->Template->visitorsstatOnline     = $arrVisitorsStatOnline;
-		$this->Template->visitorsstatBestDay    = $arrVisitorsStatBestDay;
-		$this->Template->visitorsstatBadDay     = $arrVisitorsStatBadDay;
-		$this->Template->visitorsstatChart    	= $arrVisitorsChart;
-		$this->Template->visitorsstatBrowser  	= $arrVisitorsStatBrowser;
-		$this->Template->visitorsstatBrowser2  	= $arrVisitorsStatBrowser2;
+		$this->Template->visitorsanzcounter   	   = $intAnzCounter;
+		$this->Template->visitorsstatDays     	   = $arrVisitorsStatDays;
+		$this->Template->visitorsstatWeeks    	   = $arrVisitorsStatWeek;
+		$this->Template->visitorsstatMonths   	   = $arrVisitorsStatMonth;
+		$this->Template->visitorsstatOtherMonths   = $arrVisitorsStatOtherMonth;
+		$this->Template->visitorsstatTotals   	   = $arrVisitorsStatTotal;
+		$this->Template->visitorsstatAverages 	   = $arrVisitorsStatAverage;
+		$this->Template->visitorsstatOnline        = $arrVisitorsStatOnline;
+		$this->Template->visitorsstatBestDay       = $arrVisitorsStatBestDay;
+		$this->Template->visitorsstatBadDay        = $arrVisitorsStatBadDay;
+		$this->Template->visitorsstatChart    	   = $arrVisitorsChart;
+		$this->Template->visitorsstatPageVisitHits          = $arrVisitorsPageVisitHits;
+		$this->Template->visitorsstatPageVisitHitsDays      = $arrVisitorsPageVisitHitsDays;
+		$this->Template->visitorsstatPageVisitHitsToday     = $arrVisitorsPageVisitHitsToday;
+		$this->Template->visitorsstatPageVisitHitsYesterday = $arrVisitorsPageVisitHitsYesterday;
+		$this->Template->visitorsstatBrowser  	   = $arrVisitorsStatBrowser;
+		$this->Template->visitorsstatBrowser2  	   = $arrVisitorsStatBrowser2;
 		$this->Template->visitorsstatBrowserDefinition = $arrVisitorsStatBrowserDefinition;
-		$this->Template->visitorsstatReferrer    = $arrVisitorsStatReferrer;
+		$this->Template->visitorsstatReferrer      = $arrVisitorsStatReferrer;
 		//log_message(print_r($this->Template->visitorsstatBrowser,true), 'debug.log');
 		//log_message(print_r($this->Template->visitorsstatAverages,true), 'debug.log');
 		// Kat sammeln
@@ -751,6 +761,9 @@ class ModuleVisitorStat extends \BackendModule
                     ->execute($intCID);
             \Database::getInstance()
                     ->prepare("DELETE FROM tl_visitors_browser WHERE vid=?")
+                    ->execute($intCID);
+            \Database::getInstance()
+                    ->prepare("DELETE FROM tl_visitors_pages WHERE vid=?")
                     ->execute($intCID);
 	    }
 	    return ;

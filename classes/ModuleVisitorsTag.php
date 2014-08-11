@@ -37,6 +37,10 @@ class ModuleVisitorsTag extends \Frontend
 	
 	private $_VB  = false;	// Visit Blocker
 	
+	private $_VisitCounted = false;
+	
+	private $_HitCounted   = false;
+	
 	/**
 	 * replaceInsertTags
 	 * 
@@ -481,6 +485,8 @@ class ModuleVisitorsTag extends \Frontend
 			            ->prepare("INSERT IGNORE INTO tl_visitors_counter %s")
                         ->set($arrSet)
                         ->executeUncached();
+			    //for page counter
+			    $this->_HitCounted = true;
 	    	} 
 	    	else 
 	    	{
@@ -514,6 +520,8 @@ class ModuleVisitorsTag extends \Frontend
                                     WHERE 
                                         id=?")
                         ->executeUncached($visitors_hits, $objHitCounter->id);
+		    	//for page counter
+		    	$this->_HitCounted = true;
 			} 
 			else 
 			{
@@ -552,6 +560,8 @@ class ModuleVisitorsTag extends \Frontend
                                 WHERE 
                                     visitors_date = ? AND vid = ?")
                     ->executeUncached($visitors_visit, $CURDATE, $vid);
+	        //for page counter
+	        $this->_VisitCounted = true;
 	    } 
 	    else 
 	    {
@@ -568,6 +578,80 @@ class ModuleVisitorsTag extends \Frontend
                     ->executeUncached($ClientIP, $vid, 'v');
 	    	$this->_VB = true;
 	    }
+	    
+	    //Page Counter 
+	    if ($this->_HitCounted === true || $this->_VisitCounted === true) 
+	    {
+    	    global $objPage;
+    	    $objPageHitVisit = \Database::getInstance()
+                	               ->prepare("SELECT
+                                                id,
+                                                visitors_page_visit,
+                                                visitors_page_hit
+                                            FROM
+                                                tl_visitors_pages
+                                            WHERE
+                                                visitors_page_date = ?
+                                            AND
+                                                vid = ?
+                                            AND
+                                                visitors_page_id = ?
+                                            AND
+                                                visitors_page_lang = ?
+                                            ")
+                                    ->executeUncached($CURDATE, $vid, $objPage->id, $objPage->language);
+    	    //TODO eventuell $GLOBALS['TL_LANGUAGE']
+    	    //     oder      $objPage->rootLanguage; // Sprache der Root-Seite
+    	    if ($objPageHitVisit->numRows < 1)
+    	    {
+    	        //Page Counter Insert
+    	        $arrSet = array
+    	        (
+    	            'vid'                 => $vid,
+    	            'visitors_page_date'  => $CURDATE,
+    	            'visitors_page_id'    => $objPage->id,
+    	            'visitors_page_visit' => 1,
+    	            'visitors_page_hit'   => 1,
+    	            'visitors_page_lang'  => $objPage->language
+    	        );
+    	        \Database::getInstance()
+                	        ->prepare("INSERT IGNORE INTO tl_visitors_pages %s")
+                	        ->set($arrSet)
+                	        ->executeUncached();
+    	    }
+    	    else
+    	    {
+    	        $objPageHitVisit->next();
+    	        $visitors_page_hits   = $objPageHitVisit->visitors_page_hit;
+    	        $visitors_page_visits = $objPageHitVisit->visitors_page_visit;
+    	        
+    	        if ($this->_HitCounted === true)
+    	        {
+        	        //Update Hit
+    	            $visitors_page_hits += 1;
+    	        }
+    	        if ($this->_VisitCounted === true)
+    	        {
+    	            //Update Visit
+    	            $visitors_page_visits += 1;    	            
+    	        }
+    	        \Database::getInstance()
+                	        ->prepare("UPDATE
+                                            tl_visitors_pages
+                                        SET
+                                            visitors_page_hit = ?,
+                                            visitors_page_visit = ?
+                                        WHERE
+                                            id = ?
+                                        ")
+                            ->executeUncached($visitors_page_hits, 
+                                              $visitors_page_visits, 
+                                              $objPageHitVisit->id);
+    	    }
+	    }
+	    //Page Counter End
+	    	  
+	    
 	    if ($objVisitIP->numRows < 1) 
 	    { //Browser Check wenn nicht geblockt
 		    //Only counting if User Agent is set.
