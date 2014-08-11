@@ -45,8 +45,9 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_template'] = array
     'exclude'                 => true,
     'inputType'               => 'select',
     'options_callback'        => array('BugBuster\Visitors\DCA_module_visitors', 'getVisitorsTemplates'),
+    'explanation'	          => 'visitors_help_module',
     'sql'                     => "varchar(32) NOT NULL default ''",
-    'eval'                    => array('tl_class'=>'w50')
+    'eval'                    => array('tl_class'=>'w50', 'helpwizard'=>true)
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['visitors_useragent'] = array
 (
