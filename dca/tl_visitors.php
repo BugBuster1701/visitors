@@ -105,7 +105,7 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 	'palettes' => array
 	(
 		//'__selector__'                => array(''),
-		'default'                     => '{title_legend},visitors_name,visitors_startdate;{start_legend:hide},visitors_visit_start,visitors_hit_start;{average_legend},visitors_average,visitors_block_time;{design_legend},visitors_thousands_separator;{publish_legend},published;{visitors_expert_legend:hide},visitors_expert_debug_tag,visitors_expert_debug_checks,visitors_expert_debug_referrer,visitors_expert_debug_searchengine'
+		'default'                     => '{title_legend},visitors_name,visitors_startdate;{start_legend:hide},visitors_visit_start,visitors_hit_start;{average_legend},visitors_average,visitors_block_time;{design_legend},visitors_thousands_separator;{publish_legend},published;{visitors_expert_legend:hide},visitors_expert_debug_tag,visitors_expert_debug_checks,visitors_expert_debug_referrer,visitors_expert_debug_searchengine,visitors_expert_debug_screenresolutioncount'
 	),
 
 	// Subpalettes
@@ -221,6 +221,13 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 		'visitors_expert_debug_searchengine'=> array
 		(
 		        'label'					  => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_debug_searchengine'],
+		        'inputType'               => 'checkbox',
+		        'sql'                     => "char(1) NOT NULL default ''",
+		        'eval'                    => array('mandatory'=>false, 'helpwizard'=>false)
+		),
+		'visitors_expert_debug_screenresolutioncount'=> array
+		(
+		        'label'					  => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_debug_screenresolutioncount'],
 		        'inputType'               => 'checkbox',
 		        'sql'                     => "char(1) NOT NULL default ''",
 		        'eval'                    => array('mandatory'=>false, 'helpwizard'=>false)

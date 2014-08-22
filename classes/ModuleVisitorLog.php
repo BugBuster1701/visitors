@@ -39,7 +39,8 @@ class ModuleVisitorLog
                 if ((bool)$GLOBALS['visitors']['debug']['tag']          ||
                     (bool)$GLOBALS['visitors']['debug']['checks']       ||
                     (bool)$GLOBALS['visitors']['debug']['referrer']     ||
-                    (bool)$GLOBALS['visitors']['debug']['searchengine']
+                    (bool)$GLOBALS['visitors']['debug']['searchengine'] ||
+                    (bool)$GLOBALS['visitors']['debug']['screenresolutioncount']
                    )
                 {
                     $arrUniqid = trimsplit('.', uniqid('c0n7a0',true) );
@@ -86,6 +87,12 @@ class ModuleVisitorLog
                 break;
             case "ModuleVisitorSearchEngine":
                 if ($GLOBALS['visitors']['debug']['searchengine'])
+                {
+                    log_message(sprintf('[%s] [%s] [%s] %s',$GLOBALS['visitors']['debug']['first'],$vclass.'::'.$arrNamespace[1],$line,$value),'visitors_debug.log');
+                }
+                break;
+            case "ModuleVisitorsScreenCount":
+                if ($GLOBALS['visitors']['debug']['screenresolutioncount'])
                 {
                     log_message(sprintf('[%s] [%s] [%s] %s',$GLOBALS['visitors']['debug']['first'],$vclass.'::'.$arrNamespace[1],$line,$value),'visitors_debug.log');
                 }
