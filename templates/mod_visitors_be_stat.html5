@@ -445,7 +445,7 @@ o.open = function(url,type){
 	</div> <!-- 3 -->
 	<div style="clear:left;"></div><hr>
 	
-	<div class="mod_visitors_be_page_stat limit_height h64 block" style="height: 64px;">
+	<div class="mod_visitors_be_page_stat limit_height h88 block" style="height: 88px;">
 		<?php echo $this->visitorsstatPageVisitHits[$vcid]; ?>
 		<?php echo $this->visitorsstatPageVisitHitsDays[$vcid]; ?>
 		<div style="clear:left;"><br></div>	
@@ -456,7 +456,7 @@ o.open = function(url,type){
 	
 	
 	
-	<div class="mod_visitors_be_IV limit_height h64 block" style="height: 64px;"> 
+	<div class="mod_visitors_be_IV limit_height h88 block" style="height: 88px;"> 
 		<div class="mod_visitors_be_browser">
 			<table summary="Table lists countings" class="mod_visitors_be_table_360">
 			<tbody>
@@ -542,7 +542,7 @@ o.open = function(url,type){
 	</div> <!-- 4 -->
 	<div style="clear:left;"></div>
 	<hr>
-	<div class="mod_visitors_be_V limit_height h64 block" style="height: 64px;"> 
+	<div class="mod_visitors_be_V limit_height h88 block" style="height: 88px;"> 
 		<div class="mod_visitors_be_searchenginekeywords">
 			<table summary="Table lists countings" class="mod_visitors_be_table_360">
 			<tbody>
@@ -604,7 +604,7 @@ o.open = function(url,type){
 	<div style="clear:left;"></div>	
 	<hr>
 	
-	<div class="mod_visitors_be_VI limit_height h64 block" style="height: 64px;"> 
+	<div class="mod_visitors_be_VI limit_height h88 block" style="height: 88px;"> 
 		<div class="mod_visitors_be_referrer">
 			<table summary="Table lists countings" class="mod_visitors_be_table_360">
 			<tbody>
@@ -632,7 +632,16 @@ o.open = function(url,type){
 			</table>
 		</div>
 	</div> <!-- 6 -->
-	<div style="clear:left;"></div>	
+	<div style="clear:left;"></div>
+	
+	<!-- Screen resolution -->
+	<hr>
+	<div class="mod_visitors_be_screen_stat limit_height h88 block" style="height: 88px;">
+		<?php echo $this->visitorsstatScreenTop[$vcid]; ?>
+		<?php echo $this->visitorsstatScreenTopDays[$vcid]; ?>
+	</div>
+	<div style="clear:left;"></div>
+		
 <?php endif; ?>
 <?php else : ?>
 	    <table summary="Table lists records" class="mod_visitors_be_table_max">

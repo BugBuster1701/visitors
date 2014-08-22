@@ -8,7 +8,7 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-08-10T00:41:08+02:00
+ * last-updated: 2014-08-21T02:04:40+02:00
  */
 
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['active']                          = 'Aktiv';
@@ -55,6 +55,7 @@ $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_direct']               
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_dns']                    = 'Domain';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_top']                    = 'Besucherherkunft TOP 30';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['reset']                           = 'Rücksetzung';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['screen_stat_css_viewport']        = 'Beispiel<br>Fenstergrößen';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine']                    = 'Suchmaschine';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_data']               = 'Werte aus den Daten der letzten 60 Tage.';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_no_data']            = 'Keine Daten vorhanden.';
@@ -82,6 +83,9 @@ $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['page_stat_visithittop']         
 $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['page_stat_visithittop_days']      = 'Seitenstatistik TOP 20: die letzten 7 Tage';
 $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['page_stat_visithittop_today']     = 'Seitenstatistik TOP 5: Heute';
 $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['page_stat_visithittop_yesterday'] = 'Seitenstatistik TOP 5: Gestern';
+$GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['screen_stat_device_resolution']   = 'Geräte Auflösungen';
+$GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['screen_stat_top']                 = 'Bildschirmauflösungen TOP 20';
+$GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['screen_stat_top_days']            = 'Bildschirmauflösungen TOP 20<br>(der letzten 30 Tage)';
 $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['visitors_this_day']               = 'Besucher an diesem Tag';
 $GLOBALS['TL_LANG']['visitors']['AverageVisitsLegend']                            = 'Besucher pro Tag:';
 $GLOBALS['TL_LANG']['visitors']['TodayHitCountLegend']                            = 'Zugriffe heute:';

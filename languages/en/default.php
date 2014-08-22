@@ -91,4 +91,8 @@ $GLOBALS['TL_LANG']['visitors']['TotalHitCountLegend']                     = 'Hi
 $GLOBALS['TL_LANG']['visitors']['TotalVisitCountLegend']                   = 'Visits total:';
 $GLOBALS['TL_LANG']['visitors']['VisitorsOnlineCountLegend']               = 'Online:';
 $GLOBALS['TL_LANG']['visitors']['VisitorsStartDateLegend']                 = 'Counting since:';
+$GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['screen_stat_top']               = 'Screen Resolutions TOP 20';
+$GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['screen_stat_device_resolution'] = 'Device resolutions';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['screen_stat_css_viewport']      = 'Sample<br>viewport sizes';
+$GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['screen_stat_top_days']          = 'Screen Resolutions TOP 20<br>(last 30 days)';
 

@@ -176,6 +176,10 @@ class ModuleVisitorStat extends \BackendModule
 				//Referrer
 				$arrVisitorsStatReferrer[$intAnzCounter] = $this->getReferrerTop($objVisitorsID);
 				
+				//Screen Resolutions
+				$arrVisitorsScreenTopResolution[$intAnzCounter]     = \Visitors\ModuleVisitorStatScreenCounter::getInstance()->generateScreenTopResolution($objVisitorsID,20);
+				$arrVisitorsScreenTopResolutionDays[$intAnzCounter] = \Visitors\ModuleVisitorStatScreenCounter::getInstance()->generateScreenTopResolutionDays($objVisitorsID,20,30);
+				
 				$intAnzCounter++;
 			} //while X next
 		} // if intRowsX >0
@@ -212,6 +216,9 @@ class ModuleVisitorStat extends \BackendModule
 		$this->Template->visitorsstatBrowser2  	   = $arrVisitorsStatBrowser2;
 		$this->Template->visitorsstatBrowserDefinition = $arrVisitorsStatBrowserDefinition;
 		$this->Template->visitorsstatReferrer      = $arrVisitorsStatReferrer;
+		$this->Template->visitorsstatScreenTop     = $arrVisitorsScreenTopResolution;
+		$this->Template->visitorsstatScreenTopDays = $arrVisitorsScreenTopResolutionDays;
+		
 		//log_message(print_r($this->Template->visitorsstatBrowser,true), 'debug.log');
 		//log_message(print_r($this->Template->visitorsstatAverages,true), 'debug.log');
 		// Kat sammeln
@@ -764,6 +771,9 @@ class ModuleVisitorStat extends \BackendModule
                     ->execute($intCID);
             \Database::getInstance()
                     ->prepare("DELETE FROM tl_visitors_pages WHERE vid=?")
+                    ->execute($intCID);
+            \Database::getInstance()
+                    ->prepare("DELETE FROM tl_visitors_screen_counter WHERE vid=?")
                     ->execute($intCID);
 	    }
 	    return ;
