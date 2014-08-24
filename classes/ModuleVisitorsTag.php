@@ -583,6 +583,67 @@ class ModuleVisitorsTag extends \Frontend
 	    if ($this->_HitCounted === true || $this->_VisitCounted === true) 
 	    {
     	    global $objPage;
+    	    //if page from cache, we have no page-id
+    	    if ($objPage->id == 0) 
+    	    {
+    	    	$pageId = $this->getPageIdFromUrl(); // Alias, not ID :-(
+    	    	ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID over URL: '. $pageId);
+    	    	// Get the current page object(s)
+    	    	$objPage = \PageModel::findPublishedByIdOrAlias($pageId);
+    	    	
+    	    	// Check the URL and language of each page if there are multiple results
+    	    	if ($objPage !== null && $objPage->count() > 1)
+    	    	{
+    	    	    $objNewPage = null;
+    	    	    $arrPages = array();
+    	    	
+    	    	    // Order by domain and language
+    	    	    while ($objPage->next())
+    	    	    {
+    	    	        $objCurrentPage = $objPage->current()->loadDetails();
+    	    	
+    	    	        $domain = $objCurrentPage->domain ?: '*';
+    	    	        $arrPages[$domain][$objCurrentPage->rootLanguage] = $objCurrentPage;
+    	    	
+    	    	        // Also store the fallback language
+    	    	        if ($objCurrentPage->rootIsFallback)
+    	    	        {
+    	    	            $arrPages[$domain]['*'] = $objCurrentPage;
+    	    	        }
+    	    	    }
+    	    	
+    	    	    $strHost = \Environment::get('host');
+    	    	
+    	    	    // Look for a root page whose domain name matches the host name
+    	    	    if (isset($arrPages[$strHost]))
+    	    	    {
+    	    	        $arrLangs = $arrPages[$strHost];
+    	    	    }
+    	    	    else
+    	    	    {
+    	    	        $arrLangs = $arrPages['*']; // empty domain
+    	    	    }
+    	    	
+    	    	    // Use the first result (see #4872)
+    	    	    if (!$GLOBALS['TL_CONFIG']['addLanguageToUrl'])
+    	    	    {
+    	    	        $objNewPage = current($arrLangs);
+    	    	    }
+    	    	    // Try to find a page matching the language parameter
+    	    	    elseif (($lang = \Input::get('language')) != '' && isset($arrLangs[$lang]))
+    	    	    {
+    	    	        $objNewPage = $arrLangs[$lang];
+    	    	    }
+    	    	
+    	    	    // Store the page object
+    	    	    if (is_object($objNewPage))
+    	    	    {
+    	    	        $objPage = $objNewPage;
+    	    	    }
+    	    	}
+	 	    } //$objPage->id == 0
+	 	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID in Object: '. $objPage->id);
+	 	    
     	    $objPageHitVisit = \Database::getInstance()
                 	               ->prepare("SELECT
                                                 id,
@@ -604,20 +665,23 @@ class ModuleVisitorsTag extends \Frontend
     	    //     oder      $objPage->rootLanguage; // Sprache der Root-Seite
     	    if ($objPageHitVisit->numRows < 1)
     	    {
-    	        //Page Counter Insert
-    	        $arrSet = array
-    	        (
-    	            'vid'                 => $vid,
-    	            'visitors_page_date'  => $CURDATE,
-    	            'visitors_page_id'    => $objPage->id,
-    	            'visitors_page_visit' => 1,
-    	            'visitors_page_hit'   => 1,
-    	            'visitors_page_lang'  => $objPage->language
-    	        );
-    	        \Database::getInstance()
-                	        ->prepare("INSERT IGNORE INTO tl_visitors_pages %s")
-                	        ->set($arrSet)
-                	        ->executeUncached();
+    	        if ($objPage->id > 0) 
+    	        {
+        	        //Page Counter Insert
+        	        $arrSet = array
+        	        (
+        	            'vid'                 => $vid,
+        	            'visitors_page_date'  => $CURDATE,
+        	            'visitors_page_id'    => $objPage->id,
+        	            'visitors_page_visit' => 1,
+        	            'visitors_page_hit'   => 1,
+        	            'visitors_page_lang'  => $objPage->language
+        	        );
+        	        \Database::getInstance()
+                    	        ->prepare("INSERT IGNORE INTO tl_visitors_pages %s")
+                    	        ->set($arrSet)
+                    	        ->executeUncached();
+    	        }
     	    }
     	    else
     	    {
