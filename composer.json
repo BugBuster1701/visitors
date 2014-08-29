@@ -30,7 +30,7 @@
 		"classmap":[""]
 	},
 	"replace":{
-		"contao-legacy/visitors":"*"
+		"contao-legacy/visitors":"self.version"
 	},
 	"extra":{
 		"contao":{

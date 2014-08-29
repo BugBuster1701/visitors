@@ -196,6 +196,15 @@ class VisitorsRunonceJob extends Controller
 		    $objFile=null;
 		    unset($objFile);
 		}
+
+		//Korrekur aus 3.4.0 alpha 2
+		if ($this->Database->tableExists('tl_visitors_pages'))
+		{
+		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_pages`
+                                                    WHERE `visitors_page_lang`=?
+                                                  ")
+                                        ->execute('');
+		}
 		
 	} //function run
 } // class

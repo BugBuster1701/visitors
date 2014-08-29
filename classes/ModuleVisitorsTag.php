@@ -590,7 +590,7 @@ class ModuleVisitorsTag extends \Frontend
     	    	ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID over URL: '. $pageId);
     	    	// Get the current page object(s)
     	    	$objPage = \PageModel::findPublishedByIdOrAlias($pageId);
-    	    	
+
     	    	// Check the URL and language of each page if there are multiple results
     	    	if ($objPage !== null && $objPage->count() > 1)
     	    	{
@@ -641,8 +641,12 @@ class ModuleVisitorsTag extends \Frontend
     	    	        $objPage = $objNewPage;
     	    	    }
     	    	}
-	 	    } //$objPage->id == 0
-	 	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID in Object: '. $objPage->id);
+    	    	elseif ($objPage !== null && $objPage->count() == 1) 
+    	    	{
+                    $objPage = $objPage->current()->loadDetails();
+    	    	}
+            } //$objPage->id == 0
+            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID / Lang in Object: '. $objPage->id .' / '.$objPage->language);
 	 	    
     	    $objPageHitVisit = \Database::getInstance()
                 	               ->prepare("SELECT
