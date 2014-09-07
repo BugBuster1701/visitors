@@ -8,9 +8,8 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-05-31T22:46:56+02:00
+ * last-updated: 2014-06-30T23:18:59+02:00
  */
-
 
 $GLOBALS['TL_LANG']['tl_visitors']['average_legend']                    = 'Średnio i czas blokady';
 $GLOBALS['TL_LANG']['tl_visitors']['copy']['0']                         = 'Duplikuj licznik';
@@ -53,4 +52,5 @@ $GLOBALS['TL_LANG']['tl_visitors']['visitors_visit_start']['1']         = 'Wprow
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_count_katid']                 = 'Wywołanie bez parametru';
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_katid']                       = 'Wadliwe lub błędne ID kategorii (parametr 2)';
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_key']                         = 'Wadliwy lub błędny tag (parametr 3)';
+$GLOBALS['TL_LANG']['tl_visitors']['wrong_screen_catid']                = 'Wadliwe lub błędne ID kategorii (Module Screen Resolution)';
 

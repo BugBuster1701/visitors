@@ -46,7 +46,7 @@ class ModuleVisitorChecks extends \Frontend
 			return false;
 		}
 		$ModuleBotDetection = new \BotDetection\ModuleBotDetection();
-	    if ($ModuleBotDetection->BD_CheckBotAgent() || $ModuleBotDetection->BD_CheckBotIP()) 
+	    if ($ModuleBotDetection->BD_CheckBotAllTests()) 
 	    {
 	    	//log_message('CheckBot True','debug.log');
 	        ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );

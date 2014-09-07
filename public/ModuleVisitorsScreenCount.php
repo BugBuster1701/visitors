@@ -59,57 +59,56 @@ class ModuleVisitorsScreenCount extends \Frontend
 	public function __construct()
 	{
 		parent::__construct();
+		\System::loadLanguageFile('tl_visitors');
 	}
 
 	public function run()
 	{
 		//Parameter holen
-		if ((int)\Input::get('vcid')>0) 
+		if ((int)\Input::get('vcid')  > 0)
 		{
 			$visitors_category_id = (int)\Input::get('vcid');
 			$this->VisitorScreenSetDebugSettings($visitors_category_id);
-			//echo "scrw=".\Input::get('scrw')." scrh=".\Input::get('scrh')." scriw=".\Input::get('scriw')." scrih=".\Input::get('scrih');
-            $this->_SCREEN = array( "scrw"  => \Input::get('scrw'),
-                                    "scrh"  => \Input::get('scrh'),
-                                    "scriw" => \Input::get('scriw'),
-                                    "scrih" => \Input::get('scrih')
-                                    );            
-			/* __________  __  ___   _____________   ________
-			  / ____/ __ \/ / / / | / /_  __/  _/ | / / ____/
-			 / /   / / / / / / /  |/ / / /  / //  |/ / / __  
-			/ /___/ /_/ / /_/ / /|  / / / _/ // /|  / /_/ /  
-			\____/\____/\____/_/ |_/ /_/ /___/_/ |_/\____/ only
-			*/
-			$objVisitors = \Database::getInstance()
-	                ->prepare("SELECT 
-                                    tl_visitors.id AS id, visitors_block_time
-                                FROM
-                                    tl_visitors
-                                LEFT JOIN
-                                    tl_visitors_category ON (tl_visitors_category.id = tl_visitors.pid)
-                                WHERE
-                                    pid = ? AND published = ?
-                                ORDER BY id , visitors_name")
-                      ->limit(1)
-				      ->executeUncached($visitors_category_id,1);
-			if ($objVisitors->numRows < 1) 
-			{
-			    $this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_katid'], 'ModuleVisitorsScreenCount '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
-			} 
-			else 
-			{
-				while ($objVisitors->next()) 
-				{
-				    $this->VisitorScreenCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
-				    
-				}
-			}
+            $this->VisitorScreenSetResolutions();
+            if ($this->_SCREEN !== false) 
+            {
+    			/* __________  __  ___   _____________   ________
+    			  / ____/ __ \/ / / / | / /_  __/  _/ | / / ____/
+    			 / /   / / / / / / /  |/ / / /  / //  |/ / / __  
+    			/ /___/ /_/ / /_/ / /|  / / / _/ // /|  / /_/ /  
+    			\____/\____/\____/_/ |_/ /_/ /___/_/ |_/\____/ only
+    			*/
+    			$objVisitors = \Database::getInstance()
+    	                ->prepare("SELECT 
+                                        tl_visitors.id AS id, visitors_block_time
+                                    FROM
+                                        tl_visitors
+                                    LEFT JOIN
+                                        tl_visitors_category ON (tl_visitors_category.id = tl_visitors.pid)
+                                    WHERE
+                                        pid = ? AND published = ?
+                                    ORDER BY id , visitors_name")
+                          ->limit(1)
+    				      ->executeUncached($visitors_category_id,1);
+    			if ($objVisitors->numRows < 1) 
+    			{
+    			    $this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_screen_catid'], 'ModuleVisitorsScreenCount '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
+    			} 
+    			else 
+    			{
+    				while ($objVisitors->next()) 
+    				{
+    				    $this->VisitorScreenCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
+    				    
+    				}
+    			}
+            } //SCREEN !== false
 		} 
 		else 
 		{
-			$this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_count_katid'], 'ModuleVisitorsScreenCount '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
+			$this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_screen_catid'], 'ModuleVisitorsScreenCount '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 		}
-		//log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
+
 		//Pixel und raus hier
 		header('Cache-Control: no-cache');
 		header('Content-type: image/gif');
@@ -117,6 +116,34 @@ class ModuleVisitorsScreenCount extends \Frontend
 
 		echo base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
 	} //function
+	
+	/**
+	 * Set $_SCREEN variable
+	 */
+	protected function VisitorScreenSetResolutions()
+	{
+	    $this->_SCREEN = array( "scrw"  => (int)\Input::get('scrw'),
+                    	        "scrh"  => (int)\Input::get('scrh'),
+                    	        "scriw" => (int)\Input::get('scriw'),
+                    	        "scrih" => (int)\Input::get('scrih')
+                    	    );
+	    if ((int)\Input::get('scrw')  == 0 ||
+	        (int)\Input::get('scrh')  == 0 ||
+	        (int)\Input::get('scriw') == 0 ||
+	        (int)\Input::get('scrih') == 0
+	       )
+	    {
+	        ModuleVisitorLog::Writer(__METHOD__ ,
+                                     __LINE__ , 
+                                     'ERR: '.print_r(array( "scrw"  => \Input::get('scrw'),
+                                                	        "scrh"  => \Input::get('scrh'),
+                                                	        "scriw" => \Input::get('scriw'),
+                                                	        "scrih" => \Input::get('scrih')
+                                                	      ), true) 
+                                     );
+	        $this->_SCREEN = false;
+	    }
+	}
 	
 	/**
 	 * Insert/Update Counter

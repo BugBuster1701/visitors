@@ -197,13 +197,21 @@ class VisitorsRunonceJob extends Controller
 		    unset($objFile);
 		}
 
-		//Korrekur aus 3.4.0 alpha 2
+		//Korrektur aus 3.4.0 alpha 2
 		if ($this->Database->tableExists('tl_visitors_pages'))
 		{
 		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_pages`
                                                     WHERE `visitors_page_lang`=?
                                                   ")
                                         ->execute('');
+		}
+		//Korrektur falscher Referrer, in Botdetection behoben
+		if ($this->Database->tableExists('tl_visitors_referrer'))
+		{
+		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                                    WHERE `visitors_referrer_dns` like ?
+                                                  ")
+                                        ->execute('%semalt.com');
 		}
 		
 	} //function run

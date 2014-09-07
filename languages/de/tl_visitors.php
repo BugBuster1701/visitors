@@ -8,7 +8,7 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-06-30T23:18:59+02:00
+ * last-updated: 2014-08-22T23:39:04+02:00
  */
 
 $GLOBALS['TL_LANG']['tl_visitors']['average_legend']                                   = 'Durchschnitt und Blockzeit';
@@ -63,4 +63,5 @@ $GLOBALS['TL_LANG']['tl_visitors']['visitors_visit_start']['1']                 
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_count_katid']                                = 'Aufruf ohne Parameter';
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_katid']                                      = 'Fehlerhafte oder falsche Kategorie ID (Parameter 2)';
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_key']                                        = 'Fehlerhafter oder falscher Tagname (Parameter 3)';
+$GLOBALS['TL_LANG']['tl_visitors']['wrong_screen_catid']                               = 'Fehlerhafte oder falsche Kategorie ID (Modul Screen Resolution)';
 

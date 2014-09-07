@@ -587,6 +587,11 @@ class ModuleVisitorsTag extends \Frontend
     	    if ($objPage->id == 0) 
     	    {
     	    	$pageId = $this->getPageIdFromUrl(); // Alias, not ID :-(
+    	    	// Load a website root page object if there is no page ID
+    	    	if ($pageId === null)
+    	    	{
+    	    	    $pageId = $this->VisitorGetRootPageFromUrl();
+    	    	}
     	    	ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID over URL: '. $pageId);
     	    	// Get the current page object(s)
     	    	$objPage = \PageModel::findPublishedByIdOrAlias($pageId);
@@ -595,7 +600,7 @@ class ModuleVisitorsTag extends \Frontend
     	    	if ($objPage !== null && $objPage->count() > 1)
     	    	{
     	    	    $objNewPage = null;
-    	    	    $arrPages = array();
+    	    	    $arrPages   = array();
     	    	
     	    	    // Order by domain and language
     	    	    while ($objPage->next())
@@ -912,6 +917,29 @@ class ModuleVisitorsTag extends \Frontend
 	        //log_message('VisitorSetDebugSettings: '.print_r($GLOBALS['visitors']['debug'],true),'visitors_debug.log');
 	        ModuleVisitorLog::Writer('## START ##', '## DEBUG ##', 'T'.(int)$GLOBALS['visitors']['debug']['tag'] .'#C'. (int)$GLOBALS['visitors']['debug']['checks'] .'#R'.(int) $GLOBALS['visitors']['debug']['referrer'] .'#S'.(int)$GLOBALS['visitors']['debug']['searchengine']);
 	    }
+	}
+	
+	protected function VisitorGetRootPageFromUrl()
+	{
+	    // simple Frontend:getRootPageFromUrl
+	    $host = \Environment::get('host');
+	    
+	    // The language is set in the URL
+	    if ($GLOBALS['TL_CONFIG']['addLanguageToUrl'] && !empty($_GET['language']))
+	    {
+	        $objRootPage = \PageModel::findFirstPublishedRootByHostAndLanguage($host, \Input::get('language'));
+        }
+	    else // No language given
+	    {
+	        $accept_language = \Environment::get('httpAcceptLanguage');
+	    
+	        // Find the matching root pages (thanks to Andreas Schempp)
+	        $objRootPage = \PageModel::findFirstPublishedRootByHostAndLanguage($host, $accept_language);
+	    }
+	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Root Page ID over URL: '. $objRootPage->id);
+        //simple PageRoot:generate
+	    $objNextPage = \PageModel::findFirstPublishedByPid($objRootPage->id);
+	    return $objNextPage->id;
 	}
 } // class
 

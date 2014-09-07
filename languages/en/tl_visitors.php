@@ -64,4 +64,4 @@ $GLOBALS['TL_LANG']['tl_visitors']['visitors_visit_start']['1']               = 
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_count_katid']                       = 'Call without parameter';
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_katid']                             = 'Faulty or incorrect category ID (parameter 2)';
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_key']                               = 'Faulty or incorrect tag name (parameter 3)';
-
+$GLOBALS['TL_LANG']['tl_visitors']['wrong_screen_catid']                      = 'Faulty or incorrect category ID (Module Screen Resolution)';

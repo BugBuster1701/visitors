@@ -8,9 +8,8 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-05-31T22:46:56+02:00
+ * last-updated: 2014-06-30T23:18:59+02:00
  */
-
 
 $GLOBALS['TL_LANG']['tl_visitors']['average_legend']            = 'Gemiddeld';
 $GLOBALS['TL_LANG']['tl_visitors']['copy']['0']                 = 'Dupliceer teller';
@@ -44,4 +43,5 @@ $GLOBALS['TL_LANG']['tl_visitors']['visitors_visit_start']['0'] = 'Beginwaarde b
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_visit_start']['1'] = 'Het opgegeven getal wordt opgeteld bij de teller.';
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_katid']               = 'Foutieve of incorrecte categorie ID (parameter 2)';
 $GLOBALS['TL_LANG']['tl_visitors']['wrong_key']                 = 'Foutieve of incorrecte tag (parameter 3)';
+$GLOBALS['TL_LANG']['tl_visitors']['wrong_screen_catid']        = 'Foutieve of incorrecte categorie ID (Module Screen Resolution)';
 
