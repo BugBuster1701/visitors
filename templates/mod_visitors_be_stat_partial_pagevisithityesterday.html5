@@ -13,7 +13,7 @@
 <?php if ($this->PageVisitHitYesterday !== false) : ?>
 	<?php foreach ($this->PageVisitHitYesterday AS $PageVisitHitYesterdayRow) : ?>
 			<tr>
-			    <td style="padding-left: 2px; text-align: left;"  class="tl_file_list"><?php echo (isset($PageVisitHitYesterdayRow['alias']) ? $PageVisitHitYesterdayRow['alias'] .' ('.(isset($PageVisitHitYesterdayRow['lang']) ? $PageVisitHitYesterdayRow['lang'] .')' : '') : ''); ?></td>
+			    <td style="padding-left: 2px; text-align: left; word-break: break-all; word-wrap: break-word;"  class="tl_file_list"><?php echo (isset($PageVisitHitYesterdayRow['alias']) ? $PageVisitHitYesterdayRow['alias'] .' ('.(isset($PageVisitHitYesterdayRow['lang']) ? $PageVisitHitYesterdayRow['lang'] .')' : '') : ''); ?></td>
 			    <td style="padding-left: 2px; text-align: right;" class="tl_file_list"><?php echo (isset($PageVisitHitYesterdayRow['hits'])  ? $PageVisitHitYesterdayRow['visits'] : ''); ?></td>
 			    <td style="padding-left: 2px; text-align: right;" class="tl_file_list"><?php echo (isset($PageVisitHitYesterdayRow['hits'])  ? $PageVisitHitYesterdayRow['hits']   : ''); ?></td>
 			</tr>
