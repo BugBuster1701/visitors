@@ -11,7 +11,7 @@
 <div class="visitor_visitstoday"><div id="TodayVisitCountLegend"><?php echo $visitor['TodayVisitCountLegend'];         ?></div><div id="TodayVisitCount"    >{{cache_visitors::<?php echo $visitor['VisitorsKatID']; ?>::todayvisit}}</div></div>
 <div class="visitor_visitstotal"><div id="TotalVisitCountLegend"><?php echo $visitor['TotalVisitCountLegend'];         ?></div><div id="TotalVisitCount"    >{{cache_visitors::<?php echo $visitor['VisitorsKatID']; ?>::totalvisit}}</div></div>
 <div class="visitor_average" ><?php if ($visitor['AverageVisits']): ?><div id="AverageVisitsLegend"><?php echo $visitor['AverageVisitsLegend']; ?>&nbsp;&Oslash;</div><div id="AverageVisits">{{cache_visitors::<?php echo $visitor['VisitorsKatID']; ?>::averagevisits}}</div><?php endif; ?></div>
-<?php if ($visitor['VisitorsStartDate']): ?><div class="visitor_countsince" ><div id="VisitorsStartDateLegend"><?php echo $visitor['VisitorsStartDateLegend']; ?></div><div id="VisitorsStartDate">&nbsp;{{cache_visitors::<?php echo $visitor['VisitorsKatID']; ?>::start}}</div></div><?php endif; ?>
+<?php if ($visitor['VisitorsStartDate']): ?><div class="visitor_countsince" ><div id="VisitorsStartDateLegend"><?php echo $visitor['VisitorsStartDateLegend']; ?></div><div id="VisitorsStartDate">&nbsp;{{visitors::<?php echo $visitor['VisitorsKatID']; ?>::start}}</div></div><?php endif; ?>
 <script type="text/javascript">
 /* <![CDATA[ */
  var iWidth  = window.innerWidth  || (window.document.documentElement.clientWidth  || window.document.body.clientWidth); 
