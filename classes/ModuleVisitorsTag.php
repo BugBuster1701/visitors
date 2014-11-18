@@ -406,7 +406,7 @@ class ModuleVisitorsTag extends \Frontend
 	    	return ; //User Agent Filterung
 	    }
 	    //log_message("VisitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
-	    $ClientIP = bin2hex(sha1($visitors_category_id . \Environment::get('ip'),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
+	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->VisitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
 	    $BlockTime = ($BlockTime == '') ? 1800 : $BlockTime; //Sekunden
 	    $CURDATE = date('Y-m-d');
 	    //Visitor Blocker
@@ -941,5 +941,47 @@ class ModuleVisitorsTag extends \Frontend
 	    $objNextPage = \PageModel::findFirstPublishedByPid($objRootPage->id);
 	    return $objNextPage->id;
 	}
+	
+	/**
+	 * Get User IP
+	 *
+	 * @return string
+	 */
+	protected function VisitorGetUserIP()
+	{
+	    $UserIP = \Environment::get('ip');
+	    if (strpos($UserIP, ',') !== false) //first IP
+	    {
+	        $UserIP = trim( substr($UserIP, 0, strpos($UserIP, ',') ) );
+	    }
+	    if ( true === $this->VisitorIsPrivateIP($UserIP) &&
+	        false === empty($_SERVER['HTTP_X_FORWARDED_FOR'])
+	    )
+	    {
+	        //second try
+	        $HTTPXFF = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	        $_SERVER['HTTP_X_FORWARDED_FOR'] = '';
+	
+	        $UserIP = \Environment::get('ip');
+	        if (strpos($UserIP, ',') !== false) //first IP
+	        {
+	            $UserIP = trim( substr($UserIP, 0, strpos($UserIP, ',') ) );
+	        }
+	        $_SERVER['HTTP_X_FORWARDED_FOR'] = $HTTPXFF;
+	    }
+	    return $UserIP;
+	}
+	
+	/**
+	 * Check if an IP address is from private or reserved ranges.
+	 *
+	 * @param string $UserIP
+	 * @return boolean         true = private/reserved
+	 */
+	protected function VisitorIsPrivateIP($UserIP = false)
+	{
+	    return !filter_var($UserIP, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+	}
+	
 } // class
 
