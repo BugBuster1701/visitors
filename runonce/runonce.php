@@ -212,6 +212,25 @@ class VisitorsRunonceJob extends Controller
                                                     WHERE `visitors_referrer_dns` like ?
                                                   ")
                                         ->execute('%semalt.com');
+		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                                    WHERE `visitors_referrer_dns` like ?
+                                                  ")
+                                        ->execute('%makemoneyonline.com');
+		    
+		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                                    WHERE `visitors_referrer_dns` like ?
+                                                  ")
+                                        ->execute('%buttons-for-website.com');
+		    
+		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                                    WHERE `visitors_referrer_dns` like ?
+                                                  ")
+                                        ->execute('%descargar-musica-gratis.net');
+		    
+		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                                    WHERE `visitors_referrer_dns` like ?
+                                                  ")
+                                        ->execute('%baixar-musicas-gratis.com');
 		}
 		
 	} //function run
