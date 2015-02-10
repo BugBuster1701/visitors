@@ -1,35 +1,21 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
-
+<?php
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2010 Leo Feyer
+ * Translations are managed using Transifex. To create a new translation
+ * or to help to maintain an existing one, please register at transifex.com.
  *
- * Formerly known as TYPOlight Open Source CMS.
- * 
- * Modul Visitors Sprachdateien
- * 
- * Language file for modules (de).
+ * @link http://help.transifex.com/intro/translating.html
+ * @link https://www.transifex.com/projects/p/contao-visitors/language/de/
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2010 
- * @author     Glen Langer 
- * @package    VisitorsLanguage 
- * @license    LGPL 
- * @filesource
+ * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
+ *
+ * last-updated: 2014-06-30T21:59:12+02:00
  */
 
 
-/**
- * Back end modules
- */
-$GLOBALS['TL_LANG']['MOD']['visitors'] = array('Besucher', 'Dieses Modul dient zum z&auml;hlen von Zugriffen und Besuchern auf der Website.');
-$GLOBALS['TL_LANG']['MOD']['visitorstat'] = array('Besucherstatistik', 'Statistik vom Besucher-Modul.');
+$GLOBALS['TL_LANG']['FMD']['visitors']['0']    = 'Besucher';
+$GLOBALS['TL_LANG']['FMD']['visitors']['1']    = 'Zählt Zugriffe und Besucher';
+$GLOBALS['TL_LANG']['MOD']['visitors']['0']    = 'Besucher';
+$GLOBALS['TL_LANG']['MOD']['visitors']['1']    = 'Dieses Modul dient zur Zählung von Zugriffen und Besuchern auf der Website.';
+$GLOBALS['TL_LANG']['MOD']['visitorstat']['0'] = 'Besucherstatistik';
+$GLOBALS['TL_LANG']['MOD']['visitorstat']['1'] = 'Statistik vom Besucher-Modul.';
 
-
-/**
- * Front end modules
- */
-$GLOBALS['TL_LANG']['FMD']['visitors'] = array('Besucher','Z&auml;hlt Zugriffe und Besucher');
-
-
-?>

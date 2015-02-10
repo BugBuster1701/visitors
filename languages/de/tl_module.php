@@ -1,27 +1,21 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2010 Leo Feyer
+ * Translations are managed using Transifex. To create a new translation
+ * or to help to maintain an existing one, please register at transifex.com.
  *
- * Formerly known as TYPOlight Open Source CMS.
- * 
- * Modul Visitors Sprachdateien
- * 
- * Language file for table tl_module (de).
+ * @link http://help.transifex.com/intro/translating.html
+ * @link https://www.transifex.com/projects/p/contao-visitors/language/de/
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2010
- * @author     Glen Langer
- * @package    VisitorsLanguage
- * @license    LGPL
- * @filesource
+ * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
+ *
+ * last-updated: 2014-06-30T22:00:39+02:00
  */
 
-/**
- * Fields
- */
-$GLOBALS['TL_LANG']['tl_module']['visitors_categories'] = array('Besucherkategorie', 'Bitte w&auml;hlen Sie die Kategorie f&uuml;r das Modul.');
-$GLOBALS['TL_LANG']['tl_module']['visitors_template']  = array('Besuchervorlage', 'Bitte w&auml;hlen Sie eine Besucher-Vorlage. Sie k&ouml;nnen eigene Vorlagen im Ordner <em>templates</em> speichern. Vorlagen m&uuml;ssen mit <em>mod_visitors_fe_</em> beginnen und die Dateiendung <em>.tpl</em> haben.'); 
-$GLOBALS['TL_LANG']['tl_module']['visitors_useragent'] = array('Keine Z&auml;hlung bei HTTP_USER_AGENT Teilkennung', 'Hier kann eine Teilkennung angegeben werden, bei der keine Z&auml;hlung erfolgen soll. Dazu muss die HTTP_USER_AGENT Kennung des Browser ver&auml;ndert werden.<br />Siehe Wiki.');
 
-?>
+$GLOBALS['TL_LANG']['tl_module']['visitors_categories']['0'] = 'Besucherkategorie';
+$GLOBALS['TL_LANG']['tl_module']['visitors_categories']['1'] = 'Bitte wählen Sie die Kategorie für das Modul.';
+$GLOBALS['TL_LANG']['tl_module']['visitors_template']['0']   = 'Besuchervorlage';
+$GLOBALS['TL_LANG']['tl_module']['visitors_template']['1']   = 'Bitte wählen Sie eine Besucher-Vorlage. Sie können eigene Vorlagen im Ordner <em>templates</em> speichern. Vorlagen müssen mit <em>mod_visitors_fe_</em> beginnen und die Dateiendung <em>.html5</em> bzw. <em>.xhtml</em> haben.';
+$GLOBALS['TL_LANG']['tl_module']['visitors_useragent']['0']  = 'Keine Zählung bei HTTP_USER_AGENT Teilkennung';
+$GLOBALS['TL_LANG']['tl_module']['visitors_useragent']['1']  = 'Hier kann eine Teilkennung angegeben werden, bei der keine Zählung erfolgen soll. Dazu muss die HTTP_USER_AGENT Kennung des Browsers verändert werden.<br>Siehe Wiki.';
+

@@ -1,0 +1,51 @@
+{
+	"name":"bugbuster/visitors",
+	"description":"This Contao module allows you to count hits and visits of your website.",
+	"keywords":["contao","counter","visits","hits"],
+	"type":"contao-module",
+	"homepage":"http://www.contao.glen-langer.de",
+	"license":"LGPL-3.0+",
+	"authors":[
+		{
+			"name":"Glen Langer",
+			"homepage":"http://www.contao.glen-langer.de",
+			"role":"Developer"
+		}
+	],
+	"support":{
+		"issues":"https://github.com/BugBuster1701/visitors/issues",
+		"irc":"irc://irc.freenode.org/contao.dev",
+		"source":"https://github.com/BugBuster1701/visitors",
+		"wiki":"http://de.contaowiki.org/Visitors",
+		"forum":"https://community.contao.org/de/forumdisplay.php?28-visitors"
+	},
+	"require":{
+		"php":">=5.3",
+		"contao/core":">=3.1,<4",
+		"contao-community-alliance/composer-plugin": "*",
+		"bugbuster/botdetection":">=3.2.1",
+		"contao-legacy/xls_export":"~3.0"
+	},
+	"autoload":{
+		"classmap":[""]
+	},
+	"replace":{
+		"contao-legacy/visitors":"self.version"
+	},
+	"extra":{
+		"contao":{
+			"sources":{
+				"":"system/modules/visitors"
+			},
+			"transifex": {
+				"project": "contao-visitors",
+				"prefix": "master-",
+				"languages_cto": "languages",
+				"languages_tx": ".tx"
+			},
+			"runonce":[
+				"runonce/runonce.php"
+			]
+		}
+	}
+}

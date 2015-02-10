@@ -1,40 +1,21 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
-
+<?php
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2010 Leo Feyer
+ * Translations are managed using Transifex. To create a new translation
+ * or to help to maintain an existing one, please register at transifex.com.
  *
- * Formerly known as TYPOlight Open Source CMS.
- * 
- * Modul Visitors Sprachdateien
- * 
- * Language file for ModuleVisitorsReferrerDetails (de).
+ * @link http://help.transifex.com/intro/translating.html
+ * @link https://www.transifex.com/projects/p/contao-visitors/language/de/
  *
- * PHP version 5
- * @copyright  Glen Langer 2009..2011 
- * @author     Glen Langer 
- * @package    VisitorsLanguage 
- * @license    LGPL 
- * @filesource
+ * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
+ *
+ * last-updated: 2014-01-23T00:26:57+01:00
  */
 
 
-
-/**
- * Legends
- */
-$GLOBALS['TL_LANG']['tl_visitors_referrer']['details_for'] = 'Details für';
-$GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer'] = 'Besucherherkunft';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['details_for']                = 'Details für';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['no_data']                    = 'Keine Daten vorhanden für diese Parameter.';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['no_referrer']                = 'Aufruf mit nicht genug Parametern!';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['number']                     = 'Anzahl';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer']           = 'Besucherherkunft';
 $GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer_last_seen'] = 'Zuletzt gesehen';
-$GLOBALS['TL_LANG']['tl_visitors_referrer']['number'] = 'Anzahl';
 
-//$GLOBALS['TL_LANG']['MSC']['backToTop']        = 'Nach oben'; 
-
-
-/**
- * Errorlog
- */
-$GLOBALS['TL_LANG']['tl_visitors_referrer']['no_referrer'] = 'Aufruf mit nicht genug Parameter!';
-$GLOBALS['TL_LANG']['tl_visitors_referrer']['no_data']  = 'Keine Daten vorhanden für diese Parameter.';
-
-?>
