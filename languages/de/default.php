@@ -8,7 +8,7 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-08-21T02:04:40+02:00
+ * last-updated: 2015-02-10T23:23:51+01:00
  */
 
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['active']                          = 'Aktiv';
@@ -65,6 +65,7 @@ $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchenginekeywords_top']      
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengines_top']               = 'Suchmaschinen TOP 20';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['select']                          = 'Bitte auswählen';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['startdate']                       = 'Zählung seit';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['startdate_not_defined']           = 'Nicht definiert';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['today']                           = 'Heute';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['total']                           = 'Gesamtzahl';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit']                           = 'Besucher';

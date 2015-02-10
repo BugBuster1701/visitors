@@ -65,6 +65,7 @@ $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchenginekeywords_top'] = 'Se
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengines_top']        = 'Search Engines TOP 20';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['select']                   = 'Please select';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['startdate']                = 'Counting since';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['startdate_not_defined']    = 'Not defined';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['today']                    = 'Today';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['total']                    = 'Total number';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit']                    = 'Visits';
