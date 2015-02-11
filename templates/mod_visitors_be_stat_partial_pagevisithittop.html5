@@ -1,6 +1,6 @@
 <div class="mod_visitors_be_page_visit_hit_top">
 <!-- PageHitTop::start -->
-<table summary="Table lists countings" class="mod_visitors_be_table_330">
+<table summary="Table lists countings" class="mod_visitors_be_table">
 			<tbody>
 			<tr>
 				<td colspan="3"  style="padding-left: 2px; text-align: left;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['page_stat_visithittop']; ?></td>
