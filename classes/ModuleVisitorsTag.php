@@ -652,7 +652,19 @@ class ModuleVisitorsTag extends \Frontend
     	    	}
             } //$objPage->id == 0
             ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID / Lang in Object: '. $objPage->id .' / '.$objPage->language);
-	 	    
+	 	    //TODO #102, bei Readerseite den Beitrags-Alias zählen
+	 	    //1. News
+	 	    //ist die objPage-id eine Readerseite? Suchen in t_news_archiv->jumpTo
+	 	    //ja: Seite zusammensetzen aus Alias-der-Readerseite/Alias-des-Beitrages
+	 	    //    statt news.html also news/james-wilson-returns.html - $pageId/
+	 	    $objReaderPage = \Database::getInstance()
+                                ->prepare("SELECT id FROM tl_news_archive WHERE jumpTo=?")
+                                ->limit(1)
+                                ->executeUncached($objPage->id);
+	 	    if ($objReaderPage->numRows > 0)
+	 	    {
+	 	        //Alias-des-Beitrages finden
+	 	    }
     	    $objPageHitVisit = \Database::getInstance()
                 	               ->prepare("SELECT
                                                 id,
