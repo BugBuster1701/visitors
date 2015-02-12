@@ -131,7 +131,7 @@ o.open = function(url,type){
 	<div class="tl_limit tl_subpanel">
 		<strong><?php echo $this->visitorsstatkat; ?>:</strong>
 		<input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
-		<select onchange="this.form.submit()" class="tl_select" name="id" style="width:200px;">
+		<select onchange="this.form.submit()" class="tl_select" name="id">
 <?php foreach ($this->visitorskats as $visitorskat): ?>
   <?php if ($visitorskat['id']==$this->visitorskatid) : ?>
 		    <option selected="selected" value="<?php echo $visitorskat['id']; ?>"><?php echo $visitorskat['title']; ?></option>
