@@ -232,6 +232,18 @@ class VisitorsRunonceJob extends Controller
                                                   ")
                                         ->execute('%baixar-musicas-gratis.com');
 		}
+		//Neues Feld ab 3.5.0
+        if (    $this->Database->fieldExists('visitors_page_id'  , 'tl_visitors_pages')
+            && !$this->Database->fieldExists('visitors_page_type', 'tl_visitors_pages') 
+			)
+		{
+		    $this->Database->execute("ALTER TABLE `tl_visitors_pages` ADD `visitors_page_type` tinyint(3) UNSIGNED NOT NULL default '0'");
+		    $this->Database->execute("ALTER TABLE `tl_visitors_pages` 
+                                      DROP KEY `vid_visitors_page_date_visitors_page_id`,
+                                      ADD KEY `vid_visitors_page_date_visitors_page_id_visitors_page_type`
+                                      (`vid`,`visitors_page_date`,`visitors_page_id`,`visitors_page_type`)
+		                             ");
+		}
 		
 	} //function run
 } // class

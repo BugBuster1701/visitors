@@ -652,18 +652,37 @@ class ModuleVisitorsTag extends \Frontend
     	    	}
             } //$objPage->id == 0
             ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID / Lang in Object: '. $objPage->id .' / '.$objPage->language);
+
 	 	    //TODO #102, bei Readerseite den Beitrags-Alias zählen
-	 	    //1. News
-	 	    //ist die objPage-id eine Readerseite? Suchen in t_news_archiv->jumpTo
-	 	    //ja: Seite zusammensetzen aus Alias-der-Readerseite/Alias-des-Beitrages
-	 	    //    statt news.html also news/james-wilson-returns.html - $pageId/
+	 	    //0 = reale Seite
+            //1 = Nachrichten/News
+            //2 = FAQ
+	 	    $visitors_page_type = 0;
+	 	    
+	 	    //News Reader?
 	 	    $objReaderPage = \Database::getInstance()
                                 ->prepare("SELECT id FROM tl_news_archive WHERE jumpTo=?")
                                 ->limit(1)
                                 ->executeUncached($objPage->id);
 	 	    if ($objReaderPage->numRows > 0)
 	 	    {
-	 	        //Alias-des-Beitrages finden
+	 	        //News Reader
+	 	        $visitors_page_type = 1;
+	 	        //TODO id des Beitrags ermitteln und $objPage->id überschreiben
+	 	    }
+	 	    else 
+	 	    {
+    	 	    //FAQ Reader?
+    	 	    $objReaderPage = \Database::getInstance()
+                                    ->prepare("SELECT id FROM tl_faq_category WHERE jumpTo=?")
+                                    ->limit(1)
+                                    ->executeUncached($objPage->id);
+    	 	    if ($objReaderPage->numRows > 0)
+    	 	    {
+    	 	        //FAQ Reader
+    	 	        $visitors_page_type = 2;
+    	 	        //TODO id des Beitrags ermitteln und $objPage->id überschreiben
+    	 	    }
 	 	    }
     	    $objPageHitVisit = \Database::getInstance()
                 	               ->prepare("SELECT
@@ -680,8 +699,10 @@ class ModuleVisitorsTag extends \Frontend
                                                 visitors_page_id = ?
                                             AND
                                                 visitors_page_lang = ?
+                                            AND
+                                                visitors_page_type = ?
                                             ")
-                                    ->executeUncached($CURDATE, $vid, $objPage->id, $objPage->language);
+                                    ->executeUncached($CURDATE, $vid, $objPage->id, $objPage->language, $visitors_page_type);
     	    //TODO eventuell $GLOBALS['TL_LANGUAGE']
     	    //     oder      $objPage->rootLanguage; // Sprache der Root-Seite
     	    if ($objPageHitVisit->numRows < 1)
@@ -694,6 +715,7 @@ class ModuleVisitorsTag extends \Frontend
         	            'vid'                 => $vid,
         	            'visitors_page_date'  => $CURDATE,
         	            'visitors_page_id'    => $objPage->id,
+        	            'visitors_page_type'  => $visitors_page_type,
         	            'visitors_page_visit' => 1,
         	            'visitors_page_hit'   => 1,
         	            'visitors_page_lang'  => $objPage->language
