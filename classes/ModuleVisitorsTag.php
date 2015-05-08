@@ -1050,7 +1050,7 @@ class ModuleVisitorsTag extends \Frontend
         if (substr($uri,-strlen($GLOBALS['TL_CONFIG']['urlSuffix'])) == $GLOBALS['TL_CONFIG']['urlSuffix'])
         {
             //Alias nehmen
-            $alias = substr($uri,strlen($PageAlias)+2,-strlen($GLOBALS['TL_CONFIG']['urlSuffix']));
+            $alias = substr($uri,strrpos($uri,'/')+1,-strlen($GLOBALS['TL_CONFIG']['urlSuffix']));
             if (false === $alias) 
             {
                 ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdReaderSelf: '. $PageId);
@@ -1062,7 +1062,8 @@ class ModuleVisitorsTag extends \Frontend
             ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNoSuffix: '. $PageId);
             return $PageId; // kein Suffix, Pech für die Kuh
         }
-	        
+        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Alias: '. $alias);
+        
         if ($PageType == self::PAGE_TYPE_NEWS)
         {
             //alias = james-wilson-returns
@@ -1072,7 +1073,7 @@ class ModuleVisitorsTag extends \Frontend
                             ->executeUncached($alias);
             if ($objNews->numRows > 0)
             {
-                ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNews: '. $PageId);
+                ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNews: '. $objNews->id);
                 return $objNews->id;
             } 
 	        
@@ -1086,10 +1087,11 @@ class ModuleVisitorsTag extends \Frontend
                             ->executeUncached($alias);
 	        if ($objFaq->numRows > 0)
 	        {
-	            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdFaq: '. $PageId);
+	            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdFaq: '. $objFaq->id);
 	            return $objFaq->id;
 	        }
 	    }
+	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Unknown PageType: '. $PageType);
 	}
 	
 	
