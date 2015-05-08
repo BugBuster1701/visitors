@@ -41,6 +41,10 @@ class ModuleVisitorsTag extends \Frontend
 	
 	private $_HitCounted   = false;
 	
+	const PAGE_TYPE_NORMAL = 0;    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
+	const PAGE_TYPE_NEWS   = 1;    //1 = Nachrichten/News
+	const PAGE_TYPE_FAQ    = 2;    //2 = FAQ
+
 	/**
 	 * replaceInsertTags
 	 * 
@@ -653,37 +657,14 @@ class ModuleVisitorsTag extends \Frontend
             } //$objPage->id == 0
             ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID / Lang in Object: '. $objPage->id .' / '.$objPage->language);
 
-	 	    //TODO #102, bei Readerseite den Beitrags-Alias zählen
-	 	    //0 = reale Seite
+	 	    //#102, bei Readerseite den Beitrags-Alias zählen (Parameter vorhanden)
+	 	    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
             //1 = Nachrichten/News
             //2 = FAQ
-	 	    $visitors_page_type = 0;
-	 	    
-	 	    //News Reader?
-	 	    $objReaderPage = \Database::getInstance()
-                                ->prepare("SELECT id FROM tl_news_archive WHERE jumpTo=?")
-                                ->limit(1)
-                                ->executeUncached($objPage->id);
-	 	    if ($objReaderPage->numRows > 0)
-	 	    {
-	 	        //News Reader
-	 	        $visitors_page_type = 1;
-	 	        //TODO id des Beitrags ermitteln und $objPage->id überschreiben
-	 	    }
-	 	    else 
-	 	    {
-    	 	    //FAQ Reader?
-    	 	    $objReaderPage = \Database::getInstance()
-                                    ->prepare("SELECT id FROM tl_faq_category WHERE jumpTo=?")
-                                    ->limit(1)
-                                    ->executeUncached($objPage->id);
-    	 	    if ($objReaderPage->numRows > 0)
-    	 	    {
-    	 	        //FAQ Reader
-    	 	        $visitors_page_type = 2;
-    	 	        //TODO id des Beitrags ermitteln und $objPage->id überschreiben
-    	 	    }
-	 	    }
+	 	    $visitors_page_type = $this->visitorGetPageType($objPage->id);
+	 	    //bei News/FAQ id des Beitrags ermitteln und $objPage->id überschreiben
+	 	    $objPage->id = $this->visitorGetPageIdByType($objPage->id, $visitors_page_type, $objPage->alias);
+
     	    $objPageHitVisit = \Database::getInstance()
                 	               ->prepare("SELECT
                                                 id,
@@ -1016,6 +997,101 @@ class ModuleVisitorsTag extends \Frontend
 	{
 	    return !filter_var($UserIP, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 	}
+	
+	protected function visitorGetPageType($PageId)
+	{
+	    //Return:
+	    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
+	    //1 = Nachrichten/News
+	    //2 = FAQ
+        
+	    $page_type = self::PAGE_TYPE_NORMAL;
+	    
+	    //News Reader?
+	    $objReaderPage = \Database::getInstance()
+                            ->prepare("SELECT id FROM tl_news_archive WHERE jumpTo=?")
+                            ->limit(1)
+                            ->executeUncached($PageId);
+	    if ($objReaderPage->numRows > 0)
+	    {
+	        //News Reader
+	        $page_type = self::PAGE_TYPE_NEWS;
+	    }
+	    else
+	    {
+	        //FAQ Reader?
+	        $objReaderPage = \Database::getInstance()
+                                ->prepare("SELECT id FROM tl_faq_category WHERE jumpTo=?")
+                                ->limit(1)
+                                ->executeUncached($PageId);
+	        if ($objReaderPage->numRows > 0)
+	        {
+	            //FAQ Reader
+	            $page_type = self::PAGE_TYPE_FAQ;
+	        }
+	    }
+	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageType: '. $page_type);
+	    return $page_type;
+	}
+	
+	protected function visitorGetPageIdByType($PageId,$PageType,$PageAlias)
+	{
+	    if ($PageType == self::PAGE_TYPE_NORMAL) 
+	    {
+	        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNormal: '. $PageId);
+	    	return $PageId;
+	    }
+	    
+        //Reader mit Parameter oder ohne?
+        $uri = $_SERVER['REQUEST_URI']; // /news/james-wilson-returns.html
+        $alias = '';
+        //steht suffix (html) am Ende?
+        //Default: GLOBALS['TL_CONFIG']['urlSuffix'] = '.html';
+        if (substr($uri,-strlen($GLOBALS['TL_CONFIG']['urlSuffix'])) == $GLOBALS['TL_CONFIG']['urlSuffix'])
+        {
+            //Alias nehmen
+            $alias = substr($uri,strlen($PageAlias)+2,-strlen($GLOBALS['TL_CONFIG']['urlSuffix']));
+            if (false === $alias) 
+            {
+                ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdReaderSelf: '. $PageId);
+            	return $PageId; // kein Parameter, Readerseite selbst
+            }
+        }
+        else 
+        {
+            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNoSuffix: '. $PageId);
+            return $PageId; // kein Suffix, Pech für die Kuh
+        }
+	        
+        if ($PageType == self::PAGE_TYPE_NEWS)
+        {
+            //alias = james-wilson-returns
+            $objNews = \Database::getInstance()
+                            ->prepare("SELECT id FROM tl_news WHERE alias=?")
+                            ->limit(1)
+                            ->executeUncached($alias);
+            if ($objNews->numRows > 0)
+            {
+                ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNews: '. $PageId);
+                return $objNews->id;
+            } 
+	        
+	    }
+	    if ($PageType == self::PAGE_TYPE_FAQ)
+	    {
+	        //alias = are-there-exams-how-do-they-work
+	        $objFaq = \Database::getInstance()
+                            ->prepare("SELECT id FROM tl_faq WHERE alias=?")
+                            ->limit(1)
+                            ->executeUncached($alias);
+	        if ($objFaq->numRows > 0)
+	        {
+	            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdFaq: '. $PageId);
+	            return $objFaq->id;
+	        }
+	    }
+	}
+	
 	
 } // class
 
