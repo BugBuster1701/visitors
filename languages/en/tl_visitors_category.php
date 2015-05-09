@@ -37,4 +37,10 @@ $GLOBALS['TL_LANG']['tl_visitors_category']['tstamp']['0']              = 'Revis
 $GLOBALS['TL_LANG']['tl_visitors_category']['tstamp']['1']              = 'Date and time of latest revision';
 $GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']['0'] = 'Counting mode';
 $GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']['1'] = 'Counting method when pages are cached.';
-
+$GLOBALS['TL_LANG']['tl_visitors_category']['protected_stat_legend']      = 'Access protection for the statistic';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_protected']['0'] = 'Protect the statistic';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_protected']['1'] = 'Show the visitor statistic for this category to certain user groups only.';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_groups']['0']    = 'Allowed user groups';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_groups']['1']    = 'Here you can choose which groups will be allowed to see the visitor statistic of this category.';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_admins']['0']    = 'Administrators';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_admins']['1']    = 'Administrators have unlimited access to all visitor statistics.';
