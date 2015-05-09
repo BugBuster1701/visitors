@@ -37,6 +37,10 @@ class ModuleVisitorStatPageCounter extends \BackendModule
     protected $today;
     protected $yesterday;
     
+    const PAGE_TYPE_NORMAL = 0;    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
+    const PAGE_TYPE_NEWS   = 1;    //1 = Nachrichten/News
+    const PAGE_TYPE_FAQ    = 2;    //2 = FAQ
+    
     /**
      * Constructor
      */
@@ -80,6 +84,7 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                         ->prepare("SELECT 
                                         visitors_page_id,
                                         visitors_page_lang,
+                                        visitors_page_type,
                                         SUM(visitors_page_visit) AS visitors_page_visits,
                                         SUM(visitors_page_hit)   AS visitors_page_hits
                                     FROM
@@ -88,7 +93,8 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                                         vid = ?
                                     GROUP BY 
                                         visitors_page_id, 
-                                        visitors_page_lang
+                                        visitors_page_lang,
+                                        visitors_page_type
                                     ORDER BY 
                                         visitors_page_visits DESC,
                                         visitors_page_hits DESC,
@@ -100,10 +106,28 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         
         while ($objPageStatCount->next())
         {
-            $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+            switch ($objPageStatCount->visitors_page_type) 
+            {
+            	case self::PAGE_TYPE_NORMAL :
+                    $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+                    $alias = $objPage->alias;
+                	break;
+            	case self::PAGE_TYPE_NEWS :
+            	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
+            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    break;
+        	    case self::PAGE_TYPE_FAQ :
+        	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
+        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        break;
+            	default:
+            		$alias = '-/-';
+            	break;
+            }
+            
             $arrPageStatCount[] = array
             (
-                'alias'         => $objPage->alias,
+                'alias'         => $alias,
                 'lang'          => $objPageStatCount->visitors_page_lang,
                 'visits'        => $objPageStatCount->visitors_page_visits,
                 'hits'          => $objPageStatCount->visitors_page_hits
@@ -124,6 +148,7 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                         ->prepare("SELECT
                                         visitors_page_id,
                                         visitors_page_lang,
+                                        visitors_page_type,
                                         SUM(visitors_page_visit) AS visitors_page_visits,
                                         SUM(visitors_page_hit)   AS visitors_page_hits
                                     FROM
@@ -134,7 +159,8 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                                         visitors_page_date = ?
                                     GROUP BY
                                         visitors_page_id,
-                                        visitors_page_lang
+                                        visitors_page_lang,
+                                        visitors_page_type
                                     ORDER BY
                                         visitors_page_visits DESC,
                                         visitors_page_hits DESC,
@@ -146,10 +172,28 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         
         while ($objPageStatCount->next())
         {
-            $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+            switch ($objPageStatCount->visitors_page_type) 
+            {
+            	case self::PAGE_TYPE_NORMAL :
+                    $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+                    $alias = $objPage->alias;
+                	break;
+            	case self::PAGE_TYPE_NEWS :
+            	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
+            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    break;
+        	    case self::PAGE_TYPE_FAQ :
+        	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
+        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        break;
+            	default:
+            		$alias = '-/-';
+            	break;
+            }
+            
             $arrPageStatCount[] = array
             (
-                'alias'         => $objPage->alias,
+                'alias'         => $alias,
                 'lang'          => $objPageStatCount->visitors_page_lang,
                 'visits'        => $objPageStatCount->visitors_page_visits,
                 'hits'          => $objPageStatCount->visitors_page_hits
@@ -171,6 +215,7 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                         ->prepare("SELECT
                                         visitors_page_id,
                                         visitors_page_lang,
+                                        visitors_page_type,
                                         SUM(visitors_page_visit) AS visitors_page_visits,
                                         SUM(visitors_page_hit)   AS visitors_page_hits
                                     FROM
@@ -181,7 +226,8 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                                         visitors_page_date = ?
                                     GROUP BY
                                         visitors_page_id,
-                                        visitors_page_lang
+                                        visitors_page_lang,
+                                        visitors_page_type
                                     ORDER BY
                                         visitors_page_visits DESC,
                                         visitors_page_hits DESC,
@@ -193,10 +239,28 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         
         while ($objPageStatCount->next())
         {
-            $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+            switch ($objPageStatCount->visitors_page_type) 
+            {
+            	case self::PAGE_TYPE_NORMAL :
+                    $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+                    $alias = $objPage->alias;
+                	break;
+            	case self::PAGE_TYPE_NEWS :
+            	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
+            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    break;
+        	    case self::PAGE_TYPE_FAQ :
+        	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
+        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        break;
+            	default:
+            		$alias = '-/-';
+            	break;
+            }
+            
             $arrPageStatCount[] = array
             (
-                'alias'         => $objPage->alias,
+                'alias'         => $alias,
                 'lang'          => $objPageStatCount->visitors_page_lang,
                 'visits'        => $objPageStatCount->visitors_page_visits,
                 'hits'          => $objPageStatCount->visitors_page_hits
@@ -219,6 +283,7 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                         ->prepare("SELECT
                                         visitors_page_id,
                                         visitors_page_lang,
+                                        visitors_page_type,
                                         SUM(visitors_page_visit) AS visitors_page_visits,
                                         SUM(visitors_page_hit)   AS visitors_page_hits
                                     FROM
@@ -229,7 +294,8 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                                         visitors_page_date >= ?
                                     GROUP BY
                                         visitors_page_id,
-                                        visitors_page_lang
+                                        visitors_page_lang,
+                                        visitors_page_type
                                     ORDER BY
                                         visitors_page_visits DESC,
                                         visitors_page_hits DESC,
@@ -241,10 +307,28 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         
         while ($objPageStatCount->next())
         {
-            $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+            switch ($objPageStatCount->visitors_page_type) 
+            {
+            	case self::PAGE_TYPE_NORMAL :
+                    $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+                    $alias = $objPage->alias;
+                	break;
+            	case self::PAGE_TYPE_NEWS :
+            	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
+            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    break;
+        	    case self::PAGE_TYPE_FAQ :
+        	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
+        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        break;
+            	default:
+            		$alias = '-/-';
+            	break;
+            }
+            
             $arrPageStatCount[] = array
             (
-                'alias'         => $objPage->alias,
+                'alias'         => $alias,
                 'lang'          => $objPageStatCount->visitors_page_lang,
                 'visits'        => $objPageStatCount->visitors_page_visits,
                 'hits'          => $objPageStatCount->visitors_page_hits
@@ -256,6 +340,54 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         return $this->TemplatePartial->parse();
     }
     
+    
+    public function getNewsAliases($visitors_page_id)
+    {
+        $objNewsAliases = \Database::getInstance()
+                            ->prepare("SELECT 
+                                            tl_page.alias AS 'PageAlias', 
+                                            tl_news.alias AS 'NewsAlias'
+                                        FROM
+                                            tl_page
+                                        INNER JOIN
+                                            tl_news_archive ON tl_news_archive.jumpTo = tl_page.id
+                                        INNER JOIN
+                                            tl_news ON tl_news.pid = tl_news_archive.id
+                                        WHERE
+                                            tl_news.id = ?
+                                        ")
+                            ->limit(1)
+                            ->execute($visitors_page_id);
+        while ($objNewsAliases->next())
+        {
+            return array('PageAlias' => $objNewsAliases->PageAlias, 
+                         'NewsAlias' => $objNewsAliases->NewsAlias);
+        }
+    }
+    
+    public function getFaqAliases($visitors_page_id)
+    {
+        $objFaqAliases = \Database::getInstance()
+                            ->prepare("SELECT
+                                            tl_page.alias AS 'PageAlias',
+                                            tl_faq.alias AS 'FaqAlias'
+                                        FROM
+                                            tl_page
+                                        INNER JOIN
+                                            tl_faq_category ON tl_faq_category.jumpTo = tl_page.id
+                                        INNER JOIN
+                                            tl_faq ON tl_faq.pid = tl_faq_category.id
+                                        WHERE
+                                            tl_faq.id = ?
+                                        ")
+                            ->limit(1)
+                            ->execute($visitors_page_id);
+        while ($objFaqAliases->next())
+        {
+            return array('PageAlias' => $objFaqAliases->PageAlias,
+                         'FaqAlias'  => $objFaqAliases->FaqAlias);
+        }
+    }
     
     
     

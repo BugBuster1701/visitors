@@ -998,6 +998,12 @@ class ModuleVisitorsTag extends \Frontend
 	    return !filter_var($UserIP, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 	}
 	
+	/**
+	 * Get Page-Type
+	 * 
+	 * @param integer $PageId
+	 * @return integer     0 = reale Seite, 1 = News, 2 = FAQ
+	 */
 	protected function visitorGetPageType($PageId)
 	{
 	    //Return:
@@ -1034,6 +1040,14 @@ class ModuleVisitorsTag extends \Frontend
 	    return $page_type;
 	}
 	
+	/**
+	 * Get Page-ID by Page-Type
+	 * 
+	 * @param integer $PageId
+	 * @param integer $PageType
+	 * @param string  $PageAlias
+	 * @return integer 
+	 */
 	protected function visitorGetPageIdByType($PageId,$PageType,$PageAlias)
 	{
 	    if ($PageType == self::PAGE_TYPE_NORMAL) 
