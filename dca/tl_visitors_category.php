@@ -110,15 +110,15 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 	// Palettes
 	'palettes' => array
 	(
-		//'__selector__'                => array(''),
-		'default'                     => '{title_legend},title;{cache_legend:hide},visitors_cache_mode'
+		'__selector__'                => array('visitors_stat_protected'),
+		'default'                     => '{title_legend},title;{cache_legend:hide},visitors_cache_mode;{protected_stat_legend:hide},visitors_stat_protected'
 	),
 
 	// Subpalettes
-	/**'subpalettes' => array
+	'subpalettes' => array
 	(
-		''                            => ''
-	),**/
+		'visitors_stat_protected'      => 'visitors_stat_groups,visitors_stat_admins'
+	),
 
 	// Fields
 	'fields' => array
@@ -150,6 +150,34 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 			'reference'               => &$GLOBALS['TL_LANG']['tl_visitors_category'],
 			'sql'                     => "tinyint(3) unsigned NOT NULL default '1'",
 			'eval'                    => array('mandatory'=>true)
+		),
+		'visitors_stat_protected'       => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_protected'],
+			'exclude'                 => true,
+			'filter'                  => true,
+			'inputType'               => 'checkbox',
+			'sql'                     => "char(1) NOT NULL default ''",
+			'eval'                    => array('submitOnChange'=>true)
+		),
+		'visitors_stat_groups'          => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_groups'],
+			'exclude'                 => true,
+			'inputType'               => 'checkbox',
+			'foreignKey'              => 'tl_user_group.name',
+			'sql'                     => "varchar(255) NOT NULL default ''",
+			'eval'                    => array('multiple'=>true)
+		),
+		'visitors_stat_admins' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_admins'],
+	        'inputType'               => 'checkbox',
+			'eval'                    => array('disabled'=>true),
+			'load_callback' => array
+			(
+			    array('BugBuster\Visitors\DCA_visitors_category', 'getAdminCheckbox')
+			)
 		)
 	)
 );

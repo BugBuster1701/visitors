@@ -45,6 +45,7 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	public function __construct()
 	{
+	    $this->import('BackendUser', 'User');
 	    parent::__construct();
 	    
 	    if (\Input::get('act',true)=='zero') 
@@ -72,6 +73,8 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	protected function compile()
 	{
+	    $intCatIdAllowed = false;
+	    /*
 	    if ($this->intKatID == 0) //direkter Aufruf ohne ID 
 	    { 
 	        $objVisitorsKatID = \Database::getInstance()
@@ -89,18 +92,45 @@ class ModuleVisitorStat extends \BackendModule
     	    {
     	        $this->intKatID = $objVisitorsKatID->ANZ;
     	    }
+	    }*/
+	    
+	    //alle Kategorien holen die der User sehen darf
+	    $arrVisitorCategories = $this->getVisitorCategoriesByUsergroups();
+	    // no categories : array('id' => '0', 'title' => '---------');
+	    // empty array   : array('id' => '0', 'title' => '---------');
+	    // array[0..n]   : array(0, array('id' => '1', ....), 1, ....)
+	    
+	    if ($this->intKatID == 0) //direkter Aufruf ohne ID
+	    {
+	        $this->intKatID = $this->getCatIdByCategories($arrVisitorCategories);
 	    }
+	    else
+        {
+            // ID des Aufrufes erlaubt?
+            foreach ($arrVisitorCategories as $value)
+            {
+                if ($this->intKatID == $value['id'])
+                {
+                    $intCatIdAllowed = true;
+                }
+            }
+            if ( false === $intCatIdAllowed )
+            {
+            	$this->intKatID = $this->getCatIdByCategories($arrVisitorCategories);
+            }
+	    }
+	    
 		// Alle Zähler je Kat holen, die Aktiven zuerst
 		$objVisitorsX = \Database::getInstance()
-		        ->prepare("SELECT 
-                                id 
-                            FROM 
-                                tl_visitors 
-                            WHERE 
-                                pid=? 
-                            ORDER BY 
-                                published DESC,id")
-                ->execute($this->intKatID);
+            		        ->prepare("SELECT 
+                                            id 
+                                        FROM 
+                                            tl_visitors 
+                                        WHERE 
+                                            pid=? 
+                                        ORDER BY 
+                                            published DESC,id")
+                            ->execute($this->intKatID);
 		$intRowsX = $objVisitorsX->numRows;
 		$intAnzCounter=0;
 		if ($intRowsX>0) 
@@ -258,7 +288,7 @@ class ModuleVisitorStat extends \BackendModule
                 'title' => '---------'
 		    );
 		}
-		$this->Template->visitorskats          = $arrVisitorsKats;
+		$this->Template->visitorskats          = $arrVisitorCategories;//$arrVisitorsKats;
 		$this->Template->visitorskatid         = $this->intKatID;
 		$this->Template->visitorsstatkat       = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['kat'];
 		$this->Template->visitors_export_title = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['export_button_title'];
@@ -1251,6 +1281,90 @@ class ModuleVisitorStat extends \BackendModule
 					 'VisitorsBadDayVisits' => $visitors_visits,
 					 'VisitorsBadDayHits'   => $visitors_hits
 					);
+	}
+	
+	/**
+	 * Get first category id by arrVisitorCategories
+	 *
+	 * @param   array   $arrVisitorCategories
+	 * @return  number  CatID
+	 */
+	protected function getCatIdByCategories($arrVisitorCategories)
+	{
+	    $arrFirstCat = array_shift($arrVisitorCategories);
+	    return $arrFirstCat['id'];
+	}
+	
+	/**
+	 * Get visitor categories by usergroups
+	 *
+	 * @param array $Usergroups
+	 * @return array
+	 */
+	protected function getVisitorCategoriesByUsergroups()
+	{
+	    $arrVisitorCats = array();
+	    $objVisitorCat = \Database::getInstance()
+                            ->prepare("SELECT
+                                            `id`
+                                          , `title`
+                                          , `visitors_stat_groups`
+                                       FROM
+                                            tl_visitors_category
+                                        WHERE 1
+                                        ORDER BY
+                                            title
+                                        ")
+                            ->execute();
+	    while ($objVisitorCat->next())
+	    {
+	        if ( true === $this->isUserInVisitorStatGroups($objVisitorCat->visitors_stat_groups) )
+	        {
+	            $arrVisitorCats[] = array
+	            (
+	                'id'    => $objVisitorCat->id,
+	                'title' => $objVisitorCat->title
+	            );
+	        }
+	    }
+	
+	    if (0 == count($arrVisitorCats))
+	    {
+	        $arrVisitorCats[] = array('id' => '0', 'title' => '---------');
+	    }
+	    return $arrVisitorCats;
+	}
+	
+	/**
+	 * Check if User member of group in visitor statistik groups
+	 *
+	 * @param   string  DB Field "visitors_stat_groups", serialized array
+	 * @return  bool    true / false
+	 */
+	protected function isUserInVisitorStatGroups($visitors_stat_groups)
+	{
+	    if ( true === $this->User->isAdmin )
+	    {
+	        //Debug log_message('Ich bin Admin', 'visitors_debug.log');
+	        return true; // Admin darf immer
+	    }
+	    if (0 == strlen($visitors_stat_groups))
+	    {
+	        //Debug log_message('visitor_stat_groups ist leer', 'visitors_debug.log');
+	        return false; // nicht gefiltert, also darf keiner außer Admin
+	    }
+	     
+	    //mit isMemberOf ermitteln, ob user Member einer der Cat Groups ist
+	    foreach (deserialize($visitors_stat_groups) as $id => $groupid)
+	    {
+	        if ( true === $this->User->isMemberOf($groupid) )
+	        {
+	            //Debug log_message('Ich bin in der richtigen Gruppe', 'visitors_debug.log');
+	            return true; // User is Member of visitor_stat_group
+	        }
+	    }
+	    //Debug log_message('Ich bin in der falschen Gruppe', 'visitors_debug.log');
+	    return false;
 	}
 	
 }
