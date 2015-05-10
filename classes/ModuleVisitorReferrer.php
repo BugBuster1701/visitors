@@ -36,8 +36,6 @@ class ModuleVisitorReferrer	extends \System
 	
     private $_http_referrer = '';
     
-    private $_parse_result = '';
-    
     private $_referrer_DNS  = '';
     
     private $_vhost        = '';
