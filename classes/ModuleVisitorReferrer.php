@@ -129,7 +129,7 @@ class ModuleVisitorReferrer	extends \System
 	        if ( substr($this->_referrer_DNS, 0,3)  == '127'
 	            || trim($this->_referrer_DNS, '[]') == '::1' ) 
 	        {
-	            //log_message('detect: loopback True','debug.log');
+	            //Debug log_message('detect: loopback True','debug.log');
 	            $this->_wrong_detail = 'Referrer DNS was loopback IP: '.$this->_referrer_DNS;
 	            $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was loopback IP
 	            return ;
@@ -144,7 +144,7 @@ class ModuleVisitorReferrer	extends \System
     	    //Kill external local domain (Github #63)
     	    if ( strpos($this->_referrer_DNS, '.') === false )
     	    {
-    	        //log_message('detect: Domain (not dot in Host) True','debug.log');
+    	        //Debug log_message('detect: Domain (not dot in Host) True','debug.log');
     	        $this->_wrong_detail = 'Referrer DNS was local (not domain): '.$this->_referrer_DNS;
     	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was local (not domain)
     	        return ;
@@ -180,7 +180,7 @@ class ModuleVisitorReferrer	extends \System
 	    //Kill fake domain (local.lan, planet.ufp, ....)
 	    if ( $this->ModuleVisitorChecks->isDomain($this->_referrer_DNS) === false )
 	    {
-	        //log_message('detect: Domain (not valid Domain) True','debug.log');
+	        //Debug log_message('detect: Domain (not valid Domain) True','debug.log');
 	        $this->_wrong_detail = 'Referrer DNS was not a valid Domain: '.$this->_referrer_DNS;
 	        $this->_referrer_DNS = self::REFERRER_WRONG; // Referrer was not a valid Domain
 	        return ;

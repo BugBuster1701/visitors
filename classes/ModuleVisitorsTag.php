@@ -131,7 +131,7 @@ class ModuleVisitorsTag extends \Frontend
 			    	$this->visitorCheckReferrer($objVisitors->id);
 			    }
 			}
-			//log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
+			//Debug log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
 			if ($GLOBALS['TL_CONFIG']['cacheMode'] === 'server' 
 			 || $GLOBALS['TL_CONFIG']['cacheMode'] === 'none'
 			 || $objVisitors->visitors_cache_mode == 1) 
@@ -409,7 +409,7 @@ class ModuleVisitorsTag extends \Frontend
 	    	$this->_PF = true; // Bad but functionally
 	    	return ; //User Agent Filterung
 	    }
-	    //log_message("visitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
+	    //Debug log_message("visitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
 	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->visitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
 	    $BlockTime = ($BlockTime == '') ? 1800 : $BlockTime; //Sekunden
 	    $CURDATE = date('Y-m-d');
@@ -776,9 +776,9 @@ class ModuleVisitorsTag extends \Frontend
 				    {
 				    	$arrBrowser['Platform'] = 'Unknown';
 				    }
-				    //if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == 'unknown' ) {
-				    //	log_message("Unbekannter User Agent: ".$this->Environment->httpUserAgent."", 'unknown.log');
-				    //}
+				    //Debug if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == 'unknown' ) {
+				    //Debug 	log_message("Unbekannter User Agent: ".$this->Environment->httpUserAgent."", 'unknown.log');
+				    //Debug }
 				    $objBrowserCounter = \Database::getInstance()
 				            ->prepare("SELECT 
                                             id,
@@ -825,8 +825,6 @@ class ModuleVisitorsTag extends \Frontend
 	
 	protected function visitorCheckSearchEngine($vid)
 	{
-		//$SearchEngine = 'unknown';
-		//$Keywords     = 'unknown';
 		$ModuleVisitorSearchEngine = new \Visitors\ModuleVisitorSearchEngine();
 		$ModuleVisitorSearchEngine->checkEngines();
 		$SearchEngine = $ModuleVisitorSearchEngine->getEngine();
@@ -855,7 +853,7 @@ class ModuleVisitorsTag extends \Frontend
                         ->execute($CleanTime,$vid);
 			} //keywords
 		} //searchengine
-		//log_message('visitorCheckSearchEngine $SearchEngine: ' . $SearchEngine,'debug.log');
+		//Debug log_message('visitorCheckSearchEngine $SearchEngine: ' . $SearchEngine,'debug.log');
 	} //visitorCheckSearchEngine
 	
 	/**
@@ -873,8 +871,8 @@ class ModuleVisitorsTag extends \Frontend
 				$ModuleVisitorReferrer->checkReferrer();
 				$ReferrerDNS = $ModuleVisitorReferrer->getReferrerDNS();
 				$ReferrerFull= $ModuleVisitorReferrer->getReferrerFull();
-				//log_message('visitorCheckReferrer $ReferrerDNS:'.print_r($ReferrerDNS,true), 'debug.log');
-				//log_message('visitorCheckReferrer Host:'.print_r($this->ModuleVisitorReferrer->getHost(),true), 'debug.log');
+				//Debug log_message('visitorCheckReferrer $ReferrerDNS:'.print_r($ReferrerDNS,true), 'debug.log');
+				//Debug log_message('visitorCheckReferrer Host:'.print_r($this->ModuleVisitorReferrer->getHost(),true), 'debug.log');
 				if ($ReferrerDNS != 'o' && $ReferrerDNS != 'w') 
 				{ 	// not the own, not wrong
 					// Insert
@@ -886,7 +884,7 @@ class ModuleVisitorsTag extends \Frontend
 			            'visitors_referrer_full'=> $ReferrerFull
 			        );
 			        //Referrer setzen
-			    	//log_message('visitorCheckReferrer Referrer setzen', 'debug.log');
+			    	//Debug log_message('visitorCheckReferrer Referrer setzen', 'debug.log');
 			        \Database::getInstance()
 			                ->prepare("INSERT INTO tl_visitors_referrer %s")
                             ->set($arrSet)

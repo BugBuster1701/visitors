@@ -47,7 +47,7 @@ class DcaVisitors extends \Backend
         }
         $output = '<div class="cte_type ' . $key . '"><strong>' . $arrRow['visitors_name'] . '</strong></div>' ;
         $output.= '<div>'.$GLOBALS['TL_LANG']['tl_visitors']['visitors_startdate'][0].': ' . $startdate . '</div>';
-        //$output.= '<div>'.print_r($arrRow,true).'</div>';
+        //Debug $output.= '<div>'.print_r($arrRow,true).'</div>';
         return $output;
     }
     

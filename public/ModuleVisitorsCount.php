@@ -108,7 +108,7 @@ class ModuleVisitorsCount extends \Frontend
 		{
 			$this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_count_katid'], 'ModulVisitorsCount '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 		}
-		//log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
+		//Debug log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
 		//Pixel und raus hier
 		header('Cache-Control: no-cache');
 		header('Content-type: image/gif');
@@ -126,16 +126,16 @@ class ModuleVisitorsCount extends \Frontend
 		if ($ModuleVisitorChecks->checkBot() === true) 
 		{
 			$this->_BOT = true;
-			//log_message("visitorCountUpdate BOT=true","debug.log");
+			//Debug log_message("visitorCountUpdate BOT=true","debug.log");
 	    	return; //Bot / IP gefunden, wird nicht gezaehlt
 	    }
 	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) === true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
-	    	//log_message("visitorCountUpdate UserAgent=true","debug.log");
+	    	//Debug log_message("visitorCountUpdate UserAgent=true","debug.log");
 	    	return ; //User Agent Filterung
 	    }
-	    //log_message("visitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
+	    //Debug log_message("visitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
 	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->visitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
 	    $BlockTime = ($BlockTime == '') ? 1800 : $BlockTime; //Sekunden
 	    $CURDATE = date('Y-m-d');
@@ -332,9 +332,9 @@ class ModuleVisitorsCount extends \Frontend
 				    {
 				    	$arrBrowser['Platform'] = 'Unknown';
 				    }
-				    //if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == '0' ) {
-				    //	log_message("Unbekannter User Agent: ".$this->Environment->httpUserAgent."", 'unknown.log');
-				    //}
+				    //Debug if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == '0' ) {
+				    //Debug log_message("Unbekannter User Agent: ".$this->Environment->httpUserAgent."", 'unknown.log');
+				    //Debug }
 				    $objBrowserCounter = \Database::getInstance()
 				            ->prepare("SELECT
                                             id,visitors_counter
@@ -388,8 +388,6 @@ class ModuleVisitorsCount extends \Frontend
 	 */
 	protected function visitorCheckSearchEngine($vid)
 	{
-		//$SearchEngine = 'unknown';
-		//$Keywords     = 'unknown';
 		$ModuleVisitorSearchEngine = new \Visitors\ModuleVisitorSearchEngine();
 		$ModuleVisitorSearchEngine->checkEngines();
 		$SearchEngine = $ModuleVisitorSearchEngine->getEngine();

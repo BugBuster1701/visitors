@@ -73,14 +73,6 @@ class VisitorsStatExport extends \Backend // Backend bringt DB mit
     // Die parametrisierte Factorymethode
     public function factory($type)
     {
-    	/*
-        if (@include(realpath(dirname(__FILE__)) . '/VisitorsStatExport' . $type . '.php')) {
-            $classname = 'VisitorsStatExport' . $type;
-            return new $classname;
-        } else {
-            return false;
-        }
-        */
         $classname = 'VisitorsStatExport' . $type;
         $this->import('Visitors\\' . $classname ,$classname); 
         return $this->$classname;

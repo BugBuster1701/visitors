@@ -21,14 +21,12 @@ class ModuleVisitorCharts
     public function setName($name){
         if(!is_string($name) && !is_numeric($name)){
             throw new \Exception("Falscher Dateityp (".gettype($name).") number or string expected!");
-            //return false;
         }
         $this->name = $name;
     }
     public function setName2($name2){
         if(!is_string($name2) && !is_numeric($name2)){
             throw new \Exception("Falscher Dateityp (".gettype($name2).") number or string expected!");
-            //return false;
         }
         $this->name2 = $name2;
     }
@@ -45,7 +43,6 @@ class ModuleVisitorCharts
     public function setHeight($height){
         if(!is_int($height)){
             throw new \Exception("Falscher Dateityp (".gettype($height).") integer expected!");
-            //return false;
         }
         $this->height = $height;
         return true;
@@ -60,7 +57,6 @@ class ModuleVisitorCharts
     public function setWidth($width){
         if(!is_int($width)){
             throw new \Exception("Falscher Dateityp (".gettype($width).") integer expected!");
-            //return false;
         }
         $this->width = $width;
         return true;
@@ -75,7 +71,6 @@ class ModuleVisitorCharts
     public function setMaxvalueHeight($maxvalue_height){
         if(!is_int($maxvalue_height)){
             throw new \Exception("Falscher Dateityp (".gettype($maxvalue_height).") integer expected!");
-            //return false;
         }
         $this->maxvalue_height = $maxvalue_height;
         return true;
@@ -90,7 +85,6 @@ class ModuleVisitorCharts
     public function addX($x){
         if(!is_numeric($x) && !is_string($x)){
             throw new \Exception("Falscher Dateityp (".gettype($x).") number or string expected!");
-            //return false;
         }
         $this->x[] = $x;
         return true;
@@ -100,7 +94,6 @@ class ModuleVisitorCharts
     public function addY($y){
         if(!is_numeric($y)){
             throw new \Exception("Falscher Dateityp (".gettype($y).") number expected!");
-            //return false;
         }
         $this->y[] = $y;
         return true;
@@ -109,7 +102,6 @@ class ModuleVisitorCharts
     public function addY2($y2){
         if(!is_numeric($y2)){
             throw new \Exception("Falscher Dateityp (".gettype($y2).") number expected!");
-            //return false;
         }
         $this->y2[] = $y2;
         return true;
@@ -119,39 +111,30 @@ class ModuleVisitorCharts
     public function checkValues(){
         if(!isset($this->name)){
             throw new \Exception("Kein Diagrammname 1 vorhanden!");
-            //return false;
         }
         if(!isset($this->name2)){
             throw new \Exception("Kein Diagrammname 2 vorhanden!");
-            //return false;
         }
         if(!isset($this->height)){
             throw new \Exception("Keine Höhe für das Diagramm vorhanden!");
-            //return false;
         }
         if(!isset($this->width)){
             throw new \Exception("Keine Breite für das Diagramm vorhanden!");
-            //return false;
         }
         if(!isset($this->maxvalue_height)){
             throw new \Exception("Keine Höhe für den Maximalwert vorhanden!");
-            //return false;
         }
         if(!isset($this->x)){
             throw new \Exception("Keine X-Werte vorhanden!");
-            //return false;
         }
         if(!isset($this->y)){
             throw new \Exception("Keine Y-Werte vorhanden!");
-            //return false;
         }
         if(!isset($this->y2)){
             throw new \Exception("Keine Y2-Werte vorhanden!");
-            //return false;
         }
         if(count($this->x)!=count($this->y)){
             throw new \Exception("Anzahl der X- und Y-Werte stimmt nicht überein!");
-            //return false;
         }
         return true;
     }

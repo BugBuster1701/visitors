@@ -71,7 +71,7 @@ class VisitorsStatExportcsv
             header('Pragma: no-cache');
         }
         $csv_enclosure = '"'; 
-        //$out = fopen(TL_ROOT . '/' . $GLOBALS['TL_CONFIG']['uploadPath'] . '/BannerStatExport.csv', 'w+');
+
         $out = fopen('php://output', 'w');
         //Kopfdaten
         $arrVisitorsStat = explode(",",html_entity_decode($GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['export_headline'],ENT_NOQUOTES,'UTF-8'));

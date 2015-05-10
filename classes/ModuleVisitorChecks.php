@@ -115,14 +115,8 @@ class ModuleVisitorChecks extends \Frontend
 		$hash = sha1(session_id() . (!$GLOBALS['TL_CONFIG']['disableIpCheck'] ? \Environment::get('ip') : '') . $strCookie);
 		if (\Input::cookie($strCookie) == $hash)
 		{
-			/*
-			$objSession = \Database::getInstance()->prepare("SELECT * FROM tl_session WHERE hash=? AND name=?")
-										 ->limit(1)
-										 ->execute($hash, $strCookie);
-			*/
 			// Try to find the session
 			$objSession = \SessionModel::findByHashAndName($hash, $strCookie);
-			//if ($objSession->numRows && $objSession->sessionID == session_id() && $objSession->ip == $this->Environment->ip && ($objSession->tstamp + $GLOBALS['TL_CONFIG']['sessionTimeout']) > time())
 			// Validate the session ID and timeout
 			if ($objSession !== null && $objSession->sessionID == session_id() && ($GLOBALS['TL_CONFIG']['disableIpCheck'] || $objSession->ip == \Environment::get('ip')) && ($objSession->tstamp + $GLOBALS['TL_CONFIG']['sessionTimeout']) > time())
 			{
@@ -148,11 +142,9 @@ class ModuleVisitorChecks extends \Frontend
 	    $dnsResult = dns_get_record( \Idna::encode( $host ), DNS_ANY );
 	    if ( $dnsResult )
 	    {
-	        //log_message('isDomain True','debug.log');
 	        ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': True' );
 	        return true;
 	    }
-	    //log_message('isDomain False','debug.log');
 	    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': False' );
 	    return false;
 	}

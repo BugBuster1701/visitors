@@ -934,8 +934,6 @@ class ModuleVisitorBrowser3
      */
     protected function checkBrowserTOnline() {
 	    if( stripos($this->_agent,'T-Online Browser') !== false ) {
-		    //$aversion = explode('/',stristr($this->_agent,'T-Online Browser'));
-		    //$this->setVersion($aversion[1]);
 		    $this->setBrowser(self::BROWSER_TONLINE);
 			return true;
 	    }
@@ -1384,7 +1382,6 @@ class ModuleVisitorBrowser3
     protected function checkBrowserHTTPRequest2() {
 	    if( stripos($this->_agent,'HTTP_Request2') !== false ) {
 		    $aversion = explode('/',stristr($this->_agent,'HTTP_Request2'));
-		    //$aversion = explode(' ',$aresult[1]);
 		    $this->setVersion($aversion[1]);
 		    $this->setBrowser(self::BROWSER_HTTP_REQUEST2);
 		    return true;

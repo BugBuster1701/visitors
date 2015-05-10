@@ -126,7 +126,7 @@ class VisitorsRunonceJob extends Controller
     		// MacOSX-2-iOS
 		    $this->Database->execute("UPDATE `tl_visitors_browser` SET `visitors_os`='iOS' WHERE `visitors_os`='MacOSX' AND `visitors_browser` LIKE 'iPhone%' OR `visitors_browser` LIKE 'iPad%' OR `visitors_browser` LIKE 'iPod%'");
 		    // Windows-2-Win8, leider nicht eindeutig.
-		    //$this->Database->execute("UPDATE `tl_visitors_browser` SET `visitors_os`='Win8' WHERE `visitors_os`='Windows' AND `visitors_browser` IN ('IE 9.0','IE 10.0')");
+		    // :-( $this->Database->execute("UPDATE `tl_visitors_browser` SET `visitors_os`='Win8' WHERE `visitors_os`='Windows' AND `visitors_browser` IN ('IE 9.0','IE 10.0')");
 		}
 		if ($this->Database->tableExists('tl_visitors_referrer'))
 		{
