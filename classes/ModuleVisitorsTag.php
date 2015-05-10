@@ -398,13 +398,13 @@ class ModuleVisitorsTag extends \Frontend
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
 		if (!isset($GLOBALS['TL_CONFIG']['mod_visitors_bot_check']) || $GLOBALS['TL_CONFIG']['mod_visitors_bot_check'] !== false) 
 		{
-			if ($ModuleVisitorChecks->checkBot() == true) 
+			if ($ModuleVisitorChecks->checkBot() === true) 
 			{
 				$this->_BOT = true;
 		    	return; //Bot / IP gefunden, wird nicht gezaehlt
 		    }
 		}
-	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) == true) 
+	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) === true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 	    	return ; //User Agent Filterung
@@ -432,7 +432,7 @@ class ModuleVisitorsTag extends \Frontend
                                 AND vid = ? 
                                 AND visitors_type = ?")
                 ->executeUncached(3, $vid, 'h'); // 3 Sekunden Blockierung zw. Zählung per Tag und Zählung per Browser
-	    if ($ModuleVisitorChecks->checkBE() == true) 
+	    if ($ModuleVisitorChecks->checkBE() === true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 			return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
