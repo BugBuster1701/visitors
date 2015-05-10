@@ -55,7 +55,7 @@ class VisitorsStatExportexcel95
         return $this->ExportLib;
     }
     
-    public function export(\Database $objVisitors,$csv_delimiter,$intVisitorKatId) 
+    public function export($objVisitors,$csv_delimiter,$intVisitorKatId) 
     {
     	if (file_exists(TL_ROOT . "/system/modules/xls_export/vendor/xls_export.php")) 
     	{
