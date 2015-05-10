@@ -432,7 +432,7 @@ class ModuleVisitorsTag extends \Frontend
                                 AND vid = ? 
                                 AND visitors_type = ?")
                 ->executeUncached(3, $vid, 'h'); // 3 Sekunden Blockierung zw. Zählung per Tag und Zählung per Browser
-	    if ($ModuleVisitorChecks->CheckBE() == true) 
+	    if ($ModuleVisitorChecks->checkBE() == true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 			return; // Backend eingeloggt, nicht zaehlen (Feature: #197)

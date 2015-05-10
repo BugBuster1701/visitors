@@ -103,7 +103,7 @@ class ModuleVisitorChecks extends \Frontend
 	 * BE Login Check
 	 * basiert auf Frontend.getLoginStatus
 	 */
-	public function CheckBE()
+	public function checkBE()
 	{
 		$strCookie = 'BE_USER_AUTH';
 		$hash = sha1(session_id() . (!$GLOBALS['TL_CONFIG']['disableIpCheck'] ? \Environment::get('ip') : '') . $strCookie);

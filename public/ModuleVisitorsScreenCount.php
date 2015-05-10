@@ -163,7 +163,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	    	//log_message("VisitorCountUpdate UserAgent=true","debug.log");
 	    	return ; //User Agent Filterung
 	    }
-	    if ($ModuleVisitorChecks->CheckBE() == true)
+	    if ($ModuleVisitorChecks->checkBE() == true)
 	    {
 	        return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
 	    }

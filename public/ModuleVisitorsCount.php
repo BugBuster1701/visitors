@@ -165,7 +165,7 @@ class ModuleVisitorsCount extends \Frontend
                                 visitors_type = ?")
                 ->executeUncached(3, $vid, 'h');
 	    
-	    if ($ModuleVisitorChecks->CheckBE() == true) 
+	    if ($ModuleVisitorChecks->checkBE() == true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 			return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
