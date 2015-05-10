@@ -98,7 +98,7 @@ class ModuleVisitorsScreenCount extends \Frontend
     			{
     				while ($objVisitors->next()) 
     				{
-    				    $this->VisitorScreenCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
+    				    $this->visitorScreenCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
     				    
     				}
     			}
@@ -148,7 +148,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	/**
 	 * Insert/Update Counter
 	 */
-	protected function VisitorScreenCountUpdate($vid, $BlockTime, $visitors_category_id)
+	protected function visitorScreenCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
 	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': '.print_r($this->_SCREEN, true) );
 	    
@@ -312,7 +312,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	        }
 	    }
 	    return ;
-	} //VisitorScreenCountUpdate
+	} //visitorScreenCountUpdate
 	
 	protected function visitorScreenSetDebugSettings($visitors_category_id)
 	{
