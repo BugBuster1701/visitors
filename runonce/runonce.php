@@ -206,37 +206,38 @@ class VisitorsRunonceJob extends Controller
 		//Korrektur aus 3.4.0 alpha 2
 		if ($this->Database->tableExists('tl_visitors_pages'))
 		{
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_pages`
-                                                    WHERE `visitors_page_lang`=?
-                                                  ")
-                                        ->execute('');
+		   $this->Database->prepare("DELETE FROM `tl_visitors_pages`
+                                     WHERE `visitors_page_lang`=?
+                                  ")
+                           ->execute('');
 		}
 		//Korrektur falscher Referrer, in Botdetection behoben
 		if ($this->Database->tableExists('tl_visitors_referrer'))
 		{
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
-                                                    WHERE `visitors_referrer_dns` like ?
-                                                  ")
-                                        ->execute('%semalt.com');
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
-                                                    WHERE `visitors_referrer_dns` like ?
-                                                  ")
-                                        ->execute('%makemoneyonline.com');
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                        WHERE `visitors_referrer_dns` like ?
+                                      ")
+                            ->execute('%semalt.com');
+
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                        WHERE `visitors_referrer_dns` like ?
+                                      ")
+                            ->execute('%makemoneyonline.com');
 		    
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
-                                                    WHERE `visitors_referrer_dns` like ?
-                                                  ")
-                                        ->execute('%buttons-for-website.com');
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                        WHERE `visitors_referrer_dns` like ?
+                                      ")
+                            ->execute('%buttons-for-website.com');
 		    
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
-                                                    WHERE `visitors_referrer_dns` like ?
-                                                  ")
-                                        ->execute('%descargar-musica-gratis.net');
-		    
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
-                                                    WHERE `visitors_referrer_dns` like ?
-                                                  ")
-                                        ->execute('%baixar-musicas-gratis.com');
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                        WHERE `visitors_referrer_dns` like ?
+                                      ")
+                            ->execute('%descargar-musica-gratis.net');
+
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                        WHERE `visitors_referrer_dns` like ?
+                                      ")
+                            ->execute('%baixar-musicas-gratis.com');
 		}
 		//Neues Feld ab 3.5.0
         if (    $this->Database->fieldExists('visitors_page_id'  , 'tl_visitors_pages')
@@ -256,4 +257,3 @@ class VisitorsRunonceJob extends Controller
 
 $objVisitorsRunonceJob = new VisitorsRunonceJob();
 $objVisitorsRunonceJob->run();
-
