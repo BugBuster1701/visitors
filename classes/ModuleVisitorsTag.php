@@ -85,7 +85,7 @@ class ModuleVisitorsTag extends \Frontend
 		{
 		    $visitors_category_id = (int)$arrTag[1];
 		    //Get Debug Settings
-		    $this->VisitorSetDebugSettings($visitors_category_id);
+		    $this->visitorSetDebugSettings($visitors_category_id);
 		}
 		
 		if (!isset($arrTag[2])) 
@@ -901,7 +901,7 @@ class ModuleVisitorsTag extends \Frontend
 	    } //if VB
 	} // VisitorCheckReferrer
 	
-	protected function VisitorSetDebugSettings($visitors_category_id)
+	protected function visitorSetDebugSettings($visitors_category_id)
 	{
 	    $GLOBALS['visitors']['debug']['tag']          = false; 
 	    $GLOBALS['visitors']['debug']['checks']       = false;
@@ -929,7 +929,6 @@ class ModuleVisitorsTag extends \Frontend
 	        $GLOBALS['visitors']['debug']['checks']       = (boolean)$objVisitors->visitors_expert_debug_checks;
 	        $GLOBALS['visitors']['debug']['referrer']     = (boolean)$objVisitors->visitors_expert_debug_referrer;
 	        $GLOBALS['visitors']['debug']['searchengine'] = (boolean)$objVisitors->visitors_expert_debug_searchengine;
-	        //log_message('VisitorSetDebugSettings: '.print_r($GLOBALS['visitors']['debug'],true),'visitors_debug.log');
 	        ModuleVisitorLog::writeLog('## START ##', '## DEBUG ##', 'T'.(int)$GLOBALS['visitors']['debug']['tag'] .'#C'. (int)$GLOBALS['visitors']['debug']['checks'] .'#R'.(int) $GLOBALS['visitors']['debug']['referrer'] .'#S'.(int)$GLOBALS['visitors']['debug']['searchengine']);
 	    }
 	}
