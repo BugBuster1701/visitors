@@ -116,7 +116,7 @@ class ModuleVisitorCharts
     }
 
     
-    public function _checkValues(){
+    public function checkValues(){
         if(!isset($this->name)){
             throw new \Exception("Kein Diagrammname 1 vorhanden!");
             //return false;
@@ -156,55 +156,55 @@ class ModuleVisitorCharts
         return true;
     }
 
-    public function _getRelation(){
+    public function getRelation(){
         $relation = array();
         foreach($this->y as $key => $wert)
-            $relation[$key]['y'] = $wert/$this->_getMaxValue2();
+            $relation[$key]['y'] = $wert/$this->getMaxValue2();
         foreach($this->y2 as $key => $wert)
-            $relation[$key]['y2'] = $wert/$this->_getMaxValue2();
+            $relation[$key]['y2'] = $wert/$this->getMaxValue2();
         return $relation;
     }
 
-    public function _getMaxValue(){
+    public function getMaxValue(){
         return max($this->y); //y
     }
-    public function _getMaxValue2(){
+    public function getMaxValue2(){
         return max($this->y2); //y
     }
 	
-    public function _getDataNumber(){
+    public function getDataNumber(){
         return count($this->y); //y
     }
 
     public function display($echo = false) {
     	$output = '';
-        if(!$this->_checkValues())
+        if(!$this->checkValues())
             return $output;
 
         // Verhältnis aller Daten zum Maximalwert berechnen
         // Jeder Wert erhält dann als Höhe einen Bruchteil der
         // maximalen Balkenhöhe
-        $relation = $this->_getRelation();
+        $relation = $this->getRelation();
 
         // Tabelle erzeugen
         $output .= "<table class=\"mod_visitors_be_table\" cellpadding=\"0\" style=\"margin-left: auto; height:".$this->getHeight()."px; text-align:center; border:solid 1px #E9E9E9; font-size:10px; \">\n";
         // Diagrammname ausgeben
         $output .= "<tr>\n".
-                   "<td colspan=\"".$this->_getDataNumber()."\" class=\"tl_folder_tlist\">".$this->getName()."</td>".
-                   "<td colspan=\"".$this->_getDataNumber()."\" class=\"tl_folder_tlist\">".$this->getName2()."</td>\n".
+                   "<td colspan=\"".$this->getDataNumber()."\" class=\"tl_folder_tlist\">".$this->getName()."</td>".
+                   "<td colspan=\"".$this->getDataNumber()."\" class=\"tl_folder_tlist\">".$this->getName2()."</td>\n".
                    "</tr>\n";
 
         $output .= " <tr>\n";
         // Werte - also Balken - ausgeben
         foreach($relation as $key => $wert){
              // Breite einer Zelle und Höhe eines Balkens berechnen
-             $output .= "  <td style=\"vertical-align:bottom; height:200px; width:".floor($this->getWidth()/($this->_getDataNumber()*2))."px;\">".
-                        "   <div style=\"margin:auto 0 auto auto; background-color:red; height:".floor($this->getMaxvalueHeight()*$wert['y'])."px; width:".floor(($this->getWidth()/2)/($this->_getDataNumber()*2))."px\" title=\"".$this->y[$key]."\">".
+             $output .= "  <td style=\"vertical-align:bottom; height:200px; width:".floor($this->getWidth()/($this->getDataNumber()*2))."px;\">".
+                        "   <div style=\"margin:auto 0 auto auto; background-color:red; height:".floor($this->getMaxvalueHeight()*$wert['y'])."px; width:".floor(($this->getWidth()/2)/($this->getDataNumber()*2))."px\" title=\"".$this->y[$key]."\">".
                         "&nbsp;".
                         "   </div>".
                         "  </td>\n";
-             $output .= "  <td style=\"vertical-align:bottom; height:200px; width:".floor($this->getWidth()/($this->_getDataNumber()*2))."px;\">".
-                        "   <div style=\"margin:auto auto auto 0; background-color:green; height:".floor($this->getMaxvalueHeight()*$wert['y2'])."px; width:".floor(($this->getWidth()/2)/($this->_getDataNumber()*2))."px\" title=\"".$this->y2[$key]."\">".
+             $output .= "  <td style=\"vertical-align:bottom; height:200px; width:".floor($this->getWidth()/($this->getDataNumber()*2))."px;\">".
+                        "   <div style=\"margin:auto auto auto 0; background-color:green; height:".floor($this->getMaxvalueHeight()*$wert['y2'])."px; width:".floor(($this->getWidth()/2)/($this->getDataNumber()*2))."px\" title=\"".$this->y2[$key]."\">".
                         "&nbsp;".
                         "   </div>".
                         "  </td>\n";
