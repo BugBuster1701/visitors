@@ -151,17 +151,17 @@ class ModuleVisitorsScreenCount extends \Frontend
 	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': '.print_r($this->_SCREEN, true) );
 	    
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
-		if ($ModuleVisitorChecks->checkBot() == true) 
+		if ($ModuleVisitorChecks->checkBot() === true) 
 		{
 			//log_message("visitorCountUpdate BOT=true","debug.log");
 	    	return; //Bot / IP gefunden, wird nicht gezaehlt
 	    }
-	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) == true) 
+	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) === true) 
 	    {
 	    	//log_message("visitorCountUpdate UserAgent=true","debug.log");
 	    	return ; //User Agent Filterung
 	    }
-	    if ($ModuleVisitorChecks->checkBE() == true)
+	    if ($ModuleVisitorChecks->checkBE() === true)
 	    {
 	        return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
 	    }
