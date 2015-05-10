@@ -81,7 +81,10 @@ class VisitorsRunonceJob extends Controller
 							if (count($arrKat) == 1 && (int)$arrKat[0] >0)
 							{ //nicht NULL
 								//eine eindeutige Zuordnung, kann eindeutig migriert werden
-								$objTemplatesOld = $this->Database->execute("SELECT `id`, `title`, `visitors_template` FROM `tl_visitors_category` WHERE id =".$arrKat[0]."");
+								$objTemplatesOld = $this->Database->prepare("SELECT `id`, `title`, `visitors_template` 
+                                                                             FROM `tl_visitors_category` 
+                                                                             WHERE id =?")
+                                                                  ->execute($arrKat[0]);
 								while ($objTemplatesOld->next())
 								{
 									$this->Database->prepare("UPDATE tl_module SET visitors_template=? WHERE id=?")->execute($objTemplatesOld->visitors_template, $objVisitorsTemplatesNew->id);
@@ -92,7 +95,10 @@ class VisitorsRunonceJob extends Controller
 							}
 							elseif (count($arrKat) > 1) 
 							{
-								$objTemplatesOld = $this->Database->execute("SELECT `id`, `title`, `visitors_template` FROM `tl_visitors_category` WHERE id =".$arrKat[0]."");
+								$objTemplatesOld = $this->Database->prepare("SELECT `id`, `title`, `visitors_template` 
+                                                                             FROM `tl_visitors_category` 
+                                                                             WHERE id =?")
+                                                                  ->execute($arrKat[0]);
 								while ($objTemplatesOld->next())
 								{
 									$strText = 'Visitors-Module "'.$objVisitorsTemplatesNew->name.'" could not be migrated';
