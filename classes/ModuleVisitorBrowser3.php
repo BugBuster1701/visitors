@@ -88,7 +88,7 @@ class ModuleVisitorBrowser3
 	const BROWSER_HTC_SENSATION_XE    = 'HTC Sensation XE';
 	const BROWSER_HTC_SENSATION_XL    = 'HTC Sensation XL';
 	const BROWSER_HTC_SENSATION_Z710  = 'HTC Sensation Z710';
-	const BROWSER_HTC_WILDFIRES_A510e = 'HTC WildfireS A510e';
+	const BROWSER_HTC_WILDFIRES_A510E = 'HTC WildfireS A510e';
 	const BROWSER_ACER_A501  = 'Acer A501 Tab';				  // (Android 3.x Tab), add BugBuster
 	const BROWSER_ACER_A500  = 'Acer A500 Tab';				  // (Android 3.x Tab), add BugBuster
 	const BROWSER_LENOVO_THINKPAD_TABLET = 'ThinkPad Tab'; 	  // (Android 3.x Tab), add BugBuster
@@ -1280,7 +1280,7 @@ class ModuleVisitorBrowser3
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
-                $this->setBrowser(self::BROWSER_HTC_WILDFIRES_A510e);
+                $this->setBrowser(self::BROWSER_HTC_WILDFIRES_A510E);
                 return true;
             }
         }
