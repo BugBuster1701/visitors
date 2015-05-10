@@ -3,7 +3,7 @@
 /**
  * Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
  *
- * Contao Module "Visitors" - DCA Helper Class DCA_visitors
+ * Contao Module "Visitors" - DCA Helper Class DcaVisitors
  *
  * @copyright  Glen Langer 2012..2014 <http://www.contao.glen-langer.de>
  * @author     Glen Langer (BugBuster)
@@ -19,14 +19,14 @@
 namespace BugBuster\Visitors;
 
 /**
- * DCA Helper Class DCA_visitors
+ * DCA Helper Class DcaVisitors
  *
  * @copyright  Glen Langer 2012..2014 <http://www.contao.glen-langer.de>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  *
  */
-class DCA_visitors extends \Backend 
+class DcaVisitors extends \Backend 
 {
     /**
      * Import the back end user object
