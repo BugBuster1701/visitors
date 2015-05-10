@@ -158,7 +158,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 			//log_message("VisitorCountUpdate BOT=true","debug.log");
 	    	return; //Bot / IP gefunden, wird nicht gezaehlt
 	    }
-	    if ($ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
+	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) == true) 
 	    {
 	    	//log_message("VisitorCountUpdate UserAgent=true","debug.log");
 	    	return ; //User Agent Filterung

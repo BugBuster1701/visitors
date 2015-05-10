@@ -404,7 +404,7 @@ class ModuleVisitorsTag extends \Frontend
 		    	return; //Bot / IP gefunden, wird nicht gezaehlt
 		    }
 		}
-	    if ($ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
+	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) == true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 	    	return ; //User Agent Filterung

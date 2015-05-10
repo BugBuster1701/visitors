@@ -58,7 +58,7 @@ class ModuleVisitorChecks extends \Frontend
 	/**
 	 * HTTP_USER_AGENT Special Check
 	 */
-	public function CheckUserAgent($visitors_category_id)
+	public function checkUserAgent($visitors_category_id)
 	{
    	    if (\Environment::get('httpUserAgent')) 
    	    { 
@@ -97,7 +97,7 @@ class ModuleVisitorChecks extends \Frontend
         }
         ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': False' );
         return false; 
-	} //CheckUserAgent
+	} //checkUserAgent
 	
 	/**
 	 * BE Login Check
