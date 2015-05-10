@@ -29,7 +29,7 @@ class ModuleVisitorBrowser3
 	private $_version = '';
 	private $_platform = '';
 	
-	private $_os = '';
+	//#130 private $_os = '';
 	private $_is_aol = false;
 	private $_is_mobile = false;
 	private $_is_robot = false;
@@ -181,7 +181,7 @@ class ModuleVisitorBrowser3
 		$this->_browser_name = self::BROWSER_UNKNOWN;
 		$this->_version = self::VERSION_UNKNOWN;
 		$this->_platform = self::PLATFORM_UNKNOWN;
-		$this->_os = self::OPERATING_SYSTEM_UNKNOWN;
+		//#130 $this->_os = self::OPERATING_SYSTEM_UNKNOWN;
 		$this->_is_aol = false;
 		$this->_is_mobile = false;
 		$this->_is_robot = false;
