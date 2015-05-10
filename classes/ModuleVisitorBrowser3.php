@@ -78,10 +78,10 @@ class ModuleVisitorBrowser3
 	const BROWSER_GALAXY_TAB      = 'Galaxy Tab';
 	const BROWSER_SAMSUNG_GALAXY_NEXUS = 'Galaxy Nexus';      // Google Phone Android 4, add BugBuster
 	const BROWSER_SAMSUNG_NEXUS_S = 'Nexus S';                // Google Phone, add BugBuster
-	const BROWSER_HTC_Desire_HD   = 'HTC Desire HD';
-	const BROWSER_HTC_Desire_Z    = 'HTC Desire Z';
-	const BROWSER_HTC_Desire_S    = 'HTC Desire S';
-	const BROWSER_HTC_Desire      = 'HTC Desire';
+	const BROWSER_HTC_DESIRE_HD   = 'HTC Desire HD';
+	const BROWSER_HTC_DESIRE_Z    = 'HTC Desire Z';
+	const BROWSER_HTC_DESIRE_S    = 'HTC Desire S';
+	const BROWSER_HTC_DESIRE      = 'HTC Desire';
 	const BROWSER_HTC_MAGIC       = 'HTC Magic';
 	const BROWSER_HTC_NEXUS_ONE   = 'HTC Nexus One'; 			  // Google Phone, add BugBuster
 	const BROWSER_HTC_SENSATION       = 'HTC Sensation';
@@ -1181,21 +1181,21 @@ class ModuleVisitorBrowser3
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
-                $this->setBrowser(self::BROWSER_HTC_Desire_HD);
+                $this->setBrowser(self::BROWSER_HTC_DESIRE_HD);
                 return true;
             }
             if( stripos($this->_agent,'HTC Desire Z') !== false )
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
-                $this->setBrowser(self::BROWSER_HTC_Desire_Z);
+                $this->setBrowser(self::BROWSER_HTC_DESIRE_Z);
                 return true;
             }
             if( stripos($this->_agent,'HTC_DesireS') !== false )
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
-                $this->setBrowser(self::BROWSER_HTC_Desire_S);
+                $this->setBrowser(self::BROWSER_HTC_DESIRE_S);
                 return true;
             }
             if( stripos($this->_agent,'HTC_Desire')   !== false ||
@@ -1204,7 +1204,7 @@ class ModuleVisitorBrowser3
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
-                $this->setBrowser(self::BROWSER_HTC_Desire);
+                $this->setBrowser(self::BROWSER_HTC_DESIRE);
                 return true;
             }
         }
