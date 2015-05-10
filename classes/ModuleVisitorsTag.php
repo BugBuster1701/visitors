@@ -124,7 +124,7 @@ class ModuleVisitorsTag extends \Frontend
 			}
 			while ($objVisitors->next())
 			{
-			    $this->VisitorCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
+			    $this->visitorCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
 			    $this->visitorCheckSearchEngine($objVisitors->id);
 			    if ($this->_BOT === false && $this->_SE === false) 
 			    {
@@ -393,7 +393,7 @@ class ModuleVisitorsTag extends \Frontend
 	/**
 	 * Insert/Update Counter
 	 */
-	protected function VisitorCountUpdate($vid, $BlockTime, $visitors_category_id)
+	protected function visitorCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
 		if (!isset($GLOBALS['TL_CONFIG']['mod_visitors_bot_check']) || $GLOBALS['TL_CONFIG']['mod_visitors_bot_check'] !== false) 
@@ -409,7 +409,7 @@ class ModuleVisitorsTag extends \Frontend
 	    	$this->_PF = true; // Bad but functionally
 	    	return ; //User Agent Filterung
 	    }
-	    //log_message("VisitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
+	    //log_message("visitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
 	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->visitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
 	    $BlockTime = ($BlockTime == '') ? 1800 : $BlockTime; //Sekunden
 	    $CURDATE = date('Y-m-d');
@@ -821,7 +821,7 @@ class ModuleVisitorsTag extends \Frontend
 			    } // else von NULL
 			} // if strlen
 	    } //VisitIP numRows
-	} //VisitorCountUpdate
+	} //visitorCountUpdate
 	
 	protected function visitorCheckSearchEngine($vid)
 	{
