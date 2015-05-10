@@ -49,8 +49,6 @@ require($dir . '/system/initialize.php');
  */
 class ModuleVisitorsScreenCount extends \Frontend  
 {
-	private $_PF  = false; // Prefetch found
-	
 	private $_SCREEN = false; // Screen Resolution
 	
 	/**
