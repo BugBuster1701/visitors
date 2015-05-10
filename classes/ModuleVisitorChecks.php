@@ -32,30 +32,28 @@ class ModuleVisitorChecks extends \Frontend
 	/**
 	 * Current version of the class.
 	 */
-	const VERSION           = '3.2';
+	const VERSION           = '3.3';
 	
 	/**
 	 * Spider Bot Check
 	 */
-	public function CheckBot()
+	public function checkBot()
 	{
 		if (!in_array('botdetection', $this->Config->getActiveModules()))
 		{
 			//botdetection Modul fehlt, Abbruch
-			$this->log('BotDetection extension required for extension: Visitors!', 'ModuleVisitorChecks CheckBot', TL_ERROR);
+			$this->log('BotDetection extension required for extension: Visitors!', 'ModuleVisitorChecks checkBot', TL_ERROR);
 			return false;
 		}
 		$ModuleBotDetection = new \BotDetection\ModuleBotDetection();
 	    if ($ModuleBotDetection->BD_CheckBotAllTests()) 
 	    {
-	    	//log_message('CheckBot True','debug.log');
 	        ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': True' );
 	    	return true;
 	    }
-	    //log_message('CheckBot False','debug.log');
 	    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': False' );
 	    return false;
-	} //CheckBot
+	} //checkBot
 	
 	/**
 	 * HTTP_USER_AGENT Special Check
@@ -94,11 +92,9 @@ class ModuleVisitorChecks extends \Frontend
         $CheckUserAgent=str_replace($arrUserAgents, '#', $UserAgent);
         if ($UserAgent != $CheckUserAgent) 
         { 	// es wurde ersetzt also was gefunden
-        	//log_message('CheckBotUserAgent True','debug.log');
             ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': True' );
             return true;
         }
-        //log_message('CheckBotUserAgent False','debug.log');
         ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': False' );
         return false; 
 	} //CheckUserAgent
@@ -124,12 +120,10 @@ class ModuleVisitorChecks extends \Frontend
 			// Validate the session ID and timeout
 			if ($objSession !== null && $objSession->sessionID == session_id() && ($GLOBALS['TL_CONFIG']['disableIpCheck'] || $objSession->ip == \Environment::get('ip')) && ($objSession->tstamp + $GLOBALS['TL_CONFIG']['sessionTimeout']) > time())
 			{
-				//log_message('CheckBotBELogin True','debug.log');
 			    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': True' );
 				return true;
 			}
 		}
-		//log_message('CheckBotBELogin False','debug.log');
 		ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': False' );
 		return false;
 	} //CheckBE

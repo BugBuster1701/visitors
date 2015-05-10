@@ -398,7 +398,7 @@ class ModuleVisitorsTag extends \Frontend
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
 		if (!isset($GLOBALS['TL_CONFIG']['mod_visitors_bot_check']) || $GLOBALS['TL_CONFIG']['mod_visitors_bot_check'] !== false) 
 		{
-			if ($ModuleVisitorChecks->CheckBot() == true) 
+			if ($ModuleVisitorChecks->checkBot() == true) 
 			{
 				$this->_BOT = true;
 		    	return; //Bot / IP gefunden, wird nicht gezaehlt

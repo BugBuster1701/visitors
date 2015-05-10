@@ -124,7 +124,7 @@ class ModuleVisitorsCount extends \Frontend
 	protected function VisitorCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
-		if ($ModuleVisitorChecks->CheckBot() == true) 
+		if ($ModuleVisitorChecks->checkBot() == true) 
 		{
 			$this->_BOT = true;
 			//log_message("VisitorCountUpdate BOT=true","debug.log");

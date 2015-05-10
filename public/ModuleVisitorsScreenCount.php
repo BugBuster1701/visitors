@@ -153,7 +153,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': '.print_r($this->_SCREEN, true) );
 	    
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
-		if ($ModuleVisitorChecks->CheckBot() == true) 
+		if ($ModuleVisitorChecks->checkBot() == true) 
 		{
 			//log_message("VisitorCountUpdate BOT=true","debug.log");
 	    	return; //Bot / IP gefunden, wird nicht gezaehlt
