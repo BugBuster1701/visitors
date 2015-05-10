@@ -168,17 +168,17 @@ class VisitorsRunonceJob extends Controller
     		        }
     		        else 
     		        {
-    		            $objUpdate = $this->Database->prepare("UPDATE `tl_visitors_counter`
-    		                                                   SET `visitors_visit`=`visitors_visit`+ ?
-    		                                                     , `visitors_hit`  =`visitors_hit`  + ?
-    		                                                   WHERE `id`=?")
-    		                                        ->execute($objMultiRows->visitors_visit, 
-    		                                                  $objMultiRows->visitors_hit, 
-    		                                                  $realId);
+    		            $this->Database->prepare("UPDATE `tl_visitors_counter`
+                                                   SET `visitors_visit`=`visitors_visit`+ ?
+                                                     , `visitors_hit`  =`visitors_hit`  + ?
+                                                   WHERE `id`=?")
+                                        ->execute($objMultiRows->visitors_visit, 
+                                                  $objMultiRows->visitors_hit, 
+                                                  $realId);
 
-    		            $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_counter`
-    		                                                   WHERE `id`=?")
-    		                                        ->execute($objMultiRows->id);
+    		            $this->Database->prepare("DELETE FROM `tl_visitors_counter`
+                                                   WHERE `id`=?")
+                                        ->execute($objMultiRows->id);
     		        }
 		        } //while $objMultiRows
 		    } //while $objMulti
@@ -187,10 +187,10 @@ class VisitorsRunonceJob extends Controller
 		// leere Generic eliminieren (Issue #67)
 		if ($this->Database->tableExists('tl_visitors_searchengines'))
 		{
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_searchengines`
-                                                    WHERE `visitors_searchengine`=? 
-                                                    AND `visitors_keywords`=?")
-                                        ->execute('Generic','');
+		    $this->Database->prepare("DELETE FROM `tl_visitors_searchengines`
+                                        WHERE `visitors_searchengine`=? 
+                                        AND `visitors_keywords`=?")
+                            ->execute('Generic','');
 		}
 
 		//Contao 3.1, database2DCA, delete for manual installations
