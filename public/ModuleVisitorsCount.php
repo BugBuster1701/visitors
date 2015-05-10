@@ -97,7 +97,7 @@ class ModuleVisitorsCount extends \Frontend
 				while ($objVisitors->next()) 
 				{
 				    $this->VisitorCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
-				    $this->VisitorCheckSearchEngine($objVisitors->id);
+				    $this->visitorCheckSearchEngine($objVisitors->id);
 				    if ($this->_BOT === false && $this->_SE === false) 
 				    {
 				    	$this->visitorCheckReferrer($objVisitors->id);
@@ -387,7 +387,7 @@ class ModuleVisitorsCount extends \Frontend
 	 *
 	 * @param integer $vid	Visitors ID
 	 */
-	protected function VisitorCheckSearchEngine($vid)
+	protected function visitorCheckSearchEngine($vid)
 	{
 		//$SearchEngine = 'unknown';
 		//$Keywords     = 'unknown';
@@ -418,7 +418,7 @@ class ModuleVisitorsCount extends \Frontend
 		                ->execute($CleanTime,$vid);
 			} //keywords
 		} //searchengine
-	} //VisitorCheckSearchEngine
+	} //visitorCheckSearchEngine
 	
 	/**
 	 * Check for Referrer
