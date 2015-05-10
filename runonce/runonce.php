@@ -66,7 +66,7 @@ class VisitorsRunonceJob extends Controller
 						    $migration = true;
 						}
 					} // while
-					if ($migration == true) 
+					if ($migration === true) 
 					{
 						//Feld versuchen zu fuellen
 						$objVisitorsTemplatesNew = $this->Database->execute("SELECT `id`, `name` , `visitors_categories` FROM `tl_module` WHERE `type`='visitors'");
