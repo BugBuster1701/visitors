@@ -68,7 +68,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 		if ((int)\Input::get('vcid')  > 0)
 		{
 			$visitors_category_id = (int)\Input::get('vcid');
-			$this->VisitorScreenSetDebugSettings($visitors_category_id);
+			$this->visitorScreenSetDebugSettings($visitors_category_id);
             $this->VisitorScreenSetResolutions();
             if ($this->_SCREEN !== false) 
             {
@@ -314,7 +314,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	    return ;
 	} //VisitorScreenCountUpdate
 	
-	protected function VisitorScreenSetDebugSettings($visitors_category_id)
+	protected function visitorScreenSetDebugSettings($visitors_category_id)
 	{
 	    $GLOBALS['visitors']['debug']['screenresolutioncount'] = false;
 	     
