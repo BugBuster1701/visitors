@@ -51,7 +51,7 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 		(
 			'fields'                  => array('tag'),
 			'format'                  => '%s',
-			'label_callback'		  => array('BugBuster\Visitors\DCA_visitors_category', 'labelCallback'),
+			'label_callback'		  => array('BugBuster\Visitors\DcaVisitorsCategory', 'labelCallback'),
 		),
 		'global_operations' => array
 		(
@@ -176,7 +176,7 @@ $GLOBALS['TL_DCA']['tl_visitors_category'] = array
 			'eval'                    => array('disabled'=>true),
 			'load_callback' => array
 			(
-			    array('BugBuster\Visitors\DCA_visitors_category', 'getAdminCheckbox')
+			    array('BugBuster\Visitors\DcaVisitorsCategory', 'getAdminCheckbox')
 			)
 		)
 	)
