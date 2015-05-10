@@ -151,8 +151,6 @@ class VisitorsRunonceJob extends Controller
 		    while ($objMulti->next())
 		    {
 		        $currentRow = 0;
-		        $visits     = 0;
-		        $hits       = 0;
 		        $realId     = 0;
 		        $objMultiRows = $this->Database->prepare("SELECT `id`,`vid`,`visitors_date`,`visitors_visit`, `visitors_hit`
                                                             FROM `tl_visitors_counter`
