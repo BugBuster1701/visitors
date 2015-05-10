@@ -128,7 +128,7 @@ class ModuleVisitorsTag extends \Frontend
 			    $this->VisitorCheckSearchEngine($objVisitors->id);
 			    if ($this->_BOT === false && $this->_SE === false) 
 			    {
-			    	$this->VisitorCheckReferrer($objVisitors->id);
+			    	$this->visitorCheckReferrer($objVisitors->id);
 			    }
 			}
 			//log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
@@ -863,7 +863,7 @@ class ModuleVisitorsTag extends \Frontend
 	 *
 	 * @param integer $vid	Visitors ID
 	 */
-	protected function VisitorCheckReferrer($vid)
+	protected function visitorCheckReferrer($vid)
 	{
 		if ($this->_VB === false) 
 		{
@@ -873,8 +873,8 @@ class ModuleVisitorsTag extends \Frontend
 				$ModuleVisitorReferrer->checkReferrer();
 				$ReferrerDNS = $ModuleVisitorReferrer->getReferrerDNS();
 				$ReferrerFull= $ModuleVisitorReferrer->getReferrerFull();
-				//log_message('VisitorCheckReferrer $ReferrerDNS:'.print_r($ReferrerDNS,true), 'debug.log');
-				//log_message('VisitorCheckReferrer Host:'.print_r($this->ModuleVisitorReferrer->getHost(),true), 'debug.log');
+				//log_message('visitorCheckReferrer $ReferrerDNS:'.print_r($ReferrerDNS,true), 'debug.log');
+				//log_message('visitorCheckReferrer Host:'.print_r($this->ModuleVisitorReferrer->getHost(),true), 'debug.log');
 				if ($ReferrerDNS != 'o' && $ReferrerDNS != 'w') 
 				{ 	// not the own, not wrong
 					// Insert
@@ -886,7 +886,7 @@ class ModuleVisitorsTag extends \Frontend
 			            'visitors_referrer_full'=> $ReferrerFull
 			        );
 			        //Referrer setzen
-			    	//log_message('VisitorCheckReferrer Referrer setzen', 'debug.log');
+			    	//log_message('visitorCheckReferrer Referrer setzen', 'debug.log');
 			        \Database::getInstance()
 			                ->prepare("INSERT INTO tl_visitors_referrer %s")
                             ->set($arrSet)
@@ -899,7 +899,7 @@ class ModuleVisitorsTag extends \Frontend
 		    	}
 		    } //if PF
 	    } //if VB
-	} // VisitorCheckReferrer
+	} // visitorCheckReferrer
 	
 	protected function visitorSetDebugSettings($visitors_category_id)
 	{

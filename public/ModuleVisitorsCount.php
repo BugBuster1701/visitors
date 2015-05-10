@@ -100,7 +100,7 @@ class ModuleVisitorsCount extends \Frontend
 				    $this->VisitorCheckSearchEngine($objVisitors->id);
 				    if ($this->_BOT === false && $this->_SE === false) 
 				    {
-				    	$this->VisitorCheckReferrer($objVisitors->id);
+				    	$this->visitorCheckReferrer($objVisitors->id);
 				    }
 				}
 			}
@@ -425,7 +425,7 @@ class ModuleVisitorsCount extends \Frontend
 	 *
 	 * @param integer $vid	Visitors ID
 	 */
-	protected function VisitorCheckReferrer($vid)
+	protected function visitorCheckReferrer($vid)
 	{
 		if ($this->_VB === false) 
 		{
@@ -458,7 +458,7 @@ class ModuleVisitorsCount extends \Frontend
 				}
 		    } //if PF
 	    } //if VB
-	} // VisitorCheckReferrer
+	} // visitorCheckReferrer
 	
 	/**
 	 * Get User IP
