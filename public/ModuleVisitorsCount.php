@@ -124,13 +124,13 @@ class ModuleVisitorsCount extends \Frontend
 	protected function visitorCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
-		if ($ModuleVisitorChecks->checkBot() == true) 
+		if ($ModuleVisitorChecks->checkBot() === true) 
 		{
 			$this->_BOT = true;
 			//log_message("visitorCountUpdate BOT=true","debug.log");
 	    	return; //Bot / IP gefunden, wird nicht gezaehlt
 	    }
-	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) == true) 
+	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) === true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 	    	//log_message("visitorCountUpdate UserAgent=true","debug.log");
@@ -165,7 +165,7 @@ class ModuleVisitorsCount extends \Frontend
                                 visitors_type = ?")
                 ->executeUncached(3, $vid, 'h');
 	    
-	    if ($ModuleVisitorChecks->checkBE() == true) 
+	    if ($ModuleVisitorChecks->checkBE() === true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 			return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
