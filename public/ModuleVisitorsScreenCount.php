@@ -69,7 +69,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 		{
 			$visitors_category_id = (int)\Input::get('vcid');
 			$this->visitorScreenSetDebugSettings($visitors_category_id);
-            $this->VisitorScreenSetResolutions();
+            $this->visitorScreenSetResolutions();
             if ($this->_SCREEN !== false) 
             {
     			/* __________  __  ___   _____________   ________
@@ -120,7 +120,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	/**
 	 * Set $_SCREEN variable
 	 */
-	protected function VisitorScreenSetResolutions()
+	protected function visitorScreenSetResolutions()
 	{
 	    $this->_SCREEN = array( "scrw"  => (int)\Input::get('scrw'),
                     	        "scrh"  => (int)\Input::get('scrh'),
