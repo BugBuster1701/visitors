@@ -1695,9 +1695,12 @@ class ModuleVisitorBrowser3
      * @access protected
      * 
      */
-    protected function setLang() {
+    protected function setLang() 
+    {
         $array = explode(",", $this->_accept_language);
-        for($i = 0; $i < count($array); $i++) {
+        $ca = count($array);
+        for($i = 0; $i < $ca; $i++) 
+        {
             //Konqueror
             $array[$i] = str_replace(" ", null, $array[$i]);
             $array[$i] = substr($array[$i], 0, 2);
