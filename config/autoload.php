@@ -43,7 +43,7 @@ ClassLoader::addClasses(array
 	// Classes
 	'BugBuster\Visitors\ModuleVisitorBrowser3'          => 'system/modules/visitors/classes/ModuleVisitorBrowser3.php',
 	'BugBuster\Visitors\ModuleVisitorStatScreenCounter' => 'system/modules/visitors/classes/ModuleVisitorStatScreenCounter.php',
-	'BugBuster\Visitors\DCA_module_visitors'            => 'system/modules/visitors/classes/DCA_module_visitors.php',
+	'BugBuster\Visitors\DcaModuleVisitors'              => 'system/modules/visitors/classes/DcaModuleVisitors.php',
 	'BugBuster\Visitors\DCA_visitors'                   => 'system/modules/visitors/classes/DCA_visitors.php',
 	'BugBuster\Visitors\DcaVisitorsCategory'            => 'system/modules/visitors/classes/DcaVisitorsCategory.php',
 	'BugBuster\Visitors\ModuleVisitorStatPageCounter'   => 'system/modules/visitors/classes/ModuleVisitorStatPageCounter.php',
