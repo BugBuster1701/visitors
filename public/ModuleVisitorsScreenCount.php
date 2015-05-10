@@ -349,7 +349,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	    {
 	        $UserIP = trim( substr($UserIP, 0, strpos($UserIP, ',') ) );
 	    }
-	    if ( true === $this->VisitorIsPrivateIP($UserIP) &&
+	    if ( true === $this->visitorIsPrivateIP($UserIP) &&
 	        false === empty($_SERVER['HTTP_X_FORWARDED_FOR'])
 	    )
 	    {
@@ -373,7 +373,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	 * @param string $UserIP
 	 * @return boolean         true = private/reserved
 	 */
-	protected function VisitorIsPrivateIP($UserIP = false)
+	protected function visitorIsPrivateIP($UserIP = false)
 	{
 	    return !filter_var($UserIP, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 	}
