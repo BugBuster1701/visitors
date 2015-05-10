@@ -34,8 +34,7 @@ while ($dir != '.' && $dir != '/' && !is_file($dir . '/system/initialize.php'))
  
 if (!is_file($dir . '/system/initialize.php'))
 {
-    echo 'Could not find initialize.php!';
-    exit(1);
+    throw new \ErrorException('Could not find initialize.php!',2,1,basename(__FILE__),__LINE__);
 }
 require($dir . '/system/initialize.php');
 
@@ -146,7 +145,7 @@ class VisitorsStatExport extends \Backend // Backend bringt DB mit
                             ORDER BY tvc.title, tv.id, tvs.visitors_date")
                 ->execute($intVisitorKatId);
 	    $objExport->export($objVisitors, $this->strExportDelimiter, $intVisitorKatId);
-	    exit;
+        return ;
 	}
 }
 
