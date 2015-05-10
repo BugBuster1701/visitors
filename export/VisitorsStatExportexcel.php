@@ -57,6 +57,7 @@ class VisitorsStatExportexcel
     
     public function export($objVisitors,$csv_delimiter,$intVisitorKatId) 
     {
+        unset($csv_delimiter);
         // Download
         header('Content-Type: application/vnd.ms-excel');
         header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
@@ -96,7 +97,6 @@ xmlns="http://www.w3.org/TR/REC-html40">
 </body>
 </html>
 ';
-        //$out = fopen(TL_ROOT . '/' . $GLOBALS['TL_CONFIG']['uploadPath'] . '/BannerStatExport.csv', 'w+');
         $out = fopen('php://output', 'w');
         fputs($out, $excel_header);
         //Kopfdaten
