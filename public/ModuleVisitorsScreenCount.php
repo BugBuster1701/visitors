@@ -168,7 +168,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	        return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
 	    }
 	    //log_message("VisitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
-	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->VisitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
+	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->visitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
 	    $BlockTime = ($BlockTime == '') ? 1800 : $BlockTime; //Sekunden
 	    $CURDATE = date('Y-m-d');
 
@@ -342,7 +342,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	 *
 	 * @return string
 	 */
-	protected function VisitorGetUserIP()
+	protected function visitorGetUserIP()
 	{
 	    $UserIP = \Environment::get('ip');
 	    if (strpos($UserIP, ',') !== false) //first IP
