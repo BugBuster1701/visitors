@@ -136,12 +136,12 @@ class ModuleVisitorsTag extends \Frontend
 			 || $GLOBALS['TL_CONFIG']['cacheMode'] === 'none'
 			 || $objVisitors->visitors_cache_mode == 1) 
 			{
-			    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , 'Counted Server: True' );
+			    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , 'Counted Server: True' );
 				return '<!-- counted -->'; // <img src="system/modules/visitors/assets/leer.gif" alt="" /> // style="width:0px; height:0px; visibility:hidden; display:inline; left:-1000px; overflow:hidden; position:absolute; top:-1000px;"
 			} 
 			else 
 			{
-			    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , 'Counted Client: True' );
+			    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , 'Counted Client: True' );
 				return '<img src="system/modules/visitors/public/ModuleVisitorsCount.php?vkatid='.$visitors_category_id.'" alt="" />'; // style="width:0px; height:0px; visibility:hidden; display:inline; left:-1000px; overflow:hidden; position:absolute; top:-1000px;"
 			}
 		}
@@ -180,12 +180,12 @@ class ModuleVisitorsTag extends \Frontend
 		switch ($arrTag[2]) 
 		{
 		    case "name":
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 				return trim($objVisitors->visitors_name);
 				break;
 		    case "online":
 			    //VisitorsOnlineCount
-	            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+	            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    $objVisitorsOnlineCount = \Database::getInstance()
 			            ->prepare("SELECT 
                                         COUNT(id) AS VOC 
@@ -200,7 +200,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "start":
 		    	//VisitorsStartDate
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 		        if (!strlen($objVisitors->visitors_startdate)) 
 		        {
 			    	$VisitorsStartDate = '';
@@ -214,7 +214,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "totalvisit":
 		    	//TotalVisitCount
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 	            $objVisitorsTotalCount = \Database::getInstance()
 	                    ->prepare("SELECT 
                                         SUM(visitors_visit) AS SUMV
@@ -233,7 +233,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "totalhit":
 	    		//TotalHitCount
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 	            $objVisitorsTotalCount = \Database::getInstance()
 	                    ->prepare("SELECT 
                                         SUM(visitors_hit) AS SUMH
@@ -252,7 +252,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "todayvisit":
 				//TodaysVisitCount
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    $objVisitorsTodaysCount = \Database::getInstance()
 			            ->prepare("SELECT 
                                         visitors_visit
@@ -274,7 +274,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "todayhit":
 				//TodaysHitCount
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    $objVisitorsTodaysCount = \Database::getInstance()
 			            ->prepare("SELECT 
                                         visitors_hit
@@ -296,7 +296,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "averagevisits":
 				// Average Visits
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    if ($objVisitors->visitors_average) 
 			    {
 			    	$today     = date('Y-m-d');
@@ -333,11 +333,11 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "bestday":
 		    	//Day with the most visitors
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 		    	if (!isset($arrTag[3])) 
 		    	{
 					$this->log($GLOBALS['TL_LANG']['tl_visitors']['no_param4'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
-					ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , $GLOBALS['TL_LANG']['tl_visitors']['no_param4'] );
+					ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , $GLOBALS['TL_LANG']['tl_visitors']['no_param4'] );
 					return false;  // da fehlt was
 				}
 				$objVisitorsBestday = \Database::getInstance()
@@ -359,7 +359,7 @@ class ModuleVisitorsTag extends \Frontend
 				switch ($arrTag[3]) 
 				{
 					case "date":
-					    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
+					    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						if (!isset($arrTag[4])) 
 						{
 							return date($GLOBALS['TL_CONFIG']['dateFormat'],strtotime($objVisitorsBestday->visitors_date));
@@ -370,11 +370,11 @@ class ModuleVisitorsTag extends \Frontend
 						}
 						break;
 					case "visits":
-					    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
+					    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						return ($boolSeparator) ? $this->getFormattedNumber($objVisitorsBestday->visitors_visit,0) : $objVisitorsBestday->visitors_visit;
 						break;
 					case "hits":
-					    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
+					    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						return ($boolSeparator) ? $this->getFormattedNumber($objVisitorsBestday->visitors_hit,0) : $objVisitorsBestday->visitors_hit;
 						break;
 					default:
@@ -383,7 +383,7 @@ class ModuleVisitorsTag extends \Frontend
 				}
 		    	break;
 			default:
-			    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':' .$GLOBALS['TL_LANG']['tl_visitors']['wrong_key'] );
+			    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':' .$GLOBALS['TL_LANG']['tl_visitors']['wrong_key'] );
 				$this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_key'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 				return false;
 				break;
@@ -596,7 +596,7 @@ class ModuleVisitorsTag extends \Frontend
     	    	{
     	    	    $pageId = $this->VisitorGetRootPageFromUrl();
     	    	}
-    	    	ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID over URL: '. $pageId);
+    	    	ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Page ID over URL: '. $pageId);
     	    	// Get the current page object(s)
     	    	$objPage = \PageModel::findPublishedByIdOrAlias($pageId);
 
@@ -655,7 +655,7 @@ class ModuleVisitorsTag extends \Frontend
                     $objPage = $objPage->current()->loadDetails();
     	    	}
             } //$objPage->id == 0
-            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID / Lang in Object: '. $objPage->id .' / '.$objPage->language);
+            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Page ID / Lang in Object: '. $objPage->id .' / '.$objPage->language);
 
 	 	    //#102, bei Readerseite den Beitrags-Alias zählen (Parameter vorhanden)
 	 	    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
@@ -930,7 +930,7 @@ class ModuleVisitorsTag extends \Frontend
 	        $GLOBALS['visitors']['debug']['referrer']     = (boolean)$objVisitors->visitors_expert_debug_referrer;
 	        $GLOBALS['visitors']['debug']['searchengine'] = (boolean)$objVisitors->visitors_expert_debug_searchengine;
 	        //log_message('VisitorSetDebugSettings: '.print_r($GLOBALS['visitors']['debug'],true),'visitors_debug.log');
-	        ModuleVisitorLog::Writer('## START ##', '## DEBUG ##', 'T'.(int)$GLOBALS['visitors']['debug']['tag'] .'#C'. (int)$GLOBALS['visitors']['debug']['checks'] .'#R'.(int) $GLOBALS['visitors']['debug']['referrer'] .'#S'.(int)$GLOBALS['visitors']['debug']['searchengine']);
+	        ModuleVisitorLog::writeLog('## START ##', '## DEBUG ##', 'T'.(int)$GLOBALS['visitors']['debug']['tag'] .'#C'. (int)$GLOBALS['visitors']['debug']['checks'] .'#R'.(int) $GLOBALS['visitors']['debug']['referrer'] .'#S'.(int)$GLOBALS['visitors']['debug']['searchengine']);
 	    }
 	}
 	
@@ -951,7 +951,7 @@ class ModuleVisitorsTag extends \Frontend
 	        // Find the matching root pages (thanks to Andreas Schempp)
 	        $objRootPage = \PageModel::findFirstPublishedRootByHostAndLanguage($host, $accept_language);
 	    }
-	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Root Page ID over URL: '. $objRootPage->id);
+	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Root Page ID over URL: '. $objRootPage->id);
         //simple PageRoot:generate
 	    $objNextPage = \PageModel::findFirstPublishedByPid($objRootPage->id);
 	    return $objNextPage->id;
@@ -1036,7 +1036,7 @@ class ModuleVisitorsTag extends \Frontend
 	            $page_type = self::PAGE_TYPE_FAQ;
 	        }
 	    }
-	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageType: '. $page_type);
+	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageType: '. $page_type);
 	    return $page_type;
 	}
 	
@@ -1052,7 +1052,7 @@ class ModuleVisitorsTag extends \Frontend
 	{
 	    if ($PageType == self::PAGE_TYPE_NORMAL) 
 	    {
-	        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNormal: '. $PageId);
+	        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdNormal: '. $PageId);
 	    	return $PageId;
 	    }
 	    
@@ -1067,16 +1067,16 @@ class ModuleVisitorsTag extends \Frontend
             $alias = substr($uri,strrpos($uri,'/')+1,-strlen($GLOBALS['TL_CONFIG']['urlSuffix']));
             if (false === $alias) 
             {
-                ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdReaderSelf: '. $PageId);
+                ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdReaderSelf: '. $PageId);
             	return $PageId; // kein Parameter, Readerseite selbst
             }
         }
         else 
         {
-            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNoSuffix: '. $PageId);
+            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdNoSuffix: '. $PageId);
             return $PageId; // kein Suffix, Pech für die Kuh
         }
-        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Alias: '. $alias);
+        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Alias: '. $alias);
         
         if ($PageType == self::PAGE_TYPE_NEWS)
         {
@@ -1087,7 +1087,7 @@ class ModuleVisitorsTag extends \Frontend
                             ->executeUncached($alias);
             if ($objNews->numRows > 0)
             {
-                ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNews: '. $objNews->id);
+                ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdNews: '. $objNews->id);
                 return $objNews->id;
             } 
 	        
@@ -1101,11 +1101,11 @@ class ModuleVisitorsTag extends \Frontend
                             ->executeUncached($alias);
 	        if ($objFaq->numRows > 0)
 	        {
-	            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdFaq: '. $objFaq->id);
+	            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdFaq: '. $objFaq->id);
 	            return $objFaq->id;
 	        }
 	    }
-	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Unknown PageType: '. $PageType);
+	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Unknown PageType: '. $PageType);
 	}
 	
 	

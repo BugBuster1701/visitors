@@ -94,7 +94,7 @@ class ModuleVisitorReferrer	extends \System
 		{ 
 			$this->detect();
 		}
-		ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , $this->__toString() );
+		ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , $this->__toString() );
 	}
 	
 	protected function detect()

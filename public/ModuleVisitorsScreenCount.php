@@ -133,7 +133,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	        (int)\Input::get('scrih') == 0
 	       )
 	    {
-	        ModuleVisitorLog::Writer(__METHOD__ ,
+	        ModuleVisitorLog::writeLog(__METHOD__ ,
                                      __LINE__ , 
                                      'ERR: '.print_r(array( "scrw"  => \Input::get('scrw'),
                                                 	        "scrh"  => \Input::get('scrh'),
@@ -150,7 +150,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	 */
 	protected function VisitorScreenCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
-	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ': '.print_r($this->_SCREEN, true) );
+	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': '.print_r($this->_SCREEN, true) );
 	    
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
 		if ($ModuleVisitorChecks->CheckBot() == true) 
@@ -193,7 +193,7 @@ class ModuleVisitorsScreenCount extends \Frontend
                             WHERE
                                 visitors_ip = ? AND vid = ? AND visitors_type = ?")
                 ->executeUncached($ClientIP, $vid, 's');
-	    //ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':\n'.$objVisitBlockerIP->query );
+	    //ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':\n'.$objVisitBlockerIP->query );
 	    //Daten lesen, nur Screen Angaben, die Inner Angaben werden jedesmal überschrieben 
 	    $objScreenCounter = \Database::getInstance() 
                     	    ->prepare("SELECT
@@ -236,12 +236,12 @@ class ModuleVisitorsScreenCount extends \Frontend
                 	        ->prepare("INSERT IGNORE INTO tl_visitors_screen_counter %s")
                 	        ->set($arrSet)
                 	        ->executeUncached();
-    	        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ': insert into tl_visitors_screen_counter' );
+    	        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': insert into tl_visitors_screen_counter' );
     	        return ;
     	    } 
     	    else 
     	    {
-    	        //ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.'Update tstamp' );
+    	        //ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.'Update tstamp' );
     	    	// Update tstamp
     	    	\Database::getInstance()
     	    	        ->prepare("UPDATE
@@ -251,16 +251,16 @@ class ModuleVisitorsScreenCount extends \Frontend
                                     WHERE
                                         visitors_ip=? AND vid=? AND visitors_type=?")
                         ->executeUncached($ClientIP, $vid, 's');
-    	    	ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ': update tl_visitors_blocker' );
+    	    	ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': update tl_visitors_blocker' );
     	    	return ;
     	    }
 	    }
 	    else 
 	    {
-	        //ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$objScreenCounter->numRows );
+	        //ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$objScreenCounter->numRows );
 	        if ($objVisitBlockerIP->numRows < 1)
 	        {
-	            //ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$objVisitBlockerIP->numRows );
+	            //ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$objVisitBlockerIP->numRows );
 	            // Insert IP
 	            \Database::getInstance()
                             ->prepare("INSERT INTO
@@ -294,11 +294,11 @@ class ModuleVisitorsScreenCount extends \Frontend
                                               $this->_SCREEN['scrw'],
                                               $this->_SCREEN['scrh']
                                               );
-                ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ': update tl_visitors_screen_counter' );
+                ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': update tl_visitors_screen_counter' );
 	        }
 	        else 
 	        {
-	            //ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.'Update tstamp' );
+	            //ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.'Update tstamp' );
 	            // Update tstamp
 	            \Database::getInstance()
                             ->prepare("UPDATE
@@ -308,7 +308,7 @@ class ModuleVisitorsScreenCount extends \Frontend
                                         WHERE
                                             visitors_ip=? AND vid=? AND visitors_type=?")
                             ->executeUncached($ClientIP, $vid, 's');
-	            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ': update tl_visitors_blocker' );
+	            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': update tl_visitors_blocker' );
 	        }
 	    }
 	    return ;
@@ -333,7 +333,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	    while ($objVisitors->next())
 	    {
 	        $GLOBALS['visitors']['debug']['screenresolutioncount'] = (boolean)$objVisitors->visitors_expert_debug_screenresolutioncount;
-	        ModuleVisitorLog::Writer('## START ##', '## SCREEN DEBUG ##', '#S'.(int)$GLOBALS['visitors']['debug']['screenresolutioncount']);
+	        ModuleVisitorLog::writeLog('## START ##', '## SCREEN DEBUG ##', '#S'.(int)$GLOBALS['visitors']['debug']['screenresolutioncount']);
 	    }
 	}
 	

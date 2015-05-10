@@ -124,7 +124,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 			    $this->_keywords      = self::KEYWORDS_NOT_DEFINED ;
 			}
 		}
-		ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , $this->__toString() );
+		ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , $this->__toString() );
 		
 	}
 	
