@@ -69,7 +69,7 @@ class ModuleVisitorsTag extends \Frontend
 	 * @param string $strTag
 	 * @return bool / string
 	 */
-	public function ReplaceInsertTagsVisitors($strTag)
+	public function replaceInsertTagsVisitors($strTag)
 	{
 		$arrTag = trimsplit('::', $strTag);
 		if ($arrTag[0] != 'visitors')
