@@ -1,6 +1,5 @@
 <?php 
 
-@error_reporting(0); @ini_set("display_errors", 0);  
 /**
  * Extension for Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
  *
