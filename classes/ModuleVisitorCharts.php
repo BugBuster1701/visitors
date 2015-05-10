@@ -260,4 +260,3 @@ class ModuleVisitorCharts
   }
   var_dump($mix);
 **/
-?>
