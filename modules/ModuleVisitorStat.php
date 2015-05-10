@@ -1347,23 +1347,20 @@ class ModuleVisitorStat extends \BackendModule
 	{
 	    if ( true === $this->User->isAdmin )
 	    {
-	        //Debug 
-	        log_message('Ich bin Admin', 'visitors_debug.log');
+	        //Debug log_message('Ich bin Admin', 'visitors_debug.log');
 	        return true; // Admin darf immer
 	    }
 	    //wenn  Schutz nicht aktiviert ist, darf jeder
 	    if (false === $visitors_stat_protected) 
 	    {
-	        //Debug 
-	        log_message('Schutz nicht aktiviert', 'visitors_debug.log');
+	        //Debug log_message('Schutz nicht aktiviert', 'visitors_debug.log');
 	    	return true; 
 	    }
 	    
 	    //Schutz aktiviert, Einschränkungen vorhanden?
 	    if (0 == strlen($visitors_stat_groups))
 	    {
-	        //Debug 
-	        log_message('visitor_stat_groups ist leer', 'visitors_debug.log');
+	        //Debug log_message('visitor_stat_groups ist leer', 'visitors_debug.log');
 	        return false; // nicht gefiltert, also darf keiner außer Admin
 	    }
 	     
@@ -1372,13 +1369,11 @@ class ModuleVisitorStat extends \BackendModule
 	    {
 	        if ( true === $this->User->isMemberOf($groupid) )
 	        {
-	            //Debug 
-	            log_message('Ich bin in der richtigen Gruppe', 'visitors_debug.log');
+	            //Debug log_message('Ich bin in der richtigen Gruppe', 'visitors_debug.log');
 	            return true; // User is Member of visitor_stat_group
 	        }
 	    }
-	    //Debug 
-	    log_message('Ich bin in der falschen Gruppe', 'visitors_debug.log');
+	    //Debug log_message('Ich bin in der falschen Gruppe', 'visitors_debug.log');
 	    return false;
 	}
 	
