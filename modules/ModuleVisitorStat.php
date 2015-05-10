@@ -250,46 +250,9 @@ class ModuleVisitorStat extends \BackendModule
 		
 		//Debug log_message(print_r($this->Template->visitorsstatBrowser,true), 'debug.log');
 		//Debug log_message(print_r($this->Template->visitorsstatAverages,true), 'debug.log');
+
 		// Kat sammeln
-		/*
-		$objVisitorsKat = \Database::getInstance()
-    	        ->prepare("SELECT 
-                                id, title
-                            FROM
-                                tl_visitors_category
-                            WHERE
-                                id IN (SELECT 
-                                        pid
-                                        FROM
-                                            tl_visitors
-                                        LEFT JOIN
-                                            tl_visitors_category ON tl_visitors.pid = tl_visitors_category.id
-                                        GROUP BY tl_visitors.pid
-                                        )
-                            ORDER BY title")
-                ->execute();
-		$intKatRows = $objVisitorsKat->numRows;
-		if ($intKatRows>0) 
-		{
-			while ($objVisitorsKat->next())
-			{
-			    $arrVisitorsKats[] = array
-			    (
-                    'id'    => $objVisitorsKat->id,
-                    'title' => $objVisitorsKat->title
-			    );
-			}
-		} 
-		else 
-		{ // es gibt keine Kat mit Zaehler
-			$arrVisitorsKats[] = array
-		    (
-                'id'    => '0',
-                'title' => '---------'
-		    );
-		}
-		*/
-		$this->Template->visitorskats          = $arrVisitorCategories;// arrVisitorsKats;
+		$this->Template->visitorskats          = $arrVisitorCategories;
 		$this->Template->visitorskatid         = $this->intKatID;
 		$this->Template->visitorsstatkat       = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['kat'];
 		$this->Template->visitors_export_title = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['export_button_title'];
