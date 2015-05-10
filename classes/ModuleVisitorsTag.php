@@ -594,7 +594,7 @@ class ModuleVisitorsTag extends \Frontend
     	    	// Load a website root page object if there is no page ID
     	    	if ($pageId === null)
     	    	{
-    	    	    $pageId = $this->VisitorGetRootPageFromUrl();
+    	    	    $pageId = $this->visitorGetRootPageFromUrl();
     	    	}
     	    	ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Page ID over URL: '. $pageId);
     	    	// Get the current page object(s)
@@ -934,7 +934,7 @@ class ModuleVisitorsTag extends \Frontend
 	    }
 	}
 	
-	protected function VisitorGetRootPageFromUrl()
+	protected function visitorGetRootPageFromUrl()
 	{
 	    // simple Frontend:getRootPageFromUrl
 	    $host = \Environment::get('host');
