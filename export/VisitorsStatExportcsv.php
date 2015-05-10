@@ -55,7 +55,7 @@ class VisitorsStatExportcsv
         return $this->ExportLib;
     }
     
-    public function export($objVisitors,$csv_delimiter,$intVisitorKatId) 
+    public function export(\Database $objVisitors,$csv_delimiter,$intVisitorKatId) 
     {
         // Download
         header('Content-Type: text/comma-separated-values');
