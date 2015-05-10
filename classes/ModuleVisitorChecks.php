@@ -36,6 +36,8 @@ class ModuleVisitorChecks extends \Frontend
 	
 	/**
 	 * Spider Bot Check
+	 * 
+	 * @return bool
 	 */
 	public function checkBot()
 	{
@@ -57,6 +59,8 @@ class ModuleVisitorChecks extends \Frontend
 	
 	/**
 	 * HTTP_USER_AGENT Special Check
+	 * 
+	 * @return bool
 	 */
 	public function checkUserAgent($visitors_category_id)
 	{
@@ -102,6 +106,8 @@ class ModuleVisitorChecks extends \Frontend
 	/**
 	 * BE Login Check
 	 * basiert auf Frontend.getLoginStatus
+	 * 
+	 * @return bool
 	 */
 	public function checkBE()
 	{
