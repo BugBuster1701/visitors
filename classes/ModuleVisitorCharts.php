@@ -19,14 +19,14 @@ class ModuleVisitorCharts
         
     // Diagrammname setzen
     public function setName($name){
-        if(!is_string($name) AND !is_numeric($name)){
+        if(!is_string($name) && !is_numeric($name)){
             throw new \Exception("Falscher Dateityp (".gettype($name).") number or string expected!");
             //return false;
         }
         $this->name = $name;
     }
     public function setName2($name2){
-        if(!is_string($name2) AND !is_numeric($name2)){
+        if(!is_string($name2) && !is_numeric($name2)){
             throw new \Exception("Falscher Dateityp (".gettype($name2).") number or string expected!");
             //return false;
         }
@@ -88,7 +88,7 @@ class ModuleVisitorCharts
 
     // Fügt einen X-Wert hinzu
     public function addX($x){
-        if(!is_numeric($x) AND !is_string($x)){
+        if(!is_numeric($x) && !is_string($x)){
             throw new \Exception("Falscher Dateityp (".gettype($x).") number or string expected!");
             //return false;
         }
