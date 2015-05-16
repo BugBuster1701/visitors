@@ -58,10 +58,14 @@ class ModuleVisitorStat extends \BackendModule
 	    	$this->setZeroBrowser();
 	    }
 	    
-	    if (\Input::post('id')>0) 
+	    if (\Input::post('id')>0) //Auswahl im Statistikmenü
 	    {
 	    	$this->intKatID = preg_replace('@\D@', '', \Input::post('id')); //  only digits
 	    } 
+	    elseif (\Input::get('id')>0) //Auswahl in der Kategorieübersicht
+	    {
+	    	$this->intKatID = preg_replace('@\D@', '', \Input::get('id')); //  only digits
+	    }
 	    else 
 	    {
 	    	$this->intKatID = 0;
