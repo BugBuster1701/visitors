@@ -124,7 +124,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 			    $this->_keywords      = self::KEYWORDS_NOT_DEFINED ;
 			}
 		}
-		ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , $this->__toString() );
+		ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , $this->__toString() );
 		
 	}
 	
@@ -471,7 +471,6 @@ class ModuleVisitorSearchEngine// extends Frontend
 	    if (preg_match('/(http|https):\/\/werbung-public-relations\.18x24\.com\//', $this->_http_referer ))
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_WERBUNGPUBLICRELATIONS1824 ;
-			//if ( isset($this->_parse_result['q']) ) { $this->_keywords = $this->_parse_result['q']; }
 			return true;
 	    }
 	    return false;

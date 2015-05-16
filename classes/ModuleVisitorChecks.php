@@ -32,35 +32,37 @@ class ModuleVisitorChecks extends \Frontend
 	/**
 	 * Current version of the class.
 	 */
-	const VERSION           = '3.2';
+	const VERSION           = '3.3';
 	
 	/**
 	 * Spider Bot Check
+	 * 
+	 * @return bool
 	 */
-	public function CheckBot()
+	public function checkBot()
 	{
 		if (!in_array('botdetection', $this->Config->getActiveModules()))
 		{
 			//botdetection Modul fehlt, Abbruch
-			$this->log('BotDetection extension required for extension: Visitors!', 'ModuleVisitorChecks CheckBot', TL_ERROR);
+			$this->log('BotDetection extension required for extension: Visitors!', 'ModuleVisitorChecks checkBot', TL_ERROR);
 			return false;
 		}
 		$ModuleBotDetection = new \BotDetection\ModuleBotDetection();
 	    if ($ModuleBotDetection->BD_CheckBotAllTests()) 
 	    {
-	    	//log_message('CheckBot True','debug.log');
-	        ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
+	        ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': True' );
 	    	return true;
 	    }
-	    //log_message('CheckBot False','debug.log');
-	    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
+	    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': False' );
 	    return false;
-	} //CheckBot
+	} //checkBot
 	
 	/**
 	 * HTTP_USER_AGENT Special Check
+	 * 
+	 * @return bool
 	 */
-	public function CheckUserAgent($visitors_category_id)
+	public function checkUserAgent($visitors_category_id)
 	{
    	    if (\Environment::get('httpUserAgent')) 
    	    { 
@@ -94,43 +96,35 @@ class ModuleVisitorChecks extends \Frontend
         $CheckUserAgent=str_replace($arrUserAgents, '#', $UserAgent);
         if ($UserAgent != $CheckUserAgent) 
         { 	// es wurde ersetzt also was gefunden
-        	//log_message('CheckBotUserAgent True','debug.log');
-            ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
+            ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': True' );
             return true;
         }
-        //log_message('CheckBotUserAgent False','debug.log');
-        ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
+        ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': False' );
         return false; 
-	} //CheckUserAgent
+	} //checkUserAgent
 	
 	/**
 	 * BE Login Check
 	 * basiert auf Frontend.getLoginStatus
+	 * 
+	 * @return bool
 	 */
-	public function CheckBE()
+	public function checkBE()
 	{
 		$strCookie = 'BE_USER_AUTH';
 		$hash = sha1(session_id() . (!$GLOBALS['TL_CONFIG']['disableIpCheck'] ? \Environment::get('ip') : '') . $strCookie);
 		if (\Input::cookie($strCookie) == $hash)
 		{
-			/*
-			$objSession = \Database::getInstance()->prepare("SELECT * FROM tl_session WHERE hash=? AND name=?")
-										 ->limit(1)
-										 ->execute($hash, $strCookie);
-			*/
 			// Try to find the session
 			$objSession = \SessionModel::findByHashAndName($hash, $strCookie);
-			//if ($objSession->numRows && $objSession->sessionID == session_id() && $objSession->ip == $this->Environment->ip && ($objSession->tstamp + $GLOBALS['TL_CONFIG']['sessionTimeout']) > time())
 			// Validate the session ID and timeout
 			if ($objSession !== null && $objSession->sessionID == session_id() && ($GLOBALS['TL_CONFIG']['disableIpCheck'] || $objSession->ip == \Environment::get('ip')) && ($objSession->tstamp + $GLOBALS['TL_CONFIG']['sessionTimeout']) > time())
 			{
-				//log_message('CheckBotBELogin True','debug.log');
-			    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
+			    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': True' );
 				return true;
 			}
 		}
-		//log_message('CheckBotBELogin False','debug.log');
-		ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
+		ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': False' );
 		return false;
 	} //CheckBE
 	
@@ -148,12 +142,10 @@ class ModuleVisitorChecks extends \Frontend
 	    $dnsResult = dns_get_record( \Idna::encode( $host ), DNS_ANY );
 	    if ( $dnsResult )
 	    {
-	        //log_message('isDomain True','debug.log');
-	        ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': True' );
+	        ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': True' );
 	        return true;
 	    }
-	    //log_message('isDomain False','debug.log');
-	    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , ': False' );
+	    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': False' );
 	    return false;
 	}
 	
