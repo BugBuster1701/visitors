@@ -19,16 +19,14 @@ class ModuleVisitorCharts
         
     // Diagrammname setzen
     public function setName($name){
-        if(!is_string($name) AND !is_numeric($name)){
+        if(!is_string($name) && !is_numeric($name)){
             throw new \Exception("Falscher Dateityp (".gettype($name).") number or string expected!");
-            //return false;
         }
         $this->name = $name;
     }
     public function setName2($name2){
-        if(!is_string($name2) AND !is_numeric($name2)){
+        if(!is_string($name2) && !is_numeric($name2)){
             throw new \Exception("Falscher Dateityp (".gettype($name2).") number or string expected!");
-            //return false;
         }
         $this->name2 = $name2;
     }
@@ -45,7 +43,6 @@ class ModuleVisitorCharts
     public function setHeight($height){
         if(!is_int($height)){
             throw new \Exception("Falscher Dateityp (".gettype($height).") integer expected!");
-            //return false;
         }
         $this->height = $height;
         return true;
@@ -60,7 +57,6 @@ class ModuleVisitorCharts
     public function setWidth($width){
         if(!is_int($width)){
             throw new \Exception("Falscher Dateityp (".gettype($width).") integer expected!");
-            //return false;
         }
         $this->width = $width;
         return true;
@@ -75,7 +71,6 @@ class ModuleVisitorCharts
     public function setMaxvalueHeight($maxvalue_height){
         if(!is_int($maxvalue_height)){
             throw new \Exception("Falscher Dateityp (".gettype($maxvalue_height).") integer expected!");
-            //return false;
         }
         $this->maxvalue_height = $maxvalue_height;
         return true;
@@ -88,9 +83,8 @@ class ModuleVisitorCharts
 
     // Fügt einen X-Wert hinzu
     public function addX($x){
-        if(!is_numeric($x) AND !is_string($x)){
+        if(!is_numeric($x) && !is_string($x)){
             throw new \Exception("Falscher Dateityp (".gettype($x).") number or string expected!");
-            //return false;
         }
         $this->x[] = $x;
         return true;
@@ -100,7 +94,6 @@ class ModuleVisitorCharts
     public function addY($y){
         if(!is_numeric($y)){
             throw new \Exception("Falscher Dateityp (".gettype($y).") number expected!");
-            //return false;
         }
         $this->y[] = $y;
         return true;
@@ -109,102 +102,92 @@ class ModuleVisitorCharts
     public function addY2($y2){
         if(!is_numeric($y2)){
             throw new \Exception("Falscher Dateityp (".gettype($y2).") number expected!");
-            //return false;
         }
         $this->y2[] = $y2;
         return true;
     }
 
     
-    public function _checkValues(){
+    public function checkValues(){
         if(!isset($this->name)){
             throw new \Exception("Kein Diagrammname 1 vorhanden!");
-            //return false;
         }
         if(!isset($this->name2)){
             throw new \Exception("Kein Diagrammname 2 vorhanden!");
-            //return false;
         }
         if(!isset($this->height)){
             throw new \Exception("Keine Höhe für das Diagramm vorhanden!");
-            //return false;
         }
         if(!isset($this->width)){
             throw new \Exception("Keine Breite für das Diagramm vorhanden!");
-            //return false;
         }
         if(!isset($this->maxvalue_height)){
             throw new \Exception("Keine Höhe für den Maximalwert vorhanden!");
-            //return false;
         }
         if(!isset($this->x)){
             throw new \Exception("Keine X-Werte vorhanden!");
-            //return false;
         }
         if(!isset($this->y)){
             throw new \Exception("Keine Y-Werte vorhanden!");
-            //return false;
         }
         if(!isset($this->y2)){
             throw new \Exception("Keine Y2-Werte vorhanden!");
-            //return false;
         }
         if(count($this->x)!=count($this->y)){
             throw new \Exception("Anzahl der X- und Y-Werte stimmt nicht überein!");
-            //return false;
         }
         return true;
     }
 
-    public function _getRelation(){
+    public function getRelation(){
         $relation = array();
         foreach($this->y as $key => $wert)
-            $relation[$key]['y'] = $wert/$this->_getMaxValue2();
+            $relation[$key]['y'] = $wert/$this->getMaxValue2();
         foreach($this->y2 as $key => $wert)
-            $relation[$key]['y2'] = $wert/$this->_getMaxValue2();
+            $relation[$key]['y2'] = $wert/$this->getMaxValue2();
         return $relation;
     }
 
-    public function _getMaxValue(){
+    public function getMaxValue(){
         return max($this->y); //y
     }
-    public function _getMaxValue2(){
+    public function getMaxValue2(){
         return max($this->y2); //y
     }
 	
-    public function _getDataNumber(){
+    public function getDataNumber(){
         return count($this->y); //y
     }
 
     public function display($echo = false) {
     	$output = '';
-        if(!$this->_checkValues())
+        if(!$this->checkValues())
             return $output;
 
         // Verhältnis aller Daten zum Maximalwert berechnen
         // Jeder Wert erhält dann als Höhe einen Bruchteil der
         // maximalen Balkenhöhe
-        $relation = $this->_getRelation();
+        $relation = $this->getRelation();
 
         // Tabelle erzeugen
-        $output .= "<table cellpadding=\"0\" style=\"width:".$this->getWidth()."px; height:".$this->getHeight()."px; text-align:center; border:solid 1px #E9E9E9; font-size:10px; margin:0px auto\">\n";
+        $output .= "<table class=\"mod_visitors_be_table\" cellpadding=\"0\" style=\"margin-left: auto; height:".$this->getHeight()."px; text-align:center; border:solid 1px #E9E9E9; font-size:10px; \">\n";
         // Diagrammname ausgeben
         $output .= "<tr>\n".
-                   "<td colspan=\"".$this->_getDataNumber()."\" class=\"tl_folder_tlist\">".$this->getName()."</td>".
-                   "<td colspan=\"".$this->_getDataNumber()."\" class=\"tl_folder_tlist\">".$this->getName2()."</td>\n".
+                   "<td colspan=\"".$this->getDataNumber()."\" class=\"tl_folder_tlist\">".$this->getName()."</td>".
+                   "<td colspan=\"".$this->getDataNumber()."\" class=\"tl_folder_tlist\">".$this->getName2()."</td>\n".
                    "</tr>\n";
 
         $output .= " <tr>\n";
         // Werte - also Balken - ausgeben
         foreach($relation as $key => $wert){
              // Breite einer Zelle und Höhe eines Balkens berechnen
-             $output .= "  <td style=\"vertical-align:bottom; height:200px; width:".floor($this->getWidth()/($this->_getDataNumber()*2))."px;\">".
-                        "   <div style=\"margin:auto 0 auto auto; background-color:red; height:".floor($this->getMaxvalueHeight()*$wert['y'])."px; width:".floor(($this->getWidth()/2)/($this->_getDataNumber()*2))."px\" title=\"".$this->y[$key]."\">".
+             $output .= "  <td style=\"vertical-align:bottom; height:200px; width:".floor($this->getWidth()/($this->getDataNumber()*2))."px;\">".
+                        "   <div style=\"margin:auto 0 auto auto; background-color:red; height:".floor($this->getMaxvalueHeight()*$wert['y'])."px; width:".floor(($this->getWidth()/2)/($this->getDataNumber()*2))."px\" title=\"".$this->y[$key]."\">".
                         "&nbsp;".
                         "   </div>".
                         "  </td>\n";
-             $output .= "  <td style=\"vertical-align:bottom; height:200px; width:".floor($this->getWidth()/($this->_getDataNumber()*2))."px;\">".
-                        "   <div style=\"margin:auto auto auto 0; background-color:green; height:".floor($this->getMaxvalueHeight()*$wert['y2'])."px; width:".floor(($this->getWidth()/2)/($this->_getDataNumber()*2))."px\" title=\"".$this->y2[$key]."\">".
+             $output .= "  <td style=\"vertical-align:bottom; height:200px; width:".floor($this->getWidth()/($this->getDataNumber()*2))."px;\">".
+                        "   <div style=\"margin:auto auto auto 0; background-color:green; height:".floor($this->getMaxvalueHeight()*$wert['y2'])."px; width:".floor(($this->getWidth()/2)/($this->getDataNumber()*2))."px\" title=\"".$this->y2[$key]."\">".
                         "&nbsp;".
                         "   </div>".
                         "  </td>\n";
@@ -260,4 +243,3 @@ class ModuleVisitorCharts
   }
   var_dump($mix);
 **/
-?>

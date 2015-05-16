@@ -1,6 +1,5 @@
 <?php 
 
-@error_reporting(0); @ini_set("display_errors", 0);  
 /**
  * Extension for Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
  *
@@ -66,7 +65,7 @@ class VisitorsRunonceJob extends Controller
 						    $migration = true;
 						}
 					} // while
-					if ($migration == true) 
+					if ($migration === true) 
 					{
 						//Feld versuchen zu fuellen
 						$objVisitorsTemplatesNew = $this->Database->execute("SELECT `id`, `name` , `visitors_categories` FROM `tl_module` WHERE `type`='visitors'");
@@ -81,7 +80,10 @@ class VisitorsRunonceJob extends Controller
 							if (count($arrKat) == 1 && (int)$arrKat[0] >0)
 							{ //nicht NULL
 								//eine eindeutige Zuordnung, kann eindeutig migriert werden
-								$objTemplatesOld = $this->Database->execute("SELECT `id`, `title`, `visitors_template` FROM `tl_visitors_category` WHERE id =".$arrKat[0]."");
+								$objTemplatesOld = $this->Database->prepare("SELECT `id`, `title`, `visitors_template` 
+                                                                             FROM `tl_visitors_category` 
+                                                                             WHERE id =?")
+                                                                  ->execute($arrKat[0]);
 								while ($objTemplatesOld->next())
 								{
 									$this->Database->prepare("UPDATE tl_module SET visitors_template=? WHERE id=?")->execute($objTemplatesOld->visitors_template, $objVisitorsTemplatesNew->id);
@@ -92,7 +94,10 @@ class VisitorsRunonceJob extends Controller
 							}
 							elseif (count($arrKat) > 1) 
 							{
-								$objTemplatesOld = $this->Database->execute("SELECT `id`, `title`, `visitors_template` FROM `tl_visitors_category` WHERE id =".$arrKat[0]."");
+								$objTemplatesOld = $this->Database->prepare("SELECT `id`, `title`, `visitors_template` 
+                                                                             FROM `tl_visitors_category` 
+                                                                             WHERE id =?")
+                                                                  ->execute($arrKat[0]);
 								while ($objTemplatesOld->next())
 								{
 									$strText = 'Visitors-Module "'.$objVisitorsTemplatesNew->name.'" could not be migrated';
@@ -121,7 +126,7 @@ class VisitorsRunonceJob extends Controller
     		// MacOSX-2-iOS
 		    $this->Database->execute("UPDATE `tl_visitors_browser` SET `visitors_os`='iOS' WHERE `visitors_os`='MacOSX' AND `visitors_browser` LIKE 'iPhone%' OR `visitors_browser` LIKE 'iPad%' OR `visitors_browser` LIKE 'iPod%'");
 		    // Windows-2-Win8, leider nicht eindeutig.
-		    //$this->Database->execute("UPDATE `tl_visitors_browser` SET `visitors_os`='Win8' WHERE `visitors_os`='Windows' AND `visitors_browser` IN ('IE 9.0','IE 10.0')");
+		    // :-( $this->Database->execute("UPDATE `tl_visitors_browser` SET `visitors_os`='Win8' WHERE `visitors_os`='Windows' AND `visitors_browser` IN ('IE 9.0','IE 10.0')");
 		}
 		if ($this->Database->tableExists('tl_visitors_referrer'))
 		{
@@ -145,8 +150,6 @@ class VisitorsRunonceJob extends Controller
 		    while ($objMulti->next())
 		    {
 		        $currentRow = 0;
-		        $visits     = 0;
-		        $hits       = 0;
 		        $realId     = 0;
 		        $objMultiRows = $this->Database->prepare("SELECT `id`,`vid`,`visitors_date`,`visitors_visit`, `visitors_hit`
                                                             FROM `tl_visitors_counter`
@@ -162,17 +165,17 @@ class VisitorsRunonceJob extends Controller
     		        }
     		        else 
     		        {
-    		            $objUpdate = $this->Database->prepare("UPDATE `tl_visitors_counter`
-    		                                                   SET `visitors_visit`=`visitors_visit`+ ?
-    		                                                     , `visitors_hit`  =`visitors_hit`  + ?
-    		                                                   WHERE `id`=?")
-    		                                        ->execute($objMultiRows->visitors_visit, 
-    		                                                  $objMultiRows->visitors_hit, 
-    		                                                  $realId);
+    		            $this->Database->prepare("UPDATE `tl_visitors_counter`
+                                                   SET `visitors_visit`=`visitors_visit`+ ?
+                                                     , `visitors_hit`  =`visitors_hit`  + ?
+                                                   WHERE `id`=?")
+                                        ->execute($objMultiRows->visitors_visit, 
+                                                  $objMultiRows->visitors_hit, 
+                                                  $realId);
 
-    		            $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_counter`
-    		                                                   WHERE `id`=?")
-    		                                        ->execute($objMultiRows->id);
+    		            $this->Database->prepare("DELETE FROM `tl_visitors_counter`
+                                                   WHERE `id`=?")
+                                        ->execute($objMultiRows->id);
     		        }
 		        } //while $objMultiRows
 		    } //while $objMulti
@@ -181,10 +184,10 @@ class VisitorsRunonceJob extends Controller
 		// leere Generic eliminieren (Issue #67)
 		if ($this->Database->tableExists('tl_visitors_searchengines'))
 		{
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_searchengines`
-                                                    WHERE `visitors_searchengine`=? 
-                                                    AND `visitors_keywords`=?")
-                                        ->execute('Generic','');
+		    $this->Database->prepare("DELETE FROM `tl_visitors_searchengines`
+                                        WHERE `visitors_searchengine`=? 
+                                        AND `visitors_keywords`=?")
+                            ->execute('Generic','');
 		}
 
 		//Contao 3.1, database2DCA, delete for manual installations
@@ -200,37 +203,50 @@ class VisitorsRunonceJob extends Controller
 		//Korrektur aus 3.4.0 alpha 2
 		if ($this->Database->tableExists('tl_visitors_pages'))
 		{
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_pages`
-                                                    WHERE `visitors_page_lang`=?
-                                                  ")
-                                        ->execute('');
+		   $this->Database->prepare("DELETE FROM `tl_visitors_pages`
+                                     WHERE `visitors_page_lang`=?
+                                  ")
+                           ->execute('');
 		}
 		//Korrektur falscher Referrer, in Botdetection behoben
 		if ($this->Database->tableExists('tl_visitors_referrer'))
 		{
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
-                                                    WHERE `visitors_referrer_dns` like ?
-                                                  ")
-                                        ->execute('%semalt.com');
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
-                                                    WHERE `visitors_referrer_dns` like ?
-                                                  ")
-                                        ->execute('%makemoneyonline.com');
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                        WHERE `visitors_referrer_dns` like ?
+                                      ")
+                            ->execute('%semalt.com');
+
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                        WHERE `visitors_referrer_dns` like ?
+                                      ")
+                            ->execute('%makemoneyonline.com');
 		    
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
-                                                    WHERE `visitors_referrer_dns` like ?
-                                                  ")
-                                        ->execute('%buttons-for-website.com');
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                        WHERE `visitors_referrer_dns` like ?
+                                      ")
+                            ->execute('%buttons-for-website.com');
 		    
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
-                                                    WHERE `visitors_referrer_dns` like ?
-                                                  ")
-                                        ->execute('%descargar-musica-gratis.net');
-		    
-		    $objDelete = $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
-                                                    WHERE `visitors_referrer_dns` like ?
-                                                  ")
-                                        ->execute('%baixar-musicas-gratis.com');
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                        WHERE `visitors_referrer_dns` like ?
+                                      ")
+                            ->execute('%descargar-musica-gratis.net');
+
+		    $this->Database->prepare("DELETE FROM `tl_visitors_referrer`
+                                        WHERE `visitors_referrer_dns` like ?
+                                      ")
+                            ->execute('%baixar-musicas-gratis.com');
+		}
+		//Neues Feld ab 3.5.0
+        if (    $this->Database->fieldExists('visitors_page_id'  , 'tl_visitors_pages')
+            && !$this->Database->fieldExists('visitors_page_type', 'tl_visitors_pages') 
+			)
+		{
+		    $this->Database->execute("ALTER TABLE `tl_visitors_pages` ADD `visitors_page_type` tinyint(3) UNSIGNED NOT NULL default '0'");
+		    $this->Database->execute("ALTER TABLE `tl_visitors_pages` 
+                                      DROP KEY `vid_visitors_page_date_visitors_page_id`,
+                                      ADD KEY `vid_visitors_page_date_visitors_page_id_visitors_page_type`
+                                      (`vid`,`visitors_page_date`,`visitors_page_id`,`visitors_page_type`)
+		                             ");
 		}
 		
 	} //function run
@@ -238,4 +254,3 @@ class VisitorsRunonceJob extends Controller
 
 $objVisitorsRunonceJob = new VisitorsRunonceJob();
 $objVisitorsRunonceJob->run();
-

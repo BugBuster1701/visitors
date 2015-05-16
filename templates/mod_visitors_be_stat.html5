@@ -131,7 +131,7 @@ o.open = function(url,type){
 	<div class="tl_limit tl_subpanel">
 		<strong><?php echo $this->visitorsstatkat; ?>:</strong>
 		<input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
-		<select onchange="this.form.submit()" class="tl_select" name="id" style="width:200px;">
+		<select onchange="this.form.submit()" class="tl_select" name="id">
 <?php foreach ($this->visitorskats as $visitorskat): ?>
   <?php if ($visitorskat['id']==$this->visitorskatid) : ?>
 		    <option selected="selected" value="<?php echo $visitorskat['id']; ?>"><?php echo $visitorskat['title']; ?></option>
@@ -168,7 +168,7 @@ o.open = function(url,type){
 </div> <!--  tl_panel -->
 <br> <br>
 <?php if ($this->visitorsanzcounter==0) : ?>
-	<table summary="Table lists records" class="mod_visitors_be_table_max">
+	<table summary="Table lists records" class="tl_listing">
 	<tbody>
 	<tr>
 	    <td class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['no_data']; ?></td>
@@ -182,7 +182,7 @@ o.open = function(url,type){
 <!-- Schleife ueber alle Counter -->
 <?php for ($vcid=0; $vcid<$this->visitorsanzcounter; $vcid++) : ?>
 <div class="tl_formbody_edit">
-	<table summary="Table lists records" class="mod_visitors_be_table_max">
+	<table summary="Table lists records" class="tl_listing">
 	<tbody>
 	<tr>
 	    <td style="width: 320px; padding-left: 2px;"                     class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['name']; ?></td>
@@ -207,7 +207,7 @@ o.open = function(url,type){
 	</table>
 <?php if ($this->visitorsstatTotals[$vcid]['VisitorsTotalVisitCount'] >0) : ?>
 <?php if ($this->visitorskatid>0) : ?>
-    <div class="mod_visitors_be_II">
+    <div class="tl_listing">
         <div class="mod_visitors_be_statistics">
 			<table summary="Table lists statistik" class="mod_visitors_be_table">
 			<tbody>
@@ -263,7 +263,7 @@ o.open = function(url,type){
 		</div>
 		<div class="mod_visitors_be_initial">
 <?php if ($this->visitorsstatDays[$vcid][110]['visitors_visit_start']>0 || $this->visitorsstatDays[$vcid][110]['visitors_hit_start']>0) : ?>
-            <table summary="Table lists initial" class="mod_visitors_be_table_330">
+            <table summary="Table lists initial" class="mod_visitors_be_table" style="margin-left: auto;">
 			<tbody>
 			<tr>
 			    <td style="width: 120px; padding-left: 2px; text-align: left;"   class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['parameter']; ?></td>
@@ -279,7 +279,7 @@ o.open = function(url,type){
 			</table>
 			<br>
 <?php endif; ?>
-            <table summary="Table lists average" class="mod_visitors_be_table_330">
+            <table summary="Table lists average" class="mod_visitors_be_table" style="margin-left: auto;">
 			<tbody>
 			<tr>
 			    <td style="padding-left: 2px; text-align: left;"  class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_legend']; ?></td>
@@ -306,7 +306,7 @@ o.open = function(url,type){
 			</tbody>
 			</table>
 			<br>
-			<table class="mod_visitors_be_table_330" summary="Table lists day with most visitors">
+			<table class="mod_visitors_be_table" style="margin-left: auto;" summary="Table lists day with most visitors">
 			<tbody>
 			<tr>
 			    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: left;"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['most_visitors']; ?>:</td>
@@ -326,7 +326,7 @@ o.open = function(url,type){
 			</tbody>
 			</table>
 			<br>
-			<table summary="Table lists day with fewest visitors" class="mod_visitors_be_table_330">
+			<table summary="Table lists day with fewest visitors" class="mod_visitors_be_table" style="margin-left: auto;">
 				<tbody>
 				<tr>
 				    <td style="padding-left: 2px; text-align: left;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['fewest_visitors']; ?>:</td>
@@ -346,7 +346,7 @@ o.open = function(url,type){
 				</tbody>
 			</table>
 			<br>
-			<table class="mod_visitors_be_table_330" summary="Table lists online">
+			<table class="mod_visitors_be_table" style="margin-left: auto;" summary="Table lists online">
 				<tbody>
 				<tr>
 				    <td class="tl_folder_tlist" style="padding-left: 2px; text-align: left;"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['currently online']; ?>:</td>
@@ -357,7 +357,7 @@ o.open = function(url,type){
         </div>
 	</div> <!-- 2 -->
 	<div style="clear:left;"></div><hr>
-	<div class="mod_visitors_be_III">
+	<div class="tl_listing">
 		<div class="mod_visitors_be_countings">
 			<table summary="Table lists countings" class="mod_visitors_be_table">
 			<tbody>
@@ -445,7 +445,7 @@ o.open = function(url,type){
 	</div> <!-- 3 -->
 	<div style="clear:left;"></div><hr>
 	
-	<div class="mod_visitors_be_page_stat limit_height h88 block" style="height: 88px;">
+	<div class="tl_listing limit_height h88 block" style="height: 88px;">
 		<?php echo $this->visitorsstatPageVisitHits[$vcid]; ?>
 		<?php echo $this->visitorsstatPageVisitHitsDays[$vcid]; ?>
 		<div style="clear:left;"><br></div>	
@@ -456,9 +456,9 @@ o.open = function(url,type){
 	
 	
 	
-	<div class="mod_visitors_be_IV limit_height h88 block" style="height: 88px;"> 
+	<div class="tl_listing limit_height h88 block" style="height: 88px;"> 
 		<div class="mod_visitors_be_browser">
-			<table summary="Table lists countings" class="mod_visitors_be_table_360">
+			<table summary="Table lists countings" class="mod_visitors_be_table">
 			<tbody>
 			<tr>
 				<td colspan="5"  style="padding-left: 2px; text-align: left;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_top20']; ?></td>
@@ -492,7 +492,7 @@ o.open = function(url,type){
 		</div>
 		<div class="mod_visitors_be_browser_mini">
 			<div class="mod_visitors_be_browser2">
-				<table summary="Table lists countings" class="mod_visitors_be_table">
+				<table summary="Table lists countings" class="mod_visitors_be_table" style="margin-left:auto;">
 				<tbody>
 				<tr style="height: 25px;">
 					<td colspan="2"  style="height: 19px; padding-left: 2px; text-align: left;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_top10']; ?></td>
@@ -512,7 +512,7 @@ o.open = function(url,type){
 				</table>
 			</div>
 			<div class="mod_visitors_be_browser_other"> <!-- Unknown -->
-				<table summary="Table lists countings" class="mod_visitors_be_table">
+				<table summary="Table lists countings" class="mod_visitors_be_table" style="margin-left:auto;">
 				<tbody>
 				<tr>
 					<td colspan="2"  style="padding-left: 2px; text-align: left;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['browser_definition']; ?></td>
@@ -542,9 +542,9 @@ o.open = function(url,type){
 	</div> <!-- 4 -->
 	<div style="clear:left;"></div>
 	<hr>
-	<div class="mod_visitors_be_V limit_height h88 block" style="height: 88px;"> 
+	<div class="tl_listing limit_height h88 block" style="height: 88px;"> 
 		<div class="mod_visitors_be_searchenginekeywords">
-			<table summary="Table lists countings" class="mod_visitors_be_table_360">
+			<table summary="Table lists countings" class="mod_visitors_be_table">
 			<tbody>
 			<tr>
 				<td colspan="3"  style="padding-left: 2px; text-align: center;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchenginekeywords_top']; ?></td>
@@ -567,7 +567,7 @@ o.open = function(url,type){
 			</table>
 		</div>
 		<div class="mod_visitors_be_searchengines"> 
-			<table summary="Table lists countings" class="mod_visitors_be_table">
+			<table summary="Table lists countings" class="mod_visitors_be_table" style="margin-left:auto;">
 			<tbody>
 			<tr>
 				<td colspan="2"  style="padding-left: 2px; text-align: center;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengines_top']; ?></td>
@@ -587,7 +587,7 @@ o.open = function(url,type){
 			</tbody>
 			</table>
 		</div>
-		<table summary="Table lists records" class="mod_visitors_be_table_max">
+		<table summary="Table lists records" class="tl_listing">
 		<tbody>
 <?php if ($this->visitorssearchengine === false) : ?>
 		<tr>
@@ -604,9 +604,9 @@ o.open = function(url,type){
 	<div style="clear:left;"></div>	
 	<hr>
 	
-	<div class="mod_visitors_be_VI limit_height h88 block" style="height: 88px;"> 
+	<div class="tl_listing limit_height h88 block" style="height: 88px;"> 
 		<div class="mod_visitors_be_referrer">
-			<table summary="Table lists countings" class="mod_visitors_be_table_360">
+			<table summary="Table lists countings" class="mod_visitors_be_table">
 			<tbody>
 			<tr>
 				<td colspan="3"  style="padding-left: 2px; text-align: left;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['referrer_top']; ?></td>
@@ -636,7 +636,7 @@ o.open = function(url,type){
 	
 	<!-- Screen resolution -->
 	<hr>
-	<div class="mod_visitors_be_screen_stat limit_height h88 block" style="height: 88px;">
+	<div class="tl_listing limit_height h88 block" style="height: 88px;">
 		<?php echo $this->visitorsstatScreenTop[$vcid]; ?>
 		<?php echo $this->visitorsstatScreenTopDays[$vcid]; ?>
 	</div>
@@ -644,7 +644,7 @@ o.open = function(url,type){
 		
 <?php endif; ?>
 <?php else : ?>
-	    <table summary="Table lists records" class="mod_visitors_be_table_max">
+	    <table summary="Table lists records" class="tl_listing">
 		<tbody>
 		<tr>
 		    <td class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['no_stat_data']; ?></td>

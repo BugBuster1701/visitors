@@ -33,8 +33,7 @@ while ($dir != '.' && $dir != '/' && !is_file($dir . '/system/initialize.php'))
 
 if (!is_file($dir . '/system/initialize.php'))
 {
-    echo 'Could not find initialize.php!';
-    exit(1);
+    throw new \ErrorException('Could not find initialize.php!',2,1,basename(__FILE__),__LINE__);
 }
 require($dir . '/system/initialize.php');
 
@@ -49,8 +48,6 @@ require($dir . '/system/initialize.php');
  */
 class ModuleVisitorsScreenCount extends \Frontend  
 {
-	private $_PF  = false; // Prefetch found
-	
 	private $_SCREEN = false; // Screen Resolution
 	
 	/**
@@ -68,8 +65,8 @@ class ModuleVisitorsScreenCount extends \Frontend
 		if ((int)\Input::get('vcid')  > 0)
 		{
 			$visitors_category_id = (int)\Input::get('vcid');
-			$this->VisitorScreenSetDebugSettings($visitors_category_id);
-            $this->VisitorScreenSetResolutions();
+			$this->visitorScreenSetDebugSettings($visitors_category_id);
+            $this->visitorScreenSetResolutions();
             if ($this->_SCREEN !== false) 
             {
     			/* __________  __  ___   _____________   ________
@@ -98,7 +95,7 @@ class ModuleVisitorsScreenCount extends \Frontend
     			{
     				while ($objVisitors->next()) 
     				{
-    				    $this->VisitorScreenCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
+    				    $this->visitorScreenCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
     				    
     				}
     			}
@@ -120,7 +117,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	/**
 	 * Set $_SCREEN variable
 	 */
-	protected function VisitorScreenSetResolutions()
+	protected function visitorScreenSetResolutions()
 	{
 	    $this->_SCREEN = array( "scrw"  => (int)\Input::get('scrw'),
                     	        "scrh"  => (int)\Input::get('scrh'),
@@ -133,7 +130,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	        (int)\Input::get('scrih') == 0
 	       )
 	    {
-	        ModuleVisitorLog::Writer(__METHOD__ ,
+	        ModuleVisitorLog::writeLog(__METHOD__ ,
                                      __LINE__ , 
                                      'ERR: '.print_r(array( "scrw"  => \Input::get('scrw'),
                                                 	        "scrh"  => \Input::get('scrh'),
@@ -148,27 +145,27 @@ class ModuleVisitorsScreenCount extends \Frontend
 	/**
 	 * Insert/Update Counter
 	 */
-	protected function VisitorScreenCountUpdate($vid, $BlockTime, $visitors_category_id)
+	protected function visitorScreenCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
-	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ': '.print_r($this->_SCREEN, true) );
+	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': '.print_r($this->_SCREEN, true) );
 	    
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
-		if ($ModuleVisitorChecks->CheckBot() == true) 
+		if ($ModuleVisitorChecks->checkBot() === true) 
 		{
-			//log_message("VisitorCountUpdate BOT=true","debug.log");
+			//Debug log_message("visitorCountUpdate BOT=true","debug.log");
 	    	return; //Bot / IP gefunden, wird nicht gezaehlt
 	    }
-	    if ($ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
+	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) === true) 
 	    {
-	    	//log_message("VisitorCountUpdate UserAgent=true","debug.log");
+	    	//Debug log_message("visitorCountUpdate UserAgent=true","debug.log");
 	    	return ; //User Agent Filterung
 	    }
-	    if ($ModuleVisitorChecks->CheckBE() == true)
+	    if ($ModuleVisitorChecks->checkBE() === true)
 	    {
 	        return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
 	    }
-	    //log_message("VisitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
-	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->VisitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
+	    //Debug log_message("visitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
+	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->visitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
 	    $BlockTime = ($BlockTime == '') ? 1800 : $BlockTime; //Sekunden
 	    $CURDATE = date('Y-m-d');
 
@@ -193,7 +190,7 @@ class ModuleVisitorsScreenCount extends \Frontend
                             WHERE
                                 visitors_ip = ? AND vid = ? AND visitors_type = ?")
                 ->executeUncached($ClientIP, $vid, 's');
-	    //ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':\n'.$objVisitBlockerIP->query );
+	    //Debug ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':\n'.$objVisitBlockerIP->query );
 	    //Daten lesen, nur Screen Angaben, die Inner Angaben werden jedesmal überschrieben 
 	    $objScreenCounter = \Database::getInstance() 
                     	    ->prepare("SELECT
@@ -236,12 +233,12 @@ class ModuleVisitorsScreenCount extends \Frontend
                 	        ->prepare("INSERT IGNORE INTO tl_visitors_screen_counter %s")
                 	        ->set($arrSet)
                 	        ->executeUncached();
-    	        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ': insert into tl_visitors_screen_counter' );
+    	        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': insert into tl_visitors_screen_counter' );
     	        return ;
     	    } 
     	    else 
     	    {
-    	        //ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.'Update tstamp' );
+    	        //Debug ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.'Update tstamp' );
     	    	// Update tstamp
     	    	\Database::getInstance()
     	    	        ->prepare("UPDATE
@@ -251,16 +248,16 @@ class ModuleVisitorsScreenCount extends \Frontend
                                     WHERE
                                         visitors_ip=? AND vid=? AND visitors_type=?")
                         ->executeUncached($ClientIP, $vid, 's');
-    	    	ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ': update tl_visitors_blocker' );
+    	    	ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': update tl_visitors_blocker' );
     	    	return ;
     	    }
 	    }
 	    else 
 	    {
-	        //ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$objScreenCounter->numRows );
+	        //Debug ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$objScreenCounter->numRows );
 	        if ($objVisitBlockerIP->numRows < 1)
 	        {
-	            //ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$objVisitBlockerIP->numRows );
+	            //Debug ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$objVisitBlockerIP->numRows );
 	            // Insert IP
 	            \Database::getInstance()
                             ->prepare("INSERT INTO
@@ -294,11 +291,11 @@ class ModuleVisitorsScreenCount extends \Frontend
                                               $this->_SCREEN['scrw'],
                                               $this->_SCREEN['scrh']
                                               );
-                ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ': update tl_visitors_screen_counter' );
+                ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': update tl_visitors_screen_counter' );
 	        }
 	        else 
 	        {
-	            //ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.'Update tstamp' );
+	            //Debug ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.'Update tstamp' );
 	            // Update tstamp
 	            \Database::getInstance()
                             ->prepare("UPDATE
@@ -308,13 +305,13 @@ class ModuleVisitorsScreenCount extends \Frontend
                                         WHERE
                                             visitors_ip=? AND vid=? AND visitors_type=?")
                             ->executeUncached($ClientIP, $vid, 's');
-	            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ': update tl_visitors_blocker' );
+	            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ': update tl_visitors_blocker' );
 	        }
 	    }
 	    return ;
-	} //VisitorScreenCountUpdate
+	} //visitorScreenCountUpdate
 	
-	protected function VisitorScreenSetDebugSettings($visitors_category_id)
+	protected function visitorScreenSetDebugSettings($visitors_category_id)
 	{
 	    $GLOBALS['visitors']['debug']['screenresolutioncount'] = false;
 	     
@@ -333,7 +330,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	    while ($objVisitors->next())
 	    {
 	        $GLOBALS['visitors']['debug']['screenresolutioncount'] = (boolean)$objVisitors->visitors_expert_debug_screenresolutioncount;
-	        ModuleVisitorLog::Writer('## START ##', '## SCREEN DEBUG ##', '#S'.(int)$GLOBALS['visitors']['debug']['screenresolutioncount']);
+	        ModuleVisitorLog::writeLog('## START ##', '## SCREEN DEBUG ##', '#S'.(int)$GLOBALS['visitors']['debug']['screenresolutioncount']);
 	    }
 	}
 	
@@ -342,14 +339,14 @@ class ModuleVisitorsScreenCount extends \Frontend
 	 *
 	 * @return string
 	 */
-	protected function VisitorGetUserIP()
+	protected function visitorGetUserIP()
 	{
 	    $UserIP = \Environment::get('ip');
 	    if (strpos($UserIP, ',') !== false) //first IP
 	    {
 	        $UserIP = trim( substr($UserIP, 0, strpos($UserIP, ',') ) );
 	    }
-	    if ( true === $this->VisitorIsPrivateIP($UserIP) &&
+	    if ( true === $this->visitorIsPrivateIP($UserIP) &&
 	        false === empty($_SERVER['HTTP_X_FORWARDED_FOR'])
 	    )
 	    {
@@ -373,7 +370,7 @@ class ModuleVisitorsScreenCount extends \Frontend
 	 * @param string $UserIP
 	 * @return boolean         true = private/reserved
 	 */
-	protected function VisitorIsPrivateIP($UserIP = false)
+	protected function visitorIsPrivateIP($UserIP = false)
 	{
 	    return !filter_var($UserIP, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 	}

@@ -34,8 +34,7 @@ while ($dir != '.' && $dir != '/' && !is_file($dir . '/system/initialize.php'))
  
 if (!is_file($dir . '/system/initialize.php'))
 {
-    echo 'Could not find initialize.php!';
-    exit(1);
+    throw new \ErrorException('Could not find initialize.php!',2,1,basename(__FILE__),__LINE__);
 }
 require($dir . '/system/initialize.php');
 
@@ -74,14 +73,6 @@ class VisitorsStatExport extends \Backend // Backend bringt DB mit
     // Die parametrisierte Factorymethode
     public function factory($type)
     {
-    	/*
-        if (@include(realpath(dirname(__FILE__)) . '/VisitorsStatExport' . $type . '.php')) {
-            $classname = 'VisitorsStatExport' . $type;
-            return new $classname;
-        } else {
-            return false;
-        }
-        */
         $classname = 'VisitorsStatExport' . $type;
         $this->import('Visitors\\' . $classname ,$classname); 
         return $this->$classname;
@@ -146,7 +137,7 @@ class VisitorsStatExport extends \Backend // Backend bringt DB mit
                             ORDER BY tvc.title, tv.id, tvs.visitors_date")
                 ->execute($intVisitorKatId);
 	    $objExport->export($objVisitors, $this->strExportDelimiter, $intVisitorKatId);
-	    exit;
+        return ;
 	}
 }
 

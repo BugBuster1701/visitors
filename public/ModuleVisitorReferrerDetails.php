@@ -32,8 +32,7 @@ while ($dir != '.' && $dir != '/' && !is_file($dir . '/system/initialize.php'))
  
 if (!is_file($dir . '/system/initialize.php'))
 {
-    echo 'Could not find initialize.php!';
-    exit(1);
+    throw new \ErrorException('Could not find initialize.php!',2,1,basename(__FILE__),__LINE__);
 }
 require($dir . '/system/initialize.php');
 
@@ -91,10 +90,10 @@ echo '
 	<h1 class="main_headline">'.$GLOBALS['TL_LANG']['tl_visitors_referrer']['details_for'].': '.\Idna::decode(str_rot13($this->Input->get('tl_referrer',true))).'</h1>
 	<br /><br />
 	<div class="tl_formbody_edit">
-		<table cellpadding="0" cellspacing="0" summary="Table lists records" class="mod_visitors_be_table_max">
+		<table cellpadding="0" cellspacing="0" summary="Table lists records" class="mod_visitors_be_table">
 		<tbody>
 			<tr>
-				<td style="text-align: center;" class="tl_folder_tlist">'.$GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer'].'</td>
+				<td style="padding-left: 2px;" class="tl_folder_tlist">'.$GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer'].'</td>
 				<td style="width: 120px; padding-left: 2px;" class="tl_folder_tlist">'.$GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer_last_seen'].'</td>
 				<td style="width: 80px; padding-left: 2px; text-align: center;" class="tl_folder_tlist">'.$GLOBALS['TL_LANG']['tl_visitors_referrer']['number'].'</td>
 			</tr>';

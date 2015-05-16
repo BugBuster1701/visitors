@@ -37,4 +37,10 @@ $GLOBALS['TL_LANG']['tl_visitors_category']['tstamp']['0']              = 'Ände
 $GLOBALS['TL_LANG']['tl_visitors_category']['tstamp']['1']              = 'Datum und Uhrzeit der letzten Änderung';
 $GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']['0'] = 'Zählmodus';
 $GLOBALS['TL_LANG']['tl_visitors_category']['visitors_cache_mode']['1'] = 'Zählweise, wenn die Seiten zwischengespeichert werden.';
-
+$GLOBALS['TL_LANG']['tl_visitors_category']['protected_stat_legend']        = 'Zugriffsschutz für die Statistik';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_admins']['0']    = 'Administratoren';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_admins']['1']    = 'Administratoren haben uneingeschränkten Zugriff auf alle Besucherstatistiken.';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_groups']['0']    = 'Erlaubte Benutzergruppen';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_groups']['1']    = 'Hier können Sie festlegen, welche Benutzergruppen die Besucherstatistik der Kategorie im Backend sehen dürfen.';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_protected']['0'] = 'Schutz der Statistik';
+$GLOBALS['TL_LANG']['tl_visitors_category']['visitors_stat_protected']['1'] = 'Den Inhalt der Besucherstatistik nur bestimmten Gruppen im Backend anzeigen.';

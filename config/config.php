@@ -13,8 +13,8 @@
  * @see	       https://github.com/BugBuster1701/visitors
  */
 
-define('VISITORS_VERSION', '3.4');
-define('VISITORS_BUILD'  , '1');
+define('VISITORS_VERSION', '3.5');
+define('VISITORS_BUILD'  , '0');
 
 /**
  * -------------------------------------------------------------------------
@@ -50,4 +50,4 @@ array_insert($GLOBALS['FE_MOD']['miscellaneous'], 0, array
  * HOOKS
  * -------------------------------------------------------------------------
  */
-$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('Visitors\ModuleVisitorsTag', 'ReplaceInsertTagsVisitors');
+$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('Visitors\ModuleVisitorsTag', 'replaceInsertTagsVisitors');

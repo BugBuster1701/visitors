@@ -3,7 +3,7 @@
 /**
  * Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
  *
- * Contao Module "Visitors" - DCA Helper Class DCA_visitors_category
+ * Contao Module "Visitors" - DCA Helper Class DcaVisitorsCategory
  *
  * @copyright  Glen Langer 2012..2014 <http://www.contao.glen-langer.de>
  * @author     Glen Langer (BugBuster)
@@ -19,14 +19,14 @@
 namespace BugBuster\Visitors;
 
 /**
- * DCA Helper Class DCA_visitors_category
+ * DCA Helper Class DcaVisitorsCategory
  *
  * @copyright  Glen Langer 2012..2014 <http://www.contao.glen-langer.de>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  *
  */
-class DCA_visitors_category extends \Backend 
+class DcaVisitorsCategory extends \Backend 
 {
     public function labelCallback($arrRow)
 	{
@@ -39,5 +39,10 @@ class DCA_visitors_category extends \Backend
 			$version_warning = '<br /><span style="color:#ff0000;">[ERROR: Visitors-Module requires at least Contao 3.0]</span>';
 		}
 		return $label_1 . $label_2 . $version_warning;//. '<br /><span style="color:#b3b3b3;">['.$label_2.']</span>';
-	}  
+	}
+
+	public function getAdminCheckbox($varValue)
+	{
+        return '1';
+	}
 }

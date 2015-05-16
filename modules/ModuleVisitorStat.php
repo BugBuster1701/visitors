@@ -45,6 +45,7 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	public function __construct()
 	{
+	    $this->import('BackendUser', 'User');
 	    parent::__construct();
 	    
 	    if (\Input::get('act',true)=='zero') 
@@ -57,10 +58,14 @@ class ModuleVisitorStat extends \BackendModule
 	    	$this->setZeroBrowser();
 	    }
 	    
-	    if (\Input::post('id')>0) 
+	    if (\Input::post('id')>0) //Auswahl im Statistikmenü
 	    {
 	    	$this->intKatID = preg_replace('@\D@', '', \Input::post('id')); //  only digits
 	    } 
+	    elseif (\Input::get('id')>0) //Auswahl in der Kategorieübersicht
+	    {
+	    	$this->intKatID = preg_replace('@\D@', '', \Input::get('id')); //  only digits
+	    }
 	    else 
 	    {
 	    	$this->intKatID = 0;
@@ -72,6 +77,8 @@ class ModuleVisitorStat extends \BackendModule
 	 */
 	protected function compile()
 	{
+	    $intCatIdAllowed = false;
+	    /*
 	    if ($this->intKatID == 0) //direkter Aufruf ohne ID 
 	    { 
 	        $objVisitorsKatID = \Database::getInstance()
@@ -89,18 +96,45 @@ class ModuleVisitorStat extends \BackendModule
     	    {
     	        $this->intKatID = $objVisitorsKatID->ANZ;
     	    }
+	    }*/
+	    
+	    //alle Kategorien holen die der User sehen darf
+	    $arrVisitorCategories = $this->getVisitorCategoriesByUsergroups();
+	    // no categories : array('id' => '0', 'title' => '---------');
+	    // empty array   : array('id' => '0', 'title' => '---------');
+	    // array[0..n]   : array(0, array('id' => '1', ....), 1, ....)
+	    
+	    if ($this->intKatID == 0) //direkter Aufruf ohne ID
+	    {
+	        $this->intKatID = $this->getCatIdByCategories($arrVisitorCategories);
 	    }
+	    else
+        {
+            // ID des Aufrufes erlaubt?
+            foreach ($arrVisitorCategories as $value)
+            {
+                if ($this->intKatID == $value['id'])
+                {
+                    $intCatIdAllowed = true;
+                }
+            }
+            if ( false === $intCatIdAllowed )
+            {
+            	$this->intKatID = $this->getCatIdByCategories($arrVisitorCategories);
+            }
+	    }
+	    
 		// Alle Zähler je Kat holen, die Aktiven zuerst
 		$objVisitorsX = \Database::getInstance()
-		        ->prepare("SELECT 
-                                id 
-                            FROM 
-                                tl_visitors 
-                            WHERE 
-                                pid=? 
-                            ORDER BY 
-                                published DESC,id")
-                ->execute($this->intKatID);
+            		        ->prepare("SELECT 
+                                            id 
+                                        FROM 
+                                            tl_visitors 
+                                        WHERE 
+                                            pid=? 
+                                        ORDER BY 
+                                            published DESC,id")
+                            ->execute($this->intKatID);
 		$intRowsX = $objVisitorsX->numRows;
 		$intAnzCounter=0;
 		if ($intRowsX>0) 
@@ -144,18 +178,18 @@ class ModuleVisitorStat extends \BackendModule
 				$arrVisitorsStatBadDay[$intAnzCounter]  = $this->getBadDay($objVisitorsID);
 				
 				//Chart
-				//log_message(print_r(array_reverse($arrVisitorsStatDays[$intAnzCounter]),true), 'debug.log');
+				//Debug log_message(print_r(array_reverse($arrVisitorsStatDays[$intAnzCounter]),true), 'debug.log');
 				foreach (array_reverse($arrVisitorsStatDays[$intAnzCounter]) as $key => $valuexy)
 				{
 					if (isset($valuexy['visitors_date_ymd'])) 
 					{
-						//log_message(print_r(substr($valuexy['visitors_date'],0,2),true), 'debug.log');
-						//log_message(print_r($valuexy['visitors_visit'],true), 'debug.log');
+						//Debug log_message(print_r(substr($valuexy['visitors_date'],0,2),true), 'debug.log');
+						//Debug log_message(print_r($valuexy['visitors_visit'],true), 'debug.log');
 						// chart resetten, wie? fehlt noch
 						$ModuleVisitorCharts->addX(substr($valuexy['visitors_date_ymd'],8,2).'<br />'.substr($valuexy['visitors_date_ymd'],5,2));
-						//$ModuleVisitorCharts->addY($valuexy['visitors_visit']);
+
 						$ModuleVisitorCharts->addY(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_visit'])); // Formatierte Zahl wieder in reine Zahl
-						//$ModuleVisitorCharts->addY2($valuexy['visitors_hit']);
+
 						$ModuleVisitorCharts->addY2(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_hit'])); // Formatierte Zahl wieder in reine Zahl
 					}
 				}
@@ -189,7 +223,6 @@ class ModuleVisitorStat extends \BackendModule
 		    $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['footer'] = '';
 		}
 		// Version, Base, Footer
-		//$arrVersion = str_split(self::VisitorsVersion);
 		$this->Template->visitors_version = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['modname'] . ' ' . VISITORS_VERSION .'.'. VISITORS_BUILD;
 		$this->Template->visitors_base    = \Environment::get('base');
 		$this->Template->visitors_footer  = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['footer'];
@@ -219,46 +252,11 @@ class ModuleVisitorStat extends \BackendModule
 		$this->Template->visitorsstatScreenTop     = $arrVisitorsScreenTopResolution;
 		$this->Template->visitorsstatScreenTopDays = $arrVisitorsScreenTopResolutionDays;
 		
-		//log_message(print_r($this->Template->visitorsstatBrowser,true), 'debug.log');
-		//log_message(print_r($this->Template->visitorsstatAverages,true), 'debug.log');
+		//Debug log_message(print_r($this->Template->visitorsstatBrowser,true), 'debug.log');
+		//Debug log_message(print_r($this->Template->visitorsstatAverages,true), 'debug.log');
+
 		// Kat sammeln
-		$objVisitorsKat = \Database::getInstance()
-    	        ->prepare("SELECT 
-                                id, title
-                            FROM
-                                tl_visitors_category
-                            WHERE
-                                id IN (SELECT 
-                                        pid
-                                        FROM
-                                            tl_visitors
-                                        LEFT JOIN
-                                            tl_visitors_category ON tl_visitors.pid = tl_visitors_category.id
-                                        GROUP BY tl_visitors.pid
-                                        )
-                            ORDER BY title")
-                ->execute();
-		$intKatRows = $objVisitorsKat->numRows;
-		if ($intKatRows>0) 
-		{
-			while ($objVisitorsKat->next())
-			{
-			    $arrVisitorsKats[] = array
-			    (
-                    'id'    => $objVisitorsKat->id,
-                    'title' => $objVisitorsKat->title
-			    );
-			}
-		} 
-		else 
-		{ // es gibt keine Kat mit Zaehler
-			$arrVisitorsKats[] = array
-		    (
-                'id'    => '0',
-                'title' => '---------'
-		    );
-		}
-		$this->Template->visitorskats          = $arrVisitorsKats;
+		$this->Template->visitorskats          = $arrVisitorCategories;
 		$this->Template->visitorskatid         = $this->intKatID;
 		$this->Template->visitorsstatkat       = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['kat'];
 		$this->Template->visitors_export_title = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['export_button_title'];
@@ -331,7 +329,6 @@ class ModuleVisitorStat extends \BackendModule
     		    } 
     		    else 
     		    {
-    		        //$visitors_startdate = $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $objVisitors->visitors_startdate);
     		        $visitors_startdate = $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'], $objVisitors->visitors_startdate);
     		    }
     		    // day of the week prüfen
@@ -396,7 +393,6 @@ class ModuleVisitorStat extends \BackendModule
 		    } 
 		    else 
 		    {
-		        //$visitors_startdate = $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'],$objVisitors->visitors_startdate);
 		        $visitors_startdate = $this->parseDateVisitors($GLOBALS['TL_LANGUAGE'],$objVisitors->visitors_startdate);
 		    }
 		    $arrVisitorsStat[] = array
@@ -560,8 +556,6 @@ class ModuleVisitorStat extends \BackendModule
                 $VisitorsAverageHitCount   = ($objVisitorsAverageCount->SUMH === null) ? 0 : $objVisitorsAverageCount->SUMH;
                 if ($tmpTotalDays >0) 
                 {
-	                //$VisitorsAverageVisits = strtr( round($VisitorsAverageVisitCount / $tmpTotalDays , 2),'.',',');
-	                //$VisitorsAverageHits   = strtr( round($VisitorsAverageHitCount   / $tmpTotalDays , 2),'.',',');
 	                $VisitorsAverageVisits = $this->getFormattedNumber($VisitorsAverageVisitCount / $tmpTotalDays , 2);
 	                $VisitorsAverageHits   = $this->getFormattedNumber($VisitorsAverageHitCount   / $tmpTotalDays , 2);
                 }
@@ -585,8 +579,6 @@ class ModuleVisitorStat extends \BackendModule
 	                $objVisitorsAverageCount->next();
 	                $VisitorsAverageVisitCount = ($objVisitorsAverageCount->SUMV === null) ? 0 : $objVisitorsAverageCount->SUMV;
 	                $VisitorsAverageHitCount   = ($objVisitorsAverageCount->SUMH === null) ? 0 : $objVisitorsAverageCount->SUMH;
-	                //$VisitorsAverageVisits30 = strtr( round($VisitorsAverageVisitCount / 30 , 2),'.',',');
-	                //$VisitorsAverageHits30   = strtr( round($VisitorsAverageHitCount   / 30 , 2),'.',',');
 	                $VisitorsAverageVisits30 = $this->getFormattedNumber($VisitorsAverageVisitCount / 30 , 2);
 	                $VisitorsAverageHits30   = $this->getFormattedNumber($VisitorsAverageHitCount   / 30 , 2);
 	            }
@@ -610,8 +602,6 @@ class ModuleVisitorStat extends \BackendModule
 	                $objVisitorsAverageCount->next();
 	                $VisitorsAverageVisitCount = ($objVisitorsAverageCount->SUMV === null) ? 0 : $objVisitorsAverageCount->SUMV;
 	                $VisitorsAverageHitCount   = ($objVisitorsAverageCount->SUMH === null) ? 0 : $objVisitorsAverageCount->SUMH;
-	                //$VisitorsAverageVisits60 = strtr( round($VisitorsAverageVisitCount / 60 , 2),'.',',');
-	                //$VisitorsAverageHits60   = strtr( round($VisitorsAverageHitCount   / 60 , 2),'.',',');
 	                $VisitorsAverageVisits60 = $this->getFormattedNumber($VisitorsAverageVisitCount / 60 , 2);
 	                $VisitorsAverageHits60   = $this->getFormattedNumber($VisitorsAverageHitCount   / 60 , 2);
 	            }
@@ -874,7 +864,6 @@ class ModuleVisitorStat extends \BackendModule
     	    {
     		    while ($objVisitorsBrowserVersion->next()) 
     		    {
-    		    	//$VisitorsBrowserVersionUNK[] = array($objVisitorsBrowserVersion->visitors_browser, $objVisitorsBrowserVersion->SUMBV);
     		    	$VisitorsBrowserVersionUNK = $objVisitorsBrowserVersion->SUMBV;
     		    }
     	    }
@@ -977,7 +966,7 @@ class ModuleVisitorStat extends \BackendModule
 		{
 			$VisitorsBrowserVersion2[$BT] = (isset($VisitorsBrowserVersion2[$BT][0])) ? $VisitorsBrowserVersion2[$BT] : array(0,0);
 		}
-		//log_message(print_r($VisitorsBrowserVersion2,true), 'debug.log');
+		//Debug log_message(print_r($VisitorsBrowserVersion2,true), 'debug.log');
 	    return array('TOP' =>$arrBrowserTop
 	    		    ,'TOP2'=>$VisitorsBrowserVersion2
 	    		    ,'DEF' =>array('UNK'  => $VisitorsBrowserVersionUNK,
@@ -1251,6 +1240,100 @@ class ModuleVisitorStat extends \BackendModule
 					 'VisitorsBadDayVisits' => $visitors_visits,
 					 'VisitorsBadDayHits'   => $visitors_hits
 					);
+	}
+	
+	/**
+	 * Get first category id by arrVisitorCategories
+	 *
+	 * @param   array   $arrVisitorCategories
+	 * @return  number  CatID
+	 */
+	protected function getCatIdByCategories($arrVisitorCategories)
+	{
+	    $arrFirstCat = array_shift($arrVisitorCategories);
+	    return $arrFirstCat['id'];
+	}
+	
+	/**
+	 * Get visitor categories by usergroups
+	 *
+	 * @param array $Usergroups
+	 * @return array
+	 */
+	protected function getVisitorCategoriesByUsergroups()
+	{
+	    $arrVisitorCats = array();
+	    $objVisitorCat = \Database::getInstance()
+                            ->prepare("SELECT
+                                            `id`
+                                          , `title`
+                                          , `visitors_stat_protected`
+                                          , `visitors_stat_groups`
+                                       FROM
+                                            tl_visitors_category
+                                        WHERE 1
+                                        ORDER BY
+                                            title
+                                        ")
+                            ->execute();
+	    while ($objVisitorCat->next())
+	    {
+	        if ( true === $this->isUserInVisitorStatGroups($objVisitorCat->visitors_stat_groups,
+                                                    (bool) $objVisitorCat->visitors_stat_protected) )
+	        {
+	            $arrVisitorCats[] = array
+	            (
+	                'id'    => $objVisitorCat->id,
+	                'title' => $objVisitorCat->title
+	            );
+	        }
+	    }
+	
+	    if (0 == count($arrVisitorCats))
+	    {
+	        $arrVisitorCats[] = array('id' => '0', 'title' => '---------');
+	    }
+	    return $arrVisitorCats;
+	}
+	
+	/**
+	 * Check if User member of group in visitor statistik groups
+	 *
+	 * @param   string  DB Field "visitors_stat_groups", serialized array
+	 * @return  bool    true / false
+	 */
+	protected function isUserInVisitorStatGroups($visitors_stat_groups, $visitors_stat_protected)
+	{
+	    if ( true === $this->User->isAdmin )
+	    {
+	        //Debug log_message('Ich bin Admin', 'visitors_debug.log');
+	        return true; // Admin darf immer
+	    }
+	    //wenn  Schutz nicht aktiviert ist, darf jeder
+	    if (false === $visitors_stat_protected) 
+	    {
+	        //Debug log_message('Schutz nicht aktiviert', 'visitors_debug.log');
+	    	return true; 
+	    }
+	    
+	    //Schutz aktiviert, Einschränkungen vorhanden?
+	    if (0 == strlen($visitors_stat_groups))
+	    {
+	        //Debug log_message('visitor_stat_groups ist leer', 'visitors_debug.log');
+	        return false; // nicht gefiltert, also darf keiner außer Admin
+	    }
+	     
+	    //mit isMemberOf ermitteln, ob user Member einer der Cat Groups ist
+	    foreach (deserialize($visitors_stat_groups) as $id => $groupid)
+	    {
+	        if ( true === $this->User->isMemberOf($groupid) )
+	        {
+	            //Debug log_message('Ich bin in der richtigen Gruppe', 'visitors_debug.log');
+	            return true; // User is Member of visitor_stat_group
+	        }
+	    }
+	    //Debug log_message('Ich bin in der falschen Gruppe', 'visitors_debug.log');
+	    return false;
 	}
 	
 }

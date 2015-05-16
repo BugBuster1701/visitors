@@ -11,7 +11,6 @@
  * last-updated: 2015-02-10T23:35:02+01:00
  */
 
-
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['active']                          = 'Активные';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_hits']                    = 'Просмотров за день:';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['average_legend']                  = 'Средние значения';
@@ -66,6 +65,7 @@ $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchenginekeywords_top']      
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengines_top']               = 'Поисковые системы ТОП 20';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['select']                          = 'Пожалуйста, выберите';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['startdate']                       = 'Подсчет с';
+$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['startdate_not_defined']           = 'Не определено';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['today']                           = 'Сегодня';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['total']                           = 'Общее количество';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit']                           = 'Визиты';
