@@ -8,10 +8,11 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-05-31T22:46:56+02:00
+ * last-updated: 2015-02-10T23:51:51+01:00
  */
 
-
-$GLOBALS['TL_LANG']['tl_visitors_referrer']['details_for'] = 'جزئیات برای';
-$GLOBALS['TL_LANG']['tl_visitors_referrer']['number']      = 'شماره';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['details_for']                = 'جزئیات برای';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['number']                     = 'شماره';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer']           = 'ارجاع بازدیدکننده';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer_last_seen'] = 'آخرین بازدید';
 
