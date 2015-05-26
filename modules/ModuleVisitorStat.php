@@ -389,7 +389,7 @@ class ModuleVisitorStat extends \BackendModule
 		    }
 		    if (!strlen($objVisitors->visitors_startdate)) 
 		    {
-		    	$visitors_startdate = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['not_defined'];
+		    	$visitors_startdate = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['startdate_not_defined'];
 		    } 
 		    else 
 		    {
