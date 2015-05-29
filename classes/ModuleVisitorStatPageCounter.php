@@ -343,49 +343,71 @@ class ModuleVisitorStatPageCounter extends \BackendModule
     
     public function getNewsAliases($visitors_page_id)
     {
-        $objNewsAliases = \Database::getInstance()
-                            ->prepare("SELECT 
-                                            tl_page.alias AS 'PageAlias', 
-                                            tl_news.alias AS 'NewsAlias'
-                                        FROM
-                                            tl_page
-                                        INNER JOIN
-                                            tl_news_archive ON tl_news_archive.jumpTo = tl_page.id
-                                        INNER JOIN
-                                            tl_news ON tl_news.pid = tl_news_archive.id
-                                        WHERE
-                                            tl_news.id = ?
-                                        ")
-                            ->limit(1)
-                            ->execute($visitors_page_id);
-        while ($objNewsAliases->next())
+        //News Tables exists?
+        if (\Database::getInstance()->tableExists('tl_news') &&
+            \Database::getInstance()->tableExists('tl_news_archive'))
         {
-            return array('PageAlias' => $objNewsAliases->PageAlias, 
-                         'NewsAlias' => $objNewsAliases->NewsAlias);
+            $objNewsAliases = \Database::getInstance()
+                                ->prepare("SELECT 
+                                                tl_page.alias AS 'PageAlias', 
+                                                tl_news.alias AS 'NewsAlias'
+                                            FROM
+                                                tl_page
+                                            INNER JOIN
+                                                tl_news_archive ON tl_news_archive.jumpTo = tl_page.id
+                                            INNER JOIN
+                                                tl_news ON tl_news.pid = tl_news_archive.id
+                                            WHERE
+                                                tl_news.id = ?
+                                            ")
+                                ->limit(1)
+                                ->execute($visitors_page_id);
+            while ($objNewsAliases->next())
+            {
+                return array('PageAlias' => $objNewsAliases->PageAlias, 
+                             'NewsAlias' => $objNewsAliases->NewsAlias);
+            }
+        }
+        else 
+        {
+            //TODO was gebe ich zurück wenn jemand die Tabellen nachträglich gelöscht hat?
+            return array('PageAlias' => '-', 
+                         'NewsAlias' => '-');
         }
     }
     
     public function getFaqAliases($visitors_page_id)
     {
-        $objFaqAliases = \Database::getInstance()
-                            ->prepare("SELECT
-                                            tl_page.alias AS 'PageAlias',
-                                            tl_faq.alias AS 'FaqAlias'
-                                        FROM
-                                            tl_page
-                                        INNER JOIN
-                                            tl_faq_category ON tl_faq_category.jumpTo = tl_page.id
-                                        INNER JOIN
-                                            tl_faq ON tl_faq.pid = tl_faq_category.id
-                                        WHERE
-                                            tl_faq.id = ?
-                                        ")
-                            ->limit(1)
-                            ->execute($visitors_page_id);
-        while ($objFaqAliases->next())
+        //FAQ Tables exists?
+        if (\Database::getInstance()->tableExists('tl_faq') &&
+            \Database::getInstance()->tableExists('tl_faq_archive'))
         {
-            return array('PageAlias' => $objFaqAliases->PageAlias,
-                         'FaqAlias'  => $objFaqAliases->FaqAlias);
+            $objFaqAliases = \Database::getInstance()
+                                ->prepare("SELECT
+                                                tl_page.alias AS 'PageAlias',
+                                                tl_faq.alias AS 'FaqAlias'
+                                            FROM
+                                                tl_page
+                                            INNER JOIN
+                                                tl_faq_category ON tl_faq_category.jumpTo = tl_page.id
+                                            INNER JOIN
+                                                tl_faq ON tl_faq.pid = tl_faq_category.id
+                                            WHERE
+                                                tl_faq.id = ?
+                                            ")
+                                ->limit(1)
+                                ->execute($visitors_page_id);
+            while ($objFaqAliases->next())
+            {
+                return array('PageAlias' => $objFaqAliases->PageAlias,
+                             'FaqAlias'  => $objFaqAliases->FaqAlias);
+            }
+        }
+        else
+        {
+            //TODO was gebe ich zurück wenn jemand die Tabellen nachträglich gelöscht hat?
+            return array('PageAlias' => '-',
+                         'FaqAlias'  => '-');
         }
     }
     

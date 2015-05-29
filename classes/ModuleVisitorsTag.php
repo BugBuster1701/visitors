@@ -1010,17 +1010,22 @@ class ModuleVisitorsTag extends \Frontend
         
 	    $page_type = self::PAGE_TYPE_NORMAL;
 	    
-	    //News Reader?
-	    $objReaderPage = \Database::getInstance()
-                            ->prepare("SELECT id FROM tl_news_archive WHERE jumpTo=?")
-                            ->limit(1)
-                            ->executeUncached($PageId);
-	    if ($objReaderPage->numRows > 0)
+	    //News Table exists?
+	    if (\Database::getInstance()->tableExists('tl_news')) 
 	    {
-	        //News Reader
-	        $page_type = self::PAGE_TYPE_NEWS;
+    	    //News Reader?
+    	    $objReaderPage = \Database::getInstance()
+                                ->prepare("SELECT id FROM tl_news_archive WHERE jumpTo=?")
+                                ->limit(1)
+                                ->executeUncached($PageId);
+    	    if ($objReaderPage->numRows > 0)
+    	    {
+    	        //News Reader
+    	        $page_type = self::PAGE_TYPE_NEWS;
+    	    }
 	    }
-	    else
+	    //FAQ Table exists?
+	    if (\Database::getInstance()->tableExists('tl_faq_category'))
 	    {
 	        //FAQ Reader?
 	        $objReaderPage = \Database::getInstance()
