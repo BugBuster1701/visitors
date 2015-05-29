@@ -57,6 +57,7 @@ class VisitorsStatExportexcel
     
     public function export($objVisitors,$csv_delimiter,$intVisitorKatId) 
     {
+        unset($csv_delimiter);
         // Download
         header('Content-Type: application/vnd.ms-excel');
         header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
@@ -70,7 +71,7 @@ class VisitorsStatExportexcel
         {
             header('Pragma: no-cache');
         }
-        //$csv_enclosure = '"'; 
+
         $excel_header = '
 <html xmlns:o="urn:schemas-microsoft-com:office:office"
 xmlns:x="urn:schemas-microsoft-com:office:excel"
@@ -96,7 +97,6 @@ xmlns="http://www.w3.org/TR/REC-html40">
 </body>
 </html>
 ';
-        //$out = fopen(TL_ROOT . '/' . $GLOBALS['TL_CONFIG']['uploadPath'] . '/BannerStatExport.csv', 'w+');
         $out = fopen('php://output', 'w');
         fputs($out, $excel_header);
         //Kopfdaten
@@ -109,7 +109,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
         $arrVisitorsStat[] = '<td class=xl2216681 nowrap><b>'.$arrVisitorsStatHeader[5].'</b></td>';
         $arrVisitorsStat[] = '<td class=xl2216681 nowrap><b>'.$arrVisitorsStatHeader[6].'</b></td>';
         fputs($out, '<tr>'.implode("",$arrVisitorsStat).'</tr>');
-        //fputcsv($out, $arrBannersStat, $csv_delimiter, $csv_enclosure);
+
         unset($arrVisitorsStat);
         //Daten
         while ($objVisitors->next())
@@ -122,7 +122,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
     		$arrVisitorsStat[] = '<td class=xl2216681 nowrap>'.$objVisitors->visitors_visit.'</td>';
     		$arrVisitorsStat[] = '<td class=xl2216681 nowrap>'.$objVisitors->visitors_hit.'</td>';
     		fputs($out, '<tr>'.implode("",$arrVisitorsStat).'</tr>');
-            //fputcsv($out, $arrBannersStat, $csv_delimiter, $csv_enclosure);
+
             unset($arrVisitorsStat);
         }
         fputs($out, $excel_footer);

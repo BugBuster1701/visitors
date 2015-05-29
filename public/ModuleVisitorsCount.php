@@ -32,8 +32,7 @@ while ($dir != '.' && $dir != '/' && !is_file($dir . '/system/initialize.php'))
 
 if (!is_file($dir . '/system/initialize.php'))
 {
-    echo 'Could not find initialize.php!';
-    exit(1);
+    throw new \ErrorException('Could not find initialize.php!',2,1,basename(__FILE__),__LINE__);
 }
 require($dir . '/system/initialize.php');
 
@@ -96,11 +95,11 @@ class ModuleVisitorsCount extends \Frontend
 			{
 				while ($objVisitors->next()) 
 				{
-				    $this->VisitorCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
-				    $this->VisitorCheckSearchEngine($objVisitors->id);
+				    $this->visitorCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
+				    $this->visitorCheckSearchEngine($objVisitors->id);
 				    if ($this->_BOT === false && $this->_SE === false) 
 				    {
-				    	$this->VisitorCheckReferrer($objVisitors->id);
+				    	$this->visitorCheckReferrer($objVisitors->id);
 				    }
 				}
 			}
@@ -109,7 +108,7 @@ class ModuleVisitorsCount extends \Frontend
 		{
 			$this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_count_katid'], 'ModulVisitorsCount '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 		}
-		//log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
+		//Debug log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
 		//Pixel und raus hier
 		header('Cache-Control: no-cache');
 		header('Content-type: image/gif');
@@ -121,23 +120,23 @@ class ModuleVisitorsCount extends \Frontend
 	/**
 	 * Insert/Update Counter
 	 */
-	protected function VisitorCountUpdate($vid, $BlockTime, $visitors_category_id)
+	protected function visitorCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
-		if ($ModuleVisitorChecks->CheckBot() == true) 
+		if ($ModuleVisitorChecks->checkBot() === true) 
 		{
 			$this->_BOT = true;
-			//log_message("VisitorCountUpdate BOT=true","debug.log");
+			//Debug log_message("visitorCountUpdate BOT=true","debug.log");
 	    	return; //Bot / IP gefunden, wird nicht gezaehlt
 	    }
-	    if ($ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
+	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) === true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
-	    	//log_message("VisitorCountUpdate UserAgent=true","debug.log");
+	    	//Debug log_message("visitorCountUpdate UserAgent=true","debug.log");
 	    	return ; //User Agent Filterung
 	    }
-	    //log_message("VisitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
-	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->VisitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
+	    //Debug log_message("visitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
+	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->visitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
 	    $BlockTime = ($BlockTime == '') ? 1800 : $BlockTime; //Sekunden
 	    $CURDATE = date('Y-m-d');
 
@@ -165,7 +164,7 @@ class ModuleVisitorsCount extends \Frontend
                                 visitors_type = ?")
                 ->executeUncached(3, $vid, 'h');
 	    
-	    if ($ModuleVisitorChecks->CheckBE() == true) 
+	    if ($ModuleVisitorChecks->checkBE() === true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 			return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
@@ -333,9 +332,9 @@ class ModuleVisitorsCount extends \Frontend
 				    {
 				    	$arrBrowser['Platform'] = 'Unknown';
 				    }
-				    //if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == '0' ) {
-				    //	log_message("Unbekannter User Agent: ".$this->Environment->httpUserAgent."", 'unknown.log');
-				    //}
+				    //Debug if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == '0' ) {
+				    //Debug log_message("Unbekannter User Agent: ".$this->Environment->httpUserAgent."", 'unknown.log');
+				    //Debug }
 				    $objBrowserCounter = \Database::getInstance()
 				            ->prepare("SELECT
                                             id,visitors_counter
@@ -380,17 +379,15 @@ class ModuleVisitorsCount extends \Frontend
 			    } // else von NULL
 			} // if strlen
 	    } //VisitIP numRows
-	} //VisitorCountUpdate
+	} //visitorCountUpdate
 	
 	/**
 	 * Check for Searchengines
 	 *
 	 * @param integer $vid	Visitors ID
 	 */
-	protected function VisitorCheckSearchEngine($vid)
+	protected function visitorCheckSearchEngine($vid)
 	{
-		//$SearchEngine = 'unknown';
-		//$Keywords     = 'unknown';
 		$ModuleVisitorSearchEngine = new \Visitors\ModuleVisitorSearchEngine();
 		$ModuleVisitorSearchEngine->checkEngines();
 		$SearchEngine = $ModuleVisitorSearchEngine->getEngine();
@@ -418,14 +415,14 @@ class ModuleVisitorsCount extends \Frontend
 		                ->execute($CleanTime,$vid);
 			} //keywords
 		} //searchengine
-	} //VisitorCheckSearchEngine
+	} //visitorCheckSearchEngine
 	
 	/**
 	 * Check for Referrer
 	 *
 	 * @param integer $vid	Visitors ID
 	 */
-	protected function VisitorCheckReferrer($vid)
+	protected function visitorCheckReferrer($vid)
 	{
 		if ($this->_VB === false) 
 		{
@@ -458,21 +455,21 @@ class ModuleVisitorsCount extends \Frontend
 				}
 		    } //if PF
 	    } //if VB
-	} // VisitorCheckReferrer
+	} // visitorCheckReferrer
 	
 	/**
 	 * Get User IP
 	 *
 	 * @return string
 	 */
-	protected function VisitorGetUserIP()
+	protected function visitorGetUserIP()
 	{
 	    $UserIP = \Environment::get('ip');
 	    if (strpos($UserIP, ',') !== false) //first IP
 	    {
 	        $UserIP = trim( substr($UserIP, 0, strpos($UserIP, ',') ) );
 	    }
-	    if ( true === $this->VisitorIsPrivateIP($UserIP) &&
+	    if ( true === $this->visitorIsPrivateIP($UserIP) &&
 	        false === empty($_SERVER['HTTP_X_FORWARDED_FOR'])
 	    )
 	    {
@@ -496,7 +493,7 @@ class ModuleVisitorsCount extends \Frontend
 	 * @param string $UserIP
 	 * @return boolean         true = private/reserved
 	 */
-	protected function VisitorIsPrivateIP($UserIP = false)
+	protected function visitorIsPrivateIP($UserIP = false)
 	{
 	    return !filter_var($UserIP, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 	}

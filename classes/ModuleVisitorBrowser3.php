@@ -29,7 +29,7 @@ class ModuleVisitorBrowser3
 	private $_version = '';
 	private $_platform = '';
 	
-	private $_os = '';
+	//#130 private $_os = '';
 	private $_is_aol = false;
 	private $_is_mobile = false;
 	private $_is_robot = false;
@@ -78,17 +78,17 @@ class ModuleVisitorBrowser3
 	const BROWSER_GALAXY_TAB      = 'Galaxy Tab';
 	const BROWSER_SAMSUNG_GALAXY_NEXUS = 'Galaxy Nexus';      // Google Phone Android 4, add BugBuster
 	const BROWSER_SAMSUNG_NEXUS_S = 'Nexus S';                // Google Phone, add BugBuster
-	const BROWSER_HTC_Desire_HD   = 'HTC Desire HD';
-	const BROWSER_HTC_Desire_Z    = 'HTC Desire Z';
-	const BROWSER_HTC_Desire_S    = 'HTC Desire S';
-	const BROWSER_HTC_Desire      = 'HTC Desire';
+	const BROWSER_HTC_DESIRE_HD   = 'HTC Desire HD';
+	const BROWSER_HTC_DESIRE_Z    = 'HTC Desire Z';
+	const BROWSER_HTC_DESIRE_S    = 'HTC Desire S';
+	const BROWSER_HTC_DESIRE      = 'HTC Desire';
 	const BROWSER_HTC_MAGIC       = 'HTC Magic';
 	const BROWSER_HTC_NEXUS_ONE   = 'HTC Nexus One'; 			  // Google Phone, add BugBuster
 	const BROWSER_HTC_SENSATION       = 'HTC Sensation';
 	const BROWSER_HTC_SENSATION_XE    = 'HTC Sensation XE';
 	const BROWSER_HTC_SENSATION_XL    = 'HTC Sensation XL';
 	const BROWSER_HTC_SENSATION_Z710  = 'HTC Sensation Z710';
-	const BROWSER_HTC_WILDFIRES_A510e = 'HTC WildfireS A510e';
+	const BROWSER_HTC_WILDFIRES_A510E = 'HTC WildfireS A510e';
 	const BROWSER_ACER_A501  = 'Acer A501 Tab';				  // (Android 3.x Tab), add BugBuster
 	const BROWSER_ACER_A500  = 'Acer A500 Tab';				  // (Android 3.x Tab), add BugBuster
 	const BROWSER_LENOVO_THINKPAD_TABLET = 'ThinkPad Tab'; 	  // (Android 3.x Tab), add BugBuster
@@ -181,7 +181,7 @@ class ModuleVisitorBrowser3
 		$this->_browser_name = self::BROWSER_UNKNOWN;
 		$this->_version = self::VERSION_UNKNOWN;
 		$this->_platform = self::PLATFORM_UNKNOWN;
-		$this->_os = self::OPERATING_SYSTEM_UNKNOWN;
+		//#130 $this->_os = self::OPERATING_SYSTEM_UNKNOWN;
 		$this->_is_aol = false;
 		$this->_is_mobile = false;
 		$this->_is_robot = false;
@@ -934,8 +934,6 @@ class ModuleVisitorBrowser3
      */
     protected function checkBrowserTOnline() {
 	    if( stripos($this->_agent,'T-Online Browser') !== false ) {
-		    //$aversion = explode('/',stristr($this->_agent,'T-Online Browser'));
-		    //$this->setVersion($aversion[1]);
 		    $this->setBrowser(self::BROWSER_TONLINE);
 			return true;
 	    }
@@ -1181,21 +1179,21 @@ class ModuleVisitorBrowser3
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
-                $this->setBrowser(self::BROWSER_HTC_Desire_HD);
+                $this->setBrowser(self::BROWSER_HTC_DESIRE_HD);
                 return true;
             }
             if( stripos($this->_agent,'HTC Desire Z') !== false )
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
-                $this->setBrowser(self::BROWSER_HTC_Desire_Z);
+                $this->setBrowser(self::BROWSER_HTC_DESIRE_Z);
                 return true;
             }
             if( stripos($this->_agent,'HTC_DesireS') !== false )
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
-                $this->setBrowser(self::BROWSER_HTC_Desire_S);
+                $this->setBrowser(self::BROWSER_HTC_DESIRE_S);
                 return true;
             }
             if( stripos($this->_agent,'HTC_Desire')   !== false ||
@@ -1204,7 +1202,7 @@ class ModuleVisitorBrowser3
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
-                $this->setBrowser(self::BROWSER_HTC_Desire);
+                $this->setBrowser(self::BROWSER_HTC_DESIRE);
                 return true;
             }
         }
@@ -1280,7 +1278,7 @@ class ModuleVisitorBrowser3
             {
                 $this->setVersion(self::VERSION_UNKNOWN);
                 $this->setMobile(true);
-                $this->setBrowser(self::BROWSER_HTC_WILDFIRES_A510e);
+                $this->setBrowser(self::BROWSER_HTC_WILDFIRES_A510E);
                 return true;
             }
         }
@@ -1384,7 +1382,6 @@ class ModuleVisitorBrowser3
     protected function checkBrowserHTTPRequest2() {
 	    if( stripos($this->_agent,'HTTP_Request2') !== false ) {
 		    $aversion = explode('/',stristr($this->_agent,'HTTP_Request2'));
-		    //$aversion = explode(' ',$aresult[1]);
 		    $this->setVersion($aversion[1]);
 		    $this->setBrowser(self::BROWSER_HTTP_REQUEST2);
 		    return true;
@@ -1695,9 +1692,12 @@ class ModuleVisitorBrowser3
      * @access protected
      * 
      */
-    protected function setLang() {
+    protected function setLang() 
+    {
         $array = explode(",", $this->_accept_language);
-        for($i = 0; $i < count($array); $i++) {
+        $ca = count($array);
+        for($i = 0; $i < $ca; $i++) 
+        {
             //Konqueror
             $array[$i] = str_replace(" ", null, $array[$i]);
             $array[$i] = substr($array[$i], 0, 2);

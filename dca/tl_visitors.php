@@ -47,7 +47,7 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 			'fields'                  => array('sorting'),
 			'panelLayout'             => 'search,filter,limit',
 			'headerFields'            => array('title', 'tstamp'), //, 'visitors_template'
-			'child_record_callback'   => array('BugBuster\Visitors\DCA_visitors', 'listVisitors')
+			'child_record_callback'   => array('BugBuster\Visitors\DcaVisitors', 'listVisitors')
 		),/**
 		'label' => array
 		(
@@ -90,7 +90,7 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
                 'label'               => &$GLOBALS['TL_LANG']['tl_visitors']['toggle'],
                 'icon'                => 'visible.gif',
                 'attributes'          => 'onclick="Backend.getScrollOffset(); return AjaxRequest.toggleVisibility(this, %s);"',
-                'button_callback'     => array('BugBuster\Visitors\DCA_visitors', 'toggleIcon')
+                'button_callback'     => array('BugBuster\Visitors\DcaVisitors', 'toggleIcon')
             ),
 			'show' => array
 			(

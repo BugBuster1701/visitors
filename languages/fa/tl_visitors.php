@@ -8,10 +8,10 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-05-31T22:46:56+02:00
+ * last-updated: 2015-02-10T23:51:51+01:00
  */
 
-
+$GLOBALS['TL_LANG']['tl_visitors']['average_legend']                    = 'میانگین و زمان بلوک';
 $GLOBALS['TL_LANG']['tl_visitors']['copy']['0']                         = 'تکثیر شمارنده';
 $GLOBALS['TL_LANG']['tl_visitors']['copy']['1']                         = 'تکثیر شمارنده شناسه %s';
 $GLOBALS['TL_LANG']['tl_visitors']['delete']['0']                       = 'حذف شمارنده';
@@ -30,10 +30,15 @@ $GLOBALS['TL_LANG']['tl_visitors']['show']['0']                         = 'جز�
 $GLOBALS['TL_LANG']['tl_visitors']['show']['1']                         = 'نمایش جزئیات شمارنده شناسه %s';
 $GLOBALS['TL_LANG']['tl_visitors']['start_legend']                      = 'مقادیر اولیه انتخابی';
 $GLOBALS['TL_LANG']['tl_visitors']['title_legend']                      = 'نام و تاریخ شروع';
+$GLOBALS['TL_LANG']['tl_visitors']['toggle']['0']                       = 'تعویض پدیداری';
+$GLOBALS['TL_LANG']['tl_visitors']['toggle']['1']                       = 'تعویض پدیداری شمارنده شناسه‌ی %s';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_average']['0']             = 'بازدیدها در روز';
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_block_time']['0']          = 'زمان بلوک';
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_expert_legend']            = 'تنظیمات پیشرفته';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_hit_start']['0']           = 'مقدار اولیه کلیک‌ها';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_name']['0']                = 'نام';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_startdate']['0']           = 'تاریخ شروع';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_thousands_separator']['0'] = 'جداکننده هزار';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_visit_start']['0']         = 'مقدار اولیه بازدیدها';
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_visit_start']['1']         = 'عدد وارد شده به شمارنده اضافه شد.';
 

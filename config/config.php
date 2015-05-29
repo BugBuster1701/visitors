@@ -14,7 +14,7 @@
  */
 
 define('VISITORS_VERSION', '3.5');
-define('VISITORS_BUILD'  , '0');
+define('VISITORS_BUILD'  , '1');
 
 /**
  * -------------------------------------------------------------------------
@@ -50,4 +50,4 @@ array_insert($GLOBALS['FE_MOD']['miscellaneous'], 0, array
  * HOOKS
  * -------------------------------------------------------------------------
  */
-$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('Visitors\ModuleVisitorsTag', 'ReplaceInsertTagsVisitors');
+$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('Visitors\ModuleVisitorsTag', 'replaceInsertTagsVisitors');

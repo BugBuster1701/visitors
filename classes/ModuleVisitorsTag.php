@@ -69,7 +69,7 @@ class ModuleVisitorsTag extends \Frontend
 	 * @param string $strTag
 	 * @return bool / string
 	 */
-	public function ReplaceInsertTagsVisitors($strTag)
+	public function replaceInsertTagsVisitors($strTag)
 	{
 		$arrTag = trimsplit('::', $strTag);
 		if ($arrTag[0] != 'visitors')
@@ -85,7 +85,7 @@ class ModuleVisitorsTag extends \Frontend
 		{
 		    $visitors_category_id = (int)$arrTag[1];
 		    //Get Debug Settings
-		    $this->VisitorSetDebugSettings($visitors_category_id);
+		    $this->visitorSetDebugSettings($visitors_category_id);
 		}
 		
 		if (!isset($arrTag[2])) 
@@ -124,24 +124,24 @@ class ModuleVisitorsTag extends \Frontend
 			}
 			while ($objVisitors->next())
 			{
-			    $this->VisitorCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
-			    $this->VisitorCheckSearchEngine($objVisitors->id);
+			    $this->visitorCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
+			    $this->visitorCheckSearchEngine($objVisitors->id);
 			    if ($this->_BOT === false && $this->_SE === false) 
 			    {
-			    	$this->VisitorCheckReferrer($objVisitors->id);
+			    	$this->visitorCheckReferrer($objVisitors->id);
 			    }
 			}
-			//log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
+			//Debug log_message('run BOT SE : '.(int)$this->_BOT . '-' . (int)$this->_SE,'debug.log');
 			if ($GLOBALS['TL_CONFIG']['cacheMode'] === 'server' 
 			 || $GLOBALS['TL_CONFIG']['cacheMode'] === 'none'
 			 || $objVisitors->visitors_cache_mode == 1) 
 			{
-			    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , 'Counted Server: True' );
+			    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , 'Counted Server: True' );
 				return '<!-- counted -->'; // <img src="system/modules/visitors/assets/leer.gif" alt="" /> // style="width:0px; height:0px; visibility:hidden; display:inline; left:-1000px; overflow:hidden; position:absolute; top:-1000px;"
 			} 
 			else 
 			{
-			    ModuleVisitorLog::Writer( __METHOD__ , __LINE__ , 'Counted Client: True' );
+			    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , 'Counted Client: True' );
 				return '<img src="system/modules/visitors/public/ModuleVisitorsCount.php?vkatid='.$visitors_category_id.'" alt="" />'; // style="width:0px; height:0px; visibility:hidden; display:inline; left:-1000px; overflow:hidden; position:absolute; top:-1000px;"
 			}
 		}
@@ -180,12 +180,12 @@ class ModuleVisitorsTag extends \Frontend
 		switch ($arrTag[2]) 
 		{
 		    case "name":
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 				return trim($objVisitors->visitors_name);
 				break;
 		    case "online":
 			    //VisitorsOnlineCount
-	            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+	            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    $objVisitorsOnlineCount = \Database::getInstance()
 			            ->prepare("SELECT 
                                         COUNT(id) AS VOC 
@@ -200,7 +200,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "start":
 		    	//VisitorsStartDate
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 		        if (!strlen($objVisitors->visitors_startdate)) 
 		        {
 			    	$VisitorsStartDate = '';
@@ -214,7 +214,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "totalvisit":
 		    	//TotalVisitCount
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 	            $objVisitorsTotalCount = \Database::getInstance()
 	                    ->prepare("SELECT 
                                         SUM(visitors_visit) AS SUMV
@@ -233,7 +233,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "totalhit":
 	    		//TotalHitCount
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 	            $objVisitorsTotalCount = \Database::getInstance()
 	                    ->prepare("SELECT 
                                         SUM(visitors_hit) AS SUMH
@@ -252,7 +252,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "todayvisit":
 				//TodaysVisitCount
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    $objVisitorsTodaysCount = \Database::getInstance()
 			            ->prepare("SELECT 
                                         visitors_visit
@@ -274,7 +274,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "todayhit":
 				//TodaysHitCount
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    $objVisitorsTodaysCount = \Database::getInstance()
 			            ->prepare("SELECT 
                                         visitors_hit
@@ -296,7 +296,7 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "averagevisits":
 				// Average Visits
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 			    if ($objVisitors->visitors_average) 
 			    {
 			    	$today     = date('Y-m-d');
@@ -333,11 +333,11 @@ class ModuleVisitorsTag extends \Frontend
 				break;
 		    case "bestday":
 		    	//Day with the most visitors
-		        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
+		        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2] );
 		    	if (!isset($arrTag[3])) 
 		    	{
 					$this->log($GLOBALS['TL_LANG']['tl_visitors']['no_param4'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
-					ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , $GLOBALS['TL_LANG']['tl_visitors']['no_param4'] );
+					ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , $GLOBALS['TL_LANG']['tl_visitors']['no_param4'] );
 					return false;  // da fehlt was
 				}
 				$objVisitorsBestday = \Database::getInstance()
@@ -359,7 +359,7 @@ class ModuleVisitorsTag extends \Frontend
 				switch ($arrTag[3]) 
 				{
 					case "date":
-					    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
+					    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						if (!isset($arrTag[4])) 
 						{
 							return date($GLOBALS['TL_CONFIG']['dateFormat'],strtotime($objVisitorsBestday->visitors_date));
@@ -370,11 +370,11 @@ class ModuleVisitorsTag extends \Frontend
 						}
 						break;
 					case "visits":
-					    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
+					    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						return ($boolSeparator) ? $this->getFormattedNumber($objVisitorsBestday->visitors_visit,0) : $objVisitorsBestday->visitors_visit;
 						break;
 					case "hits":
-					    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
+					    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':'.$arrTag[2].'::'.$arrTag[3] );
 						return ($boolSeparator) ? $this->getFormattedNumber($objVisitorsBestday->visitors_hit,0) : $objVisitorsBestday->visitors_hit;
 						break;
 					default:
@@ -383,7 +383,7 @@ class ModuleVisitorsTag extends \Frontend
 				}
 		    	break;
 			default:
-			    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , ':' .$GLOBALS['TL_LANG']['tl_visitors']['wrong_key'] );
+			    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , ':' .$GLOBALS['TL_LANG']['tl_visitors']['wrong_key'] );
 				$this->log($GLOBALS['TL_LANG']['tl_visitors']['wrong_key'], 'ModulVisitors ReplaceInsertTags '. VISITORS_VERSION .'.'. VISITORS_BUILD, TL_ERROR);
 				return false;
 				break;
@@ -393,24 +393,24 @@ class ModuleVisitorsTag extends \Frontend
 	/**
 	 * Insert/Update Counter
 	 */
-	protected function VisitorCountUpdate($vid, $BlockTime, $visitors_category_id)
+	protected function visitorCountUpdate($vid, $BlockTime, $visitors_category_id)
 	{
 		$ModuleVisitorChecks = new \Visitors\ModuleVisitorChecks();
 		if (!isset($GLOBALS['TL_CONFIG']['mod_visitors_bot_check']) || $GLOBALS['TL_CONFIG']['mod_visitors_bot_check'] !== false) 
 		{
-			if ($ModuleVisitorChecks->CheckBot() == true) 
+			if ($ModuleVisitorChecks->checkBot() === true) 
 			{
 				$this->_BOT = true;
 		    	return; //Bot / IP gefunden, wird nicht gezaehlt
 		    }
 		}
-	    if ($ModuleVisitorChecks->CheckUserAgent($visitors_category_id) == true) 
+	    if ($ModuleVisitorChecks->checkUserAgent($visitors_category_id) === true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 	    	return ; //User Agent Filterung
 	    }
-	    //log_message("VisitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
-	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->VisitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
+	    //Debug log_message("visitorCountUpdate count: ".$this->Environment->httpUserAgent,"useragents-noblock.log");
+	    $ClientIP = bin2hex(sha1($visitors_category_id . $this->visitorGetUserIP(),true)); // sha1 20 Zeichen, bin2hex 40 zeichen
 	    $BlockTime = ($BlockTime == '') ? 1800 : $BlockTime; //Sekunden
 	    $CURDATE = date('Y-m-d');
 	    //Visitor Blocker
@@ -432,7 +432,7 @@ class ModuleVisitorsTag extends \Frontend
                                 AND vid = ? 
                                 AND visitors_type = ?")
                 ->executeUncached(3, $vid, 'h'); // 3 Sekunden Blockierung zw. Zählung per Tag und Zählung per Browser
-	    if ($ModuleVisitorChecks->CheckBE() == true) 
+	    if ($ModuleVisitorChecks->checkBE() === true) 
 	    {
 	    	$this->_PF = true; // Bad but functionally
 			return; // Backend eingeloggt, nicht zaehlen (Feature: #197)
@@ -594,9 +594,9 @@ class ModuleVisitorsTag extends \Frontend
     	    	// Load a website root page object if there is no page ID
     	    	if ($pageId === null)
     	    	{
-    	    	    $pageId = $this->VisitorGetRootPageFromUrl();
+    	    	    $pageId = $this->visitorGetRootPageFromUrl();
     	    	}
-    	    	ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID over URL: '. $pageId);
+    	    	ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Page ID over URL: '. $pageId);
     	    	// Get the current page object(s)
     	    	$objPage = \PageModel::findPublishedByIdOrAlias($pageId);
 
@@ -655,7 +655,7 @@ class ModuleVisitorsTag extends \Frontend
                     $objPage = $objPage->current()->loadDetails();
     	    	}
             } //$objPage->id == 0
-            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Page ID / Lang in Object: '. $objPage->id .' / '.$objPage->language);
+            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Page ID / Lang in Object: '. $objPage->id .' / '.$objPage->language);
 
 	 	    //#102, bei Readerseite den Beitrags-Alias zählen (Parameter vorhanden)
 	 	    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
@@ -776,9 +776,9 @@ class ModuleVisitorsTag extends \Frontend
 				    {
 				    	$arrBrowser['Platform'] = 'Unknown';
 				    }
-				    //if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == 'unknown' ) {
-				    //	log_message("Unbekannter User Agent: ".$this->Environment->httpUserAgent."", 'unknown.log');
-				    //}
+				    //Debug if ( $arrBrowser['Platform'] == 'Unknown' || $arrBrowser['Platform'] == 'Mozilla' || $arrBrowser['Version'] == 'unknown' ) {
+				    //Debug 	log_message("Unbekannter User Agent: ".$this->Environment->httpUserAgent."", 'unknown.log');
+				    //Debug }
 				    $objBrowserCounter = \Database::getInstance()
 				            ->prepare("SELECT 
                                             id,
@@ -821,12 +821,10 @@ class ModuleVisitorsTag extends \Frontend
 			    } // else von NULL
 			} // if strlen
 	    } //VisitIP numRows
-	} //VisitorCountUpdate
+	} //visitorCountUpdate
 	
-	protected function VisitorCheckSearchEngine($vid)
+	protected function visitorCheckSearchEngine($vid)
 	{
-		//$SearchEngine = 'unknown';
-		//$Keywords     = 'unknown';
 		$ModuleVisitorSearchEngine = new \Visitors\ModuleVisitorSearchEngine();
 		$ModuleVisitorSearchEngine->checkEngines();
 		$SearchEngine = $ModuleVisitorSearchEngine->getEngine();
@@ -855,15 +853,15 @@ class ModuleVisitorsTag extends \Frontend
                         ->execute($CleanTime,$vid);
 			} //keywords
 		} //searchengine
-		//log_message('VisitorCheckSearchEngine $SearchEngine: ' . $SearchEngine,'debug.log');
-	} //VisitorCheckSearchEngine
+		//Debug log_message('visitorCheckSearchEngine $SearchEngine: ' . $SearchEngine,'debug.log');
+	} //visitorCheckSearchEngine
 	
 	/**
 	 * Check for Referrer
 	 *
 	 * @param integer $vid	Visitors ID
 	 */
-	protected function VisitorCheckReferrer($vid)
+	protected function visitorCheckReferrer($vid)
 	{
 		if ($this->_VB === false) 
 		{
@@ -873,8 +871,8 @@ class ModuleVisitorsTag extends \Frontend
 				$ModuleVisitorReferrer->checkReferrer();
 				$ReferrerDNS = $ModuleVisitorReferrer->getReferrerDNS();
 				$ReferrerFull= $ModuleVisitorReferrer->getReferrerFull();
-				//log_message('VisitorCheckReferrer $ReferrerDNS:'.print_r($ReferrerDNS,true), 'debug.log');
-				//log_message('VisitorCheckReferrer Host:'.print_r($this->ModuleVisitorReferrer->getHost(),true), 'debug.log');
+				//Debug log_message('visitorCheckReferrer $ReferrerDNS:'.print_r($ReferrerDNS,true), 'debug.log');
+				//Debug log_message('visitorCheckReferrer Host:'.print_r($this->ModuleVisitorReferrer->getHost(),true), 'debug.log');
 				if ($ReferrerDNS != 'o' && $ReferrerDNS != 'w') 
 				{ 	// not the own, not wrong
 					// Insert
@@ -886,7 +884,7 @@ class ModuleVisitorsTag extends \Frontend
 			            'visitors_referrer_full'=> $ReferrerFull
 			        );
 			        //Referrer setzen
-			    	//log_message('VisitorCheckReferrer Referrer setzen', 'debug.log');
+			    	//Debug log_message('visitorCheckReferrer Referrer setzen', 'debug.log');
 			        \Database::getInstance()
 			                ->prepare("INSERT INTO tl_visitors_referrer %s")
                             ->set($arrSet)
@@ -899,9 +897,9 @@ class ModuleVisitorsTag extends \Frontend
 		    	}
 		    } //if PF
 	    } //if VB
-	} // VisitorCheckReferrer
+	} // visitorCheckReferrer
 	
-	protected function VisitorSetDebugSettings($visitors_category_id)
+	protected function visitorSetDebugSettings($visitors_category_id)
 	{
 	    $GLOBALS['visitors']['debug']['tag']          = false; 
 	    $GLOBALS['visitors']['debug']['checks']       = false;
@@ -929,12 +927,11 @@ class ModuleVisitorsTag extends \Frontend
 	        $GLOBALS['visitors']['debug']['checks']       = (boolean)$objVisitors->visitors_expert_debug_checks;
 	        $GLOBALS['visitors']['debug']['referrer']     = (boolean)$objVisitors->visitors_expert_debug_referrer;
 	        $GLOBALS['visitors']['debug']['searchengine'] = (boolean)$objVisitors->visitors_expert_debug_searchengine;
-	        //log_message('VisitorSetDebugSettings: '.print_r($GLOBALS['visitors']['debug'],true),'visitors_debug.log');
-	        ModuleVisitorLog::Writer('## START ##', '## DEBUG ##', 'T'.(int)$GLOBALS['visitors']['debug']['tag'] .'#C'. (int)$GLOBALS['visitors']['debug']['checks'] .'#R'.(int) $GLOBALS['visitors']['debug']['referrer'] .'#S'.(int)$GLOBALS['visitors']['debug']['searchengine']);
+	        ModuleVisitorLog::writeLog('## START ##', '## DEBUG ##', 'T'.(int)$GLOBALS['visitors']['debug']['tag'] .'#C'. (int)$GLOBALS['visitors']['debug']['checks'] .'#R'.(int) $GLOBALS['visitors']['debug']['referrer'] .'#S'.(int)$GLOBALS['visitors']['debug']['searchengine']);
 	    }
 	}
 	
-	protected function VisitorGetRootPageFromUrl()
+	protected function visitorGetRootPageFromUrl()
 	{
 	    // simple Frontend:getRootPageFromUrl
 	    $host = \Environment::get('host');
@@ -951,7 +948,7 @@ class ModuleVisitorsTag extends \Frontend
 	        // Find the matching root pages (thanks to Andreas Schempp)
 	        $objRootPage = \PageModel::findFirstPublishedRootByHostAndLanguage($host, $accept_language);
 	    }
-	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Root Page ID over URL: '. $objRootPage->id);
+	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Root Page ID over URL: '. $objRootPage->id);
         //simple PageRoot:generate
 	    $objNextPage = \PageModel::findFirstPublishedByPid($objRootPage->id);
 	    return $objNextPage->id;
@@ -962,14 +959,14 @@ class ModuleVisitorsTag extends \Frontend
 	 *
 	 * @return string
 	 */
-	protected function VisitorGetUserIP()
+	protected function visitorGetUserIP()
 	{
 	    $UserIP = \Environment::get('ip');
 	    if (strpos($UserIP, ',') !== false) //first IP
 	    {
 	        $UserIP = trim( substr($UserIP, 0, strpos($UserIP, ',') ) );
 	    }
-	    if ( true === $this->VisitorIsPrivateIP($UserIP) &&
+	    if ( true === $this->visitorIsPrivateIP($UserIP) &&
 	        false === empty($_SERVER['HTTP_X_FORWARDED_FOR'])
 	    )
 	    {
@@ -993,7 +990,7 @@ class ModuleVisitorsTag extends \Frontend
 	 * @param string $UserIP
 	 * @return boolean         true = private/reserved
 	 */
-	protected function VisitorIsPrivateIP($UserIP = false)
+	protected function visitorIsPrivateIP($UserIP = false)
 	{
 	    return !filter_var($UserIP, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 	}
@@ -1036,7 +1033,7 @@ class ModuleVisitorsTag extends \Frontend
 	            $page_type = self::PAGE_TYPE_FAQ;
 	        }
 	    }
-	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageType: '. $page_type);
+	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageType: '. $page_type);
 	    return $page_type;
 	}
 	
@@ -1052,7 +1049,7 @@ class ModuleVisitorsTag extends \Frontend
 	{
 	    if ($PageType == self::PAGE_TYPE_NORMAL) 
 	    {
-	        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNormal: '. $PageId);
+	        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdNormal: '. $PageId);
 	    	return $PageId;
 	    }
 	    
@@ -1067,16 +1064,16 @@ class ModuleVisitorsTag extends \Frontend
             $alias = substr($uri,strrpos($uri,'/')+1,-strlen($GLOBALS['TL_CONFIG']['urlSuffix']));
             if (false === $alias) 
             {
-                ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdReaderSelf: '. $PageId);
+                ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdReaderSelf: '. $PageId);
             	return $PageId; // kein Parameter, Readerseite selbst
             }
         }
         else 
         {
-            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNoSuffix: '. $PageId);
+            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdNoSuffix: '. $PageId);
             return $PageId; // kein Suffix, Pech für die Kuh
         }
-        ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Alias: '. $alias);
+        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Alias: '. $alias);
         
         if ($PageType == self::PAGE_TYPE_NEWS)
         {
@@ -1087,7 +1084,7 @@ class ModuleVisitorsTag extends \Frontend
                             ->executeUncached($alias);
             if ($objNews->numRows > 0)
             {
-                ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdNews: '. $objNews->id);
+                ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdNews: '. $objNews->id);
                 return $objNews->id;
             } 
 	        
@@ -1101,11 +1098,11 @@ class ModuleVisitorsTag extends \Frontend
                             ->executeUncached($alias);
 	        if ($objFaq->numRows > 0)
 	        {
-	            ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'PageIdFaq: '. $objFaq->id);
+	            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdFaq: '. $objFaq->id);
 	            return $objFaq->id;
 	        }
 	    }
-	    ModuleVisitorLog::Writer(__METHOD__ , __LINE__ , 'Unknown PageType: '. $PageType);
+	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Unknown PageType: '. $PageType);
 	}
 	
 	
