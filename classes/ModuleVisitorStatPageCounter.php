@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
+ * Contao Open Source CMS, Copyright (C) 2005-2015 Leo Feyer
  *
  * Modul Visitors Stat Page Counter
  *
- * @copyright  Glen Langer 2009..2014 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2009..2015 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL
@@ -21,7 +21,7 @@ namespace BugBuster\Visitors;
 /**
  * Class ModuleVisitorStatPageCounter
  *
- * @copyright  Glen Langer 2014 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2014..2015 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  */
@@ -114,11 +114,25 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                 	break;
             	case self::PAGE_TYPE_NEWS :
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
-            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    if (false !== $aliases['PageAlias'])
+            	    {
+            	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    }
+            	    else
+            	    {
+            	        $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
+            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
-        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        if (false !== $aliases['PageAlias'])
+        	        {
+        	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        }
+        	        else
+        	        {
+        	            $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
+        	        }
         	        break;
             	default:
             		$alias = '-/-';
@@ -180,11 +194,25 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                 	break;
             	case self::PAGE_TYPE_NEWS :
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
-            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    if (false !== $aliases['PageAlias'])
+            	    {
+            	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    }
+            	    else
+            	    {
+            	        $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
+            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
-        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        if (false !== $aliases['PageAlias'])
+        	        {
+        	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        }
+        	        else
+        	        {
+        	            $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
+        	        }
         	        break;
             	default:
             		$alias = '-/-';
@@ -247,11 +275,25 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                 	break;
             	case self::PAGE_TYPE_NEWS :
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
-            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    if (false !== $aliases['PageAlias'])
+            	    {
+            	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    }
+            	    else 
+            	    {
+            	        $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
+            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
-        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        if (false !== $aliases['PageAlias'])
+        	        {
+        	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        }
+        	        else
+        	        {
+        	            $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
+        	        }
         	        break;
             	default:
             		$alias = '-/-';
@@ -315,11 +357,27 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                 	break;
             	case self::PAGE_TYPE_NEWS :
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
-            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    if (false !== $aliases['PageAlias'])
+            	    {
+            	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    }
+            	    else
+            	    {
+            	        $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
+            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
-        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        if (false !== $aliases['PageAlias']) 
+        	        {
+        	        	$alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        }
+        	        else 
+        	        {
+        	            $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
+        	        }
+        	        
+        	        
         	        break;
             	default:
             		$alias = '-/-';
@@ -370,9 +428,8 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         }
         else 
         {
-            //TODO was gebe ich zurück wenn jemand die Tabellen nachträglich gelöscht hat?
-            return array('PageAlias' => '-', 
-                         'NewsAlias' => '-');
+            return array('PageAlias' => false, 
+                         'NewsAlias' => false);
         }
     }
     
@@ -405,9 +462,8 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         }
         else
         {
-            //TODO was gebe ich zurück wenn jemand die Tabellen nachträglich gelöscht hat?
-            return array('PageAlias' => '-',
-                         'FaqAlias'  => '-');
+            return array('PageAlias' => false,
+                         'FaqAlias'  => false);
         }
     }
     
