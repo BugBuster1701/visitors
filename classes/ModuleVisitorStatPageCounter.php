@@ -110,28 +110,22 @@ class ModuleVisitorStatPageCounter extends \BackendModule
             {
             	case self::PAGE_TYPE_NORMAL :
                     $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
-                    $alias = $objPage->alias;
+                    $alias   = $objPage->alias;
                 	break;
             	case self::PAGE_TYPE_NEWS :
+            	    $alias   = false;
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
             	    if (false !== $aliases['PageAlias'])
             	    {
             	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
             	    }
-            	    else
-            	    {
-            	        $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
-            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
+        	        $alias   = false;
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
         	        if (false !== $aliases['PageAlias'])
         	        {
         	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
-        	        }
-        	        else
-        	        {
-        	            $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
         	        }
         	        break;
             	default:
@@ -139,13 +133,16 @@ class ModuleVisitorStatPageCounter extends \BackendModule
             	break;
             }
             
-            $arrPageStatCount[] = array
-            (
-                'alias'         => $alias,
-                'lang'          => $objPageStatCount->visitors_page_lang,
-                'visits'        => $objPageStatCount->visitors_page_visits,
-                'hits'          => $objPageStatCount->visitors_page_hits
-            );
+            if (false !== $alias) 
+            {
+                $arrPageStatCount[] = array
+                (
+                    'alias'         => $alias,
+                    'lang'          => $objPageStatCount->visitors_page_lang,
+                    'visits'        => $objPageStatCount->visitors_page_visits,
+                    'hits'          => $objPageStatCount->visitors_page_hits
+                );
+            }
         }
         
         $this->TemplatePartial->PageVisitHitTop = $arrPageStatCount;        
@@ -190,42 +187,39 @@ class ModuleVisitorStatPageCounter extends \BackendModule
             {
             	case self::PAGE_TYPE_NORMAL :
                     $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
-                    $alias = $objPage->alias;
+                    $alias   = $objPage->alias;
                 	break;
             	case self::PAGE_TYPE_NEWS :
+            	    $alias   = false;
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
             	    if (false !== $aliases['PageAlias'])
             	    {
             	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
             	    }
-            	    else
-            	    {
-            	        $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
-            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
+        	        $alias   = false;
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
         	        if (false !== $aliases['PageAlias'])
         	        {
         	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
-        	        }
-        	        else
-        	        {
-        	            $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
         	        }
         	        break;
             	default:
             		$alias = '-/-';
             	break;
             }
-            
-            $arrPageStatCount[] = array
-            (
-                'alias'         => $alias,
-                'lang'          => $objPageStatCount->visitors_page_lang,
-                'visits'        => $objPageStatCount->visitors_page_visits,
-                'hits'          => $objPageStatCount->visitors_page_hits
-            );
+
+            if (false !== $alias) 
+            {
+                $arrPageStatCount[] = array
+                (
+                    'alias'         => $alias,
+                    'lang'          => $objPageStatCount->visitors_page_lang,
+                    'visits'        => $objPageStatCount->visitors_page_visits,
+                    'hits'          => $objPageStatCount->visitors_page_hits
+                );
+            }
         }
         
         $this->TemplatePartial->PageVisitHitToday = $arrPageStatCount;
@@ -271,42 +265,39 @@ class ModuleVisitorStatPageCounter extends \BackendModule
             {
             	case self::PAGE_TYPE_NORMAL :
                     $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
-                    $alias = $objPage->alias;
+                    $alias   = $objPage->alias;
                 	break;
             	case self::PAGE_TYPE_NEWS :
+            	    $alias   = false;
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
             	    if (false !== $aliases['PageAlias'])
             	    {
             	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
             	    }
-            	    else 
-            	    {
-            	        $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
-            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
+        	        $alias   = false;
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
         	        if (false !== $aliases['PageAlias'])
         	        {
         	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
-        	        }
-        	        else
-        	        {
-        	            $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
         	        }
         	        break;
             	default:
             		$alias = '-/-';
             	break;
             }
-            
-            $arrPageStatCount[] = array
-            (
-                'alias'         => $alias,
-                'lang'          => $objPageStatCount->visitors_page_lang,
-                'visits'        => $objPageStatCount->visitors_page_visits,
-                'hits'          => $objPageStatCount->visitors_page_hits
-            );
+
+            if (false !== $alias) 
+            {
+                $arrPageStatCount[] = array
+                (
+                    'alias'         => $alias,
+                    'lang'          => $objPageStatCount->visitors_page_lang,
+                    'visits'        => $objPageStatCount->visitors_page_visits,
+                    'hits'          => $objPageStatCount->visitors_page_hits
+                );
+            }
         }
         
         $this->TemplatePartial->PageVisitHitYesterday = $arrPageStatCount;
@@ -356,41 +347,36 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                     $alias = $objPage->alias;
                 	break;
             	case self::PAGE_TYPE_NEWS :
+            	    $alias   = false;
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
             	    if (false !== $aliases['PageAlias'])
             	    {
             	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
             	    }
-            	    else
-            	    {
-            	        $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
-            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
+        	        $alias   = false;
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
         	        if (false !== $aliases['PageAlias']) 
         	        {
         	        	$alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
         	        }
-        	        else 
-        	        {
-        	            $alias = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['searchengine_unknown']; //Dummy, a separate variable will follow.
-        	        }
-        	        
-        	        
         	        break;
             	default:
             		$alias = '-/-';
             	break;
             }
-            
-            $arrPageStatCount[] = array
-            (
-                'alias'         => $alias,
-                'lang'          => $objPageStatCount->visitors_page_lang,
-                'visits'        => $objPageStatCount->visitors_page_visits,
-                'hits'          => $objPageStatCount->visitors_page_hits
-            );
+
+            if (false !== $alias)
+            {
+                $arrPageStatCount[] = array
+                (
+                    'alias'         => $alias,
+                    'lang'          => $objPageStatCount->visitors_page_lang,
+                    'visits'        => $objPageStatCount->visitors_page_visits,
+                    'hits'          => $objPageStatCount->visitors_page_hits
+                );
+            }
         }
 
         $this->TemplatePartial->PageVisitHitDays = $arrPageStatCount;
