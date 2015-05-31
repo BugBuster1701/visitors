@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
+ * Contao Open Source CMS, Copyright (C) 2005-2015 Leo Feyer
  *
  * Modul Visitors Stat Page Counter
  *
- * @copyright  Glen Langer 2009..2014 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2009..2015 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL
@@ -21,7 +21,7 @@ namespace BugBuster\Visitors;
 /**
  * Class ModuleVisitorStatPageCounter
  *
- * @copyright  Glen Langer 2014 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2014..2015 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  */
@@ -110,28 +110,39 @@ class ModuleVisitorStatPageCounter extends \BackendModule
             {
             	case self::PAGE_TYPE_NORMAL :
                     $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
-                    $alias = $objPage->alias;
+                    $alias   = $objPage->alias;
                 	break;
             	case self::PAGE_TYPE_NEWS :
+            	    $alias   = false;
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
-            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    if (false !== $aliases['PageAlias'])
+            	    {
+            	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
+        	        $alias   = false;
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
-        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        if (false !== $aliases['PageAlias'])
+        	        {
+        	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        }
         	        break;
             	default:
             		$alias = '-/-';
             	break;
             }
             
-            $arrPageStatCount[] = array
-            (
-                'alias'         => $alias,
-                'lang'          => $objPageStatCount->visitors_page_lang,
-                'visits'        => $objPageStatCount->visitors_page_visits,
-                'hits'          => $objPageStatCount->visitors_page_hits
-            );
+            if (false !== $alias) 
+            {
+                $arrPageStatCount[] = array
+                (
+                    'alias'         => $alias,
+                    'lang'          => $objPageStatCount->visitors_page_lang,
+                    'visits'        => $objPageStatCount->visitors_page_visits,
+                    'hits'          => $objPageStatCount->visitors_page_hits
+                );
+            }
         }
         
         $this->TemplatePartial->PageVisitHitTop = $arrPageStatCount;        
@@ -176,28 +187,39 @@ class ModuleVisitorStatPageCounter extends \BackendModule
             {
             	case self::PAGE_TYPE_NORMAL :
                     $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
-                    $alias = $objPage->alias;
+                    $alias   = $objPage->alias;
                 	break;
             	case self::PAGE_TYPE_NEWS :
+            	    $alias   = false;
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
-            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    if (false !== $aliases['PageAlias'])
+            	    {
+            	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
+        	        $alias   = false;
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
-        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        if (false !== $aliases['PageAlias'])
+        	        {
+        	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        }
         	        break;
             	default:
             		$alias = '-/-';
             	break;
             }
-            
-            $arrPageStatCount[] = array
-            (
-                'alias'         => $alias,
-                'lang'          => $objPageStatCount->visitors_page_lang,
-                'visits'        => $objPageStatCount->visitors_page_visits,
-                'hits'          => $objPageStatCount->visitors_page_hits
-            );
+
+            if (false !== $alias) 
+            {
+                $arrPageStatCount[] = array
+                (
+                    'alias'         => $alias,
+                    'lang'          => $objPageStatCount->visitors_page_lang,
+                    'visits'        => $objPageStatCount->visitors_page_visits,
+                    'hits'          => $objPageStatCount->visitors_page_hits
+                );
+            }
         }
         
         $this->TemplatePartial->PageVisitHitToday = $arrPageStatCount;
@@ -243,28 +265,39 @@ class ModuleVisitorStatPageCounter extends \BackendModule
             {
             	case self::PAGE_TYPE_NORMAL :
                     $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
-                    $alias = $objPage->alias;
+                    $alias   = $objPage->alias;
                 	break;
             	case self::PAGE_TYPE_NEWS :
+            	    $alias   = false;
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
-            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    if (false !== $aliases['PageAlias'])
+            	    {
+            	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
+        	        $alias   = false;
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
-        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        if (false !== $aliases['PageAlias'])
+        	        {
+        	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        }
         	        break;
             	default:
             		$alias = '-/-';
             	break;
             }
-            
-            $arrPageStatCount[] = array
-            (
-                'alias'         => $alias,
-                'lang'          => $objPageStatCount->visitors_page_lang,
-                'visits'        => $objPageStatCount->visitors_page_visits,
-                'hits'          => $objPageStatCount->visitors_page_hits
-            );
+
+            if (false !== $alias) 
+            {
+                $arrPageStatCount[] = array
+                (
+                    'alias'         => $alias,
+                    'lang'          => $objPageStatCount->visitors_page_lang,
+                    'visits'        => $objPageStatCount->visitors_page_visits,
+                    'hits'          => $objPageStatCount->visitors_page_hits
+                );
+            }
         }
         
         $this->TemplatePartial->PageVisitHitYesterday = $arrPageStatCount;
@@ -314,25 +347,36 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                     $alias = $objPage->alias;
                 	break;
             	case self::PAGE_TYPE_NEWS :
+            	    $alias   = false;
             	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
-            	    $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    if (false !== $aliases['PageAlias'])
+            	    {
+            	       $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    }
             	    break;
         	    case self::PAGE_TYPE_FAQ :
+        	        $alias   = false;
         	        $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
-        	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        if (false !== $aliases['PageAlias']) 
+        	        {
+        	        	$alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+        	        }
         	        break;
             	default:
             		$alias = '-/-';
             	break;
             }
-            
-            $arrPageStatCount[] = array
-            (
-                'alias'         => $alias,
-                'lang'          => $objPageStatCount->visitors_page_lang,
-                'visits'        => $objPageStatCount->visitors_page_visits,
-                'hits'          => $objPageStatCount->visitors_page_hits
-            );
+
+            if (false !== $alias)
+            {
+                $arrPageStatCount[] = array
+                (
+                    'alias'         => $alias,
+                    'lang'          => $objPageStatCount->visitors_page_lang,
+                    'visits'        => $objPageStatCount->visitors_page_visits,
+                    'hits'          => $objPageStatCount->visitors_page_hits
+                );
+            }
         }
 
         $this->TemplatePartial->PageVisitHitDays = $arrPageStatCount;
@@ -343,49 +387,69 @@ class ModuleVisitorStatPageCounter extends \BackendModule
     
     public function getNewsAliases($visitors_page_id)
     {
-        $objNewsAliases = \Database::getInstance()
-                            ->prepare("SELECT 
-                                            tl_page.alias AS 'PageAlias', 
-                                            tl_news.alias AS 'NewsAlias'
-                                        FROM
-                                            tl_page
-                                        INNER JOIN
-                                            tl_news_archive ON tl_news_archive.jumpTo = tl_page.id
-                                        INNER JOIN
-                                            tl_news ON tl_news.pid = tl_news_archive.id
-                                        WHERE
-                                            tl_news.id = ?
-                                        ")
-                            ->limit(1)
-                            ->execute($visitors_page_id);
-        while ($objNewsAliases->next())
+        //News Tables exists?
+        if (\Database::getInstance()->tableExists('tl_news') &&
+            \Database::getInstance()->tableExists('tl_news_archive'))
         {
-            return array('PageAlias' => $objNewsAliases->PageAlias, 
-                         'NewsAlias' => $objNewsAliases->NewsAlias);
+            $objNewsAliases = \Database::getInstance()
+                                ->prepare("SELECT 
+                                                tl_page.alias AS 'PageAlias', 
+                                                tl_news.alias AS 'NewsAlias'
+                                            FROM
+                                                tl_page
+                                            INNER JOIN
+                                                tl_news_archive ON tl_news_archive.jumpTo = tl_page.id
+                                            INNER JOIN
+                                                tl_news ON tl_news.pid = tl_news_archive.id
+                                            WHERE
+                                                tl_news.id = ?
+                                            ")
+                                ->limit(1)
+                                ->execute($visitors_page_id);
+            while ($objNewsAliases->next())
+            {
+                return array('PageAlias' => $objNewsAliases->PageAlias, 
+                             'NewsAlias' => $objNewsAliases->NewsAlias);
+            }
+        }
+        else 
+        {
+            return array('PageAlias' => false, 
+                         'NewsAlias' => false);
         }
     }
     
     public function getFaqAliases($visitors_page_id)
     {
-        $objFaqAliases = \Database::getInstance()
-                            ->prepare("SELECT
-                                            tl_page.alias AS 'PageAlias',
-                                            tl_faq.alias AS 'FaqAlias'
-                                        FROM
-                                            tl_page
-                                        INNER JOIN
-                                            tl_faq_category ON tl_faq_category.jumpTo = tl_page.id
-                                        INNER JOIN
-                                            tl_faq ON tl_faq.pid = tl_faq_category.id
-                                        WHERE
-                                            tl_faq.id = ?
-                                        ")
-                            ->limit(1)
-                            ->execute($visitors_page_id);
-        while ($objFaqAliases->next())
+        //FAQ Tables exists?
+        if (\Database::getInstance()->tableExists('tl_faq') &&
+            \Database::getInstance()->tableExists('tl_faq_archive'))
         {
-            return array('PageAlias' => $objFaqAliases->PageAlias,
-                         'FaqAlias'  => $objFaqAliases->FaqAlias);
+            $objFaqAliases = \Database::getInstance()
+                                ->prepare("SELECT
+                                                tl_page.alias AS 'PageAlias',
+                                                tl_faq.alias AS 'FaqAlias'
+                                            FROM
+                                                tl_page
+                                            INNER JOIN
+                                                tl_faq_category ON tl_faq_category.jumpTo = tl_page.id
+                                            INNER JOIN
+                                                tl_faq ON tl_faq.pid = tl_faq_category.id
+                                            WHERE
+                                                tl_faq.id = ?
+                                            ")
+                                ->limit(1)
+                                ->execute($visitors_page_id);
+            while ($objFaqAliases->next())
+            {
+                return array('PageAlias' => $objFaqAliases->PageAlias,
+                             'FaqAlias'  => $objFaqAliases->FaqAlias);
+            }
+        }
+        else
+        {
+            return array('PageAlias' => false,
+                         'FaqAlias'  => false);
         }
     }
     

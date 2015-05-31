@@ -1010,17 +1010,35 @@ class ModuleVisitorsTag extends \Frontend
         
 	    $page_type = self::PAGE_TYPE_NORMAL;
 	    
-	    //News Reader?
-	    $objReaderPage = \Database::getInstance()
-                            ->prepare("SELECT id FROM tl_news_archive WHERE jumpTo=?")
-                            ->limit(1)
-                            ->executeUncached($PageId);
-	    if ($objReaderPage->numRows > 0)
+        //Set the item from the auto_item parameter
+        //from class ModuleNewsReader#L48
+        if (!isset($_GET['items']) && \Config::get('useAutoItem') && isset($_GET['auto_item']))
+        {
+        	\Input::setGet('items', \Input::get('auto_item'));
+        }
+        if (!\Input::get('items'))
+        {
+            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageType: '. $page_type);
+            return $page_type;
+        }
+	    
+	    //News Table exists?
+	    if (\Input::get('items') && \Database::getInstance()->tableExists('tl_news')) 
 	    {
-	        //News Reader
-	        $page_type = self::PAGE_TYPE_NEWS;
+    	    //News Reader?
+    	    $objReaderPage = \Database::getInstance()
+                                ->prepare("SELECT id FROM tl_news_archive WHERE jumpTo=?")
+                                ->limit(1)
+                                ->executeUncached($PageId);
+    	    if ($objReaderPage->numRows > 0)
+    	    {
+    	        //News Reader
+    	        $page_type = self::PAGE_TYPE_NEWS;
+    	    }
 	    }
-	    else
+	    
+	    //FAQ Table exists?
+	    if (\Input::get('items') && \Database::getInstance()->tableExists('tl_faq_category'))
 	    {
 	        //FAQ Reader?
 	        $objReaderPage = \Database::getInstance()
@@ -1033,6 +1051,7 @@ class ModuleVisitorsTag extends \Frontend
 	            $page_type = self::PAGE_TYPE_FAQ;
 	        }
 	    }
+	    
 	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageType: '. $page_type);
 	    return $page_type;
 	}

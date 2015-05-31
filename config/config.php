@@ -1,11 +1,11 @@
 <?php 
 
 /**
- * Extension for Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
+ * Extension for Contao Open Source CMS, Copyright (C) 2005-2015 Leo Feyer
  * 
  * Modul Visitors Config File
  *
- * @copyright  Glen Langer 2009..2014 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2009..2014 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @licence    LGPL
  * @filesource
@@ -14,7 +14,14 @@
  */
 
 define('VISITORS_VERSION', '3.5');
-define('VISITORS_BUILD'  , '1');
+define('VISITORS_BUILD'  , '3');
+
+/**
+ * Backend css version number are added to style sheets files to make
+ * the web browser reload those resources after a Visitors update.
+ * 
+ */
+define('VISITORS_BE_CSS', '3.5.3');
 
 /**
  * -------------------------------------------------------------------------
@@ -25,14 +32,14 @@ $GLOBALS['BE_MOD']['content']['visitors'] = array
 (
 	'tables'     => array('tl_visitors_category', 'tl_visitors'),
 	'icon'       => 'system/modules/visitors/assets/iconVisitor.png',
-	'stylesheet' => 'system/modules/visitors/assets/mod_visitors_be.css'
+	'stylesheet' => 'system/modules/visitors/assets/mod_visitors_be_'.VISITORS_BE_CSS.'.css'
 );
 
 $GLOBALS['BE_MOD']['system']['visitorstat'] = array
 (
 	'callback'   => 'Visitors\ModuleVisitorStat',
 	'icon'       => 'system/modules/visitors/assets/iconVisitor.png',
-	'stylesheet' => 'system/modules/visitors/assets/mod_visitors_be.css'
+	'stylesheet' => 'system/modules/visitors/assets/mod_visitors_be_'.VISITORS_BE_CSS.'.css'
 );
 
 /**
