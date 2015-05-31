@@ -1011,15 +1011,16 @@ class ModuleVisitorsTag extends \Frontend
 	    $page_type = self::PAGE_TYPE_NORMAL;
 	    
         //Set the item from the auto_item parameter
-		if (!isset($_GET['items']) && \Config::get('useAutoItem') && isset($_GET['auto_item']))
-		{
-			\Input::setGet('items', \Input::get('auto_item'));
-		}
-		if (!\Input::get('items'))
-		{
-		    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageType: '. $page_type);
-		    return $page_type;
-		}
+        //from class ModuleNewsReader#L48
+        if (!isset($_GET['items']) && \Config::get('useAutoItem') && isset($_GET['auto_item']))
+        {
+        	\Input::setGet('items', \Input::get('auto_item'));
+        }
+        if (!\Input::get('items'))
+        {
+            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageType: '. $page_type);
+            return $page_type;
+        }
 	    
 	    //News Table exists?
 	    if (\Input::get('items') && \Database::getInstance()->tableExists('tl_news')) 
