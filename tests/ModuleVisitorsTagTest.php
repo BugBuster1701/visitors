@@ -52,9 +52,15 @@ class ModuleVisitorsTagTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
         
-        // TODO Auto-generated ModuleVisitorsTagTest::setUp()
-        
+        // for visitors::1::start
+        $objPage = new stdClass();
+        $objPage->dateFormat = 'Y.m.d';
+        $objPage->id = 2; // Page "home/index" 
+        $GLOBALS['objPage'] = $objPage;
+        // for visitors::1::bestday::date
+        $GLOBALS['TL_CONFIG']['dateFormat'] = 'Y.m.d';
         $this->ModuleVisitorsTag = new BugBuster\Visitors\ModuleVisitorsTag(/* parameters */);
+
     }
 
     /**
@@ -62,7 +68,7 @@ class ModuleVisitorsTagTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        // TODO Auto-generated ModuleVisitorsTagTest::tearDown()
+        // Auto-generated ModuleVisitorsTagTest::tearDown()
         $this->ModuleVisitorsTag = null;
         
         parent::tearDown();
@@ -70,23 +76,21 @@ class ModuleVisitorsTagTest extends PHPUnit_Framework_TestCase
 
     /**
      * Constructs the test case.
-     */
-    public function __construct()
+     * Parameter wegen dataProvider, sonst -> Missing argument 1
+     */  
+    public function __construct($name = NULL, array $data = array(), $dataName = '')
     {
-        // TODO Auto-generated constructor
         $GLOBALS['TL_CONFIG']['cacheMode'] = 'server';
-        
         $GLOBALS['TL_CONFIG']['mod_visitors_bot_check'] = false;
         
+        parent::__construct($name, $data, $dataName);
     }
 
     /**
-     * Tests ModuleVisitorsTag->replaceInsertTagsVisitors()
+     * Basic Tests ModuleVisitorsTag->replaceInsertTagsVisitors()
      */
-    public function testReplaceInsertTagsVisitors()
+    public function testReplaceInsertTagsVisitorsBasics()
     {
-        // TODO Auto-generated ModuleVisitorsTagTest->testReplaceInsertTagsVisitors()
-        
         //Test: not the correct tag
         $return = $this->ModuleVisitorsTag->replaceInsertTagsVisitors('notforme::notforme');
         $this->assertFalse($return);
@@ -107,8 +111,58 @@ class ModuleVisitorsTagTest extends PHPUnit_Framework_TestCase
         $return = $this->ModuleVisitorsTag->replaceInsertTagsVisitors('visitors::1::wrong');
         $this->assertFalse($return);
         
-        $this->markTestIncomplete("replaceInsertTagsVisitors test not complete implemented");
-        
+    }
+    
+    /**
+     * Tag2 Tests ModuleVisitorsTag->replaceInsertTagsVisitors()
+     * 
+     * @dataProvider providertag2
+     */
+    public function testReplaceInsertTagsVisitorsTag2($result, $tag)
+    {
+
+        //Test Tag2 = count
+        $return = $this->ModuleVisitorsTag->replaceInsertTagsVisitors($tag);
+        //Result must be equal
+		$this->assertEquals($result,$return);
+    }
+    public function providertag2()
+    {
+        return array(//result,insert-tag
+                array('Besucher'        , 'visitors::1::name'),
+                array('1'               , 'visitors::1::online'),
+                array('2015.06.01'      , 'visitors::1::start'),
+                array('68'              , 'visitors::1::totalvisit'),
+                array('442'             , 'visitors::1::totalhit'),
+                array('2'               , 'visitors::1::todayvisit'),
+                array('11'              , 'visitors::1::todayhit'),
+                array('0'               , 'visitors::1::averagevisits'),
+                array('<!-- counted -->', 'visitors::1::count')
+        );
+    }
+    
+    /**
+     * Tag3 Tests ModuleVisitorsTag->replaceInsertTagsVisitors()
+     *
+     * @dataProvider providertag3
+     */
+    public function testReplaceInsertTagsVisitorsTag3($result, $tag)
+    {
+    
+        //Test Tag2 = bestday, tag3 = date|visits|hits
+        $return = $this->ModuleVisitorsTag->replaceInsertTagsVisitors($tag);
+        //Result must be equal
+        $this->assertEquals($result,$return);
+    }
+    public function providertag3()
+    {
+        return array(//result,insert-tag
+            array(false             , 'visitors::1::bestday'),
+            array('2014.01.02'      , 'visitors::1::bestday::date'),
+            array('02.01.2014'      , 'visitors::1::bestday::date::d.m.Y'),
+            array('3'               , 'visitors::1::bestday::visits'),
+            array('9'               , 'visitors::1::bestday::hits') 
+        );
     }
 }
 
