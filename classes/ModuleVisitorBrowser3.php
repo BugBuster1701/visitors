@@ -45,6 +45,8 @@ class ModuleVisitorBrowser3
 	const BROWSER_OPERA = 'Opera';                            // http://www.opera.com/
 	const BROWSER_OPERA_MINI = 'Opera Mini';                  // http://www.opera.com/mini/
 	const BROWSER_WEBTV = 'WebTV';                            // http://www.webtv.net/pc/
+	const BROWSER_MS_EDGE = 'MS Edge';
+	const BROWSER_MS_EDGE_MOBILE = 'MS Edge Mobile';
 	const BROWSER_IE = 'IE';    //modified for compatibility  // http://www.microsoft.com/ie/
 	const BROWSER_IE_MOBILE = 'IE Mobile';
 	const BROWSER_POCKET_IE = 'Pocket IE';//modified for compatibility     // http://en.wikipedia.org/wiki/Internet_Explorer_Mobile
@@ -156,6 +158,7 @@ class ModuleVisitorBrowser3
 	const PLATFORM_WINDOWS_7     = 'Win7';
 	const PLATFORM_WINDOWS_8     = 'Win8';
 	const PLATFORM_WINDOWS_81    = 'Win8.1';
+	const PLATFORM_WINDOWS_10    = 'Win10';
 	const PLATFORM_WINDOWS_RT    = 'WinRT';
 	const PLATFORM_MACOSX        = 'MacOSX';
 	const PLATFORM_IOSX          = 'iOS';
@@ -552,6 +555,29 @@ class ModuleVisitorBrowser3
 	    	$this->setVersion(str_replace(array('(',')',';'),'',$aresult[1]));
 	    	return true;
 	    }
+	    // Test for versions for Edge
+	    else if ( stripos($this->_agent,'Edge')          !== false 
+	    	   && stripos($this->_agent,'windows phone') === false ) 
+	    {
+	        $aresult = explode('/',stristr($this->_agent,'Edge'));
+	        $aversion = explode('.',$aresult[1]);
+	        $this->setVersion($aversion[0]);
+	        $this->setBrowser(self::BROWSER_MS_EDGE);
+	        return true;
+	    }
+	    // Test for versions for Edge mobile
+	    else if ( stripos($this->_agent,'Edge')       !== false
+	        && stripos($this->_agent,'windows phone') !== false )
+	    {
+	        $aresult = explode('/',stristr($this->_agent,'Edge'));
+	        $aversion = explode('.',$aresult[1]);
+	        $this->setVersion($aversion[0]);
+	        $this->setBrowser(self::BROWSER_MS_EDGE_MOBILE);
+	        $this->setPlatform( self::PLATFORM_WINDOWS_PHONE );
+	        $this->setMobile(true);
+	        return true;
+	    }
+	    
 	    // Test for versions > 10
 	    else if (  preg_match('/Trident\/[0-9\.]+/', $this->_agent) 
 	            && preg_match('/rv:([0-9\.]+)/', $this->_agent, $match) )
@@ -1605,7 +1631,11 @@ class ModuleVisitorBrowser3
 			    $this->_platform = self::PLATFORM_WINDOWS_7;
 		    }
 	        else*/
-            if( stripos($this->_agent, 'windows NT 6.3') !== false ) 
+            if( stripos($this->_agent, 'windows NT 10.0') !== false ) 
+            {
+                $this->_platformVersion = self::PLATFORM_WINDOWS_10;
+            }
+            elseif( stripos($this->_agent, 'windows NT 6.3') !== false ) 
             {
                 $this->_platformVersion = self::PLATFORM_WINDOWS_81;
                 if( stripos($this->_agent, 'arm') !== false )
