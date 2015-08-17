@@ -74,6 +74,7 @@ class ModuleVisitorBrowser3
 	const BROWSER_GALAXY_S_II     = 'Galaxy S II';
 	const BROWSER_GALAXY_S_III    = 'Galaxy S III';
 	const BROWSER_GALAXY_S_III_MINI  = 'Galaxy S III mini';
+	const BROWSER_GALAXY_S_III_NEO = 'Galaxy S III Neo';
 	const BROWSER_GALAXY_ACE      = 'Galaxy Ace';
 	const BROWSER_GALAXY_ACE_2    = 'Galaxy Ace 2';
 	const BROWSER_GALAXY_ACE_PLUS = 'Galaxy Ace Plus';
@@ -1139,6 +1140,11 @@ class ModuleVisitorBrowser3
 	    	if( stripos($this->_agent,'GT-I8190') !== false )
 	    	{
 	    	    $this->setBrowser(self::BROWSER_GALAXY_S_III_MINI);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'GT-I9301') !== false )
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S_III_NEO);
 	    	    return true;
 	    	}
 	    	if( stripos($this->_agent,'GT-S5830') !== false ) 
