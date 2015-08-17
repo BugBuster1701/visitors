@@ -45,8 +45,8 @@ class ModuleVisitorBrowser3
 	const BROWSER_OPERA = 'Opera';                            // http://www.opera.com/
 	const BROWSER_OPERA_MINI = 'Opera Mini';                  // http://www.opera.com/mini/
 	const BROWSER_WEBTV = 'WebTV';                            // http://www.webtv.net/pc/
-	const BROWSER_MS_EDGE = 'MS Edge';
-	const BROWSER_MS_EDGE_MOBILE = 'MS Edge Mobile';
+	const BROWSER_MS_EDGE = 'Edge';                           // https://msdn.microsoft.com/en-us/library/hh869301%28v=vs.85%29.aspx
+	const BROWSER_MS_EDGE_MOBILE = 'Edge Mobile';
 	const BROWSER_IE = 'IE';    //modified for compatibility  // http://www.microsoft.com/ie/
 	const BROWSER_IE_MOBILE = 'IE Mobile';
 	const BROWSER_POCKET_IE = 'Pocket IE';//modified for compatibility     // http://en.wikipedia.org/wiki/Internet_Explorer_Mobile
@@ -566,8 +566,8 @@ class ModuleVisitorBrowser3
 	        return true;
 	    }
 	    // Test for versions for Edge mobile
-	    else if ( stripos($this->_agent,'Edge')       !== false
-	        && stripos($this->_agent,'windows phone') !== false )
+	    else if ( stripos($this->_agent,'Edge')          !== false
+	           && stripos($this->_agent,'windows phone') !== false )
 	    {
 	        $aresult = explode('/',stristr($this->_agent,'Edge'));
 	        $aversion = explode('.',$aresult[1]);
