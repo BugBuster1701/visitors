@@ -79,6 +79,11 @@ class ModuleVisitorBrowser3
 	const BROWSER_GALAXY_S4_MINI   = 'Galaxy S4 Mini';
 	const BROWSER_GALAXY_S4_ACTIVE = 'Galaxy S4 Active';
 	const BROWSER_GALAXY_S4_ZOOM   = 'Galaxy S4 Zoom';
+	const BROWSER_GALAXY_S5        = 'Galaxy S5';
+	const BROWSER_GALAXY_S5_MINI   = 'Galaxy S5 Mini';
+	const BROWSER_GALAXY_S5_ACTIVE = 'Galaxy S5 Active';
+	const BROWSER_GALAXY_S5_ZOOM   = 'Galaxy S5 Zoom';
+	const BROWSER_GALAXY_S5_PLUS   = 'Galaxy S5 Plus';
 	const BROWSER_GALAXY_ACE      = 'Galaxy Ace';
 	const BROWSER_GALAXY_ACE_2    = 'Galaxy Ace 2';
 	const BROWSER_GALAXY_ACE_PLUS = 'Galaxy Ace Plus';
@@ -1173,6 +1178,28 @@ class ModuleVisitorBrowser3
 	    	if( stripos($this->_agent,'SM-C101') !== false )
 	    	{
 	    	    $this->setBrowser(self::BROWSER_GALAXY_S4_ZOOM);
+	    	    return true;
+	    	}
+	    	//S5
+	    	if( stripos($this->_agent,'SM-G900F') !== false ||
+	    	    stripos($this->_agent,'SM-G900I') !== false )
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S5);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'SM-G800F') !== false ) 
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S5_MINI);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'SM-G870A') !== false )
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S5_ACTIVE);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'SM-C115') !== false )
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S5_ZOOM);
 	    	    return true;
 	    	}
 	    	
