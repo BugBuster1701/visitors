@@ -13,8 +13,8 @@
  * @see	       https://github.com/BugBuster1701/visitors
  */
 
-define('VISITORS_VERSION', '3.5');
-define('VISITORS_BUILD'  , '3');
+define('VISITORS_VERSION', '3.6');
+define('VISITORS_BUILD'  , '0');
 
 /**
  * Backend css version number are added to style sheets files to make

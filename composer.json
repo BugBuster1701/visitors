@@ -33,6 +33,9 @@
 		"contao-legacy/visitors":"self.version"
 	},
 	"extra":{
+        "branch-alias": {
+            "dev-develop": "3.6.x-dev"
+        },
 		"contao":{
 			"sources":{
 				"":"system/modules/visitors"
