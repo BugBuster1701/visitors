@@ -73,6 +73,7 @@ class ModuleVisitorBrowser3
 	const BROWSER_GALAXY_S_PLUS   = 'Galaxy S Plus';
 	const BROWSER_GALAXY_S_II     = 'Galaxy S II';
 	const BROWSER_GALAXY_S_III    = 'Galaxy S III';
+	const BROWSER_GALAXY_S_III_MINI  = 'Galaxy S III mini';
 	const BROWSER_GALAXY_ACE      = 'Galaxy Ace';
 	const BROWSER_GALAXY_ACE_2    = 'Galaxy Ace 2';
 	const BROWSER_GALAXY_ACE_PLUS = 'Galaxy Ace Plus';
@@ -1112,67 +1113,57 @@ class ModuleVisitorBrowser3
     {
 	    if( stripos($this->_agent,'Android') !== false ) 
 	    {
+	        $this->setVersion(self::VERSION_UNKNOWN);
+	        $this->setMobile(true);
+	        
 	    	if( stripos($this->_agent,'GT-I9000') !== false ) 
 	    	{
-	    		$this->setVersion(self::VERSION_UNKNOWN);
-			    $this->setMobile(true);
-			    $this->setBrowser(self::BROWSER_GALAXY_S);
+    		    $this->setBrowser(self::BROWSER_GALAXY_S);
 			    return true;
 	    	}
 	    	if( stripos($this->_agent,'GT-I9001') !== false ) 
 	    	{
-	    		$this->setVersion(self::VERSION_UNKNOWN);
-			    $this->setMobile(true);
 			    $this->setBrowser(self::BROWSER_GALAXY_S_PLUS);
 			    return true;
 	    	}
 	    	if( stripos($this->_agent,'GT-I9100') !== false ) 
 	    	{
-	    		$this->setVersion(self::VERSION_UNKNOWN);
-			    $this->setMobile(true);
 			    $this->setBrowser(self::BROWSER_GALAXY_S_II);
 			    return true;
 	    	}
 	    	if( stripos($this->_agent,'GT-I9300') !== false )
 	    	{
-	    	    $this->setVersion(self::VERSION_UNKNOWN);
-	    	    $this->setMobile(true);
 	    	    $this->setBrowser(self::BROWSER_GALAXY_S_III);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'GT-I8190') !== false )
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S_III_MINI);
 	    	    return true;
 	    	}
 	    	if( stripos($this->_agent,'GT-S5830') !== false ) 
 	    	{
-	    		$this->setVersion(self::VERSION_UNKNOWN);
-			    $this->setMobile(true);
 			    $this->setBrowser(self::BROWSER_GALAXY_ACE);
 			    return true;
 	    	}
 	    	if( stripos($this->_agent,'GT-I8160') !== false )
 	    	{
-	    	    $this->setVersion(self::VERSION_UNKNOWN);
-	    	    $this->setMobile(true);
 	    	    $this->setBrowser(self::BROWSER_GALAXY_ACE_2);
 	    	    return true;
 	    	}
 	    	if( stripos($this->_agent,'GT-S7500') !== false )
 	    	{
-	    	    $this->setVersion(self::VERSION_UNKNOWN);
-	    	    $this->setMobile(true);
 	    	    $this->setBrowser(self::BROWSER_GALAXY_ACE_PLUS);
 	    	    return true;
 	    	}
 	    	if( stripos($this->_agent,'GT-I9250') !== false ||
 	    	    stripos($this->_agent,'Galaxy Nexus Build') !== false ) 
 	    	{
-	    	    $this->setVersion(self::VERSION_UNKNOWN);
-	    	    $this->setMobile(true);
 	    	    $this->setBrowser(self::BROWSER_SAMSUNG_GALAXY_NEXUS);
 	    	    return true;
 	    	}
 	    	if( stripos($this->_agent,'GT-N7000') !== false )
 	    	{
-	    	    $this->setVersion(self::VERSION_UNKNOWN);
-	    	    $this->setMobile(true);
 	    	    $this->setBrowser(self::BROWSER_GALAXY_NOTE);
 	    	    return true;
 	    	}
@@ -1184,8 +1175,6 @@ class ModuleVisitorBrowser3
 	    		stripos($this->_agent,'GT-P6200') !== false ||
 	    		stripos($this->_agent,'GT-P6210') !== false )
 	    	{
-	    		$this->setVersion(self::VERSION_UNKNOWN);
-			    $this->setMobile(true);
 			    $this->setBrowser(self::BROWSER_GALAXY_TAB);
 			    return true;
 	    	}
