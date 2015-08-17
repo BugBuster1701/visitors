@@ -72,9 +72,9 @@ class ModuleVisitorBrowser3
 	const BROWSER_GALAXY_S        = 'Galaxy S';
 	const BROWSER_GALAXY_S_PLUS   = 'Galaxy S Plus';
 	const BROWSER_GALAXY_S_II     = 'Galaxy S II';
-	const BROWSER_GALAXY_S_III    = 'Galaxy S III';
+	const BROWSER_GALAXY_S_III       = 'Galaxy S III';
 	const BROWSER_GALAXY_S_III_MINI  = 'Galaxy S III Mini';
-	const BROWSER_GALAXY_S_III_NEO = 'Galaxy S III Neo';
+	const BROWSER_GALAXY_S_III_NEO   = 'Galaxy S III Neo';
 	const BROWSER_GALAXY_S4        = 'Galaxy S4';
 	const BROWSER_GALAXY_S4_MINI   = 'Galaxy S4 Mini';
 	const BROWSER_GALAXY_S4_ACTIVE = 'Galaxy S4 Active';
@@ -84,6 +84,11 @@ class ModuleVisitorBrowser3
 	const BROWSER_GALAXY_S5_ACTIVE = 'Galaxy S5 Active';
 	const BROWSER_GALAXY_S5_ZOOM   = 'Galaxy S5 Zoom';
 	const BROWSER_GALAXY_S5_PLUS   = 'Galaxy S5 Plus';
+	const BROWSER_GALAXY_S6        = 'Galaxy S6';
+	const BROWSER_GALAXY_S6_ACTIVE = 'Galaxy S6 Active';
+	const BROWSER_GALAXY_S6_EDGE   = 'Galaxy S6 Edge';
+	const BROWSER_GALAXY_S6_EDGE_P = 'Galaxy S6 Edge Plus';
+	const BROWSER_GALAXY_S6_MINI   = 'Galaxy S6 Mini';
 	const BROWSER_GALAXY_ACE      = 'Galaxy Ace';
 	const BROWSER_GALAXY_ACE_2    = 'Galaxy Ace 2';
 	const BROWSER_GALAXY_ACE_PLUS = 'Galaxy Ace Plus';
@@ -1181,18 +1186,17 @@ class ModuleVisitorBrowser3
 	    	    return true;
 	    	}
 	    	//S5
-	    	if( stripos($this->_agent,'SM-G900F') !== false ||
-	    	    stripos($this->_agent,'SM-G900I') !== false )
+	    	if( stripos($this->_agent,'SM-G900') !== false )
 	    	{
 	    	    $this->setBrowser(self::BROWSER_GALAXY_S5);
 	    	    return true;
 	    	}
-	    	if( stripos($this->_agent,'SM-G800F') !== false ) 
+	    	if( stripos($this->_agent,'SM-G800') !== false ) 
 	    	{
 	    	    $this->setBrowser(self::BROWSER_GALAXY_S5_MINI);
 	    	    return true;
 	    	}
-	    	if( stripos($this->_agent,'SM-G870A') !== false )
+	    	if( stripos($this->_agent,'SM-G870') !== false )
 	    	{
 	    	    $this->setBrowser(self::BROWSER_GALAXY_S5_ACTIVE);
 	    	    return true;
@@ -1202,6 +1206,33 @@ class ModuleVisitorBrowser3
 	    	    $this->setBrowser(self::BROWSER_GALAXY_S5_ZOOM);
 	    	    return true;
 	    	}
+	    	//S6 
+	    	if( stripos($this->_agent,'SM-G920') !== false )
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S6);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'SM-G890') !== false )
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S6_ACTIVE);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'SM-G9198') !== false )
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S6_MINI);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'SM-G925') !== false )
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S6_EDGE);
+	    	    return true;
+	    	}
+	    	if( stripos($this->_agent,'SM-G928') !== false )
+	    	{
+	    	    $this->setBrowser(self::BROWSER_GALAXY_S6_EDGE_P);
+	    	    return true;
+	    	}
+	    	
 	    	
 	    	if( stripos($this->_agent,'GT-S5830') !== false ) 
 	    	{
