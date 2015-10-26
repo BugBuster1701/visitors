@@ -13,7 +13,7 @@
  * @see	       https://github.com/BugBuster1701/visitors
  */
 
-define('VISITORS_VERSION', '3.6');
+define('VISITORS_VERSION', '3.7');
 define('VISITORS_BUILD'  , '0');
 
 /**
