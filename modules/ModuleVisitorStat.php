@@ -58,6 +58,11 @@ class ModuleVisitorStat extends \BackendModule
 	    	$this->setZeroBrowser();
 	    }
 	    
+	    if (\Input::post('act',true)=='export') //action Export
+	    {
+	        $this->generateExport();
+	    }
+	    
 	    if (\Input::post('id')>0) //Auswahl im Statistikmenü
 	    {
 	    	$this->intKatID = preg_replace('@\D@', '', \Input::post('id')); //  only digits
@@ -1334,6 +1339,13 @@ class ModuleVisitorStat extends \BackendModule
 	    }
 	    //Debug log_message('Ich bin in der falschen Gruppe', 'visitors_debug.log');
 	    return false;
+	}
+	
+	protected function generateExport()
+	{
+	    //TODO
+	    //$export = new \DLStats\Stat\Export\DLStatsStatExport;
+	    //return $export->run();
 	}
 	
 }
