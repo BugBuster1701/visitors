@@ -34,28 +34,28 @@
 		<div class="tl_limit" style="float:left;">
 
 		    <div class="tl_subpanel" style="padding-right: 14px;">
-	        	<input type="submit" value="Export" class="tl_submit" id="save" name="visitorss_export_submit">
+	        	<input type="submit" value="<?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export']; ?>" class="tl_submit" id="save" name="visitors_export_submit">
 	    	</div>
 	    	
 	<?php if (class_exists('ZipArchive', FALSE)) : ?>	
 			<div class="tl_subpanel">
-				<strong>Format:</strong> 
+				<strong><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['format']; ?>:</strong> 
 	        	<div class="styled_select tl_select">
-	          		<span>Excel .xlsx</span>
+	          		<span><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['excel']; ?></span>
 	        	</div>
 	        	<select class="tl_select" name="visitors_export_format" style="opacity: 0;">
-	          		<option value="xlsx">Excel .xlsx</option>
-	          		<option value="csv" >CSV .csv</option>
+	          		<option value="xlsx"><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['excel']; ?></option>
+	          		<option value="csv" ><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['csv']; ?></option>
 	        	</select>     
 			</div>
 	<?php else: ?>
 			<div class="tl_subpanel">
-				<strong>Format:</strong> 
+				<strong><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['format']; ?>:</strong> 
 	        	<div class="styled_select tl_select">
-	          		<span>CSV .csv</span>
+	          		<span><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['csv']; ?></span>
 	        	</div>
 	        	<select class="tl_select" name="visitors_export_format" style="opacity: 0;">
-	          		<option value="csv" >CSV .csv</option>
+	          		<option value="csv" ><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['csv']; ?></option>
 	        	</select>     
 			</div>
 	<?php endif; ?>

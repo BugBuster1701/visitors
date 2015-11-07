@@ -8,9 +8,10 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2015-02-10T23:35:12+01:00
+ * last-updated: 2015-02-10T23:51:51+01:00
  */
 
-
-$GLOBALS['TL_LANG']['tl_visitors_referrer']['number'] = 'संख्या';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['details_for']                = 'हेतु विवरण';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['number']                     = 'संख्या';
+$GLOBALS['TL_LANG']['tl_visitors_referrer']['visitor_referrer_last_seen'] = 'पिछला देखा हुआ';
 
