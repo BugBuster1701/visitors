@@ -222,7 +222,10 @@ class VisitorsStatExport extends \System
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $objStatistic->published=='' ? $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['pub_no'] : $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['pub_yes']);
             $objPHPExcel->getActiveSheet()->setCellValue('E'.$row, date($GLOBALS['TL_CONFIG']['dateFormat'], strtotime($objStatistic->visitors_date)));
             $objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $objStatistic->visitors_visit=='' ? '0' : $objStatistic->visitors_visit);
-            $objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $objStatistic->visitors_hit  =='' ? '0' : $objStatistic->visitors_hit); 
+            $objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $objStatistic->visitors_hit  =='' ? '0' : $objStatistic->visitors_hit);
+
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$row)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            $objPHPExcel->getActiveSheet()->getStyle('D'.$row)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
         $VisitorsID = $objStatistic->visitors_id;
         
@@ -252,6 +255,8 @@ class VisitorsStatExport extends \System
             $objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $arrVisitorsPageVisitHit['lang']);
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $arrVisitorsPageVisitHit['visits']);
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $arrVisitorsPageVisitHit['hits']);
+            
+            $objPHPExcel->getActiveSheet()->getStyle('B'.$row)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
         
         $objPHPExcel->setActiveSheetIndex(0);
