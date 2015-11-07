@@ -195,6 +195,7 @@ class VisitorsStatExport extends \System
         $VisitorsID = $objStatistic->visitors_id;
         
         //Page Statistics
+        $objPHPExcel->createSheet();
         $objPHPExcel->setActiveSheetIndex(1);
         $objPHPExcel->getActiveSheet()->setTitle($GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_page_title']);
         $objPHPExcel->getActiveSheet()->setCellValue('A1', $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['page_alias']);
