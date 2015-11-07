@@ -192,6 +192,35 @@ class VisitorsStatExport extends \System
             $objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $objStatistic->visitors_visit=='' ? '0' : $objStatistic->visitors_visit);
             $objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $objStatistic->visitors_hit  =='' ? '0' : $objStatistic->visitors_hit); 
         }
+        $VisitorsID = $objStatistic->visitors_id;
+        
+        //Page Statistics
+        $objPHPExcel->setActiveSheetIndex(1);
+        $objPHPExcel->getActiveSheet()->setTitle($GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_page_title']);
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['page_alias']);
+        $objPHPExcel->getActiveSheet()->setCellValue('B1', $GLOBALS['TL_LANG']['MSC']['tl_vivitors_stat']['page_language']);
+        $objPHPExcel->getActiveSheet()->setCellValue('C1', $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_field_visits']);
+        $objPHPExcel->getActiveSheet()->setCellValue('D1', $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_field_hits']);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+        $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
+        $objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
+        
+        $arrVisitorsPageVisitHits = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitTop($VisitorsID,365,false);
+        $row = 1;
+        foreach ($arrVisitorsPageVisitHits as $arrVisitorsPageVisitHit) 
+        {
+            $row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $arrVisitorsPageVisitHit['alias']);
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $arrVisitorsPageVisitHit['lang']);
+            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $arrVisitorsPageVisitHit['visits']);
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $arrVisitorsPageVisitHit['hits']);
+        }        
+        
         return $objPHPExcel;
     }
 

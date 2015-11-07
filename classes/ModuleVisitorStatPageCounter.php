@@ -74,12 +74,9 @@ class ModuleVisitorStatPageCounter extends \BackendModule
 
     //////////////////////////////////////////////////////////////
     
-    public function generatePageVisitHitTop($VisitorsID,$days=20)
+    public function generatePageVisitHitTop($VisitorsID, $days = 20, $parse = true)
     {
         $arrPageStatCount = false;
-        
-        $this->TemplatePartial = new \BackendTemplate('mod_visitors_be_stat_partial_pagevisithittop');
-        
         $objPageStatCount = \Database::getInstance()
                         ->prepare("SELECT 
                                         visitors_page_id,
@@ -144,9 +141,17 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                 );
             }
         }
-        
-        $this->TemplatePartial->PageVisitHitTop = $arrPageStatCount;        
-        return $this->TemplatePartial->parse();
+
+        if ($parse === true) 
+        {
+            $this->TemplatePartial = new \BackendTemplate('mod_visitors_be_stat_partial_pagevisithittop');        
+            $this->TemplatePartial->PageVisitHitTop = $arrPageStatCount;        
+            return $this->TemplatePartial->parse();
+        }
+        else 
+        {
+            return $arrPageStatCount;
+        }
     }
     
     public function generatePageVisitHitToday($VisitorsID, $limit=5)

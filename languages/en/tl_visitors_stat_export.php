@@ -27,7 +27,7 @@ $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_field_visits']       = 'V
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_field_hits']         = 'Hits';
 
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_title']              = 'Visitors Statistic';
-//$GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_headline']           = 'Category,ID,Name,Published,Date,Visits,Hits';
+$GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_page_title']         = 'Page Statistic';
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['format']                    = 'Format';
 //$GLOBALS['TL_LANG']['tl_visitors_stat_export']['month']                     = 'Month';
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['statistics_export']         = 'Statistics export';
