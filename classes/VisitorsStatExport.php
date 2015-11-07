@@ -100,6 +100,38 @@ class VisitorsStatExport extends \System
         return ;
     }
     
+    protected function exportODS()
+    {
+        $objPHPExcel = $this->generateExportData();
+        $objPHPExcel->getProperties()->setCreator("Contao Module visitors_statistic_export")
+                                    ->setLastModifiedBy("Contao Module visitors_statistic_export")
+                                    ->setTitle("Office 2007 ODS Visitors Statistic Export")
+                                    ->setSubject("Office 2007 ODS Visitors Statistic Export")
+                                    ->setDescription("Office 2007 ODS Visitors Statistic Export");
+        //->setKeywords("office 2007 openxml php")
+        //->setCategory("Test result file");
+    
+        // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.oasis.opendocument.spreadsheet');
+        header('Content-Disposition: attachment;filename="visitors_statistic-export.ods"');
+        header('Cache-Control: max-age=0');
+        if ($this->BrowserAgent == 'IE')
+        {
+            // If you're serving to IE 9, then the following may be needed
+            //header('Cache-Control: max-age=1');
+    
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
+        }
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'OpenDocument');
+        $objWriter->save('php://output');
+        exit;
+        return ;
+    }
+    
        
     protected function exportCSV()
     {
@@ -220,36 +252,12 @@ class VisitorsStatExport extends \System
             $objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $arrVisitorsPageVisitHit['lang']);
             $objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $arrVisitorsPageVisitHit['visits']);
             $objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $arrVisitorsPageVisitHit['hits']);
-        }        
+        }
         
+        $objPHPExcel->setActiveSheetIndex(0);
         return $objPHPExcel;
     }
 
-    //later
-    protected function getPageAliasById($page_id)
-    {
-        if ((int)$page_id == 0)
-        {
-            return '';
-        }
-        $objAlias = \Database::getInstance()->prepare("SELECT
-                                                         `alias`
-                                                       FROM
-                                                         `tl_page`
-                                                       WHERE
-                                                         `id`=?")
-                                             ->limit(1)
-                                             ->execute($page_id);
-        $intRows = $objAlias->numRows;
-        if ($intRows>0)
-        {
-            return $objAlias->alias;
-        }
-        else
-        {
-            return $page_id;
-        }
-    }
 }
 
 /**

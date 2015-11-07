@@ -45,6 +45,7 @@
 	        	</div>
 	        	<select class="tl_select" name="visitors_export_format" style="opacity: 0;">
 	          		<option value="xlsx"><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['excel']; ?></option>
+	          		<option value="ods"><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['opendocument']; ?></option>
 	          		<option value="csv" ><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['csv']; ?></option>
 	        	</select>     
 			</div>

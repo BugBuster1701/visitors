@@ -16,6 +16,7 @@
 //$GLOBALS['TL_LANG']['tl_visitors_stat_export']['all_years']                 = 'All years';
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['csv']                       = 'CSV .csv';
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['excel']                     = 'Excel .xlsx';
+$GLOBALS['TL_LANG']['tl_visitors_stat_export']['opendocument']              = 'OpenDocument .ods';
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export']                    = 'Export';
 //$GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_button_title']       = 'The Button opens a new window.';
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_field_category']     = 'Category';
