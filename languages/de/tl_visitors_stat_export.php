@@ -8,7 +8,7 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2015-11-07T18:08:41+01:00
+ * last-updated: 2015-11-07T20:54:52+01:00
  */
 
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['csv']                    = 'CSV .csv';
@@ -24,5 +24,6 @@ $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_field_visits']    = 'Besu
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_page_title']      = 'Seitenstatistik';
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_title']           = 'Besucherstatistik';
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['format']                 = 'Format';
+$GLOBALS['TL_LANG']['tl_visitors_stat_export']['opendocument']           = 'OpenDocument .ods';
 $GLOBALS['TL_LANG']['tl_visitors_stat_export']['statistics_export']      = 'Statistik Export';
 
