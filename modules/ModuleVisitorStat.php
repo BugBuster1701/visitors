@@ -48,6 +48,8 @@ class ModuleVisitorStat extends \BackendModule
 	    $this->import('BackendUser', 'User');
 	    parent::__construct();
 	    
+	    \System::loadLanguageFile('tl_visitors_stat_export');
+	    
 	    if (\Input::get('act',true)=='zero') 
 	    {
 	    	$this->setZero();
@@ -56,6 +58,11 @@ class ModuleVisitorStat extends \BackendModule
 	    if (\Input::get('act',true)=='zerobrowser') 
 	    {
 	    	$this->setZeroBrowser();
+	    }
+	    
+	    if (\Input::post('act',true)=='export') //action Export
+	    {
+	        $this->generateExport();
 	    }
 	    
 	    if (\Input::post('id')>0) //Auswahl im Statistikmenü
@@ -259,8 +266,8 @@ class ModuleVisitorStat extends \BackendModule
 		$this->Template->visitorskats          = $arrVisitorCategories;
 		$this->Template->visitorskatid         = $this->intKatID;
 		$this->Template->visitorsstatkat       = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['kat'];
-		$this->Template->visitors_export_title = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['export_button_title'];
-		$this->Template->visitors_exportfield  = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['kat'].' '.$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['export'];
+		$this->Template->visitors_export_title = $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_button_title'];
+		$this->Template->visitors_exportfield  = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['kat'].' '.$GLOBALS['TL_LANG']['tl_visitors_stat_export']['export'];
         $this->Template->visitors_base_be      = \Environment::get('base') . 'contao';
 		
 		//SearchEngines
@@ -1334,6 +1341,12 @@ class ModuleVisitorStat extends \BackendModule
 	    }
 	    //Debug log_message('Ich bin in der falschen Gruppe', 'visitors_debug.log');
 	    return false;
+	}
+	
+	protected function generateExport()
+	{
+	    $export = new \BugBuster\Visitors\Stat\Export\VisitorsStatExport;
+	    return $export->run();
 	}
 	
 }

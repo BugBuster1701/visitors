@@ -1,127 +1,6 @@
 
 
 <div class="clear"></div>
-<script>
-PopUp = function(autoapply){
-	this.types = [];
-	this.defaults = {
-		width:800,
-		height:600,
-		top:0,
-		left:0,
-		location:false,
-		resizable:false,
-		scrollbars:false,
-		status:false,
-		toolbar:false,
-		menubar:false,
-		center:true,
-		title:"<?php echo $this->visitors_export_title; ?>"
-	}
-	this.addType({
-		name:"standard",
-		location:true,
-		resizable:true,
-		scrollbars:true,
-		status:true,
-		toolbar:true,
-		menubar:true
-	});
-	if(autoapply) this.apply();
-}
-o = PopUp.prototype;
-o.apply = function(){
-	var links = document.getElementsByTagName("form"); //a
-	if(!links) return;
-	for(var i=0;i<links.length;i++){
-		var l = links[i];
-		if(l.className.indexOf("popup") > -1){
-			this.attachBehavior(l,this.getType(l));
-		}
-	}
-}
-o.addType = function(type){
-	for(var prop in this.defaults){
-		if(type[prop] == undefined) type[prop] = this.defaults[prop];
-	}
-	this.types[type.name] = type;
-}
-o.getType = function(l){
-	for(var type in this.types){
-		if(l.className.indexOf(type) > -1) return type;
-	}
-	return "standard";
-}
-o.attachBehavior = function(l,type){
-	var t = this.types[type];
-	l.title = t.title;
-	l.popupProperties = {
-		type: type,
-		ref: this
-	};
-	l.onclick = function(){
-		this.popupProperties.ref.open(this.action,this.popupProperties.type);
-		return false;
-	}
-}
-o.booleanToWord = function(bool){
-	if(bool) return "yes";
-	return "no";
-}
-o.getTopLeftCentered = function(typeObj){
-	var t = typeObj;
-	var r = {left:t.left, top:t.top};
-	var sh = screen.availHeight-20;
-	var sw = screen.availWidth-10;
-	if(!sh || !sw) return r;
-	r.left = (sw/2)-(t.width/2);
-	r.top = (sh/2)-(t.height/2);
-	return r;
-}
-o.getParamsOfType = function(typeObj){
-	var t = typeObj;
-	var c = this.booleanToWord;
-	if(t.center){
-		var tc = this.getTopLeftCentered(typeObj);
-		t.left = tc.left;
-		t.top = tc.top;
-	}
-	var p = "width="+t.width;
-	p+=",height="+t.height;
-	p+=",left="+t.left;
-	p+=",top="+t.top;
-	p+=",location="+c(t.location);
-	p+=",resizable="+c(t.resizable);
-	p+=",scrollbars="+c(t.scrollbars);
-	p+=",status="+c(t.status);
-	p+=",toolbar="+c(t.toolbar);
-	p+=",menubar="+c(t.menubar);
-	return p;
-}
-o.open = function(url,type){
-	if(!type) type = "standard";
-	var t = this.types[type];
-	var p = this.getParamsOfType(t);
-	var w = window.open(url,t.name,p);
-	if(w) w.focus();
-	return false;
-}
-</script>
-<script>
-(function($) {
-    window.addEvent('domready', function() {
-		popup = new PopUp(); // create new PopUp-Instance
-		popup.addType({
-			name: "info",
-			width: 300,
-			height: 300,
-			top: 300,
-			status:true
-		});
-		popup.apply(); // Apply Popup-Behavior to all Links using the Class "popup"		
-	});
-})(document.id);
-</script>
 <div class="tl_panel">
 	<!-- Kategorie Zeile //-->
 	<form method="post" class="info" action="<?php echo $this->visitors_base_be; ?>/main.php?do=visitorstat">
@@ -148,20 +27,46 @@ o.open = function(url,type){
 	</div>
 <?php if ($this->visitorskatid>0 && $this->visitorsanzcounter>0) : ?>	
 	<!-- Export Zeile //-->
-	<div class="tl_limit tl_subpanel">
-		<div style="float:left; padding-left: 4px; text-align:center;"><span style="font-weight: bold;"><?php echo $this->visitors_exportfield; ?>:</span>
-			<br><span style="font-weight: normal;"><?php echo "(".$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit'].",".$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit'].")" ?></span>
+	<form method="post" class="tl_form" id="tl_article" action="<?php echo $this->visitors_base_be; ?>/main.php?do=visitorstat">
+		<input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
+		<input type="hidden" name="act" value="export">
+		<input type="hidden" name="catid" value="<?php echo $this->visitorskatid; ?>">
+		<div class="tl_limit" style="float:left;">
+
+		    <div class="tl_subpanel" style="padding-right: 14px;">
+	        	<input type="submit" value="<?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export']; ?>" class="tl_submit" id="save" name="visitors_export_submit">
+	    	</div>
+	    	
+	<?php if (class_exists('ZipArchive', FALSE)) : ?>	
+			<div class="tl_subpanel">
+				<strong><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['format']; ?>:</strong> 
+	        	<div class="styled_select tl_select">
+	          		<span><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['excel']; ?></span>
+	        	</div>
+	        	<select class="tl_select" name="visitors_export_format" style="opacity: 0;">
+	          		<option value="xlsx"><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['excel']; ?></option>
+	          		<option value="ods"><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['opendocument']; ?></option>
+	          		<option value="csv" ><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['csv']; ?></option>
+	        	</select>     
+			</div>
+	<?php else: ?>
+			<div class="tl_subpanel">
+				<strong><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['format']; ?>:</strong> 
+	        	<div class="styled_select tl_select">
+	          		<span><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['csv']; ?></span>
+	        	</div>
+	        	<select class="tl_select" name="visitors_export_format" style="opacity: 0;">
+	          		<option value="csv" ><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['csv']; ?></option>
+	        	</select>     
+			</div>
+	<?php endif; ?>
+	
+			<div class="tl_subpanel" style="text-align: center;"><span style="font-weight: bold;"><?php echo $this->visitors_exportfield; ?></span>
+				<br><span style="font-weight: normal;"><?php echo "(".$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit'].",".$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit'].")" ?></span>
+			</div>
+	        
 		</div>
-		<div class="tl_submit" style="float:left; padding: 7px; margin-left: 6px;">
-			<a href="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=csvc&amp;tl_katid=<?php echo $this->visitorskatid; ?>">CSV ','</a>
-        </div>
-		<div class="tl_submit" style="float:left; padding: 7px; margin-left: 6px;">
-			<a href="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=csvs&amp;tl_katid=<?php echo $this->visitorskatid; ?>">CSV ';'</a>
-        </div>
-        <div class="tl_submit" style="float:left; padding: 7px; margin-left: 6px;">
-        	<a href="<?php echo $this->visitors_base; ?>system/modules/visitors/export/VisitorsStatExport.php?tl_field=excel&amp;tl_katid=<?php echo $this->visitorskatid; ?>">Excel</a>
-        </div>
-	</div>
+	</form>
 	<!-- Export Zeile Ende //-->
 <?php endif; ?>
 	<div class="clear"></div>

@@ -32,23 +32,23 @@ class ModuleVisitorChecks extends \Frontend
 	/**
 	 * Current version of the class.
 	 */
-	const VERSION           = '3.3';
+	const VERSION           = '3.4';
 	
 	/**
 	 * Spider Bot Check
 	 * 
 	 * @return bool
 	 */
-	public function checkBot()
+	public function checkBot() 
 	{
-		if (!in_array('botdetection', $this->Config->getActiveModules()))
+		if ( !in_array( 'botdetection', \ModuleLoader::getActive() ) )
 		{
 			//botdetection Modul fehlt, Abbruch
 			$this->log('BotDetection extension required for extension: Visitors!', 'ModuleVisitorChecks checkBot', TL_ERROR);
 			return false;
 		}
 		$ModuleBotDetection = new \BotDetection\ModuleBotDetection();
-	    if ($ModuleBotDetection->BD_CheckBotAllTests()) 
+	    if ($ModuleBotDetection->checkBotAllTests()) 
 	    {
 	        ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , ': True' );
 	    	return true;

@@ -1,9 +1,7 @@
 <?php
 
 /**
- * Contao Open Source CMS
- *
- * Copyright (c) 2005-2014 Leo Feyer
+ * Contao Open Source CMS, Copyright (c) 2005-2015 Leo Feyer
  *
  * @package Visitors
  * @link    https://contao.org
@@ -25,12 +23,6 @@ ClassLoader::addNamespaces(array
  */
 ClassLoader::addClasses(array
 (
-	// Export
-	'BugBuster\Visitors\VisitorsStatExportexcel'        => 'system/modules/visitors/export/VisitorsStatExportexcel.php',
-	'BugBuster\Visitors\VisitorsStatExport'             => 'system/modules/visitors/export/VisitorsStatExport.php',
-	'BugBuster\Visitors\VisitorsStatExportexcel95'      => 'system/modules/visitors/export/VisitorsStatExportexcel95.php',
-	'BugBuster\Visitors\VisitorsStatExportcsv'          => 'system/modules/visitors/export/VisitorsStatExportcsv.php',
-
 	// Modules
 	'BugBuster\Visitors\ModuleVisitorStat'              => 'system/modules/visitors/modules/ModuleVisitorStat.php',
 	'BugBuster\Visitors\ModuleVisitors'                 => 'system/modules/visitors/modules/ModuleVisitors.php',
@@ -53,6 +45,7 @@ ClassLoader::addClasses(array
 	'BugBuster\Visitors\ModuleVisitorReferrer'          => 'system/modules/visitors/classes/ModuleVisitorReferrer.php',
 	'BugBuster\Visitors\ModuleVisitorCharts'            => 'system/modules/visitors/classes/ModuleVisitorCharts.php',
 	'BugBuster\Visitors\ModuleVisitorChecks'            => 'system/modules/visitors/classes/ModuleVisitorChecks.php',
+	'BugBuster\Visitors\Stat\Export\VisitorsStatExport' => 'system/modules/visitors/classes/VisitorsStatExport.php',
 ));
 
 

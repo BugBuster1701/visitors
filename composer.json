@@ -20,11 +20,11 @@
 		"forum":"https://community.contao.org/de/forumdisplay.php?28-visitors"
 	},
 	"require":{
-		"php":">=5.3",
-		"contao/core":">=3.1,<4",
+		"php":">=5.3,<7",
+		"contao/core":">=3.5,<4",
 		"contao-community-alliance/composer-plugin": "*",
-		"bugbuster/botdetection":">=3.2.1",
-		"contao-legacy/xls_export":"~3.0"
+		"bugbuster/botdetection":">=4.0.2,<5",
+		"phpoffice/phpexcel":">=1.7.9,<2"
 	},
 	"autoload":{
 		"classmap":[""]
