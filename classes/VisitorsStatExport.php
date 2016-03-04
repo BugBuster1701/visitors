@@ -97,7 +97,6 @@ class VisitorsStatExport extends \System
         $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save('php://output');
         exit;
-        return ;
     }
     
     protected function exportODS()
@@ -129,7 +128,6 @@ class VisitorsStatExport extends \System
         $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'OpenDocument');
         $objWriter->save('php://output');
         exit;
-        return ;
     }
     
        
@@ -160,7 +158,6 @@ class VisitorsStatExport extends \System
         $objWriter = null;
         unset($objWriter);
         exit;
-        return ;
     }
     
     
