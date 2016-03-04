@@ -437,20 +437,23 @@ class ModuleVisitorStat extends \BackendModule
 	    $ORDER = ($CurrentMonth > $LastMonth) ? 'DESC' : 'ASC'; // damit immer eine absteigene Monatsreihenfolge kommt
 		if ($VisitorsID) 
 		{
+		    $sqlMonth = 'SELECT 
+                                EXTRACT( MONTH FROM visitors_date ) AS M, 
+                                SUM( visitors_visit ) AS SUMV , 
+                                SUM( visitors_hit ) AS SUMH 
+                            FROM 
+                                tl_visitors_counter 
+                            WHERE 
+                                vid=? AND visitors_date BETWEEN ? AND ?
+                            GROUP BY M
+                            ORDER BY M %s';
+		    $sqlMonth = sprintf($sqlMonth, $ORDER);
+		    
 			//Total je Monat (aktueller und letzter)
 			$objVisitorsToMo = \Database::getInstance()
-			        ->prepare('SELECT 
-                                    EXTRACT( MONTH FROM visitors_date ) AS M, 
-                                    SUM( visitors_visit ) AS SUMV , 
-                                    SUM( visitors_hit ) AS SUMH 
-                                FROM 
-                                    tl_visitors_counter 
-                                WHERE 
-                                    vid=? AND visitors_date BETWEEN ? AND ?
-                                GROUP BY M
-                                ORDER BY M '.$ORDER)
-                    ->limit(2)
-                    ->execute($VisitorsID,$YearLastMonth,$YearCurrentMonth);
+            			        ->prepare($sqlMonth)
+                                ->limit(2)
+                                ->execute($VisitorsID, $YearLastMonth, $YearCurrentMonth);
 			$intRows = $objVisitorsToMo->numRows;
 			if ($intRows>0) 
 			{ 
