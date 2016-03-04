@@ -350,7 +350,7 @@
 	</div> <!-- 3 -->
 	<div style="clear:left;"></div><hr>
 	
-	<div class="tl_listing limit_height h88 block" style="height: 88px;">
+	<div class="tl_listing limit_height h88 block">
 		<?php echo $this->visitorsstatPageVisitHits[$vcid]; ?>
 		<?php echo $this->visitorsstatPageVisitHitsDays[$vcid]; ?>
 		<div style="clear:left;"><br></div>	
@@ -361,7 +361,7 @@
 	
 	
 	
-	<div class="tl_listing limit_height h88 block" style="height: 88px;"> 
+	<div class="tl_listing limit_height h88 block"> 
 		<div class="mod_visitors_be_browser">
 			<table summary="Table lists countings" class="mod_visitors_be_table">
 			<tbody>
@@ -447,7 +447,7 @@
 	</div> <!-- 4 -->
 	<div style="clear:left;"></div>
 	<hr>
-	<div class="tl_listing limit_height h88 block" style="height: 88px;"> 
+	<div class="tl_listing limit_height h88 block"> 
 		<div class="mod_visitors_be_searchenginekeywords">
 			<table summary="Table lists countings" class="mod_visitors_be_table">
 			<tbody>
@@ -509,7 +509,7 @@
 	<div style="clear:left;"></div>	
 	<hr>
 	
-	<div class="tl_listing limit_height h88 block" style="height: 88px;"> 
+	<div class="tl_listing limit_height h88 block"> 
 		<div class="mod_visitors_be_referrer">
 			<table summary="Table lists countings" class="mod_visitors_be_table">
 			<tbody>
@@ -541,7 +541,7 @@
 	
 	<!-- Screen resolution -->
 	<hr>
-	<div class="tl_listing limit_height h88 block" style="height: 88px;">
+	<div class="tl_listing limit_height h88 block">
 		<?php echo $this->visitorsstatScreenTop[$vcid]; ?>
 		<?php echo $this->visitorsstatScreenTopDays[$vcid]; ?>
 	</div>

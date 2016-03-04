@@ -150,7 +150,8 @@ class VisitorsStatExport extends \System
             header ('Pragma: public'); // HTTP/1.0
         }
         
-        $objWriter = \PHPExcel_IOFactory::createWriter($this->generateExportData(), 'CSV')
+        $objPHPExcel = $this->generateExportData();
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV')
                     ->setDelimiter(',')
                     ->setEnclosure('"')
                     ->setLineEnding("\r\n")
