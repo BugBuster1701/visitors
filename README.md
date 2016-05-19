@@ -8,6 +8,11 @@ Contao Module Visitors
 
 A Contao counter module for hits and visits
 
+## User guide
+
+* English: https://docs.contao.ninja/en/visitors.html
+* German: https://docs.contao.ninja/de/visitors.html
+
 ## For Translators
 Translations are managed using Transifex. To create a new translation or to help to maintain an existing one, please register at transifex.com.
 
