@@ -1,5 +1,14 @@
 # Visitors Changelog
 
+## [3.7.1](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.1%22+is%3Aclosed) (2016-03-04)
+
+### Fixed bugs
+
+- [\#202](https://github.com/BugBuster1701/visitors/issues/202) [Insight] PHP code should not contain unreachable code
+- [\#201](https://github.com/BugBuster1701/visitors/issues/201) Contao 3.5.8 - Bereiche lassen sich nicht mehr öffnen
+- [\#200](https://github.com/BugBuster1701/visitors/issues/200) ER2 Version: Class 'PHPExcel_IOFactory' not found
+- [\#179](https://github.com/BugBuster1701/visitors/issues/179) [Insight] Database queries should use parameter binding
+
 ## [3.7.0](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.0%22+is%3Aclosed) (2015-11-15)
 
 ### New features
@@ -14,7 +23,7 @@
 ### New features
 
 - [\#193](https://github.com/BugBuster1701/visitors/issues/193) Add Samsung Galaxy S6 / S6 Edge
-- [\#192](https://github.com/BugBuster1701/visitors/issues/192) Add Samsung Galaxy S5 (SM-G900F, SM-G900I etc., bzw. SM-G901F als Plus-Version) 
+- [\#192](https://github.com/BugBuster1701/visitors/issues/192) Add Samsung Galaxy S5 (SM-G900F, SM-G900I etc., bzw. SM-G901F als Plus-Version)
 - [\#191](https://github.com/BugBuster1701/visitors/issues/191) Add Samsung Galaxy S4 (GT-I9500, GT-I9505, GT-I9506 und GT-I9515)
 - [\#189](https://github.com/BugBuster1701/visitors/issues/189) Add Samsung Galaxy S III mini (GT-I8190)
 
@@ -113,7 +122,7 @@
 
 ### Fixed bugs
 
-- [\#75](https://github.com/BugBuster1701/visitors/issues/75) Veröffentlichungsstatus über das "Auge" 
+- [\#75](https://github.com/BugBuster1701/visitors/issues/75) Veröffentlichungsstatus über das "Auge"
 
 ## [3.2.0](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.2.0%22+is%3Aclosed) (2014-01-23)
 
