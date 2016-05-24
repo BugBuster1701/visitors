@@ -67,6 +67,7 @@ class ModuleVisitorBrowser3
 	const BROWSER_IPOD = 'iPod';                              // http://apple.com
 	const BROWSER_IPAD = 'iPad';                              // http://apple.com
 	const BROWSER_CHROME = 'Chrome';                          // http://www.google.com/chrome
+	const BROWSER_VIVALDI = 'Vivaldi';                        // http://vivaldi.com
 	
 	const BROWSER_ANDROID = 'Android';                        // http://www.android.com/
 	const BROWSER_GALAXY_S        = 'Galaxy S';
@@ -373,6 +374,7 @@ class ModuleVisitorBrowser3
 			$this->checkBrowserSeaMonkey()  ||	//add BugBuster
 			$this->checkBrowserChromePlus() ||	//add BugBuster
 		    $this->checkBrowserCoolNovo()   ||	//add BugBuster
+		    $this->checkBrowserVivaldi()    ||  //add BugBuster
 			
 			$this->checkBrowserOmniWeb() ||
 
@@ -699,6 +701,20 @@ class ModuleVisitorBrowser3
 	    return false;
     }
 
+    /**
+     * Determine if the browser is Vivaldi or not 
+     * @return boolean True if the browser is Vivaldi otherwise false
+     */
+    protected function checkBrowserVivaldi() {
+        if( stripos($this->_agent,'Vivaldi') !== false ) {
+            $aresult = explode('/',stristr($this->_agent,'Vivaldi'));
+            $aversion = explode(' ',$aresult[1]);
+            $this->setVersion($aversion[0]);
+            $this->setBrowser(self::BROWSER_VIVALDI);
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Determine if the browser is WebTv or not (last updated 1.7)
