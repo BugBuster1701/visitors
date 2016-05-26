@@ -410,7 +410,8 @@ class ModuleVisitorSearchEngine// extends Frontend
 	protected function checkEngineYandex()
 	{
 	    if (preg_match('/(http|https):\/\/yandex\.ru\/yandsearch/'      , $this->_http_referer ) ||
-	        preg_match('/(http|https):\/\/www\.yandex\.ru\/yandsearch/' , $this->_http_referer )
+	        preg_match('/(http|https):\/\/www\.yandex\.ru\/yandsearch/' , $this->_http_referer ) ||
+	        preg_match('/(http|https):\/\/yandex\.ru\/clck/'            , $this->_http_referer )
 	       )
 	    {
 			$this->_search_engine = self::SEARCH_ENGINE_YANDEX ;
@@ -592,7 +593,7 @@ class ModuleVisitorSearchEngine// extends Frontend
 	
 	protected function checkEngineDuckduckgo()
 	{
-	    if (preg_match('/(http|https):\/\/duckduckgo\.com\/post\.html/', $this->_http_referer ))
+	    if (preg_match('/(http|https):\/\/duckduckgo\.com\//', $this->_http_referer ))
 	    {
 	        $this->_search_engine = self::SEARCH_ENGINE_DUCKDUCKGO ;
 	        //no parameter

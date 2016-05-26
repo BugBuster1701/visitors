@@ -684,8 +684,8 @@ class ModuleVisitorsTag extends \Frontend
                                                 visitors_page_type = ?
                                             ")
                                     ->executeUncached($CURDATE, $vid, $objPage->id, $objPage->language, $visitors_page_type);
-    	    //TODO eventuell $GLOBALS['TL_LANGUAGE']
-    	    //     oder      $objPage->rootLanguage; // Sprache der Root-Seite
+    	    // eventuell $GLOBALS['TL_LANGUAGE']
+    	    // oder      $objPage->rootLanguage; // Sprache der Root-Seite
     	    if ($objPageHitVisit->numRows < 1)
     	    {
     	        if ($objPage->id > 0) 
