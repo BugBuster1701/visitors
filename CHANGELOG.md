@@ -1,5 +1,13 @@
 # Visitors Changelog
 
+## [3.7.2](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.2%22+is%3Aclosed) (2016-05-26)
+
+### Fixed bugs
+
+- [\#205](https://github.com/BugBuster1701/visitors/issues/205) Unterstützung für Browser "Vivaldi"
+- [\#204](https://github.com/BugBuster1701/visitors/issues/204) yandex.ru jsredir taucht bei Referrer auf, ist aber SuMa
+- [\#203](https://github.com/BugBuster1701/visitors/issues/203) duckduckgo taucht bei Referrer auf, ist aber SuMa
+
 ## [3.7.1](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.1%22+is%3Aclosed) (2016-03-04)
 
 ### Fixed bugs
