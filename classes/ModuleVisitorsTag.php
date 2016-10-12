@@ -41,9 +41,10 @@ class ModuleVisitorsTag extends \Frontend
 	
 	private $_HitCounted   = false;
 	
-	const PAGE_TYPE_NORMAL = 0;    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
-	const PAGE_TYPE_NEWS   = 1;    //1 = Nachrichten/News
-	const PAGE_TYPE_FAQ    = 2;    //2 = FAQ
+	const PAGE_TYPE_NORMAL     = 0;    //0   = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
+	const PAGE_TYPE_NEWS       = 1;    //1   = Nachrichten/News
+	const PAGE_TYPE_FAQ        = 2;    //2   = FAQ
+	const PAGE_TYPE_FORBIDDEN  = 403;  //403 = Forbidden Page
 
 	/**
 	 * replaceInsertTags
@@ -597,7 +598,7 @@ class ModuleVisitorsTag extends \Frontend
     	    	    $pageId = $this->visitorGetRootPageFromUrl();
     	    	}
     	    	ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Page ID over URL: '. $pageId);
-    	    	// Get the current page object(s)
+    	    	// Get the current page object(s), NULL on type 404
     	    	$objPage = \PageModel::findPublishedByIdOrAlias($pageId);
 
     	    	// Check the URL and language of each page if there are multiple results
@@ -654,14 +655,22 @@ class ModuleVisitorsTag extends \Frontend
     	    	{
                     $objPage = $objPage->current()->loadDetails();
     	    	}
+    	    	elseif ($objPage === null)
+    	    	{
+    	    	    //404 page aus dem Cache
+    	    	    $pageId = $this->visitorGetRootPageFromUrl(false);
+    	    	    $objPage = \PageModel::find404ByPid($pageId);
+    	    	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Page Root ID / Page ID 404: '. $pageId .' / '.$objPage->id);
+    	    	}
             } //$objPage->id == 0
             ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Page ID / Lang in Object: '. $objPage->id .' / '.$objPage->language);
 
 	 	    //#102, bei Readerseite den Beitrags-Alias zählen (Parameter vorhanden)
-	 	    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
+	 	    //0 = reale Seite / 404 / Reader ohne Parameter - Auflistung der News/FAQs
             //1 = Nachrichten/News
             //2 = FAQ
-	 	    $visitors_page_type = $this->visitorGetPageType($objPage->id);
+            //403 = Forbidden
+	 	    $visitors_page_type = $this->visitorGetPageType($objPage);
 	 	    //bei News/FAQ id des Beitrags ermitteln und $objPage->id überschreiben
 	 	    $objPage->id = $this->visitorGetPageIdByType($objPage->id, $visitors_page_type, $objPage->alias);
 
@@ -931,7 +940,7 @@ class ModuleVisitorsTag extends \Frontend
 	    }
 	}
 	
-	protected function visitorGetRootPageFromUrl()
+	protected function visitorGetRootPageFromUrl($next=true)
 	{
 	    // simple Frontend:getRootPageFromUrl
 	    $host = \Environment::get('host');
@@ -949,8 +958,13 @@ class ModuleVisitorsTag extends \Frontend
 	        $objRootPage = \PageModel::findFirstPublishedRootByHostAndLanguage($host, $accept_language);
 	    }
 	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Root Page ID over URL: '. $objRootPage->id);
+	    if ($next === false) 
+	    {
+	    	return $objRootPage->id;
+	    }
         //simple PageRoot:generate
 	    $objNextPage = \PageModel::findFirstPublishedByPid($objRootPage->id);
+	    ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'Next Page ID over URL: '. $objNextPage->id);
 	    return $objNextPage->id;
 	}
 	
@@ -998,17 +1012,31 @@ class ModuleVisitorsTag extends \Frontend
 	/**
 	 * Get Page-Type
 	 * 
-	 * @param integer $PageId
-	 * @return integer     0 = reale Seite, 1 = News, 2 = FAQ
+	 * @param integer $objPage
+	 * @return integer     0 = reale Seite, 1 = News, 2 = FAQ, 403 = Forbidden
 	 */
-	protected function visitorGetPageType($PageId)
+	protected function visitorGetPageType($objPage)
 	{
+	    $PageId = $objPage->id;
 	    //Return:
 	    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
 	    //1 = Nachrichten/News
 	    //2 = FAQ
+	    //403 = Forbidden
         
 	    $page_type = self::PAGE_TYPE_NORMAL;
+	    
+	    if ($objPage->protected == 1) 
+	    {
+	    	//protected Seite. user 
+	        $this->import('FrontendUser', 'User');
+	        if (!$this->User->authenticate())
+	        {
+	            $page_type = self::PAGE_TYPE_FORBIDDEN;
+	            ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageType: '. $page_type);
+	            return $page_type;
+	        }
+	    }
 	    
         //Set the item from the auto_item parameter
         //from class ModuleNewsReader#L48
@@ -1070,6 +1098,16 @@ class ModuleVisitorsTag extends \Frontend
 	    {
 	        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdNormal: '. $PageId);
 	    	return $PageId;
+	    }
+	    
+	    if ($PageType == self::PAGE_TYPE_FORBIDDEN)
+	    {
+	        //Page ID von der 403 Seite ermitteln
+	        ////$pageId = $this->visitorGetRootPageFromUrl(false);
+	        ////$objPage = \PageModel::find403ByPid($pageId);
+	        ModuleVisitorLog::writeLog(__METHOD__ , __LINE__ , 'PageIdNormal over 403: '. $PageId);
+	        ////return $objPage->id;
+	        return $PageId; 
 	    }
 	    
         //Reader mit Parameter oder ohne?

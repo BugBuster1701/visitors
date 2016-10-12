@@ -37,9 +37,10 @@ class ModuleVisitorStatPageCounter extends \BackendModule
     protected $today;
     protected $yesterday;
     
-    const PAGE_TYPE_NORMAL = 0;    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
-    const PAGE_TYPE_NEWS   = 1;    //1 = Nachrichten/News
-    const PAGE_TYPE_FAQ    = 2;    //2 = FAQ
+    const PAGE_TYPE_NORMAL      = 0;    //0 = reale Seite / Reader ohne Parameter - Auflistung der News/FAQs
+    const PAGE_TYPE_NEWS        = 1;    //1 = Nachrichten/News
+    const PAGE_TYPE_FAQ         = 2;    //2 = FAQ
+    const PAGE_TYPE_FORBIDDEN   = 403;  //403 = Forbidden Seite
     
     /**
      * Constructor
@@ -74,7 +75,7 @@ class ModuleVisitorStatPageCounter extends \BackendModule
 
     //////////////////////////////////////////////////////////////
     
-    public function generatePageVisitHitTop($VisitorsID, $days = 20, $parse = true)
+    public function generatePageVisitHitTop($VisitorsID, $limit = 20, $parse = true)
     {
         $arrPageStatCount = false;
         $objPageStatCount = \Database::getInstance()
@@ -98,7 +99,7 @@ class ModuleVisitorStatPageCounter extends \BackendModule
                                         visitors_page_id,
                                         visitors_page_lang
                                 ")
-                        ->limit($days)
+                        ->limit($limit)
                         ->execute($VisitorsID);
         
         while ($objPageStatCount->next())
@@ -125,6 +126,13 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
         	        }
         	        break;
+    	        case self::PAGE_TYPE_FORBIDDEN :
+    	            $alias   = false;
+    	            $objPage  = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+    	            $alias403 = $this->getForbiddenAlias($objPageStatCount->visitors_page_id, 
+    	                                              $objPageStatCount->visitors_page_lang);
+    	            $alias = $alias403 .' ['.$objPage->alias.']';
+    	            break;
             	default:
             		$alias = '-/-';
             	break;
@@ -210,6 +218,12 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
         	        }
         	        break;
+    	        case self::PAGE_TYPE_FORBIDDEN :
+    	            $alias   = false;
+    	            $objPage  = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+    	            $alias403 = $this->getForbiddenAlias($objPageStatCount->visitors_page_id, 
+    	                                              $objPageStatCount->visitors_page_lang);
+    	            $alias = $alias403 .' ['.$objPage->alias.']';
             	default:
             		$alias = '-/-';
             	break;
@@ -288,6 +302,12 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         	           $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
         	        }
         	        break;
+    	        case self::PAGE_TYPE_FORBIDDEN :
+    	            $alias   = false;
+    	            $objPage  = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+    	            $alias403 = $this->getForbiddenAlias($objPageStatCount->visitors_page_id, 
+    	                                              $objPageStatCount->visitors_page_lang);
+    	            $alias = $alias403 .' ['.$objPage->alias.']';
             	default:
             		$alias = '-/-';
             	break;
@@ -367,6 +387,12 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         	        	$alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
         	        }
         	        break;
+    	        case self::PAGE_TYPE_FORBIDDEN :
+    	            $alias   = false;
+    	            $objPage  = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+    	            $alias403 = $this->getForbiddenAlias($objPageStatCount->visitors_page_id, 
+    	                                              $objPageStatCount->visitors_page_lang);
+    	            $alias = $alias403 .' ['.$objPage->alias.']';
             	default:
             		$alias = '-/-';
             	break;
@@ -458,7 +484,114 @@ class ModuleVisitorStatPageCounter extends \BackendModule
         }
     }
     
+    public function getForbiddenAlias($visitors_page_id, $visitors_page_lang)
+    {
+        //Page ID von der 403 Seite ermitteln
+        $host = \Environment::get('host');
+        // Find the matching root pages (thanks to Andreas Schempp)
+        $objRootPage = \PageModel::findFirstPublishedRootByHostAndLanguage($host, $visitors_page_lang);
+        $objPage = \PageModel::find403ByPid($objRootPage->id);
+        //$objPage = \PageModel::findWithDetails($objPage->id);
+        return $objPage->alias;
+    }
     
+    /**
+     * generatePageVisitHitTopDays speziell für den Export
+     * Filterung nach Anzahl Tagen
+     * 
+     * @param integer $VisitorsID
+     * @param number $days
+     * @param string $parse
+     * @return string|multitype:string NULL
+     */
+    public function generatePageVisitHitTopDays($VisitorsID, $days = 365, $parse = false)
+    {
+        $STARTDATE = date("Y-m-d", mktime(0, 0, 0, date("m")  , date("d")-$days, date("Y")) ); 
+        $arrPageStatCount = false;
+        $objPageStatCount = \Database::getInstance()
+                            ->prepare("SELECT
+                                        visitors_page_id,
+                                        visitors_page_lang,
+                                        visitors_page_type,
+                                        SUM(visitors_page_visit) AS visitors_page_visits,
+                                        SUM(visitors_page_hit)   AS visitors_page_hits
+                                    FROM
+                                        tl_visitors_pages
+                                    WHERE
+                                        vid = ?
+                                    AND
+                                        visitors_page_date >= ?
+                                    GROUP BY
+                                        visitors_page_id,
+                                        visitors_page_lang,
+                                        visitors_page_type
+                                    ORDER BY
+                                        visitors_page_visits DESC,
+                                        visitors_page_hits DESC,
+                                        visitors_page_id,
+                                        visitors_page_lang
+                                    ")
+                                    ->execute($VisitorsID, $STARTDATE);
+    
+        while ($objPageStatCount->next())
+        {
+            switch ($objPageStatCount->visitors_page_type)
+            {
+            	case self::PAGE_TYPE_NORMAL :
+            	    $objPage = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+            	    $alias   = $objPage->alias;
+            	    break;
+            	case self::PAGE_TYPE_NEWS :
+            	    $alias   = false;
+            	    $aliases = $this->getNewsAliases($objPageStatCount->visitors_page_id);
+            	    if (false !== $aliases['PageAlias'])
+            	    {
+            	        $alias = $aliases['PageAlias'] .'/'. $aliases['NewsAlias'];
+            	    }
+            	    break;
+            	case self::PAGE_TYPE_FAQ :
+            	    $alias   = false;
+            	    $aliases = $this->getFaqAliases($objPageStatCount->visitors_page_id);
+            	    if (false !== $aliases['PageAlias'])
+            	    {
+            	        $alias = $aliases['PageAlias'] .'/'. $aliases['FaqAlias'];
+            	    }
+            	    break;
+            	case self::PAGE_TYPE_FORBIDDEN :
+            	    $alias   = false;
+            	    $objPage  = \PageModel::findWithDetails($objPageStatCount->visitors_page_id);
+            	    $alias403 = $this->getForbiddenAlias($objPageStatCount->visitors_page_id,
+            	        $objPageStatCount->visitors_page_lang);
+            	    $alias = $alias403 .' ['.$objPage->alias.']';
+            	    break;
+            	default:
+            	    $alias = '-/-';
+                	break;
+            }
+    
+            if (false !== $alias)
+            {
+                $arrPageStatCount[] = array
+                (
+                    'alias'         => $alias,
+                    'lang'          => $objPageStatCount->visitors_page_lang,
+                    'visits'        => $objPageStatCount->visitors_page_visits,
+                    'hits'          => $objPageStatCount->visitors_page_hits
+                );
+            }
+        }
+    
+        if ($parse === true)
+        {
+            $this->TemplatePartial = new \BackendTemplate('mod_visitors_be_stat_partial_pagevisithittop');
+            $this->TemplatePartial->PageVisitHitTop = $arrPageStatCount;
+            return $this->TemplatePartial->parse();
+        }
+        else
+        {
+            return $arrPageStatCount;
+        }
+    }
     
     
     
