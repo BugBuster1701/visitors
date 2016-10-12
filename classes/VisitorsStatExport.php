@@ -241,7 +241,7 @@ class VisitorsStatExport extends \System
         $objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
         
-        $arrVisitorsPageVisitHits = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitTop($VisitorsID,365,false);
+        $arrVisitorsPageVisitHits = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitTopDays($VisitorsID,365,false);
         $row = 1;
         foreach ($arrVisitorsPageVisitHits as $arrVisitorsPageVisitHit) 
         {
