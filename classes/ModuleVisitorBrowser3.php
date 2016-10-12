@@ -214,7 +214,7 @@ class ModuleVisitorBrowser3
 	* @param string $browserName
 	* @return True if the browser is the specified browser
 	*/
-	function isBrowser($browserName) { return( 0 == strcasecmp($this->_browser_name, trim($browserName))); }
+	public function isBrowser($browserName) { return( 0 == strcasecmp($this->_browser_name, trim($browserName))); }
 
 	/**
 	* The name of the browser.  All return types are from the class contants
