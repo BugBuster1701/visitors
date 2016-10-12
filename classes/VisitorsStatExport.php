@@ -32,7 +32,7 @@ class VisitorsStatExport extends \System
     
     /**
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         \System::loadLanguageFile('tl_visitors_stat_export');
