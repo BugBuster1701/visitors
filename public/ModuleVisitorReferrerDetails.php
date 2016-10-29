@@ -69,13 +69,13 @@ class ModuleVisitorReferrerDetails extends \Backend // Backend bringt DB mit
             return ;
 	    }
 	    
-	    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+	    echo 'echo <!DOCTYPE html>
+<html lang="de">	    
 <head>
+<meta charset="utf-8">
 <base href="'.\Environment::get('base').'"></base>
 <meta name="generator" content="Contao Open Source CMS">
 <title>Contao Open Source CMS '.VERSION.'</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="system/themes/'.$this->getTheme().'/basic.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="system/themes/'.$this->getTheme().'/main.css" media="screen" />
 ';
@@ -86,9 +86,9 @@ echo '
 </head>
 <body id="top">
 <div id="main">
-	<br />
+	<br>
 	<h1 class="main_headline">'.$GLOBALS['TL_LANG']['tl_visitors_referrer']['details_for'].': '.\Idna::decode(str_rot13($this->Input->get('tl_referrer',true))).'</h1>
-	<br /><br />
+	<br><br>
 	<div class="tl_formbody_edit">
 		<table cellpadding="0" cellspacing="0" summary="Table lists records" class="mod_visitors_be_table">
 		<tbody>

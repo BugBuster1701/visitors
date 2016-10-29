@@ -46,6 +46,7 @@ ClassLoader::addClasses(array
 	'BugBuster\Visitors\ModuleVisitorCharts'            => 'system/modules/visitors/classes/ModuleVisitorCharts.php',
 	'BugBuster\Visitors\ModuleVisitorChecks'            => 'system/modules/visitors/classes/ModuleVisitorChecks.php',
 	'BugBuster\Visitors\Stat\Export\VisitorsStatExport' => 'system/modules/visitors/classes/VisitorsStatExport.php',
+	'BugBuster\Visitors\ForceUTF8\Encoding'             => 'system/modules/visitors/classes/Encoding.php',
 ));
 
 
