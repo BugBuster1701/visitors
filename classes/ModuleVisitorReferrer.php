@@ -53,6 +53,7 @@ class ModuleVisitorReferrer	extends \System
 	*/
 	protected function reset() 
 	{
+	    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , 'Referrer Raw: ' . $_SERVER['HTTP_REFERER'] );
 	    //NEVER TRUST USER INPUT
 	    if (function_exists('filter_var'))	// Adjustment for hoster without the filter extension
 	    {
