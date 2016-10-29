@@ -1,5 +1,15 @@
 # Visitors Changelog
 
+## [3.7.3](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.3%22+is%3Aclosed) (2016-10-29)
+
+### Fixed bugs
+
+- [\#209](https://github.com/BugBuster1701/visitors/issues/209) Export, Tab Seitenstatitsik hat nur max 365 Datensätze
+- [\#208](https://github.com/BugBuster1701/visitors/issues/208) [Insight] Methods and properties visibility should always be explicitely defined
+- [\#207](https://github.com/BugBuster1701/visitors/issues/207) [Insight] Methods and properties visibility should always be explicitely defined
+- [\#206](https://github.com/BugBuster1701/visitors/issues/206) Umlautproblem Details
+- [\#199](https://github.com/BugBuster1701/visitors/issues/199) PHP Warning ModuleVisitorsTag.php on line 666
+
 ## [3.7.2](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.2%22+is%3Aclosed) (2016-05-26)
 
 ### Fixed bugs
