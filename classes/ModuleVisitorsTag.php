@@ -127,6 +127,8 @@ class ModuleVisitorsTag extends \Frontend
 			{
 			    $this->visitorCountUpdate($objVisitors->id, $objVisitors->visitors_block_time, $visitors_category_id);
 			    $this->visitorCheckSearchEngine($objVisitors->id);
+			    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , 'BOT: '.(int) $this->_BOT);
+			    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , 'SE : '.(int) $this->_SE);
 			    if ($this->_BOT === false && $this->_SE === false) 
 			    {
 			    	$this->visitorCheckReferrer($objVisitors->id);

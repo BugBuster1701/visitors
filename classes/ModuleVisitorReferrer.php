@@ -53,6 +53,7 @@ class ModuleVisitorReferrer	extends \System
 	*/
 	protected function reset() 
 	{
+	    ModuleVisitorLog::writeLog( __METHOD__ , __LINE__ , 'Referrer Raw: ' . $_SERVER['HTTP_REFERER'] );
 	    //NEVER TRUST USER INPUT
 	    if (function_exists('filter_var'))	// Adjustment for hoster without the filter extension
 	    {
@@ -62,6 +63,9 @@ class ModuleVisitorReferrer	extends \System
 	    {
 	    	$this->_http_referrer  = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : self::REFERRER_UNKNOWN ;
 	    }
+	    //Fixed #206
+	    $this->_http_referrer = \Visitors\ForceUTF8\Encoding::toUTF8( urldecode( $this->_http_referrer ) );
+	    
 	    $this->_referrer_DNS = self::REFERRER_UNKNOWN;
 	    if ($this->_http_referrer == '' || 
 	        $this->_http_referrer == '-') 
@@ -227,7 +231,7 @@ class ModuleVisitorReferrer	extends \System
 	{
 		if (!empty($_SERVER['REQUEST_URI']))
 		{
-			return htmlspecialchars($_SERVER['REQUEST_URI']); 
+			return htmlspecialchars( $_SERVER['REQUEST_URI']); 
 		}
 		else
 		{
