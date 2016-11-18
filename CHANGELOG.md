@@ -1,14 +1,20 @@
 # Visitors Changelog
 
+## [3.7.4](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.4%22+is%3Aclosed) (2016-11-18)
+
+### Fixed bugs
+
+- [\#211](https://github.com/BugBuster1701/visitors/issues/211) Duplicate entry in tl_search Problem bei Nachrichtenbeitrag Zählung
+
 ## [3.7.3](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.3%22+is%3Aclosed) (2016-10-29)
 
 ### Fixed bugs
 
-- [\#209](https://github.com/BugBuster1701/visitors/issues/209) Export, Tab Seitenstatitsik hat nur max 365 Datensätze
+- [\#209](https://github.com/BugBuster1701/visitors/issues/209) Export, Tab Seitenstatistik hat nur max 365 Datensätze
 - [\#208](https://github.com/BugBuster1701/visitors/issues/208) [Insight] Methods and properties visibility should always be explicitely defined
 - [\#207](https://github.com/BugBuster1701/visitors/issues/207) [Insight] Methods and properties visibility should always be explicitely defined
 - [\#206](https://github.com/BugBuster1701/visitors/issues/206) Umlautproblem Details
-- [\#199](https://github.com/BugBuster1701/visitors/issues/199) PHP Warning ModuleVisitorsTag.php on line 666
+- [\#199](https://github.com/BugBuster1701/visitors/issues/199) PHP Warning ModuleVisitorsTag.php on line 666 
 
 ## [3.7.2](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.2%22+is%3Aclosed) (2016-05-26)
 
@@ -41,7 +47,7 @@
 ### New features
 
 - [\#193](https://github.com/BugBuster1701/visitors/issues/193) Add Samsung Galaxy S6 / S6 Edge
-- [\#192](https://github.com/BugBuster1701/visitors/issues/192) Add Samsung Galaxy S5 (SM-G900F, SM-G900I etc., bzw. SM-G901F als Plus-Version)
+- [\#192](https://github.com/BugBuster1701/visitors/issues/192) Add Samsung Galaxy S5 (SM-G900F, SM-G900I etc., bzw. SM-G901F als Plus-Version) 
 - [\#191](https://github.com/BugBuster1701/visitors/issues/191) Add Samsung Galaxy S4 (GT-I9500, GT-I9505, GT-I9506 und GT-I9515)
 - [\#189](https://github.com/BugBuster1701/visitors/issues/189) Add Samsung Galaxy S III mini (GT-I8190)
 
@@ -140,7 +146,7 @@
 
 ### Fixed bugs
 
-- [\#75](https://github.com/BugBuster1701/visitors/issues/75) Veröffentlichungsstatus über das "Auge"
+- [\#75](https://github.com/BugBuster1701/visitors/issues/75) Veröffentlichungsstatus über das "Auge" 
 
 ## [3.2.0](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.2.0%22+is%3Aclosed) (2014-01-23)
 
