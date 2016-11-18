@@ -673,8 +673,9 @@ class ModuleVisitorsTag extends \Frontend
             //2 = FAQ
             //403 = Forbidden
 	 	    $visitors_page_type = $this->visitorGetPageType($objPage);
-	 	    //bei News/FAQ id des Beitrags ermitteln und $objPage->id überschreiben
-	 	    $objPage->id = $this->visitorGetPageIdByType($objPage->id, $visitors_page_type, $objPage->alias);
+	 	    //bei News/FAQ id des Beitrags ermitteln und $objPage->id ersetzen
+	 	    //Fixed #211, Duplicate entry in tl_search
+	 	    $objPageId = $this->visitorGetPageIdByType($objPage->id, $visitors_page_type, $objPage->alias);
 
     	    $objPageHitVisit = \Database::getInstance()
                 	               ->prepare("SELECT
@@ -694,19 +695,19 @@ class ModuleVisitorsTag extends \Frontend
                                             AND
                                                 visitors_page_type = ?
                                             ")
-                                    ->executeUncached($CURDATE, $vid, $objPage->id, $objPage->language, $visitors_page_type);
+                                    ->executeUncached($CURDATE, $vid, $objPageId, $objPage->language, $visitors_page_type);
     	    // eventuell $GLOBALS['TL_LANGUAGE']
     	    // oder      $objPage->rootLanguage; // Sprache der Root-Seite
     	    if ($objPageHitVisit->numRows < 1)
     	    {
-    	        if ($objPage->id > 0) 
+    	        if ($objPageId > 0) 
     	        {
         	        //Page Counter Insert
         	        $arrSet = array
         	        (
         	            'vid'                 => $vid,
         	            'visitors_page_date'  => $CURDATE,
-        	            'visitors_page_id'    => $objPage->id,
+        	            'visitors_page_id'    => $objPageId,
         	            'visitors_page_type'  => $visitors_page_type,
         	            'visitors_page_visit' => 1,
         	            'visitors_page_hit'   => 1,
