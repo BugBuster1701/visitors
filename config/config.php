@@ -14,7 +14,7 @@
  */
 
 define('VISITORS_VERSION', '3.7');
-define('VISITORS_BUILD'  , '2');
+define('VISITORS_BUILD'  , '4');
 
 /**
  * Backend css version number are added to style sheets files to make
