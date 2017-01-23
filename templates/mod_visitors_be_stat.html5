@@ -165,6 +165,22 @@
 <?php endforeach; ?>
 			</tbody>
 			</table>
+			<table summary="Table lists statistik" class="mod_visitors_be_table">
+			<tbody>
+			<tr>
+			    <td style="width: 120px; padding-left: 2px; text-align: left;"   class="tl_folder_tlist">&nbsp;<?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['period']; ?></td>
+			    <td style="min-width: 70px;  padding-right: 5px; text-align: right;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit']; ?></td>
+			    <td style="min-width: 70px;  padding-right: 5px; text-align: right;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit']; ?></td>
+			</tr>
+<?php foreach ($this->visitorsstatOtherYears[$vcid] AS $otherYear) : ?>
+			<tr>
+			    <td style="padding-left: 2px; text-align: left;"  class="tl_file_list"><?php echo $otherYear[0]; ?></td>
+			    <td style="padding-left: 2px; text-align: right;" class="tl_file_list"><?php echo $otherYear[1]; ?></td>
+			    <td style="padding-left: 2px; text-align: right;" class="tl_file_list"><?php echo $otherYear[2]; ?></td>
+			</tr>
+<?php endforeach; ?>
+			</tbody>
+			</table>
 		</div>
 		<div class="mod_visitors_be_initial">
 <?php if ($this->visitorsstatDays[$vcid][110]['visitors_visit_start']>0 || $this->visitorsstatDays[$vcid][110]['visitors_hit_start']>0) : ?>

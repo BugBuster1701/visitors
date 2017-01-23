@@ -5,7 +5,7 @@
  *
  * Modul Visitors Stat - Backend
  * 
- * @copyright  Glen Langer 2009..2014 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2009..2017 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL
@@ -21,7 +21,7 @@ namespace BugBuster\Visitors;
 /**
  * Class ModuleVisitorStat
  *
- * @copyright  Glen Langer 2009..2014 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2009..2017 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @todo       Must be completely rewritten.
@@ -165,6 +165,9 @@ class ModuleVisitorStat extends \BackendModule
 				
 				//Other Monat Stat
 				$arrVisitorsStatOtherMonth[$intAnzCounter]   = $this->getOtherMonth($objVisitorsID);
+				
+				//Other Year Stat
+				$arrVisitorsStatOtherYears[$intAnzCounter]   = $this->getOtherYears($objVisitorsID);
 								
 				//Total Visits Hits
 				$arrVisitorsStatTotal[$intAnzCounter]   = $this->getTotal($objVisitorsID);
@@ -242,6 +245,7 @@ class ModuleVisitorStat extends \BackendModule
 		$this->Template->visitorsstatWeeks    	   = $arrVisitorsStatWeek;
 		$this->Template->visitorsstatMonths   	   = $arrVisitorsStatMonth;
 		$this->Template->visitorsstatOtherMonths   = $arrVisitorsStatOtherMonth;
+		$this->Template->visitorsstatOtherYears    = $arrVisitorsStatOtherYears;
 		$this->Template->visitorsstatTotals   	   = $arrVisitorsStatTotal;
 		$this->Template->visitorsstatAverages 	   = $arrVisitorsStatAverage;
 		$this->Template->visitorsstatOnline        = $arrVisitorsStatOnline;
@@ -526,6 +530,45 @@ class ModuleVisitorStat extends \BackendModule
 			}
 		}
 		return $arrOtherMonth;
+	}
+	
+	/**
+	 * Jahreswerte (Letzter und älter, max 10)
+	 *
+	 */
+	protected function getOtherYears($VisitorsID)
+	{
+	    $StartYear = date('Y-m-d',mktime(0, 0, 0, 1, 1, date("Y")-11)); // aktuelles Jahr -11
+	    $EndYear   = date('Y-m-d',mktime(0, 0, 0, 1, 1, date("Y")   )); // ende letztes Jahr = 1.1. dieses Jahr 0:00 Uhr
+	    if ($VisitorsID)
+	    {
+	        //Total je Monat (aktueller und letzter)
+	        $objVisitorsToYear = \Database::getInstance()
+                                    ->prepare('SELECT
+                                                EXTRACT( YEAR FROM visitors_date ) AS Y,
+                                                SUM( visitors_visit ) AS SUMV,
+                                                SUM( visitors_hit ) AS SUMH
+                                             FROM
+                                                tl_visitors_counter
+                                             WHERE
+                                                vid=? AND visitors_date BETWEEN ? AND ?
+                                             GROUP BY Y
+                                             ORDER BY Y DESC')
+	                                 ->execute($VisitorsID,$StartYear,$EndYear);
+	        $intRows = $objVisitorsToYear->numRows;
+	        $arrOtherYear = array();
+	        if ($intRows>0)
+	        {
+	            while ($objVisitorsToYear->next())
+	            {
+	                $arrOtherYear[] = array($objVisitorsToYear->Y,
+	                    $this->getFormattedNumber($objVisitorsToYear->SUMV,0),
+	                    $this->getFormattedNumber($objVisitorsToYear->SUMH,0)
+	                );
+	            }
+	        }
+	    }
+	    return $arrOtherYear;
 	}
 	
 	/**
