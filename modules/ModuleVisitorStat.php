@@ -189,18 +189,24 @@ class ModuleVisitorStat extends \BackendModule
 				
 				//Chart
 				//Debug log_message(print_r(array_reverse($arrVisitorsStatDays[$intAnzCounter]),true), 'debug.log');
+				$day  = 0;
+				$days = count($arrVisitorsStatDays[$intAnzCounter]);
 				foreach (array_reverse($arrVisitorsStatDays[$intAnzCounter]) as $key => $valuexy)
 				{
 					if (isset($valuexy['visitors_date_ymd'])) 
 					{
-						//Debug log_message(print_r(substr($valuexy['visitors_date'],0,2),true), 'debug.log');
-						//Debug log_message(print_r($valuexy['visitors_visit'],true), 'debug.log');
-						// chart resetten, wie? fehlt noch
-						$ModuleVisitorCharts->addX(substr($valuexy['visitors_date_ymd'],8,2).'<br />'.substr($valuexy['visitors_date_ymd'],5,2));
-
-						$ModuleVisitorCharts->addY(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_visit'])); // Formatierte Zahl wieder in reine Zahl
-
-						$ModuleVisitorCharts->addY2(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_hit'])); // Formatierte Zahl wieder in reine Zahl
+					    $day++;
+					    if ($days - $day < 17) 
+					    {
+    						//Debug log_message(print_r(substr($valuexy['visitors_date'],0,2),true), 'debug.log');
+    						//Debug log_message(print_r($valuexy['visitors_visit'],true), 'debug.log');
+    						// chart resetten, wie? fehlt noch
+    						$ModuleVisitorCharts->addX(substr($valuexy['visitors_date_ymd'],8,2).'<br>'.substr($valuexy['visitors_date_ymd'],5,2));
+    
+    						$ModuleVisitorCharts->addY(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_visit'])); // Formatierte Zahl wieder in reine Zahl
+    
+    						$ModuleVisitorCharts->addY2(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_hit'])); // Formatierte Zahl wieder in reine Zahl
+					    }
 					}
 				}
 				$arrVisitorsChart[$intAnzCounter] = $ModuleVisitorCharts->display(false);
@@ -300,6 +306,22 @@ class ModuleVisitorStat extends \BackendModule
 		$visitors_visit_start     = 0;
 		$visitors_hit_start       = 0;
 		$visitors_day_of_week_prefix = '';
+		//Anzahl Tage zu erst auslesen die angezeigt werden sollen
+		$objVisitors = \Database::getInstance()->prepare("SELECT tv.visitors_statistic_days FROM tl_visitors tv WHERE tv.pid = ? AND tv.id = ?")
+                                               ->limit(1)
+                                               ->execute($KatID, $VisitorsXid);
+		while ($objVisitors->next())
+		{
+		    $visitors_statistic_days = $objVisitors->visitors_statistic_days;
+		}
+		if ($visitors_statistic_days < 14) 
+		{
+			$visitors_statistic_days = 14;
+		}
+		if ($visitors_statistic_days > 99)
+		{
+		    $visitors_statistic_days = 99;
+		}
 	    // 7 Tages Statistik und Vorgabewerte
 	    $objVisitors = \Database::getInstance()
 	            ->prepare("SELECT 
@@ -318,8 +340,8 @@ class ModuleVisitorStat extends \BackendModule
                             WHERE
                                 tv.id = tvc.vid AND tv.pid = ? AND tv.id = ?
                             ORDER BY tv.visitors_name , tvc.visitors_date DESC")
-                ->limit(14)
-                ->execute($KatID, $VisitorsXid);
+                ->limit($visitors_statistic_days)
+                ->execute($KatID, $VisitorsXid);//TODO
 		$intRowsVisitors = $objVisitors->numRows;
 		if ($intRowsVisitors>0) 
 		{ // Zählungen vorhanden
