@@ -8,7 +8,7 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-08-22T23:39:04+02:00
+ * last-updated: 2017-01-24T01:40:47+01:00
  */
 
 $GLOBALS['TL_LANG']['tl_visitors']['average_legend']                                   = 'Durchschnitt und Blockzeit';
@@ -32,6 +32,7 @@ $GLOBALS['TL_LANG']['tl_visitors']['published']['1']                            
 $GLOBALS['TL_LANG']['tl_visitors']['show']['0']                                        = 'Details';
 $GLOBALS['TL_LANG']['tl_visitors']['show']['1']                                        = 'Details der Besucherzähler ID %s anzeigen';
 $GLOBALS['TL_LANG']['tl_visitors']['start_legend']                                     = 'Startwerte für Zähler';
+$GLOBALS['TL_LANG']['tl_visitors']['statistic_legend']                                 = 'Einstellungen für die Statistikausgabe';
 $GLOBALS['TL_LANG']['tl_visitors']['title_legend']                                     = 'Name und Startdatum';
 $GLOBALS['TL_LANG']['tl_visitors']['toggle']['0']                                      = 'Besucherzähler ein- oder ausschalten';
 $GLOBALS['TL_LANG']['tl_visitors']['toggle']['1']                                      = 'Besucherzähler ID %s ein- oder ausschalten';
@@ -56,6 +57,8 @@ $GLOBALS['TL_LANG']['tl_visitors']['visitors_name']['0']                        
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_name']['1']                               = 'Bitte geben Sie einen Namen an für diesen Besucherzähler.';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_startdate']['0']                          = 'Startdatum';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_startdate']['1']                          = 'Hier kann ein Startdatum angegeben werden. Dieses Datum wird dann zur Information im Frontend angezeigt.<br>Es beeinflusst nicht den Beginn der Zählung!';
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_statistic_days']['0']                     = 'Anzahl der Tage in der Tagesübersicht (Tabelle)';
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_statistic_days']['1']                     = 'Die Eingabe einer Zahl bestimmt die Anzahl der Zeilen in der Tagesübersicht. Eingaben kleiner 14 und größer 99 werden ignoriert.';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_thousands_separator']['0']                = 'Tausendertrennzeichen';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_thousands_separator']['1']                = 'Bei Aktivierung werden im Frontend Tausendertrennzeichen eingefügt.';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_visit_start']['0']                        = 'Startwert Besucher';

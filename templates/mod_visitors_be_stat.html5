@@ -287,76 +287,15 @@
 			    <td style="min-width: 70px; padding-right: 5px; text-align:  right;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['visit']; ?></td>
 			    <td style="min-width: 70px; padding-right: 5px; text-align:  right;" class="tl_folder_tlist"><?php echo $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit']; ?></td>
 			</tr>
+<?php $days=0; ?>
+<?php foreach ($this->visitorsstatDays[$vcid] AS $visitorsstatDay) : ?>
+<?php $days++; if ($days>13 && !isset($visitorsstatDay['visitors_date'])) { break; } ?>
 			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][0]['visitors_date'])  ? $this->visitorsstatDays[$vcid][0]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][0]['visitors_visit']) ? $this->visitorsstatDays[$vcid][0]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][0]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][0]['visitors_hit']   : ''); ?></td>
+			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($visitorsstatDay['visitors_date'])  ? $visitorsstatDay['visitors_date']  : '&nbsp;'); ?></td>
+			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($visitorsstatDay['visitors_visit']) ? $visitorsstatDay['visitors_visit'] : ''); ?></td>
+			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($visitorsstatDay['visitors_hit'])   ? $visitorsstatDay['visitors_hit']   : ''); ?></td>
 			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][1]['visitors_date'])  ? $this->visitorsstatDays[$vcid][1]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][1]['visitors_visit']) ? $this->visitorsstatDays[$vcid][1]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][1]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][1]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][2]['visitors_date'])  ? $this->visitorsstatDays[$vcid][2]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][2]['visitors_visit']) ? $this->visitorsstatDays[$vcid][2]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][2]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][2]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][3]['visitors_date'])  ? $this->visitorsstatDays[$vcid][3]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][3]['visitors_visit']) ? $this->visitorsstatDays[$vcid][3]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][3]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][3]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][4]['visitors_date'])  ? $this->visitorsstatDays[$vcid][4]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][4]['visitors_visit']) ? $this->visitorsstatDays[$vcid][4]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][4]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][4]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][5]['visitors_date'])  ? $this->visitorsstatDays[$vcid][5]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][5]['visitors_visit']) ? $this->visitorsstatDays[$vcid][5]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][5]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][5]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][6]['visitors_date'])  ? $this->visitorsstatDays[$vcid][6]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][6]['visitors_visit']) ? $this->visitorsstatDays[$vcid][6]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][6]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][6]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][7]['visitors_date'])  ? $this->visitorsstatDays[$vcid][7]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][7]['visitors_visit']) ? $this->visitorsstatDays[$vcid][7]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][7]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][7]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][8]['visitors_date'])  ? $this->visitorsstatDays[$vcid][8]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][8]['visitors_visit']) ? $this->visitorsstatDays[$vcid][8]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][8]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][8]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][9]['visitors_date'])  ? $this->visitorsstatDays[$vcid][9]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][9]['visitors_visit']) ? $this->visitorsstatDays[$vcid][9]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][9]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][9]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][10]['visitors_date'])  ? $this->visitorsstatDays[$vcid][10]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][10]['visitors_visit']) ? $this->visitorsstatDays[$vcid][10]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][10]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][10]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][11]['visitors_date'])  ? $this->visitorsstatDays[$vcid][11]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][11]['visitors_visit']) ? $this->visitorsstatDays[$vcid][11]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][11]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][11]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][12]['visitors_date'])  ? $this->visitorsstatDays[$vcid][12]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][12]['visitors_visit']) ? $this->visitorsstatDays[$vcid][12]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][12]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][12]['visitors_hit']   : ''); ?></td>
-			</tr>
-			<tr>
-			    <td style="padding-left: 2px; text-align: center;" class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][13]['visitors_date'])  ? $this->visitorsstatDays[$vcid][13]['visitors_date']  : '&nbsp;'); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][13]['visitors_visit']) ? $this->visitorsstatDays[$vcid][13]['visitors_visit'] : ''); ?></td>
-			    <td style="padding-left: 2px; text-align: right;"  class="tl_file_list"><?php echo (isset($this->visitorsstatDays[$vcid][13]['visitors_hit'])   ? $this->visitorsstatDays[$vcid][13]['visitors_hit']   : ''); ?></td>
-			</tr>
+<?php endforeach; ?>
 			</tbody>
 			</table>
 		</div>
