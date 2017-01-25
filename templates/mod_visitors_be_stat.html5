@@ -36,6 +36,13 @@
 		    <div class="tl_subpanel" style="padding-right: 14px;">
 	        	<input type="submit" value="<?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['export']; ?>" class="tl_submit" id="save" name="visitors_export_submit">
 	    	</div>
+
+		    <div class="tl_subpanel" style="padding-left: 14px;">
+	        	<input type="text" class="tl_text" id="days" name="visitors_export_days" value="<?php echo $this->visitors_export_days; ?>" style="width: 40px;">
+	    	</div>
+			<div class="tl_subpanel" style="text-align: center;"><span style="font-weight: bold;"><?php echo $GLOBALS['TL_LANG']['tl_visitors_stat_export']['number_of_days'] .":"; ?></span>
+				<br><span style="font-weight: normal;"><?php echo "(".$GLOBALS['TL_LANG']['tl_visitors_stat_export']['export_page_title'].")" ?></span>
+			</div>
 	    	
 	<?php if (class_exists('ZipArchive', FALSE)) : ?>	
 			<div class="tl_subpanel">

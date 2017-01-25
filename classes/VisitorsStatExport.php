@@ -29,6 +29,7 @@ class VisitorsStatExport extends \System
     protected $catid  = 0;
     protected $format = 'xlsx';
     protected $BrowserAgent ='NOIE';
+    protected $export_days = 0;
     
     /**
      */
@@ -39,6 +40,13 @@ class VisitorsStatExport extends \System
         
         $this->format = \Input::post('visitors_export_format',true);
         $this->catid  = \Input::post('catid',true);
+        $this->export_days = (int) \Input::post('visitors_export_days',true);
+        
+        if ($this->export_days <1) 
+        {
+        	$this->export_days = 1;
+        }
+        $_SESSION['VISITORS_EXPORT_DAYS'] = $this->export_days;
         
         //IE or other?
         $ua = \Environment::get('agent')->shorty;
@@ -241,19 +249,21 @@ class VisitorsStatExport extends \System
         $objPHPExcel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
         $objPHPExcel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
         
-        $arrVisitorsPageVisitHits = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitTopDays($VisitorsID,365,false);
-        $row = 1;
-        foreach ($arrVisitorsPageVisitHits as $arrVisitorsPageVisitHit) 
+        $arrVisitorsPageVisitHits = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitTopDays($VisitorsID,$this->export_days,false);
+        $row = 1; 
+        if (count($arrVisitorsPageVisitHits)>0 && $arrVisitorsPageVisitHits !== false) 
         {
-            $row++;
-            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $arrVisitorsPageVisitHit['alias']);
-            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $arrVisitorsPageVisitHit['lang']);
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $arrVisitorsPageVisitHit['visits']);
-            $objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $arrVisitorsPageVisitHit['hits']);
-            
-            $objPHPExcel->getActiveSheet()->getStyle('B'.$row)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            foreach ($arrVisitorsPageVisitHits as $arrVisitorsPageVisitHit) 
+            {
+                $row++;
+                $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $arrVisitorsPageVisitHit['alias']);
+                $objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $arrVisitorsPageVisitHit['lang']);
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $arrVisitorsPageVisitHit['visits']);
+                $objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $arrVisitorsPageVisitHit['hits']);
+                
+                $objPHPExcel->getActiveSheet()->getStyle('B'.$row)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+            }
         }
-        
         $objPHPExcel->setActiveSheetIndex(0);
         return $objPHPExcel;
     }
