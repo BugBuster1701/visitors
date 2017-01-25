@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
+ * Contao Open Source CMS, Copyright (C) 2005-2017 Leo Feyer
  *
  * Modul Visitors Stat - Backend
  * 
@@ -280,6 +280,9 @@ class ModuleVisitorStat extends \BackendModule
 		$this->Template->visitors_exportfield  = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['kat'].' '.$GLOBALS['TL_LANG']['tl_visitors_stat_export']['export'];
         $this->Template->visitors_base_be      = \Environment::get('base') . 'contao';
 		
+        //ExportDays
+        $this->Template->visitors_export_days   = (isset($_SESSION['VISITORS_EXPORT_DAYS'])) ? $_SESSION['VISITORS_EXPORT_DAYS'] : 365;
+        
 		//SearchEngines
 		$arrSE = $this->getSearchEngine($this->intKatID);
 		if ($arrSE !== false) 
@@ -341,7 +344,7 @@ class ModuleVisitorStat extends \BackendModule
                                 tv.id = tvc.vid AND tv.pid = ? AND tv.id = ?
                             ORDER BY tv.visitors_name , tvc.visitors_date DESC")
                 ->limit($visitors_statistic_days)
-                ->execute($KatID, $VisitorsXid);//TODO
+                ->execute($KatID, $VisitorsXid);
 		$intRowsVisitors = $objVisitors->numRows;
 		if ($intRowsVisitors>0) 
 		{ // Zählungen vorhanden
