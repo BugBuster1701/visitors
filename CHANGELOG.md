@@ -1,5 +1,14 @@
 # Visitors Changelog
 
+## [3.8.0](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.0%22+is%3Aclosed) (2017-01-25)
+
+### New features
+
+- [\#214](https://github.com/BugBuster1701/visitors/issues/214) Sprachdateien aktualisieren (Transifex Download)
+- [\#213](https://github.com/BugBuster1701/visitors/issues/213) Besucheranzahl zusammengefasst für die vergangenen Jahre
+- [\#212](https://github.com/BugBuster1701/visitors/issues/212) Anzahl Tage in der Tagesstatistik wählbar
+- [\#210](https://github.com/BugBuster1701/visitors/issues/210) Export, Anzahl Tage für den Tab Seitenstatistik wählbar
+
 ## [3.7.4](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.4%22+is%3Aclosed) (2016-11-18)
 
 ### Fixed bugs
@@ -14,7 +23,7 @@
 - [\#208](https://github.com/BugBuster1701/visitors/issues/208) [Insight] Methods and properties visibility should always be explicitely defined
 - [\#207](https://github.com/BugBuster1701/visitors/issues/207) [Insight] Methods and properties visibility should always be explicitely defined
 - [\#206](https://github.com/BugBuster1701/visitors/issues/206) Umlautproblem Details
-- [\#199](https://github.com/BugBuster1701/visitors/issues/199) PHP Warning ModuleVisitorsTag.php on line 666 
+- [\#199](https://github.com/BugBuster1701/visitors/issues/199) PHP Warning ModuleVisitorsTag.php on line 666
 
 ## [3.7.2](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.7.2%22+is%3Aclosed) (2016-05-26)
 
@@ -47,7 +56,7 @@
 ### New features
 
 - [\#193](https://github.com/BugBuster1701/visitors/issues/193) Add Samsung Galaxy S6 / S6 Edge
-- [\#192](https://github.com/BugBuster1701/visitors/issues/192) Add Samsung Galaxy S5 (SM-G900F, SM-G900I etc., bzw. SM-G901F als Plus-Version) 
+- [\#192](https://github.com/BugBuster1701/visitors/issues/192) Add Samsung Galaxy S5 (SM-G900F, SM-G900I etc., bzw. SM-G901F als Plus-Version)
 - [\#191](https://github.com/BugBuster1701/visitors/issues/191) Add Samsung Galaxy S4 (GT-I9500, GT-I9505, GT-I9506 und GT-I9515)
 - [\#189](https://github.com/BugBuster1701/visitors/issues/189) Add Samsung Galaxy S III mini (GT-I8190)
 
@@ -146,7 +155,7 @@
 
 ### Fixed bugs
 
-- [\#75](https://github.com/BugBuster1701/visitors/issues/75) Veröffentlichungsstatus über das "Auge" 
+- [\#75](https://github.com/BugBuster1701/visitors/issues/75) Veröffentlichungsstatus über das "Auge"
 
 ## [3.2.0](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.2.0%22+is%3Aclosed) (2014-01-23)
 
