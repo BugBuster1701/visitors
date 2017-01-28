@@ -1,11 +1,11 @@
 <?php 
 
 /**
- * Contao Open Source CMS, Copyright (C) 2005-2014 Leo Feyer
+ * Contao Open Source CMS, Copyright (C) 2005-2017 Leo Feyer
  *
  * Modul Visitors Stat - Backend
  * 
- * @copyright  Glen Langer 2009..2014 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2009..2017 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @license    LGPL
@@ -21,7 +21,7 @@ namespace BugBuster\Visitors;
 /**
  * Class ModuleVisitorStat
  *
- * @copyright  Glen Langer 2009..2014 <http://www.contao.glen-langer.de>
+ * @copyright  Glen Langer 2009..2017 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @package    GLVisitors
  * @todo       Must be completely rewritten.
@@ -165,6 +165,9 @@ class ModuleVisitorStat extends \BackendModule
 				
 				//Other Monat Stat
 				$arrVisitorsStatOtherMonth[$intAnzCounter]   = $this->getOtherMonth($objVisitorsID);
+				
+				//Other Year Stat
+				$arrVisitorsStatOtherYears[$intAnzCounter]   = $this->getOtherYears($objVisitorsID);
 								
 				//Total Visits Hits
 				$arrVisitorsStatTotal[$intAnzCounter]   = $this->getTotal($objVisitorsID);
@@ -186,18 +189,24 @@ class ModuleVisitorStat extends \BackendModule
 				
 				//Chart
 				//Debug log_message(print_r(array_reverse($arrVisitorsStatDays[$intAnzCounter]),true), 'debug.log');
+				$day  = 0;
+				$days = count($arrVisitorsStatDays[$intAnzCounter]);
 				foreach (array_reverse($arrVisitorsStatDays[$intAnzCounter]) as $key => $valuexy)
 				{
 					if (isset($valuexy['visitors_date_ymd'])) 
 					{
-						//Debug log_message(print_r(substr($valuexy['visitors_date'],0,2),true), 'debug.log');
-						//Debug log_message(print_r($valuexy['visitors_visit'],true), 'debug.log');
-						// chart resetten, wie? fehlt noch
-						$ModuleVisitorCharts->addX(substr($valuexy['visitors_date_ymd'],8,2).'<br />'.substr($valuexy['visitors_date_ymd'],5,2));
-
-						$ModuleVisitorCharts->addY(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_visit'])); // Formatierte Zahl wieder in reine Zahl
-
-						$ModuleVisitorCharts->addY2(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_hit'])); // Formatierte Zahl wieder in reine Zahl
+					    $day++;
+					    if ($days - $day < 17) 
+					    {
+    						//Debug log_message(print_r(substr($valuexy['visitors_date'],0,2),true), 'debug.log');
+    						//Debug log_message(print_r($valuexy['visitors_visit'],true), 'debug.log');
+    						// chart resetten, wie? fehlt noch
+    						$ModuleVisitorCharts->addX(substr($valuexy['visitors_date_ymd'],8,2).'<br>'.substr($valuexy['visitors_date_ymd'],5,2));
+    
+    						$ModuleVisitorCharts->addY(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_visit'])); // Formatierte Zahl wieder in reine Zahl
+    
+    						$ModuleVisitorCharts->addY2(str_replace(array('.',',',' ','\''),array('','','',''),$valuexy['visitors_hit'])); // Formatierte Zahl wieder in reine Zahl
+					    }
 					}
 				}
 				$arrVisitorsChart[$intAnzCounter] = $ModuleVisitorCharts->display(false);
@@ -242,6 +251,7 @@ class ModuleVisitorStat extends \BackendModule
 		$this->Template->visitorsstatWeeks    	   = $arrVisitorsStatWeek;
 		$this->Template->visitorsstatMonths   	   = $arrVisitorsStatMonth;
 		$this->Template->visitorsstatOtherMonths   = $arrVisitorsStatOtherMonth;
+		$this->Template->visitorsstatOtherYears    = $arrVisitorsStatOtherYears;
 		$this->Template->visitorsstatTotals   	   = $arrVisitorsStatTotal;
 		$this->Template->visitorsstatAverages 	   = $arrVisitorsStatAverage;
 		$this->Template->visitorsstatOnline        = $arrVisitorsStatOnline;
@@ -270,6 +280,9 @@ class ModuleVisitorStat extends \BackendModule
 		$this->Template->visitors_exportfield  = $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['kat'].' '.$GLOBALS['TL_LANG']['tl_visitors_stat_export']['export'];
         $this->Template->visitors_base_be      = \Environment::get('base') . 'contao';
 		
+        //ExportDays
+        $this->Template->visitors_export_days   = (isset($_SESSION['VISITORS_EXPORT_DAYS'])) ? $_SESSION['VISITORS_EXPORT_DAYS'] : 365;
+        
 		//SearchEngines
 		$arrSE = $this->getSearchEngine($this->intKatID);
 		if ($arrSE !== false) 
@@ -296,6 +309,22 @@ class ModuleVisitorStat extends \BackendModule
 		$visitors_visit_start     = 0;
 		$visitors_hit_start       = 0;
 		$visitors_day_of_week_prefix = '';
+		//Anzahl Tage zu erst auslesen die angezeigt werden sollen
+		$objVisitors = \Database::getInstance()->prepare("SELECT tv.visitors_statistic_days FROM tl_visitors tv WHERE tv.pid = ? AND tv.id = ?")
+                                               ->limit(1)
+                                               ->execute($KatID, $VisitorsXid);
+		while ($objVisitors->next())
+		{
+		    $visitors_statistic_days = $objVisitors->visitors_statistic_days;
+		}
+		if ($visitors_statistic_days < 14) 
+		{
+			$visitors_statistic_days = 14;
+		}
+		if ($visitors_statistic_days > 99)
+		{
+		    $visitors_statistic_days = 99;
+		}
 	    // 7 Tages Statistik und Vorgabewerte
 	    $objVisitors = \Database::getInstance()
 	            ->prepare("SELECT 
@@ -314,7 +343,7 @@ class ModuleVisitorStat extends \BackendModule
                             WHERE
                                 tv.id = tvc.vid AND tv.pid = ? AND tv.id = ?
                             ORDER BY tv.visitors_name , tvc.visitors_date DESC")
-                ->limit(14)
+                ->limit($visitors_statistic_days)
                 ->execute($KatID, $VisitorsXid);
 		$intRowsVisitors = $objVisitors->numRows;
 		if ($intRowsVisitors>0) 
@@ -526,6 +555,45 @@ class ModuleVisitorStat extends \BackendModule
 			}
 		}
 		return $arrOtherMonth;
+	}
+	
+	/**
+	 * Jahreswerte (Letzter und älter, max 10)
+	 *
+	 */
+	protected function getOtherYears($VisitorsID)
+	{
+	    $StartYear = date('Y-m-d',mktime(0, 0, 0, 1, 1, date("Y")-11)); // aktuelles Jahr -11
+	    $EndYear   = date('Y-m-d',mktime(0, 0, 0, 1, 1, date("Y")   )); // ende letztes Jahr = 1.1. dieses Jahr 0:00 Uhr
+	    if ($VisitorsID)
+	    {
+	        //Total je Monat (aktueller und letzter)
+	        $objVisitorsToYear = \Database::getInstance()
+                                    ->prepare('SELECT
+                                                EXTRACT( YEAR FROM visitors_date ) AS Y,
+                                                SUM( visitors_visit ) AS SUMV,
+                                                SUM( visitors_hit ) AS SUMH
+                                             FROM
+                                                tl_visitors_counter
+                                             WHERE
+                                                vid=? AND visitors_date BETWEEN ? AND ?
+                                             GROUP BY Y
+                                             ORDER BY Y DESC')
+	                                 ->execute($VisitorsID,$StartYear,$EndYear);
+	        $intRows = $objVisitorsToYear->numRows;
+	        $arrOtherYear = array();
+	        if ($intRows>0)
+	        {
+	            while ($objVisitorsToYear->next())
+	            {
+	                $arrOtherYear[] = array($objVisitorsToYear->Y,
+	                    $this->getFormattedNumber($objVisitorsToYear->SUMV,0),
+	                    $this->getFormattedNumber($objVisitorsToYear->SUMH,0)
+	                );
+	            }
+	        }
+	    }
+	    return $arrOtherYear;
 	}
 	
 	/**

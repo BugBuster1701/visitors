@@ -105,7 +105,7 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 	'palettes' => array
 	(
 		//'__selector__'                => array(''),
-		'default'                     => '{title_legend},visitors_name,visitors_startdate;{start_legend:hide},visitors_visit_start,visitors_hit_start;{average_legend},visitors_average,visitors_block_time;{design_legend},visitors_thousands_separator;{publish_legend},published;{visitors_expert_legend:hide},visitors_expert_debug_tag,visitors_expert_debug_checks,visitors_expert_debug_referrer,visitors_expert_debug_searchengine,visitors_expert_debug_screenresolutioncount'
+		'default'                     => '{title_legend},visitors_name,visitors_startdate;{start_legend:hide},visitors_visit_start,visitors_hit_start;{average_legend},visitors_average,visitors_block_time;{design_legend},visitors_thousands_separator;{statistic_legend},visitors_statistic_days;{publish_legend},published;{visitors_expert_legend:hide},visitors_expert_debug_tag,visitors_expert_debug_checks,visitors_expert_debug_referrer,visitors_expert_debug_searchengine,visitors_expert_debug_screenresolutioncount'
 	),
 
 	// Subpalettes
@@ -178,7 +178,7 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_block_time'],
 			'inputType'               => 'text',
 			'sql'                     => "int(10) unsigned NOT NULL default '1800'",
-			'eval'                    => array('mandatory'=>true, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50')
+			'eval'                    => array('mandatory'=>true, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50 w50h')
 		),
 		'visitors_thousands_separator'=> array
 		(
@@ -186,6 +186,22 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 			'inputType'               => 'checkbox',
 			'sql'                     => "char(1) NOT NULL default ''",
 			'eval'                    => array('mandatory'=>false, 'helpwizard'=>false)
+		),
+		'visitors_statistic_days'     => array
+		(
+		    'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_statistic_days'],
+		    'inputType'               => 'text',
+		    'sql'                     => "int(10) unsigned NOT NULL default '14'",
+		    'eval'                    => array('mandatory'=>false, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50 w50h'),
+		    'save_callback' => array
+		    (
+                function($varValue, DataContainer $dc) 
+                {
+                    if ($varValue < 14) { $varValue = 14; }
+                    if ($varValue > 99) { $varValue = 99; }
+                    return $varValue;
+                }
+		    )
 		),
 		'published' => array
 		(

@@ -8,9 +8,8 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2015-02-10T23:35:09+01:00
+ * last-updated: 2016-03-04T20:58:03+01:00
  */
-
 
 $GLOBALS['TL_LANG']['tl_visitors']['average_legend']                                   = 'Среднее и время блокировки';
 $GLOBALS['TL_LANG']['tl_visitors']['copy']['0']                                        = 'Дублировать счетчик';
@@ -33,6 +32,7 @@ $GLOBALS['TL_LANG']['tl_visitors']['published']['1']                            
 $GLOBALS['TL_LANG']['tl_visitors']['show']['0']                                        = 'Детали';
 $GLOBALS['TL_LANG']['tl_visitors']['show']['1']                                        = 'Показать детали счетчика ID %s';
 $GLOBALS['TL_LANG']['tl_visitors']['start_legend']                                     = 'Дополнительные начальные значения';
+$GLOBALS['TL_LANG']['tl_visitors']['statistic_legend']                                 = 'Параметры вывода статистики';
 $GLOBALS['TL_LANG']['tl_visitors']['title_legend']                                     = 'Название и дата начала';
 $GLOBALS['TL_LANG']['tl_visitors']['toggle']['0']                                      = 'Переключить видимость';
 $GLOBALS['TL_LANG']['tl_visitors']['toggle']['1']                                      = 'Переключить видимость счетчика ID %s';
@@ -57,6 +57,8 @@ $GLOBALS['TL_LANG']['tl_visitors']['visitors_name']['0']                        
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_name']['1']                               = 'Введите название этого счетчика.';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_startdate']['0']                          = 'Дата начала';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_startdate']['1']                          = 'Вы можете определить дату начала. Она будет выведена во внешнем интерфейсе.<br>Это не влияет на начало подсчета!';
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_statistic_days']['0']                     = 'Количество дней в день представления (таблица)';
+$GLOBALS['TL_LANG']['tl_visitors']['visitors_statistic_days']['1']                     = 'Введенное число — число дней в день представления. Значения меньше 14 и больше 99 игнорируются.';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_thousands_separator']['0']                = 'Разделитель тысяч';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_thousands_separator']['1']                = 'При активации разделителя тысяч, он также выводится во внешнем интерфейсе веб-сайта.';
 $GLOBALS['TL_LANG']['tl_visitors']['visitors_visit_start']['0']                        = 'Начальные значения посещений';

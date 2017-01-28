@@ -13,15 +13,15 @@
  * @see	       https://github.com/BugBuster1701/visitors
  */
 
-define('VISITORS_VERSION', '3.7');
-define('VISITORS_BUILD'  , '4');
+define('VISITORS_VERSION', '3.8');
+define('VISITORS_BUILD'  , '0');
 
 /**
  * Backend css version number are added to style sheets files to make
  * the web browser reload those resources after a Visitors update.
  * 
  */
-define('VISITORS_BE_CSS', '3.5.3');
+define('VISITORS_BE_CSS', '3.8.0');
 
 /**
  * -------------------------------------------------------------------------
