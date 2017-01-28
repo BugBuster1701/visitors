@@ -114,3 +114,8 @@
 #ctrl_visitors_stat_admins {
 	margin-top: 1px;
 }
+
+.w50h .tl_tip
+{
+    height: auto;
+}

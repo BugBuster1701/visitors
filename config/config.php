@@ -21,7 +21,7 @@ define('VISITORS_BUILD'  , '0');
  * the web browser reload those resources after a Visitors update.
  * 
  */
-define('VISITORS_BE_CSS', '3.5.3');
+define('VISITORS_BE_CSS', '3.8.0');
 
 /**
  * -------------------------------------------------------------------------
