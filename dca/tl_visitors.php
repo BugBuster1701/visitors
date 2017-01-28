@@ -192,7 +192,16 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 		    'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_statistic_days'],
 		    'inputType'               => 'text',
 		    'sql'                     => "int(10) unsigned NOT NULL default '14'",
-		    'eval'                    => array('mandatory'=>false, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50')
+		    'eval'                    => array('mandatory'=>false, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50'),
+		    'save_callback' => array
+		    (
+                function($varValue, DataContainer $dc) 
+                {
+                    if ($varValue < 14) { $varValue = 14; }
+                    if ($varValue > 99) { $varValue = 99; }
+                    return $varValue;
+                }
+		    )
 		),
 		'published' => array
 		(
