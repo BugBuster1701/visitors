@@ -178,7 +178,7 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_block_time'],
 			'inputType'               => 'text',
 			'sql'                     => "int(10) unsigned NOT NULL default '1800'",
-			'eval'                    => array('mandatory'=>true, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50')
+			'eval'                    => array('mandatory'=>true, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50 w50h')
 		),
 		'visitors_thousands_separator'=> array
 		(
@@ -192,7 +192,7 @@ $GLOBALS['TL_DCA']['tl_visitors'] = array
 		    'label'                   => &$GLOBALS['TL_LANG']['tl_visitors']['visitors_statistic_days'],
 		    'inputType'               => 'text',
 		    'sql'                     => "int(10) unsigned NOT NULL default '14'",
-		    'eval'                    => array('mandatory'=>false, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50'),
+		    'eval'                    => array('mandatory'=>false, 'maxlength'=>10, 'rgxp'=>'digit', 'helpwizard'=>false, 'tl_class'=>'w50 w50h'),
 		    'save_callback' => array
 		    (
                 function($varValue, DataContainer $dc) 
