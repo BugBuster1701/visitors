@@ -558,13 +558,13 @@ class ModuleVisitorStat extends \BackendModule
 	}
 	
 	/**
-	 * Jahreswerte (Letzter und älter, max 10)
+	 * Jahreswerte (Aktuelles und älter (10) = max 11)
 	 *
 	 */
 	protected function getOtherYears($VisitorsID)
 	{
 	    $StartYear = date('Y-m-d',mktime(0, 0, 0, 1, 1, date("Y")-11)); // aktuelles Jahr -11
-	    $EndYear   = date('Y-m-d',mktime(0, 0, 0, 1, 1, date("Y")   )); // ende letztes Jahr = 1.1. dieses Jahr 0:00 Uhr
+	    $EndYear   = date('Y-m-d'); // Aktuelles Datum
 	    if ($VisitorsID)
 	    {
 	        //Total je Monat (aktueller und letzter)
