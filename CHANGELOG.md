@@ -1,5 +1,12 @@
 # Visitors Changelog
 
+## [3.8.2](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.2%22+is%3Aclosed) (2017-04-18)
+
+### Fixed bugs
+
+- [\#218](https://github.com/BugBuster1701/visitors/issues/218) visitorCheckReferrer optimieren
+- [\#217](https://github.com/BugBuster1701/visitors/issues/217) Referrer Details "echo" Ausgabe
+
 ## [3.8.1](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.1%22+is%3Aclosed) (2017-01-29)
 
 ### Fixed bugs
