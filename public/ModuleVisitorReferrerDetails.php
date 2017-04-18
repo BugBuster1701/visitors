@@ -69,7 +69,7 @@ class ModuleVisitorReferrerDetails extends \Backend // Backend bringt DB mit
             return ;
 	    }
 	    
-	    echo 'echo <!DOCTYPE html>
+	    echo '<!DOCTYPE html>
 <html lang="de">	    
 <head>
 <meta charset="utf-8">
