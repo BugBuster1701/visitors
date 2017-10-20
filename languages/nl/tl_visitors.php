@@ -8,7 +8,7 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2014-06-30T23:18:59+02:00
+ * last-updated: 2016-03-04T20:58:03+01:00
  */
 
 $GLOBALS['TL_LANG']['tl_visitors']['average_legend']            = 'Gemiddeld';
@@ -16,6 +16,7 @@ $GLOBALS['TL_LANG']['tl_visitors']['copy']['0']                 = 'Dupliceer tel
 $GLOBALS['TL_LANG']['tl_visitors']['copy']['1']                 = 'Dupliceer teller %s';
 $GLOBALS['TL_LANG']['tl_visitors']['delete']['0']               = 'Wis teller';
 $GLOBALS['TL_LANG']['tl_visitors']['delete']['1']               = 'Wis teller %s';
+$GLOBALS['TL_LANG']['tl_visitors']['design_legend']             = 'Ontwerp';
 $GLOBALS['TL_LANG']['tl_visitors']['edit']['0']                 = 'Bewerk teller';
 $GLOBALS['TL_LANG']['tl_visitors']['edit']['1']                 = 'Bewerk teller ID %s';
 $GLOBALS['TL_LANG']['tl_visitors']['editheader']['0']           = 'Bewerk categorie';

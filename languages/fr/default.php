@@ -8,7 +8,7 @@
  *
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  *
- * last-updated: 2016-03-04T20:58:03+01:00
+ * last-updated: 2017-01-23T23:53:46+01:00
  */
 
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['active']                          = 'Actif';
@@ -31,9 +31,6 @@ $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['chart_red']                     
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['current_month']                   = 'Mois courant';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['current_week']                    = 'Semaine courante';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['date']                            = 'Date';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['export']                          = 'Exporter';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['export_button_title']             = 'Le bouton ouvre une nouvelle fenêtre.';
-$GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['export_headline']                 = 'Catégorie,ID,Nom,Publié,Date,Visites,Hits';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['hit']                             = 'Hits';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['initial_values']                  = 'Valeur initiale';
 $GLOBALS['TL_LANG']['MSC']['tl_visitors_stat']['kat']                             = 'Catégorie';
