@@ -213,7 +213,7 @@ class ModuleVisitorStat extends \BackendModule
 				
 				//Page Hits
 				$arrVisitorsPageVisitHits[$intAnzCounter]          = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitTop($objVisitorsID,20);
-				$arrVisitorsPageVisitHitsDays[$intAnzCounter]      = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitDays($objVisitorsID,7,5);
+				$arrVisitorsPageVisitHitsDays[$intAnzCounter]      = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitDays($objVisitorsID,20,7);
 				$arrVisitorsPageVisitHitsToday[$intAnzCounter]     = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitToday($objVisitorsID,5);
 				$arrVisitorsPageVisitHitsYesterday[$intAnzCounter] = \Visitors\ModuleVisitorStatPageCounter::getInstance()->generatePageVisitHitYesterday($objVisitorsID,5);
 				
