@@ -1,5 +1,13 @@
 # Visitors Changelog
 
+## [3.8.3](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.3%22+is%3Aclosed) (2017-10-21)
+
+### Fixed bugs
+
+- [\#222](https://github.com/BugBuster1701/visitors/issues/222) Update Übersetzungen
+- [\#221](https://github.com/BugBuster1701/visitors/issues/221) TOP 20: die letzten 7 Tage
+- [\#220](https://github.com/BugBuster1701/visitors/issues/220) Hinweis auf Contao 4 Version 
+
 ## [3.8.2](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.2%22+is%3Aclosed) (2017-04-18)
 
 ### Fixed bugs
