@@ -4,14 +4,17 @@ Contao Module Visitors
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/b3b64050-211e-42de-99bc-7443c948656c/small.png)](https://insight.sensiolabs.com/projects/b3b64050-211e-42de-99bc-7443c948656c)
 
+
 ## About
 
 A Contao counter module for hits and visits
+
 
 ## User guide
 
 * English: https://docs.contao.ninja/en/visitors.html
 * German: https://docs.contao.ninja/de/visitors.html
+
 
 ## For Translators
 Translations are managed using Transifex. To create a new translation or to help to maintain an existing one, please register at transifex.com.
@@ -20,11 +23,10 @@ Project Link: [https://www.transifex.com/projects/p/contao-visitors/](https://ww
 
 Howto: [http://docs.transifex.com/faq/#translating](http://docs.transifex.com/faq/#translating)
 
-## Branches
 
-**master** This is the current stable branch for Contao 3.
+## Contao Visitors for Contao 4
 
-**master_c2** This is the current stable branch for Contao 2.
+The Contao 4 extension is ready:
 
-**dev** This is the current unstable upstream development branch. (for Contao 3.x)
-
+- [x] https://github.com/BugBuster1701/contao-visitors-bundle
+- [X] https://packagist.org/packages/bugbuster/contao-visitors-bundle
