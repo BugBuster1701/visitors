@@ -1,5 +1,13 @@
 # Visitors Changelog
 
+## [3.8.4](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.4%22+is%3Aclosed) (2018-08-22)
+
+### Fixed bugs
+
+- [\#227](https://github.com/BugBuster1701/visitors/issues/227) Statistik, select onchange entfernen
+- [\#226](https://github.com/BugBuster1701/visitors/issues/226) Suchmaschinenschlüssel bei Yandex
+- [\#225](https://github.com/BugBuster1701/visitors/pull/225) Use correct pallet definition
+
 ## [3.8.3](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.3%22+is%3Aclosed) (2017-10-21)
 
 ### Fixed bugs
