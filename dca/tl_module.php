@@ -22,7 +22,7 @@
 /**
  * Add palettes to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['visitors']   = 'name,type,headline;visitors_categories,visitors_template;guests,protected,visitors_useragent;{expert_legend:hide},cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['visitors']   = '{title_legend},name,type,headline;{config_legend},visitors_categories,visitors_template;{protected_legend:hide},protected;{expert_legend:hide},visitors_useragent,guests,cssID,space';
 
 
 
