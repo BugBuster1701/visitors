@@ -188,6 +188,12 @@ class VisitorsRunonceJob extends Controller
                                         WHERE `visitors_searchengine`=? 
                                         AND `visitors_keywords`=?")
                             ->execute('Generic','');
+		    // Issue #226
+            $this->Database->prepare("UPDATE `tl_visitors_searchengines`
+                                        SET   `visitors_keywords`=?
+                                        WHERE `visitors_searchengine`=? 
+                                        AND   `visitors_keywords` LIKE ?")
+                            ->execute('notdefined','Yandex', 'https://yandex.ru%');
 		}
 
 		//Contao 3.1, database2DCA, delete for manual installations
