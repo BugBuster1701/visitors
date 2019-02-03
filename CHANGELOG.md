@@ -1,5 +1,11 @@
 # Visitors Changelog
 
+## [3.8.5](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.5%22+is%3Aclosed) (2019-02-03)
+
+### Fixed bugs
+
+- [\#229](https://github.com/BugBuster1701/visitors/issues/229) Undefnierte Konstante BE_USER_LOGGED_IN
+
 ## [3.8.4](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.4%22+is%3Aclosed) (2018-08-22)
 
 ### Fixed bugs
