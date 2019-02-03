@@ -593,6 +593,9 @@ class ModuleVisitorsTag extends \Frontend
     	    //if page from cache, we have no page-id
     	    if ($objPage->id == 0) 
     	    {
+    	        //Fix #229 for PageModel
+    	        defined('BE_USER_LOGGED_IN') or define('BE_USER_LOGGED_IN', false);
+    	        
     	    	$pageId = $this->getPageIdFromUrl(); // Alias, not ID :-(
     	    	// Load a website root page object if there is no page ID
     	    	if ($pageId === null)
