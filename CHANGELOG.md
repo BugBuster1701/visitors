@@ -1,5 +1,11 @@
 # Visitors Changelog
 
+## [3.8.6](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.6%22+is%3Aclosed) (2019-02-11)
+
+### Fixed bugs
+
+- [\#230](https://github.com/BugBuster1701/visitors/issues/230) dns_get_record(): A temporary server error occurred.
+
 ## [3.8.5](https://github.com/BugBuster1701/visitors/issues?q=milestone%3A%223.8.5%22+is%3Aclosed) (2019-02-03)
 
 ### Fixed bugs
