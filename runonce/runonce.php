@@ -254,6 +254,14 @@ class VisitorsRunonceJob extends Controller
                                       (`vid`,`visitors_page_date`,`visitors_page_id`,`visitors_page_type`)
 		                             ");
 		}
+		//Korrektur falscher keywords, in Botdetection behoben
+		if ($this->Database->tableExists('visitors_searchengine'))
+		{
+			$this->Database->prepare("DELETE FROM `visitors_searchengine`
+                                        WHERE `visitors_keywords` like ?
+                                      ")
+                            ->execute('%testing-xss%');
+		}
 		
 	} //function run
 } // class
