@@ -255,9 +255,9 @@ class VisitorsRunonceJob extends Controller
 		                             ");
 		}
 		//Korrektur falscher keywords, in Botdetection behoben
-		if ($this->Database->tableExists('visitors_searchengine'))
+		if ($this->Database->tableExists('tl_visitors_searchengines'))
 		{
-			$this->Database->prepare("DELETE FROM `visitors_searchengine`
+			$this->Database->prepare("DELETE FROM `tl_visitors_searchengines`
                                         WHERE `visitors_keywords` like ?
                                       ")
                             ->execute('%testing-xss%');
